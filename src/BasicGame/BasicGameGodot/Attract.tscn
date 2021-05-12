@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://layers/Text/TextLayer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://layers/video/VideoLayer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://layers/Text/CreditsLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Attract.cs" type="Script" id=4]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VideoLayer" parent="CanvasLayer" instance=ExtResource( 2 )]
+margin_left = -2.99664
+margin_top = -1.17139
+margin_right = -2.99664
+margin_bottom = -1.17139
+_resource_path = "res://assets/videos/dogtown.ogv"
+
+[node name="Credits" parent="CanvasLayer" instance=ExtResource( 3 )]
+
+[node name="TextLayerControl" parent="CanvasLayer" instance=ExtResource( 1 )]
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+_font_color = "ff0000"
