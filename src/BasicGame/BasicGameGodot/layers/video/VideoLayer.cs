@@ -13,11 +13,14 @@ public class VideoLayer : Control
 	[Export] private bool _hold;
 	[Export] private string _resource_path;
 	[Export] private bool _auto_play = true;
-    private VideoStreamTheora stream;
+	private VideoStreamTheora stream;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
 	{
+		//makes the video pause?
+		PauseMode = PauseModeEnum.Stop;
+
 		videoPlayer = GetNode<VideoPlayer>("VideoPlayer");
 		if(!string.IsNullOrWhiteSpace(_resource_path) && videoPlayer != null)
 		{

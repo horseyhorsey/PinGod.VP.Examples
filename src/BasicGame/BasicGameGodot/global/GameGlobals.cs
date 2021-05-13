@@ -10,7 +10,7 @@ public class GameGlobals : Node
 	#region Public Properties - Standard Pinball / Players
 	public static int Credits { get; set; }
 	public static int CurrentPlayerIndex { get; private set; }
-	public static int BallInPlay { get; private set; }
+	public static int BallInPlay { get; set; }
 	public static byte BallsPerGame { get; private set; } = 3;
 	public static bool GameInPlay { get; private set; }
 	public static Player Player { get; private set; }
@@ -26,22 +26,7 @@ public class GameGlobals : Node
 
 	public override void _Input(InputEvent @event)
 	{
-		if (@event.IsActionPressed("sw19")) //Start button. See PinGod.vbs for Standard switches
-		{
-			StartGame();
-		}
-		if (@event.IsActionPressed("sw2")) //Coin button. See PinGod.vbs for Standard switches
-		{
-			GameGlobals.Credits++;            
-		}
-		if (@event.IsActionPressed("sw84"))
-		{
-			//end the ball in play?
-			if (Trough.IsTroughFull && !Trough.BallSaveActive)
-			{
-				EndOfBall();
-			}
-		}
+
 	}
 
 	/// <summary>
@@ -57,47 +42,44 @@ public class GameGlobals : Node
 	/// <summary>
 	/// Attempts to start a game.
 	/// </summary>
-	private void StartGame()
+	public static bool StartGame()
 	{			
 		if (!GameInPlay && Credits > 0) //first player start game
-		{			
+		{
 			if (!Trough.IsTroughFull) //return if trough isn't full. TODO: needs debug option to remove check
 			{
 				Print("Trough not ready. Can't start game with empty trough.");
-				return;
+				return false;
 			}
 
 			Players.Clear(); //clear any players from previous game
 			GameInPlay = true;
-
-			//load the basic game scene
-			Print("loading game scene");
-			GetTree().ChangeSceneTo(GD.Load<PackedScene>("res://Game.tscn"));
 
 			//remove a credit and add a new player
 			Credits--;
 			Players.Add(new Player() { Name = $"P{Players.Count+1}", Points = 0 });
 			CurrentPlayerIndex = 0;
 			Player = Players[CurrentPlayerIndex];
-			Print("player added");
+			Print("player added");			
 
-			//pulse ball from trough		
-			BallInPlay = 1;
-			OscService.PulseCoilState(1);
+			return true;
 		}
 		//game started already, add more players until max
-		else if (GameInPlay && Players.Count < MaxPlayers && Credits > 0 && BallInPlay <=1)
+		else if (BallInPlay <= 1 && GameInPlay && Players.Count < MaxPlayers && Credits > 0)
 		{
 			Credits--;
 			Players.Add(new Player() { Name = $"P{Players.Count+1}", Points = 0 });
 			Print("player added");
 		}
+
+		return false;
 	}
 
 	/// <summary>
 	/// End of ball. Check if end of game, change the player
 	/// </summary>
-	private void EndOfBall()
+	/// <returns>True if all balls finished, game is finished</returns>
+	public static bool EndOfBall()
 	{
 		if (GameInPlay && Players.Count > 0)
 		{
@@ -120,24 +102,24 @@ public class GameGlobals : Node
 
 			if (BallInPlay > BallsPerGame)
 			{
-				EndOfGame();
+				return true;
 			}
 			else
 			{
 				Player = Players[CurrentPlayerIndex];
 				OscService.PulseCoilState(1);
 			}
-		}		
+		}
+
+		return false;
 	}
 
 	/// <summary>
 	/// Game has ended
 	/// </summary>
-	private void EndOfGame()
+	public static void EndOfGame()
 	{
 		GameInPlay = false;		
-		OscService.SetLampState(1, 0);
-		Print("game ended. loading attract");
-		GetTree().ChangeSceneTo(GD.Load<PackedScene>("res://Attract.tscn"));		
+		OscService.SetLampState(1, 0);	
 	}
 }

@@ -35,19 +35,18 @@ public class ScoreMode : Node2D
 	/// <param name="delta"></param>
 	public override void _Process(float delta)
 	{
-		//main score display
-		if (GameGlobals.Player.Points > -1 && currentScoreLabel != null)
+		if (GameGlobals.Players?.Count > 0)
 		{
-			currentScoreLabel.Text = GameGlobals.Player.Points.ToString();
-		}
-		else
-		{
-			currentScoreLabel.Text = null;
-		}
+			//main score display
+			if (GameGlobals.Player.Points > -1 && currentScoreLabel != null)
+			{
+				currentScoreLabel.Text = GameGlobals.Player.Points.ToString();
+			}
+			else
+			{
+				currentScoreLabel.Text = null;
+			}
 
-		//Update player scores
-		if (GameGlobals.Players.Count > 0)
-		{
 			int i = 0;
 			foreach (var player in GameGlobals.Players)
 			{
@@ -65,7 +64,7 @@ public class ScoreMode : Node2D
 				}
 				i++;
 			}
-		}
+		}						
 
 		//update current player and ball
 		playerInfoLabel.Text = $"PLAYER: {GameGlobals.CurrentPlayerIndex+1}";

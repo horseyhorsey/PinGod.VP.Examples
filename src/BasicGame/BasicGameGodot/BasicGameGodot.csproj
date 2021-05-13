@@ -10,6 +10,7 @@
     <Folder Include="players\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="export_presets.cfg" />
     <None Include="readme.md" />
   </ItemGroup>
 </Project>

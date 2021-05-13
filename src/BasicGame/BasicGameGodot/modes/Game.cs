@@ -36,14 +36,5 @@ public class Game : Node2D
 			Print("sw: r_sling");
 			GameGlobals.AddPoints(50);
 		}
-
-		if (@event.IsActionPressed("pause"))
-		{
-			GetTree().Paused = true;
-		}
-		if (@event.IsActionReleased("pause"))
-		{
-			GetTree().Paused = false;
-		}
 	}
 }

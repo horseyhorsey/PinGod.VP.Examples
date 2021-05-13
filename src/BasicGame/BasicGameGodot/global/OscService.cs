@@ -1,6 +1,7 @@
 using Godot;
 using Rug.Osc;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Godot.GD;
@@ -14,15 +15,24 @@ public class OscService : Node
 	private Task oscTask;
 	private CancellationToken _token;
 	private static OscSender sender;
-	CancellationTokenSource _tokenSource;
+	CancellationTokenSource _tokenSource;    
 
-	public int SendPort { get; set; } = 9001;
+    public int SendPort { get; set; } = 9001;
 	public int ReceivePort { get; set; } = 9000;
 
+	public static uint GameStartTime { get; private set; }
+
+	StringBuilder stringBuilder;
+
 	/// <summary>
-	/// Sets up <see cref="receiver"/> to listen for actions from Sim. Connects the sender. Sends Ready to controllers.
+	/// Records the actions / switches
 	/// </summary>
-	public override void _Ready()
+	public bool RecordGame { get; set; } = false;
+
+    /// <summary>
+    /// Sets up <see cref="receiver"/> to listen for actions from Sim. Connects the sender. Sends Ready to controllers.
+    /// </summary>
+    public override void _Ready()
 	{
 		_tokenSource = new CancellationTokenSource();
 		_token = _tokenSource.Token;
@@ -48,6 +58,13 @@ public class OscService : Node
 						bool actionState = (bool)Convert(message[1], Variant.Type.Bool);
 						var ev = new InputEventAction() { Action = message[0].ToString(), Pressed = actionState};
 						Print($"in:{ev.Action}-state:{ev.Pressed}");
+
+                        if (RecordGame)
+                        {
+							var switchTime = OS.GetTicksMsec() - GameStartTime;
+							var recordLine = $"{ev.Action}|{ev.Pressed}|{switchTime}";
+							stringBuilder?.AppendLine(recordLine);
+						}							
 						Input.ParseInputEvent(ev);
 					}
 				}
@@ -64,6 +81,23 @@ public class OscService : Node
 
 		Print("OSC ready. Sending game_ready");
 		SendGameReady(); //Let the listeners know that the game is ready
+
+		//Game start time, fully loaded...
+		GameStartTime = OS.GetTicksMsec();
+        if (RecordGame)
+        {
+			stringBuilder = new StringBuilder();
+		}		
+	}
+
+	public override void _ExitTree()
+	{
+		Print("exiting osc service");
+		if (oscTask.Status == TaskStatus.Running)
+		{
+			_tokenSource.Cancel();
+		}
+		Print("exited OSC service");
 	}
 
 	/// <summary>
@@ -94,16 +128,34 @@ public class OscService : Node
 		sender.Send(new OscMessage("/lamps", lampId, lampState));
 	}
 
-	/// <summary>
-	/// Listens for the Quit action
-	/// </summary>
-	/// <param name="event"></param>
-	public override void _Input(InputEvent @event)
+    public override void _Notification(int what)
+    {
+        if(what == NotificationWmQuitRequest)
+        {
+			if (RecordGame)
+			{
+				Print("saving record file");
+				var userDir = OS.GetUserDataDir();
+				using (var txtFile = System.IO.File.CreateText(userDir + "/recording.txt"))
+				{
+					txtFile.Write(stringBuilder.ToString());
+				}
+				stringBuilder.Clear();
+				Print("file saved");
+			}
+		}
+    }
+
+    /// <summary>
+    /// Listens for the Quit action
+    /// </summary>
+    /// <param name="event"></param>
+    public override void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("quit"))
 		{
 			GetTree().Quit(0);
-		}
+        }
 	}
 
 	/// <summary>
@@ -119,15 +171,5 @@ public class OscService : Node
 			Task.Delay(pulseTime).Wait();
 			sender.Send(new OscMessage("/coils", coilId, 0));
 		});
-	}
-
-	public override void _ExitTree()
-	{
-		Print("exiting osc service");
-		if(oscTask.Status == TaskStatus.Running)
-		{
-			_tokenSource.Cancel();
-		}
-		Print("exited OSC service");
 	}
 }

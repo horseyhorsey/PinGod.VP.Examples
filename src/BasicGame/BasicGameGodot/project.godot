@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="BasicGameGodot"
-run/main_scene="res://Attract.tscn"
+run/main_scene="res://MainScene.tscn"
 config/icon="res://assets/img/pingoicon.ico"
 config/windows_native_icon="res://assets/img/pingoicon.ico"
 
