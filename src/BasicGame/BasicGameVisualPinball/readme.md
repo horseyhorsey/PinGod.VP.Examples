@@ -29,7 +29,8 @@ Uses standard VP player inputs.
 
 This table uses a version of the `core.vbs` to do general machine stuff. Default switches here are setup in the Godot project `InputMap`
 
-' Cabinet switches
+```
+Cabinet switches
 Const swCoin1  = 0
 Const swCoin2  = 1
 Const swCoin3  = 2
@@ -46,6 +47,7 @@ Const swURFlip = 15
 Const swSlamTilt = 16
 Const swTilt = 17
 Const swStartButton = 19
+```
 
 ## Controller (Script editors)
 ---
