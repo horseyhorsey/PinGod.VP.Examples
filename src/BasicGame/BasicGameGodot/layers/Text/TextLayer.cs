@@ -30,7 +30,7 @@ public class TextLayer : Control
 
 		//setup font colours, stroke
 		if(textLabel != null)
-        {
+		{
 			textLabel.AddColorOverride("font_color", new Color(_font_color));
 			textLabel.AddColorOverride("font_outline_modulate", new Color(_stroke_color));
 		}
