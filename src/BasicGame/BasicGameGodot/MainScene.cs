@@ -101,7 +101,7 @@ public class MainScene : Node2D
 		if (@event.IsActionPressed("sw84"))
 		{
 			//end the ball in play?
-			if (Trough.IsTroughFull && !Trough.BallSaveActive)
+			if (Trough.IsTroughFull() && !Trough.BallSaveActive)
 			{
 				if (GameGlobals.EndOfBall())
 				{

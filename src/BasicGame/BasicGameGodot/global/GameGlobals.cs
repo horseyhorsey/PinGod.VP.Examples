@@ -46,7 +46,7 @@ public class GameGlobals : Node
 	{			
 		if (!GameInPlay && Credits > 0) //first player start game
 		{
-			if (!Trough.IsTroughFull) //return if trough isn't full. TODO: needs debug option to remove check
+			if (!Trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
 			{
 				Print("Trough not ready. Can't start game with empty trough.");
 				return false;

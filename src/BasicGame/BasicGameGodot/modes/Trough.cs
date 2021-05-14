@@ -77,7 +77,7 @@ public class Trough : Node
 		if (@event.IsActionPressed("sw"+TroughSwitches[TroughSwitches.Length-1]))
 		{
 			//Put the ball back into play if BallSaveActive
-			if (IsTroughFull)
+			if (IsTroughFull())
 			{
 				if (BallSaveActive)
 				{
@@ -87,13 +87,13 @@ public class Trough : Node
 			}
 		}
 
-		if (@event.IsActionPressed("sw{PlungerLaneSwitch}""))
+		if (@event.IsActionPressed($"sw{PlungerLaneSwitch}"))
 		{
 			Print("entered plunger lane");
 		}
 		else if (@event.IsActionReleased($"sw{PlungerLaneSwitch}"))
 		{
-			Print($"left plunger lane: Ball save started? {StartBallSaver()}")
+			Print($"left plunger lane: Ball save started? {StartBallSaver()}");
 		}
 	} 
 	#endregion
