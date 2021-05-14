@@ -3,13 +3,17 @@ using System;
 using static Godot.GD;
 
 /// <summary>
-/// Loaded as singleton on launch
+/// Loaded as singleton on launch. Visual pinball uses the `bsTrough`
 /// </summary>
 public class Trough : Node
 {	
 	#region Public Properties
-	public static bool BallSaveActive { get; private set; }
-	public static int BallSaveSeconds { get; set; } = 10;
+	public static byte BallSaveLamp { get; private set; } = 1; // Lamp ID to blink when ball save is active
+	public static bool BallSaveActive { get; private set; }    // Is ball save active?
+	public static int BallSaveSeconds { get; set; } = 8;      // Ball save time
+	static byte[] TroughSwitches = new byte[4] {81, 82, 83, 84}; // Used to check if full before starting game
+	static byte PlungerLaneSwitch = 20; // The switch to check when released to activate ball saves
+	static byte TroughSolenoid = 1; // The coil to send to Visual Pinball to exit the Trough
 	#endregion
 
 	/// <summary>
@@ -18,25 +22,25 @@ public class Trough : Node
 	private Timer ballSaverTimer;
 
 	/// <summary>
-	/// Disable ball saver and lamps
-	/// </summary>
-	private void _timeout()
-	{
-		BallSaveActive = false;
-		OscService.SetLampState(1, 0);
-	}
-
-	/// <summary>
 	/// Trough switches to check is full
 	/// </summary>
-	public static bool IsTroughFull => Input.IsActionPressed("sw81") && Input.IsActionPressed("sw82") && Input.IsActionPressed("sw83") && Input.IsActionPressed("sw84");
+	public static bool IsTroughFull()
+	{
+		for (int i = 0; i < TroughSwitches.Length; i++)
+		{
+			if(!Input.IsActionPressed("sw"+TroughSwitches[i]))
+				return false;
+		}
+		
+		return true;
+	}
 
 	public bool StartBallSaver()
 	{
 		if (!BallSaveActive)
 		{
 			BallSaveActive = true;
-			OscService.SetLampState(1, 2);
+			OscService.SetLampState(BallSaveLamp, 2);
 			ballSaverTimer.Start(BallSaveSeconds);
 		}
 
@@ -55,12 +59,22 @@ public class Trough : Node
 	}
 
 	/// <summary>
-	/// Listen for actions. Mainly from trough switches and plungers.
+	/// Disable ball saver and lamps
+	/// </summary>
+	private void _timeout()
+	{
+		BallSaveActive = false;
+		OscService.SetLampState(BallSaveLamp, 0);
+	}
+
+	/// <summary>
+	/// Listen for actions. Mainly from trough switches and plunger lanes.
 	/// </summary>
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
 	{        
-		if (@event.IsActionPressed("sw84")) //trough entered
+		//Check the last switch in the Trough Switches array
+		if (@event.IsActionPressed("sw"+TroughSwitches[TroughSwitches.Length-1]))
 		{
 			//Put the ball back into play if BallSaveActive
 			if (IsTroughFull)
@@ -68,19 +82,18 @@ public class Trough : Node
 				if (BallSaveActive)
 				{
 					Print("ball saved!");
-					OscService.PulseCoilState(1);                    
+					OscService.PulseCoilState(TroughSolenoid);                    
 				}
 			}
 		}
 
-		if (@event.IsActionPressed("sw20"))
+		if (@event.IsActionPressed("sw{PlungerLaneSwitch}""))
 		{
-			Print("sw20:plunger:1");
+			Print("entered plunger lane");
 		}
-		else if (@event.IsActionReleased("sw20"))
+		else if (@event.IsActionReleased($"sw{PlungerLaneSwitch}"))
 		{
-			Print("sw20:plunger:0");
-			StartBallSaver();
+			Print($"left plunger lane: Ball save started? {StartBallSaver()}")
 		}
 	} 
 	#endregion
