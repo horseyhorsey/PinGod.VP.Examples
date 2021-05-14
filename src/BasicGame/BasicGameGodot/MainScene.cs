@@ -4,6 +4,11 @@ using static Godot.GD;
 
 public class MainScene : Node2D
 {	
+	[Export]
+	private int _startButtonNum = 19;
+	[Export]
+	private int _CreditButtonNum = 2;
+
 	private Control pauseLayer;
 	private Node2D attractnode;	
 
@@ -28,6 +33,58 @@ public class MainScene : Node2D
 
 		//load the game scene mode and add to Modes tree
 		LoadSceneMode("res://modes/Game.tscn");
+	}
+
+	/// <summary>
+	/// End game, reloads the original scene, removing anything added. This could be used as a reset from VP with F3.
+	/// </summary>
+	public void EndGame()
+	{
+		GetTree().ReloadCurrentScene();
+	}
+
+	public override void _Input(InputEvent @event)
+	{
+		//Pause / Unpause game.
+		if (@event.IsActionPressed("pause"))
+		{
+			pauseLayer.Show();
+			GetTree().Paused = true;
+		}
+		else if (@event.IsActionReleased("pause"))
+		{
+			pauseLayer.Hide();
+			GetTree().Paused = false;
+		}
+
+		if (@event.IsActionPressed("sw"+_startButtonNum)) //Start button. See PinGod.vbs for Standard switches
+		{
+			if (GameGlobals.StartGame())
+			{
+				StartGame();
+				//pulse ball from trough		
+				GameGlobals.BallInPlay = 1;
+				OscService.PulseCoilState(1);
+			}
+		}
+		if (@event.IsActionPressed("sw"+_CreditButtonNum)) //Coin button. See PinGod.vbs for Standard switches
+		{
+			GameGlobals.Credits++;
+		}
+
+		//Check if the last trough switch was enabled
+		if (@event.IsActionPressed("sw"+Trough.TroughSwitches[Trough.TroughSwitches.Length-1]))
+		{
+			//end the ball in play?
+			if (Trough.IsTroughFull() && !Trough.BallSaveActive)
+			{
+				if (GameGlobals.EndOfBall())
+				{
+					GameGlobals.EndOfGame();
+					EndGame();
+				}
+			}
+		}
 	}
 
 	/// <summary>
@@ -60,55 +117,5 @@ public class MainScene : Node2D
 	void _loaded(PackedScene packedScene)
 	{
 		GetNode("Modes").AddChild(packedScene.Instance());
-	}
-
-	/// <summary>
-	/// End game, reloads the original scene, removing anything added. This could be used as a reset from VP with F3.
-	/// </summary>
-	public void EndGame()
-	{
-		GetTree().ReloadCurrentScene();
-	}
-
-	public override void _Input(InputEvent @event)
-	{
-		//Pause / Unpause game.
-		if (@event.IsActionPressed("pause"))
-		{
-			pauseLayer.Show();
-			GetTree().Paused = true;
-		}
-		else if (@event.IsActionReleased("pause"))
-		{
-			pauseLayer.Hide();
-			GetTree().Paused = false;
-		}
-
-		if (@event.IsActionPressed("sw19")) //Start button. See PinGod.vbs for Standard switches
-		{
-			if (GameGlobals.StartGame())
-			{
-				StartGame();
-				//pulse ball from trough		
-				GameGlobals.BallInPlay = 1;
-				OscService.PulseCoilState(1);
-			}
-		}
-		if (@event.IsActionPressed("sw2")) //Coin button. See PinGod.vbs for Standard switches
-		{
-			GameGlobals.Credits++;
-		}
-		if (@event.IsActionPressed("sw84"))
-		{
-			//end the ball in play?
-			if (Trough.IsTroughFull() && !Trough.BallSaveActive)
-			{
-				if (GameGlobals.EndOfBall())
-				{
-					GameGlobals.EndOfGame();
-					EndGame();
-				}
-			}
-		}
 	}
 }

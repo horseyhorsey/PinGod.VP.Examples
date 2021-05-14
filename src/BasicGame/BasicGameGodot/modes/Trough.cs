@@ -11,7 +11,7 @@ public class Trough : Node
 	public static byte BallSaveLamp { get; private set; } = 1; // Lamp ID to blink when ball save is active
 	public static bool BallSaveActive { get; private set; }    // Is ball save active?
 	public static int BallSaveSeconds { get; set; } = 8;      // Ball save time
-	static byte[] TroughSwitches = new byte[4] {81, 82, 83, 84}; // Used to check if full before starting game
+	public static readonly byte[] TroughSwitches = new byte[4] {81, 82, 83, 84}; // Used to check if full before starting game
 	static byte PlungerLaneSwitch = 20; // The switch to check when released to activate ball saves
 	static byte TroughSolenoid = 1; // The coil to send to Visual Pinball to exit the Trough
 	#endregion

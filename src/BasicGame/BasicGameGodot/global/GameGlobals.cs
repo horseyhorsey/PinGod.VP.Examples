@@ -24,11 +24,6 @@ public class GameGlobals : Node
 		Players = new List<Player>();
 	}
 
-	public override void _Input(InputEvent @event)
-	{
-
-	}
-
 	/// <summary>
 	/// Adds points to the current player
 	/// </summary>
