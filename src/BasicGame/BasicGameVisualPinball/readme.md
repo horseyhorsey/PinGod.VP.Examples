@@ -9,7 +9,7 @@ https://github.com/horseyhorsey/PinGod.VP
 
 Stripped all sounds and textures to try and make table small as possible.
 
-The table script will run with the `Example` default table Create/New inside VP, but you need to add the extra flipper lane triggers from this game. Advise to do this for something better to play.
+The table script will run with the `Example` default table that you can create inside Visual Pinball. 
 
 ## Running
 ---
@@ -17,8 +17,8 @@ The table script will run with the `Example` default table Create/New inside VP,
 Table can be run from any location in VP.
 
 - Register the `PinGod.VP controller`. https://github.com/horseyhorsey/PinGod.VP .
-- Add scripts from this release to VisualPinball/Scripts
-- Update the tables script to include the path to the Godot project `Const GameDirectory = ""`
+- Add the extra scripts needed from the controller install to `VisualPinball/Scripts`
+- Update the tables script to include the path to the Godot project. `Const GameDirectory = "C:\Yourfilepath\BasicGameGodot"`
 
 The controller will load the game when launched. When the game is ready a signal is sent back to visual pinball which will activate the game.
 
@@ -27,7 +27,9 @@ The controller will load the game when launched. When the game is ready a signal
 
 Uses standard VP player inputs.
 
-This table uses a version of the `core.vbs` to do general machine stuff. Default switches here are setup in the Godot project `InputMap`
+This table uses a version of the `core.vbs` to do general machine stuff. Default switches here are setup in the Godot projects `InputMap`.
+
+The default attract mode uses `2` for credits and start as `19`, flippers too, see below.
 
 ```
 Cabinet switches
@@ -49,27 +51,35 @@ Const swTilt = 17
 Const swStartButton = 19
 ```
 
-## Controller (Script editors)
+## Controller (Script access)
 ---
 
-### Switch
----
 
-#### Manual
+### Switch - (Manual)
+---
 
 Switch events can be sent with `Controller.Switch 20, 1`. Usually this is `Controller.Switch(20) = 1`.
 
-#### Auto
+### Switch - (Auto)
+---
 
 `vpmCreateEvents AllSwitches` is called when table loads. This runs updated switches from this collection.
 
-The switch number is set in the VP Triggers `TimerInterval`
+The switch number is set inside the VP Triggers `TimerInterval` variable
 
 ### Lamps
+---
 
 `vpmMapLights AllLamps` is called when table loads. This runs updated lamps from this collection.
 
-The lamp number is in the VP Light `TimerInterval`
+The lamp number is in the VP Light objects `TimerInterval`
+
+### Action
+---
+
+You can send any action to Godot here from `Controller SetAction "my_action", 1`.
+
+The controller sends `pause` and `quit` via this actions. See the `InputMap` in the godot project to create your own.
 
 
 
