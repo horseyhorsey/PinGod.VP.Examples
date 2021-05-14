@@ -22,6 +22,11 @@ Table can be run from any location in VP.
 
 The controller will load the game when launched. When the game is ready a signal is sent back to visual pinball which will activate the game.
 
+## Display settings
+---
+
+See table script
+
 ## Controls
 ---
 
@@ -54,6 +59,23 @@ Const swStartButton = 19
 ## Controller (Script access)
 ---
 
+### Object updates
+---
+
+#### Changed Lamps
+---
+
+Check for lamp updates with the `PinMameTimer`
+
+`Const UseLamps = True`
+
+#### Changed Coils (Solenoids)
+---
+
+Check for coil updates with the `PinMameTimer`
+
+`Const UseSolenoids = 1`
+
 
 ### Switch - (Manual)
 ---
@@ -79,9 +101,4 @@ The lamp number is in the VP Light objects `TimerInterval`
 
 You can send any action to Godot here from `Controller SetAction "my_action", 1`.
 
-The controller sends `pause` and `quit` via this actions. See the `InputMap` in the godot project to create your own.
-
-
-
-
-
+The controller sends `pause` and `quit` via these actions. See the `InputMap` in the godot project to create your own.
