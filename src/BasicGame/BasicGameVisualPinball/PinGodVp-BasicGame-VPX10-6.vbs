@@ -58,13 +58,9 @@ Sub Table1_Init
 	LeftFlipper.TimerInterval = 369
 	LeftFlipper.TimerEnabled = 1		
 End Sub
-
-Sub LeftFlipper_Timer
-	LeftFlipper.TimerEnabled = 0
-	if not Controller.GameRunning Then LeftFlipper.TimerEnabled = 1 : Exit Sub
-
-	InitGame
-End Sub
+Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
+Sub Table1_Paused: Controller.Pause 1 : End Sub
+Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 
 Dim initialized : initialized = 0
 Sub InitGame
@@ -98,12 +94,11 @@ Sub InitGame
 	
 End Sub
 
-Sub Table1_Exit
-	Controller.Stop ' Closes the display window, sends the quit action
-End Sub
-
-Sub Table1_Pause
-	Controller.Pause ' Not implemented, will work
+'Game ready checker from flipper timer
+Sub LeftFlipper_Timer
+	LeftFlipper.TimerEnabled = 0
+	if not Controller.GameRunning Then LeftFlipper.TimerEnabled = 1 : Exit Sub
+	InitGame
 End Sub
 
 ' Solenoids / Coils
