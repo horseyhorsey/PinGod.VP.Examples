@@ -6,22 +6,14 @@ using Godot;
 /// </summary>
 public class CreditsLayer : Label
 {
-	[Export]
-	private int _CreditButtonNum = 2;
-
 	public override void _Ready()
 	{
-		UpdateCreditsText();
+		//update when the credit changes
+		GetNode("/root/GameGlobals").Connect("CreditAdded", this, "OnCreditAdded");
+		OnCreditAdded();		
 	}
 
-	public override void _Input(InputEvent @event)
-	{
-		if (@event.IsActionPressed("sw"+_CreditButtonNum))
-		{
-			UpdateCreditsText();
-		}
-	}
-	private void UpdateCreditsText()
+	private void OnCreditAdded()
 	{
 		this.Text = $"{GameGlobals.Credits} CREDITS";
 	}

@@ -6,7 +6,17 @@ using static Godot.GD;
 /// Loaded as singleton on launch. Visual pinball uses the `bsTrough`
 /// </summary>
 public class Trough : Node
-{	
+{
+
+	[Signal] public delegate void BallSaved();
+	[Signal] public delegate void BallSaveStarted();
+	[Signal] public delegate void BallSaveEnded();
+
+	/// <summary>
+	/// Use this to turn off trough checking, outside VP
+	/// </summary>
+	static bool _isDebugTrough = false;
+
 	#region Public Properties
 	public static byte BallSaveLamp { get; private set; } = 1; // Lamp ID to blink when ball save is active
 	public static bool BallSaveActive { get; private set; }    // Is ball save active?
@@ -26,6 +36,9 @@ public class Trough : Node
 	/// </summary>
 	public static bool IsTroughFull()
 	{
+		if (_isDebugTrough)
+			return true;
+
 		for (int i = 0; i < TroughSwitches.Length; i++)
 		{
 			if(!Input.IsActionPressed("sw"+TroughSwitches[i]))
@@ -35,6 +48,10 @@ public class Trough : Node
 		return true;
 	}
 
+	/// <summary>
+	/// Activates the ball saver if not already running
+	/// </summary>
+	/// <returns>True if the ball saver is active</returns>
 	public bool StartBallSaver()
 	{
 		if (!BallSaveActive)
@@ -65,6 +82,7 @@ public class Trough : Node
 	{
 		BallSaveActive = false;
 		OscService.SetLampState(BallSaveLamp, 0);
+		EmitSignal(nameof(BallSaveEnded));
 	}
 
 	/// <summary>
@@ -81,19 +99,24 @@ public class Trough : Node
 			{
 				if (BallSaveActive)
 				{
-					Print("ball saved!");
-					OscService.PulseCoilState(TroughSolenoid);                    
+					Print("trough:ball_saved");
+					EmitSignal("BallSaved");
+					OscService.PulseCoilState(TroughSolenoid);        
 				}
 			}
 		}
 
 		if (@event.IsActionPressed($"sw{PlungerLaneSwitch}"))
 		{
-			Print("entered plunger lane");
+			Print("trough:entered plunger lane");
 		}
 		else if (@event.IsActionReleased($"sw{PlungerLaneSwitch}"))
 		{
-			Print($"left plunger lane: Ball save started? {StartBallSaver()}");
+			var saveStarted = StartBallSaver();
+			if (saveStarted)
+				EmitSignal(nameof(BallSaveStarted));
+
+			Print($"trough:left plunger lane: Ball save started? {saveStarted}");
 		}
 	} 
 	#endregion

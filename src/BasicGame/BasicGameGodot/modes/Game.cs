@@ -5,6 +5,18 @@ using static GameGlobals;
 
 public class Game : Node2D
 {
+	public override void _Ready()
+	{
+		//get the Main Scene/GameGlobal singleton from the root and connect to the BallEnded signal
+		var mainScene = GetTree().Root.GetNode("MainScene") as MainScene;
+		mainScene.gameGlobal.Connect("BallEnded", this, "OnBallEnded");
+	}
+
+	public void OnBallEnded()
+	{
+		Print("ball ended");
+	}
+
 	public override void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("sw21")) //Left outlane

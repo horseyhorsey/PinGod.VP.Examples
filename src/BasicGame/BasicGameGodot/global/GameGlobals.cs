@@ -6,7 +6,8 @@ using static Godot.GD;
 /// Godot singleton to hold Common pinball variables
 /// </summary>
 public class GameGlobals : Node
-{
+{ 
+
 	#region Public Properties - Standard Pinball / Players
 	public static int Credits { get; set; }
 	public static int CurrentPlayerIndex { get; private set; }
@@ -14,7 +15,17 @@ public class GameGlobals : Node
 	public static byte BallsPerGame { get; private set; } = 3;
 	public static bool GameInPlay { get; private set; }
 	public static Player Player { get; private set; }
-	public static List<Player> Players { get; private set; } 
+	public static List<Player> Players { get; private set; }
+	#endregion
+
+	#region Signals
+	[Signal] public delegate void BallEnded();
+	[Signal] public delegate void CreditAdded();
+	[Signal] public delegate void GameEnded();
+	[Signal] public delegate void GamePaused();
+	[Signal] public delegate void GameResumed();
+	[Signal] public delegate void GameStarted();
+	[Signal] public delegate void PlayerAdded();
 	#endregion
 
 	private static byte MaxPlayers = 4;
@@ -22,6 +33,12 @@ public class GameGlobals : Node
 	public GameGlobals()
 	{
 		Players = new List<Player>();
+	}
+
+	public void AddCredits(byte amt)
+	{
+		Credits += amt;
+		EmitSignal(nameof(CreditAdded));
 	}
 
 	/// <summary>
@@ -35,9 +52,19 @@ public class GameGlobals : Node
 	}
 
 	/// <summary>
+	/// Sends a signal game is paused
+	/// </summary>
+	public void SetGamePaused() => EmitSignal(nameof(GamePaused));
+
+	/// <summary>
+	/// Sends a signal game is resumed
+	/// </summary>
+	public void SetGameResumed() => EmitSignal(nameof(GameResumed));
+
+	/// <summary>
 	/// Attempts to start a game.
 	/// </summary>
-	public static bool StartGame()
+	public bool StartGame()
 	{			
 		if (!GameInPlay && Credits > 0) //first player start game
 		{
@@ -55,8 +82,9 @@ public class GameGlobals : Node
 			Players.Add(new Player() { Name = $"P{Players.Count+1}", Points = 0 });
 			CurrentPlayerIndex = 0;
 			Player = Players[CurrentPlayerIndex];
-			Print("player added");			
-
+			Print("signal: player 1 added");
+			EmitSignal(nameof(PlayerAdded));
+			EmitSignal(nameof(GameStarted));
 			return true;
 		}
 		//game started already, add more players until max
@@ -64,7 +92,8 @@ public class GameGlobals : Node
 		{
 			Credits--;
 			Players.Add(new Player() { Name = $"P{Players.Count+1}", Points = 0 });
-			Print("player added");
+			Print($"signal: player added. {Players.Count}");
+			EmitSignal(nameof(PlayerAdded));
 		}
 
 		return false;
@@ -74,7 +103,7 @@ public class GameGlobals : Node
 	/// End of ball. Check if end of game, change the player
 	/// </summary>
 	/// <returns>True if all balls finished, game is finished</returns>
-	public static bool EndOfBall()
+	public bool EndOfBall()
 	{
 		if (GameInPlay && Players.Count > 0)
 		{
@@ -101,6 +130,8 @@ public class GameGlobals : Node
 			}
 			else
 			{
+				//signal that ball has ended
+				this.EmitSignal(nameof(BallEnded));
 				Player = Players[CurrentPlayerIndex];
 				OscService.PulseCoilState(1);
 			}
@@ -112,9 +143,11 @@ public class GameGlobals : Node
 	/// <summary>
 	/// Game has ended
 	/// </summary>
-	public static void EndOfGame()
+	public void EndOfGame()
 	{
-		GameInPlay = false;		
-		OscService.SetLampState(1, 0);	
+		//signal that ball has ended
+		this.EmitSignal(nameof(GameEnded));
+		GameInPlay = false;
+		OscService.SetLampState(1, 0);
 	}
 }

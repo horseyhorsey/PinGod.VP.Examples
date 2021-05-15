@@ -4,13 +4,12 @@ using static Godot.GD;
 
 public class MainScene : Node2D
 {	
-	[Export]
-	private int _startButtonNum = 19;
-	[Export]
-	private int _CreditButtonNum = 2;
+	[Export] private int _startButtonNum = 19;
+	[Export] private int _CreditButtonNum = 2;	
 
 	private Control pauseLayer;
-	private Node2D attractnode;	
+	private Node2D attractnode;
+	public  GameGlobals gameGlobal { get; private set; }
 
 	public override void _Ready()
 	{
@@ -20,7 +19,12 @@ public class MainScene : Node2D
 		PauseMode = PauseModeEnum.Process;
 
 		//attract mod already in the tree, get the instance so we can free it when game started
-		attractnode = GetNode("Modes/Attract") as Node2D;		
+		attractnode = GetNode("Modes/Attract") as Node2D;
+
+		//save a reference to connect signals
+		gameGlobal = GetNode("/root/GameGlobals") as GameGlobals;
+		gameGlobal.Connect("GameStarted", this, "OnGameStarted");
+		gameGlobal.Connect("GameEnded", this, "OnGameEnded");		
 	}
 
 	/// <summary>
@@ -32,44 +36,49 @@ public class MainScene : Node2D
 		attractnode.QueueFree();
 
 		//load the game scene mode and add to Modes tree
-		LoadSceneMode("res://modes/Game.tscn");
+		LoadSceneMode("res://modes/Game.tscn");		
 	}
 
 	/// <summary>
 	/// End game, reloads the original scene, removing anything added. This could be used as a reset from VP with F3.
 	/// </summary>
-	public void EndGame()
+	public void OnGameEnded()
+	{		
+		GetNode("Modes/Game").QueueFree();
+		GetTree().ReloadCurrentScene();		
+	}
+
+	void OnGameStarted()
 	{
-		GetTree().ReloadCurrentScene();
+		StartGame();
+		//pulse ball from trough
+		GameGlobals.BallInPlay = 1;
+		OscService.PulseCoilState(1);
 	}
 
 	public override void _Input(InputEvent @event)
 	{
-		//Pause / Unpause game.
 		if (@event.IsActionPressed("pause"))
-		{
+		{			
 			pauseLayer.Show();
 			GetTree().Paused = true;
+			gameGlobal.SetGamePaused();
 		}
 		else if (@event.IsActionReleased("pause"))
-		{
+		{			
 			pauseLayer.Hide();
 			GetTree().Paused = false;
+			gameGlobal.SetGameResumed();			
 		}
 
 		if (@event.IsActionPressed("sw"+_startButtonNum)) //Start button. See PinGod.vbs for Standard switches
 		{
-			if (GameGlobals.StartGame())
-			{
-				StartGame();
-				//pulse ball from trough		
-				GameGlobals.BallInPlay = 1;
-				OscService.PulseCoilState(1);
-			}
+			gameGlobal.StartGame();
 		}
+
 		if (@event.IsActionPressed("sw"+_CreditButtonNum)) //Coin button. See PinGod.vbs for Standard switches
 		{
-			GameGlobals.Credits++;
+			gameGlobal.AddCredits(1);			
 		}
 
 		//Check if the last trough switch was enabled
@@ -78,11 +87,8 @@ public class MainScene : Node2D
 			//end the ball in play?
 			if (Trough.IsTroughFull() && !Trough.BallSaveActive)
 			{
-				if (GameGlobals.EndOfBall())
-				{
-					GameGlobals.EndOfGame();
-					EndGame();
-				}
+				if(gameGlobal.EndOfBall())
+					gameGlobal.EndOfGame();
 			}
 		}
 	}
@@ -116,6 +122,7 @@ public class MainScene : Node2D
 
 	void _loaded(PackedScene packedScene)
 	{
-		GetNode("Modes").AddChild(packedScene.Instance());
+		var instance = packedScene.Instance();
+		GetNode("Modes").AddChild(instance);		
 	}
 }

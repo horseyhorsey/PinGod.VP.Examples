@@ -47,23 +47,26 @@ public class ScoreMode : Node2D
 				currentScoreLabel.Text = null;
 			}
 
-			int i = 0;
-			foreach (var player in GameGlobals.Players)
+			if(GameGlobals.Players.Count > 1)
 			{
-				var lbl = ScoreLabels[i];
-				if (lbl != null)
+				int i = 0;
+				foreach (var player in GameGlobals.Players)
 				{
-					if(player.Points > -1)
+					var lbl = ScoreLabels[i];
+					if (lbl != null)
 					{
-						lbl.Text = player.Points.ToString("N0");
+						if (player.Points > -1)
+						{
+							lbl.Text = player.Points.ToString("N0");
+						}
+						else
+						{
+							lbl.Text = null;
+						}
 					}
-					else
-					{
-						lbl.Text = null;
-					}
+					i++;
 				}
-				i++;
-			}
+			}			
 		}						
 
 		//update current player and ball
