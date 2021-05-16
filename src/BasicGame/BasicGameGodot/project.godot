@@ -11,9 +11,10 @@ config_version=4
 [application]
 
 config/name="BasicGameGodot"
+config/description="Example game running Godot projects with Visual Pinball"
 run/main_scene="res://MainScene.tscn"
-config/icon="res://assets/img/pingoicon.ico"
-config/windows_native_icon="res://assets/img/pingoicon.ico"
+config/icon="res://assets/img/pingod-logo.png"
+config/windows_native_icon="res://assets/img/pingod.ico"
 
 [autoload]
 

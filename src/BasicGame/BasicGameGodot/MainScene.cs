@@ -5,7 +5,6 @@ using static Godot.GD;
 public class MainScene : Node2D
 {	
 	[Export] private int _startButtonNum = 19;
-	[Export] private int _CreditButtonNum = 2;	
 
 	private Control pauseLayer;
 	private Node2D attractnode;
@@ -54,31 +53,29 @@ public class MainScene : Node2D
 		//pulse ball from trough
 		GameGlobals.BallInPlay = 1;
 		OscService.PulseCoilState(1);
+		EmitSignal("BallStarted");
 	}
 
 	public override void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("pause"))
-		{			
+		{
+			Print("pause");
+			gameGlobal.SetGamePaused();
 			pauseLayer.Show();
 			GetTree().Paused = true;
-			gameGlobal.SetGamePaused();
 		}
 		else if (@event.IsActionReleased("pause"))
-		{			
+		{
+			Print("resume");
+			gameGlobal.SetGameResumed();
 			pauseLayer.Hide();
 			GetTree().Paused = false;
-			gameGlobal.SetGameResumed();			
 		}
 
 		if (@event.IsActionPressed("sw"+_startButtonNum)) //Start button. See PinGod.vbs for Standard switches
 		{
 			gameGlobal.StartGame();
-		}
-
-		if (@event.IsActionPressed("sw"+_CreditButtonNum)) //Coin button. See PinGod.vbs for Standard switches
-		{
-			gameGlobal.AddCredits(1);			
 		}
 
 		//Check if the last trough switch was enabled

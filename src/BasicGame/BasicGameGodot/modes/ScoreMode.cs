@@ -26,14 +26,20 @@ public class ScoreMode : Node2D
 			ScoreLabels[i] = this.GetNode($"CanvasLayer/ScoreP{i+1}") as Label;
 			ScoreLabels[i].Text = string.Empty;
 		}
+
+		//signals
+		GetNode("/root/GameGlobals").Connect("GameStarted", this, "OnScoresUpdated");
+		GetNode("/root/GameGlobals").Connect("ScoresUpdated", this, "OnScoresUpdated");
+		GetNode("/root/GameGlobals").Connect("PlayerAdded", this, "OnScoresUpdated");
+
+		//update current player and ball
+		OnScoresUpdated();
 	}
 
 	/// <summary>
-	/// Updates labels from variables set in <see cref="GameGlobals"/> .This isCalled every frame. 'delta' is the elapsed time since the previous frame. <para/>
-	/// TODO: Check if to see if more efficient when updated on score change
+	/// Set the labels text on signals.
 	/// </summary>
-	/// <param name="delta"></param>
-	public override void _Process(float delta)
+	void OnScoresUpdated()
 	{
 		if (GameGlobals.Players?.Count > 0)
 		{
@@ -47,7 +53,7 @@ public class ScoreMode : Node2D
 				currentScoreLabel.Text = null;
 			}
 
-			if(GameGlobals.Players.Count > 1)
+			if (GameGlobals.Players.Count > 1)
 			{
 				int i = 0;
 				foreach (var player in GameGlobals.Players)
@@ -66,11 +72,11 @@ public class ScoreMode : Node2D
 					}
 					i++;
 				}
-			}			
-		}						
+			}
 
-		//update current player and ball
-		playerInfoLabel.Text = $"PLAYER: {GameGlobals.CurrentPlayerIndex+1}";
-		ballInfolabel.Text = $"BALL: {GameGlobals.BallInPlay}";
+			ballInfolabel.Text = $"BALL: {GameGlobals.BallInPlay}";
+			//update current player and ball
+			playerInfoLabel.Text = $"PLAYER: {GameGlobals.CurrentPlayerIndex + 1}";
+		}
 	}
 }

@@ -8,12 +8,13 @@ public class CreditsLayer : Label
 {
 	public override void _Ready()
 	{
-		//update when the credit changes
-		GetNode("/root/GameGlobals").Connect("CreditAdded", this, "OnCreditAdded");
-		OnCreditAdded();		
+		//update when the credit changes, when added and players added
+		GetNode("/root/GameGlobals").Connect("CreditAdded", this, "OnCreditsUpdated");
+		GetNode("/root/GameGlobals").Connect("PlayerAdded", this, "OnCreditsUpdated");
+		OnCreditsUpdated();		
 	}
 
-	private void OnCreditAdded()
+	private void OnCreditsUpdated()
 	{
 		this.Text = $"{GameGlobals.Credits} CREDITS";
 	}

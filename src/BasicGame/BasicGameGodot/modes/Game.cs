@@ -1,15 +1,15 @@
 using Godot;
-using System;
 using static Godot.GD;
-using static GameGlobals;
 
 public class Game : Node2D
 {
+	private GameGlobals gameGlobal;
+
 	public override void _Ready()
 	{
-		//get the Main Scene/GameGlobal singleton from the root and connect to the BallEnded signal
-		var mainScene = GetTree().Root.GetNode("MainScene") as MainScene;
-		mainScene.gameGlobal.Connect("BallEnded", this, "OnBallEnded");
+		gameGlobal = GetNode("/root/GameGlobals") as GameGlobals;
+		gameGlobal.Connect("BallEnded", this, "OnBallEnded");
+		gameGlobal.Connect("BallStarted", this, "OnBallStarted");
 	}
 
 	public void OnBallEnded()
@@ -49,5 +49,10 @@ public class Game : Node2D
 			Print("sw: r_sling");
 			AddPoints(50);
 		}
+	}
+
+	private void AddPoints(int points)
+	{
+		gameGlobal.AddPoints(points);
 	}
 }

@@ -6,9 +6,10 @@ using static Godot.GD;
 /// Godot singleton to hold Common pinball variables
 /// </summary>
 public class GameGlobals : Node
-{ 
+{
 
 	#region Public Properties - Standard Pinball / Players
+	public const int CreditButtonNum = 2;
 	public static int Credits { get; set; }
 	public static int CurrentPlayerIndex { get; private set; }
 	public static int BallInPlay { get; set; }
@@ -20,19 +21,41 @@ public class GameGlobals : Node
 
 	#region Signals
 	[Signal] public delegate void BallEnded();
+	[Signal] public delegate void BallStarted();
 	[Signal] public delegate void CreditAdded();
 	[Signal] public delegate void GameEnded();
 	[Signal] public delegate void GamePaused();
 	[Signal] public delegate void GameResumed();
 	[Signal] public delegate void GameStarted();
 	[Signal] public delegate void PlayerAdded();
+	[Signal] public delegate void ScoresUpdated();
 	#endregion
 
 	private static byte MaxPlayers = 4;
 
+	AudioStreamPlayer sfxPlayer;
+	Dictionary<string, AudioStream> Sounds = new Dictionary<string, AudioStream>();
+
 	public GameGlobals()
 	{
 		Players = new List<Player>();
+	}
+
+	public override void _Ready()
+	{
+		sfxPlayer = new AudioStreamPlayer();
+		Sounds.Add("credit", Load("res://assets/audio/sfx/credit.wav") as AudioStream);
+		AddChild(sfxPlayer);
+	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event.IsActionPressed("sw" + CreditButtonNum)) //Coin button. See PinGod.vbs for Standard switches
+		{
+			sfxPlayer.Stream = Sounds["credit"];
+			sfxPlayer.Play();
+			AddCredits(1);			
+		}
 	}
 
 	public void AddCredits(byte amt)
@@ -45,10 +68,13 @@ public class GameGlobals : Node
 	/// Adds points to the current player
 	/// </summary>
 	/// <param name="points"></param>
-	internal static void AddPoints(int points)
+	public void AddPoints(int points)
 	{
-		if(Player != null)
+		if (Player != null)
+		{
 			Player.Points += points;
+			EmitSignal(nameof(ScoresUpdated));
+		}
 	}
 
 	/// <summary>
@@ -134,6 +160,7 @@ public class GameGlobals : Node
 				this.EmitSignal(nameof(BallEnded));
 				Player = Players[CurrentPlayerIndex];
 				OscService.PulseCoilState(1);
+				EmitSignal(nameof(BallStarted));
 			}
 		}
 
