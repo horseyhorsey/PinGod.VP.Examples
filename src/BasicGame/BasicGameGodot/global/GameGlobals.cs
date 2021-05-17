@@ -1,45 +1,30 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using static Godot.GD;
 
 /// <summary>
 /// Godot singleton to hold Common pinball variables
 /// </summary>
-public class GameGlobals : Node
+public class GameGlobals : PinGodGameBase
 {
-
-	#region Public Properties - Standard Pinball / Players
-	public const int CreditButtonNum = 2;
-	public static int Credits { get; set; }
-	public static int CurrentPlayerIndex { get; private set; }
-	public static int BallInPlay { get; set; }
-	public static byte BallsPerGame { get; private set; } = 3;
-	public static bool GameInPlay { get; private set; }
-	public static Player Player { get; private set; }
-	public static List<Player> Players { get; private set; }
-	#endregion
-
 	#region Signals
 	[Signal] public delegate void BallEnded();
 	[Signal] public delegate void BallStarted();
+	[Signal] public delegate void BonusEnded();
 	[Signal] public delegate void CreditAdded();
 	[Signal] public delegate void GameEnded();
 	[Signal] public delegate void GamePaused();
 	[Signal] public delegate void GameResumed();
 	[Signal] public delegate void GameStarted();
+	[Signal] public delegate void GameTilted();
 	[Signal] public delegate void PlayerAdded();
 	[Signal] public delegate void ScoresUpdated();
-	#endregion
-
-	private static byte MaxPlayers = 4;
+	[Signal] public delegate void ScoreEntryEnded();
+	#endregion	
 
 	AudioStreamPlayer sfxPlayer;
 	Dictionary<string, AudioStream> Sounds = new Dictionary<string, AudioStream>();
-
-	public GameGlobals()
-	{
-		Players = new List<Player>();
-	}
 
 	public override void _Ready()
 	{
@@ -78,6 +63,18 @@ public class GameGlobals : Node
 	}
 
 	/// <summary>
+	/// Adds bonus to the current player
+	/// </summary>
+	/// <param name="points"></param>
+	public void AddBonus(int points)
+	{
+		if (Player != null)
+		{
+			Player.Bonus += points;
+		}
+	}
+
+	/// <summary>
 	/// Sends a signal game is paused
 	/// </summary>
 	public void SetGamePaused() => EmitSignal(nameof(GamePaused));
@@ -91,7 +88,14 @@ public class GameGlobals : Node
 	/// Attempts to start a game.
 	/// </summary>
 	public bool StartGame()
-	{			
+	{
+		Print("global:start game");
+		if (IsTilted)
+		{
+			Print("Cannot start game when game is tilted");
+			return false;
+		}
+
 		if (!GameInPlay && Credits > 0) //first player start game
 		{
 			if (!Trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
@@ -105,7 +109,7 @@ public class GameGlobals : Node
 
 			//remove a credit and add a new player
 			Credits--;
-			Players.Add(new Player() { Name = $"P{Players.Count+1}", Points = 0 });
+			Players.Add(new PlayerBasicGame() { Name = $"P{Players.Count+1}", Points = 0 });
 			CurrentPlayerIndex = 0;
 			Player = Players[CurrentPlayerIndex];
 			Print("signal: player 1 added");
@@ -117,7 +121,7 @@ public class GameGlobals : Node
 		else if (BallInPlay <= 1 && GameInPlay && Players.Count < MaxPlayers && Credits > 0)
 		{
 			Credits--;
-			Players.Add(new Player() { Name = $"P{Players.Count+1}", Points = 0 });
+			Players.Add(new PlayerBasicGame() { Name = $"P{Players.Count+1}", Points = 0 });
 			Print($"signal: player added. {Players.Count}");
 			EmitSignal(nameof(PlayerAdded));
 		}
@@ -126,14 +130,16 @@ public class GameGlobals : Node
 	}
 
 	/// <summary>
-	/// End of ball. Check if end of game, change the player
+	/// Ends the current ball. Changes the player
 	/// </summary>
 	/// <returns>True if all balls finished, game is finished</returns>
-	public bool EndOfBall()
+	public bool EndBall()
 	{
+		EnableFlippers(0);
+
 		if (GameInPlay && Players.Count > 0)
 		{
-			Print("end of ball " + BallInPlay);
+			Print("end of ball. current ball:" + BallInPlay);
 			if (Players.Count > 1)
 			{
 				CurrentPlayerIndex++;
@@ -152,19 +158,37 @@ public class GameGlobals : Node
 
 			if (BallInPlay > BallsPerGame)
 			{
+				//signal that ball has ended
+				this.EmitSignal(nameof(BallEnded));
 				return true;
 			}
 			else
 			{
 				//signal that ball has ended
-				this.EmitSignal(nameof(BallEnded));
-				Player = Players[CurrentPlayerIndex];
-				OscService.PulseCoilState(1);
-				EmitSignal(nameof(BallStarted));
+				this.EmitSignal(nameof(BallEnded));				
 			}
 		}
 
 		return false;
+	}
+
+	public void StartNewBall()
+	{
+		Print("global:starting new ball");
+		ResetTilt();
+		Player = Players[CurrentPlayerIndex];
+		EnableFlippers(1);
+		OscService.PulseCoilState(TroughSolenoid);
+		EmitSignal(nameof(BallStarted));
+	}
+
+	/// <summary>
+	/// Reset player warnings and tilt
+	/// </summary>
+	public void ResetTilt()
+	{
+		Tiltwarnings = 0;
+		IsTilted = false;
 	}
 
 	/// <summary>
@@ -172,9 +196,10 @@ public class GameGlobals : Node
 	/// </summary>
 	public void EndOfGame()
 	{
+		GameInPlay = false;
+		IsTilted = false;
+		OscService.SetLampState(1, 0);
 		//signal that ball has ended
 		this.EmitSignal(nameof(GameEnded));
-		GameInPlay = false;
-		OscService.SetLampState(1, 0);
 	}
 }

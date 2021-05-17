@@ -33,10 +33,10 @@ Dim bsTrough
 
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 1520
+		.DisplayX			= 0
 		.DisplayY			= 0
-		.DisplayWidth 		= 1024
-		.DisplayHeight 		= 600
+		.DisplayWidth 		= 600
+		.DisplayHeight 		= 400
 		.DisplayAlwaysOnTop = True
 		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
 		.DisplayLowDpi 		= False
@@ -87,6 +87,13 @@ Sub InitGame
 	bsTrough.InitEntrySounds "Drain", "", ""
 	bsTrough.InitExitSounds "BallRelease", ""
 	bsTrough.Reset		
+
+    ' ### Nudging ###
+    vpmNudge.TiltSwitch = swTilt 'was 14 nFozzy
+    vpmNudge.Sensitivity = 0.8
+	vpmNudge.TiltObj = Array(LSling,RSling)
+
+
 	If Err Then MsgBox Err.Description
 
 	initialized = 1
@@ -103,6 +110,7 @@ End Sub
 
 ' Solenoids / Coils
 SolCallback(1) = "bsTrough.solOut"
+SolCallback(2) = "FlippersEnabled"
 
 Sub Table1_KeyDown(ByVal keycode)
 
@@ -113,12 +121,12 @@ Sub Table1_KeyDown(ByVal keycode)
 		PlaySound "plungerpull",0,1,AudioPan(Plunger),0.25,0,0,1,AudioFade(Plunger)
 	End If
 
-	If keycode = LeftFlipperKey Then
+	If keycode = LeftFlipperKey and FlippersOn Then
 		LeftFlipper.RotateToEnd
 		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
 	End If
 
-	If keycode = RightFlipperKey Then
+	If keycode = RightFlipperKey and FlippersOn Then
 		RightFlipper.RotateToEnd
 		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
 	End If
@@ -158,12 +166,12 @@ Sub Table1_KeyUp(ByVal keycode)
 		PlaySound "plunger",0,1,AudioPan(Plunger),0.25,0,0,1,AudioFade(Plunger)
 	End If
 
-	If keycode = LeftFlipperKey Then
+	If keycode = LeftFlipperKey and FlippersOn Then
 		LeftFlipper.RotateToStart
 		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
 	End If
 
-	If keycode = RightFlipperKey Then
+	If keycode = RightFlipperKey and FlippersOn Then
 		RightFlipper.RotateToStart
 		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
 	End If
@@ -183,6 +191,11 @@ End Sub
 Sub sw_plunger_lane_hit() : Controller.Switch 20, 1 :  End Sub   
 Sub sw_plunger_lane_unhit() : Controller.Switch 20, 0 :  End Sub
 
+Dim FlippersOn : FlippersOn = 0
+Sub FlippersEnabled(Enabled)
+	Debug.Print "flippers on coil " & Enabled
+	FlippersOn = Enabled
+End Sub
 
 '*****GI Lights On
 dim xx

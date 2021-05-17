@@ -4,8 +4,6 @@ using static Godot.GD;
 
 public class MainScene : Node2D
 {	
-	[Export] private int _startButtonNum = 19;
-
 	private Control pauseLayer;
 	private Node2D attractnode;
 	public  GameGlobals gameGlobal { get; private set; }
@@ -49,11 +47,11 @@ public class MainScene : Node2D
 
 	void OnGameStarted()
 	{
-		StartGame();
-		//pulse ball from trough
+		StartGame();		
 		GameGlobals.BallInPlay = 1;
-		OscService.PulseCoilState(1);
-		EmitSignal("BallStarted");
+
+		//pulse ball from trough
+		gameGlobal.StartNewBall();
 	}
 
 	public override void _Input(InputEvent @event)
@@ -73,19 +71,12 @@ public class MainScene : Node2D
 			GetTree().Paused = false;
 		}
 
-		if (@event.IsActionPressed("sw"+_startButtonNum)) //Start button. See PinGod.vbs for Standard switches
+		if (!GameGlobals.IsTilted)
 		{
-			gameGlobal.StartGame();
-		}
-
-		//Check if the last trough switch was enabled
-		if (@event.IsActionPressed("sw"+Trough.TroughSwitches[Trough.TroughSwitches.Length-1]))
-		{
-			//end the ball in play?
-			if (Trough.IsTroughFull() && !Trough.BallSaveActive)
+			//Start button. See PinGod.vbs for Standard switches
+			if (@event.IsActionPressed("sw" + GameGlobals.StartSwitchNum)) 
 			{
-				if(gameGlobal.EndOfBall())
-					gameGlobal.EndOfGame();
+				gameGlobal.StartGame();
 			}
 		}
 	}

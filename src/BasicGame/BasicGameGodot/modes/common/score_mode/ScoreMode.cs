@@ -27,7 +27,9 @@ public class ScoreMode : Node2D
 			ScoreLabels[i].Text = string.Empty;
 		}
 
+
 		//signals
+		GetNode("/root/GameGlobals").Connect("BallStarted", this, "OnScoresUpdated");
 		GetNode("/root/GameGlobals").Connect("GameStarted", this, "OnScoresUpdated");
 		GetNode("/root/GameGlobals").Connect("ScoresUpdated", this, "OnScoresUpdated");
 		GetNode("/root/GameGlobals").Connect("PlayerAdded", this, "OnScoresUpdated");

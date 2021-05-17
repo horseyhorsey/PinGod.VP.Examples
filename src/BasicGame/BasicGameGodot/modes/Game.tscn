@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://modes/Game.cs" type="Script" id=1]
-[ext_resource path="res://modes/ScoreMode.tscn" type="PackedScene" id=2]
+[ext_resource path="res://modes/common/score_mode/ScoreMode.tscn" type="PackedScene" id=2]
 [ext_resource path="res://layers/Text/CreditsLayer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/img/pingod-logo.png" type="Texture" id=4]
+[ext_resource path="res://modes/common/tilt/Tilt.tscn" type="PackedScene" id=5]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -15,8 +16,9 @@ scale = Vector2( 0.48156, 0.529302 )
 texture = ExtResource( 4 )
 
 [node name="ScoreMode" parent="." instance=ExtResource( 2 )]
-position = Vector2( -6.10352e-05, 1.49829 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Credits" parent="CanvasLayer" instance=ExtResource( 3 )]
+
+[node name="Tilt" parent="CanvasLayer" instance=ExtResource( 5 )]

@@ -50,14 +50,14 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="CenterContainer"]
-margin_left = 411.0
+margin_left = 158.0
 margin_top = 235.0
-margin_right = 613.0
+margin_right = 865.0
 margin_bottom = 364.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-text = "PUSH"
+text = "BLINK TEXT LAYER"
 __meta__ = {
 "_edit_use_anchors_": false
 }

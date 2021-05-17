@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://modes/Attract.tscn" type="PackedScene" id=1]
+[ext_resource path="res://modes/common/attract/Attract.tscn" type="PackedScene" id=1]
 [ext_resource path="res://layers/Text/PauseLayer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MainScene.cs" type="Script" id=3]
+[ext_resource path="res://modes/common/trough/BallSave.tscn" type="PackedScene" id=4]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 3 )
@@ -14,3 +15,5 @@ script = ExtResource( 3 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PauseControl" parent="CanvasLayer" instance=ExtResource( 2 )]
+
+[node name="BallSave" parent="CanvasLayer" instance=ExtResource( 4 )]

@@ -44,7 +44,7 @@ public class TextLayer : Control
 		}
 	}
 
-	void SetText(string text)
+	public void SetText(string text)
 	{
 		if(textLabel != null)
 		{

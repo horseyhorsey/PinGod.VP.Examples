@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://modes/ScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://modes/common/score_mode/ScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
 
