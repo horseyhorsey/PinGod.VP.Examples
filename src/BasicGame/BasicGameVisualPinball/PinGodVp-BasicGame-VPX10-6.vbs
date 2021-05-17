@@ -195,6 +195,7 @@ Dim FlippersOn : FlippersOn = 0
 Sub FlippersEnabled(Enabled)
 	Debug.Print "flippers on coil " & Enabled
 	FlippersOn = Enabled
+	If not FlippersOn then LeftFlipper.RotateToStart : RightFlipper.RotateToStart
 End Sub
 
 '*****GI Lights On

@@ -42,20 +42,20 @@ public class Tilt : Control
 	{
 		if (@event.IsActionPressed("sw" + GameGlobals.TiltSwitchNum))
 		{
-			if (!GameGlobals.IsTilted)
+			if (!GameGlobals.IsTilted && !Trough.IsTroughFull())
 			{				
 				//add a warning
 				GameGlobals.Tiltwarnings++;
-
+				timer?.Stop();
 				//set tilted
 				if (GameGlobals.Tiltwarnings > _num_tilt_warnings)
 				{
 					//stop the timer for showing tilt information
-					timer?.Stop();
 					GameGlobals.IsTilted = true;
 					Print("game tilted");
 					blinkingLayer.SetText("Tilted");
 					Visible = true;
+					gGlobals.EnableFlippers(0);
 					gGlobals.EmitSignal("GameTilted");					
 				}
 				//show warnings
@@ -74,7 +74,8 @@ public class Tilt : Control
 			Print("slam tilt");
 			blinkingLayer.SetText("SLAM TILT");
 			GameGlobals.IsTilted = true;
-			gGlobals.EmitSignal("GameTilted");			
+			gGlobals.EmitSignal("GameTilted");
+			gGlobals.EnableFlippers(0);
 			Visible = true;
 		}
 	}
