@@ -14,6 +14,8 @@ public class Bonus : CanvasLayer
 
 	public override void _Ready()
 	{
+		GameGlobals.Player.Points += GameGlobals.Player.Bonus;
+
 		timer = GetNode("Timer") as Timer;
 		if (!timer.IsStopped())
 			timer.Stop();
@@ -28,10 +30,10 @@ public class Bonus : CanvasLayer
 	/// </summary>
 	/// <returns></returns>
 	private string SetBonusText()
-	{
+	{		
 		var txt = "END OF BALL" + System.Environment.NewLine;
 		txt += "BONUS" + System.Environment.NewLine;
-		txt += GameGlobals.Player.Bonus.ToString("N0");
+		txt += GameGlobals.Player.Bonus.ToString("N0");		
 		return txt;
 	}
 
