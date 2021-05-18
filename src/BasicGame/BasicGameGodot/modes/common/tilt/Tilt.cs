@@ -40,13 +40,16 @@ public class Tilt : Control
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
 	{
+		if (!GameGlobals.GameInPlay) return;
+
 		if (@event.IsActionPressed("sw" + GameGlobals.TiltSwitchNum))
 		{
 			if (!GameGlobals.IsTilted && !Trough.IsTroughFull())
-			{				
-				//add a warning
-				GameGlobals.Tiltwarnings++;
+			{
+				Visible = false;
 				timer?.Stop();
+				//add a warning
+				GameGlobals.Tiltwarnings++;				
 				//set tilted
 				if (GameGlobals.Tiltwarnings > _num_tilt_warnings)
 				{
@@ -73,10 +76,10 @@ public class Tilt : Control
 			timer?.Stop();
 			Print("slam tilt");
 			blinkingLayer.SetText("SLAM TILT");
-			GameGlobals.IsTilted = true;
-			gGlobals.EmitSignal("GameTilted");
+			GameGlobals.IsTilted = true;			
 			gGlobals.EnableFlippers(0);
 			Visible = true;
+			gGlobals.EmitSignal("GameTilted");
 		}
 	}
 
@@ -86,7 +89,7 @@ public class Tilt : Control
 	/// Show the player how many tilt warnings
 	/// </summary>
 	void ShowWarning()
-	{        		
+	{
 		Print("tilt warning: " + GameGlobals.Tiltwarnings);
 		blinkingLayer.SetText("Danger" + System.Environment.NewLine + $"Warnings {GameGlobals.Tiltwarnings}");
 		timer?.Start(displayForSecs);
