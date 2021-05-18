@@ -30,7 +30,7 @@ public class Trough : Node
 	/// <summary>
 	/// Is ball save active
 	/// </summary>
-	public static bool BallSaveActive { get; private set; }
+	public static bool BallSaveActive { get; internal set; }
 	/// <summary>
 	/// Ball save time
 	/// </summary>
@@ -61,6 +61,8 @@ public class Trough : Node
 
 		var globals = GetNode("/root/GameGlobals") as GameGlobals;
 		globals.Connect("GameTilted", this, "OnGameTilted");
+
+		Print("trough:loaded");
 	}
 
 	/// <summary>
@@ -72,8 +74,9 @@ public class Trough : Node
 		//Check the last switch in the Trough Switches array
 		if (@event.IsActionPressed("sw" + TroughSwitches[TroughSwitches.Length - 1]))
 		{
+			Print("trough: last switch");
 			//Put the ball back into play if BallSaveActive
-			if (IsTroughFull())
+			if (IsTroughFull() && GameGlobals.GameInPlay)
 			{
 				if (BallSaveActive)
 				{
@@ -90,7 +93,7 @@ public class Trough : Node
 		}
 		else if (@event.IsActionReleased($"sw{PlungerLaneSwitch}"))
 		{
-			if (!GameGlobals.IsTilted)
+			if (GameGlobals.GameInPlay && !GameGlobals.IsTilted)
 			{
 				var saveStarted = StartBallSaver();
 				if (saveStarted)
@@ -140,10 +143,11 @@ public class Trough : Node
 	public void OnGameTilted()
 	{
 		Print("trough:game_tilted");
+		GameGlobals.GameData.Tilted++;
 		DisableBallSave();
 	}
 
-	private static void DisableBallSave()
+	public static void DisableBallSave()
 	{
 		BallSaveActive = false;
 		OscService.SetLampState(BallSaveLamp, 0);
