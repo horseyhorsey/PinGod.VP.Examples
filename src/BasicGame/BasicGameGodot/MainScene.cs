@@ -3,10 +3,15 @@ using System.Threading.Tasks;
 using static Godot.GD;
 
 public class MainScene : Node2D
-{	
+{
+	const string SERVICE_MENU_SCENE = "res://modes/common/service_menu/ServiceMenu.tscn";
+
 	private Control pauseLayer;
-	private Node2D attractnode;
+	private Node2D attractnode;    
+
 	public  GameGlobals gameGlobal { get; private set; }
+	public bool InServiceMenu { get; private set; }
+	public PackedScene ServiceMenu { get; private set; }
 
 	public override void _Ready()
 	{
@@ -21,7 +26,11 @@ public class MainScene : Node2D
 		//save a reference to connect signals
 		gameGlobal = GetNode("/root/GameGlobals") as GameGlobals;
 		gameGlobal.Connect("GameStarted", this, "OnGameStarted");
-		gameGlobal.Connect("GameEnded", this, "OnGameEnded");		
+		gameGlobal.Connect("GameEnded", this, "OnGameEnded");
+
+		gameGlobal.Connect("ServiceMenuExit", this, "OnServiceMenuExit");
+
+		ServiceMenu = Load(SERVICE_MENU_SCENE) as PackedScene;
 	}
 
 	/// <summary>
@@ -54,6 +63,12 @@ public class MainScene : Node2D
 		gameGlobal.StartNewBall();
 	}
 
+	void OnServiceMenuExit()
+	{
+		GetTree().ReloadCurrentScene();
+		InServiceMenu = false;
+	}
+
 	public override void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("pause"))
@@ -71,15 +86,37 @@ public class MainScene : Node2D
 			GetTree().Paused = false;
 		}
 
+
+		if (@event.IsActionPressed("sw" + Trough.TroughSwitches[Trough.TroughSwitches.Length - 1]))
+		{
+			Print("ememe");
+		}
+
+
 		if (!GameGlobals.IsTilted)
 		{
-			//Start button. See PinGod.vbs for Standard switches
-			if (@event.IsActionPressed("sw" + GameGlobals.StartSwitchNum)) 
+			//enter service menu
+			if (@event.IsActionPressed("sw7"))
 			{
-				gameGlobal.StartGame();
+				if (!InServiceMenu)
+				{					
+					Print("sw:Enter");
+					InServiceMenu = true;
+
+					if (GameGlobals.GameInPlay)
+						GetNode("Modes/Game")?.QueueFree();
+					else
+						GetNode("Modes/Attract")?.Free();
+
+					//load service menu into modes
+					_loaded(ServiceMenu);
+					gameGlobal.EmitSignal("ServiceMenuEnter");
+				}				
 			}
 		}
 	}
+
+	static bool IsSceneLoading = false;
 
 	/// <summary>
 	/// Runs a new task to load a scene and poll until finished. Display freezes in VP without this if scenes are med/large <para/>
@@ -87,8 +124,11 @@ public class MainScene : Node2D
 	/// </summary>
 	private void LoadSceneMode(string resourcePath)
 	{
+		if (IsSceneLoading) return;
+
 		Task.Run(() =>
 		{
+			IsSceneLoading = true;
 			var ril = ResourceLoader.LoadInteractive(resourcePath);
 			PackedScene res; //the resource to return after finished loading
 			Print("loading-" + resourcePath);
@@ -98,8 +138,7 @@ public class MainScene : Node2D
 				var err = ril.Poll();
 				if (err == Error.FileEof)
 				{
-					res = ril.GetResource() as PackedScene;
-					Print("resource loaded");
+					res = ril.GetResource() as PackedScene;					
 					break;
 				}
 			}
@@ -110,7 +149,9 @@ public class MainScene : Node2D
 
 	void _loaded(PackedScene packedScene)
 	{
+		Print("resource loaded");
 		var instance = packedScene.Instance();
-		GetNode("Modes").AddChild(instance);		
+		GetNode("Modes").AddChild(instance);
+		IsSceneLoading = false;
 	}
 }
