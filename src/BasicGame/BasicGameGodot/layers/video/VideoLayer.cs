@@ -22,6 +22,8 @@ public class VideoLayer : Control
 		PauseMode = PauseModeEnum.Stop;
 
 		videoPlayer = GetNode<VideoPlayer>("VideoPlayer");
+		videoPlayer.Bus = "Music";
+
 		if(!string.IsNullOrWhiteSpace(_resource_path) && videoPlayer != null)
 		{
 			var f = new File();
@@ -31,8 +33,10 @@ public class VideoLayer : Control
 				stream.File = _resource_path;				
 				videoPlayer.Stream = stream;
 
-				if(_auto_play)
+				if (_auto_play)
+				{
 					videoPlayer.Play();
+				}					
 			}
 		}
 	}
