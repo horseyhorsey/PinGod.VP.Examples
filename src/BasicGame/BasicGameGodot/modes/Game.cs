@@ -33,12 +33,11 @@ public class Game : Node2D
 	/// </summary>
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
-	{
-		if (!GameGlobals.GameInPlay) return;
-
+	{		
 		//Check if the last trough switch was enabled
 		if (@event.IsActionPressed("sw" + Trough.TroughSwitches[Trough.TroughSwitches.Length - 1]))
 		{
+			Print("trough: switches active");
 			//end the ball in play?
 			if (!GameGlobals.InBonusMode && GameGlobals.GameInPlay && Trough.IsTroughFull() && !Trough.BallSaveActive)
 			{
@@ -54,6 +53,7 @@ public class Game : Node2D
 			}
 		}
 
+		if (!GameGlobals.GameInPlay) return;
 		//game is tilted, don't process other switches when tilted
 		if (GameGlobals.IsTilted) return;
 
