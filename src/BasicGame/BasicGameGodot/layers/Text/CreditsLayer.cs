@@ -16,6 +16,6 @@ public class CreditsLayer : Label
 
 	private void OnCreditsUpdated()
 	{
-		this.Text = $"{GameGlobals.Credits} CREDITS";
+		this.Text = $"{GameGlobals.GameData.Credits} CREDITS";
 	}
 }
