@@ -3,8 +3,7 @@ using static Godot.GD;
 
 public class ServiceMenu : CanvasLayer
 {
-	private GameGlobals globals;
-	private bool isEnabled;
+	private PinGodGame pinGodGame;
 
 	public override void _Ready()
 	{
@@ -13,27 +12,23 @@ public class ServiceMenu : CanvasLayer
 
 	public override void _EnterTree()
 	{
-		globals = GetNode("/root/GameGlobals") as GameGlobals;
+		pinGodGame = GetNode("/root/PinGodGame") as PinGodGame;
 	}
 
 	public override void _Input(InputEvent @event)
 	{		
-		if (@event.IsActionPressed("sw7"))
-		{
-			Print("sw:Enter");			
+		if (pinGodGame.SwitchOn("enter", @event))
+		{	
 		}
-		if (@event.IsActionPressed("sw6"))
+		if (pinGodGame.SwitchOn("up", @event))
 		{
-			Print("sw:Up");
 		}
-		if (@event.IsActionPressed("sw5"))
+		if (pinGodGame.SwitchOn("down", @event))
 		{
-			Print("sw:Down");
 		}
-		if (@event.IsActionPressed("sw4"))
+		if (pinGodGame.SwitchOn("exit", @event))
 		{
-			Print("sw:Exit");
-			globals.EmitSignal("ServiceMenuExit");
+			pinGodGame.EmitSignal("ServiceMenuExit");
 			this.QueueFree();			
 		}
 	}
