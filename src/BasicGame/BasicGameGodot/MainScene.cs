@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Threading.Tasks;
 using static Godot.GD;
 
@@ -9,12 +10,15 @@ public class MainScene : Node2D
 	private Control pauseLayer;
 	private Node2D attractnode;    
 
-	public  GameGlobals gameGlobal { get; private set; }
+	public  PinGodGame pinGod { get; private set; }
 	public bool InServiceMenu { get; private set; }
 	public PackedScene ServiceMenu { get; private set; }
 
 	public override void _Ready()
 	{
+
+		AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+
 		//show a pause menu when pause enabled.
 		pauseLayer = GetNode("CanvasLayer/PauseControl") as Control;
 		pauseLayer.Hide();
@@ -24,13 +28,18 @@ public class MainScene : Node2D
 		attractnode = GetNode("Modes/Attract") as Node2D;
 
 		//save a reference to connect signals
-		gameGlobal = GetNode("/root/GameGlobals") as GameGlobals;
-		gameGlobal.Connect("GameStarted", this, "OnGameStarted");
-		gameGlobal.Connect("GameEnded", this, "OnGameEnded");
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod.Connect("GameStarted", this, "OnGameStarted");
+		pinGod.Connect("GameEnded", this, "OnGameEnded");
 
-		gameGlobal.Connect("ServiceMenuExit", this, "OnServiceMenuExit");
+		pinGod.Connect("ServiceMenuExit", this, "OnServiceMenuExit");
 
 		ServiceMenu = Load(SERVICE_MENU_SCENE) as PackedScene;
+	}
+
+	private void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
+	{
+		GD.PrintS($"Unhandled exception {e.ExceptionObject}");
 	}
 
 	/// <summary>
@@ -42,30 +51,34 @@ public class MainScene : Node2D
 		attractnode.QueueFree();
 
 		//load the game scene mode and add to Modes tree
-		LoadSceneMode("res://modes/Game.tscn");		
+		LoadSceneMode("res://modes/Game.tscn");
 	}
 
 	/// <summary>
 	/// End game, reloads the original scene, removing anything added. This could be used as a reset from VP with F3.
 	/// </summary>
-	public void OnGameEnded()
-	{		
-		GetNode("Modes/Game").QueueFree();
-		GetTree().ReloadCurrentScene();		
+	public async void OnGameEnded()
+	{
+		await Task.Run(() =>
+		{
+			GetNode("Modes/Game").QueueFree();
+			CallDeferred(nameof(Reload));
+		});
 	}
+
+	void Reload() => GetTree().ReloadCurrentScene();
 
 	void OnGameStarted()
 	{
 		StartGame();		
-		GameGlobals.BallInPlay = 1;
-
+		PinGodGame.BallInPlay = 1;
 		//pulse ball from trough
-		gameGlobal.StartNewBall();
+		pinGod.StartNewBall();
 	}
 
 	void OnServiceMenuExit()
 	{
-		GetTree().ReloadCurrentScene();
+		CallDeferred(nameof(Reload));
 		InServiceMenu = false;
 	}
 
@@ -74,61 +87,55 @@ public class MainScene : Node2D
 		if (@event.IsActionPressed("pause"))
 		{
 			Print("pause");
-			gameGlobal.SetGamePaused();
+			pinGod.SetGamePaused();
 			pauseLayer.Show();
 			GetTree().Paused = true;
 		}
 		else if (@event.IsActionReleased("pause"))
 		{
 			Print("resume");
-			gameGlobal.SetGameResumed();
+			pinGod.SetGameResumed();
 			pauseLayer.Hide();
 			GetTree().Paused = false;
 		}
 
-
-		if (@event.IsActionPressed("sw" + Trough.TroughSwitches[Trough.TroughSwitches.Length - 1]))
-		{
-			Print("ememe");
-		}
-
-
-		if (!GameGlobals.IsTilted)
-		{
-			//enter service menu
-			if (@event.IsActionPressed("sw7"))
+		if (!pinGod.IsTilted)
+		{            			
+			if (pinGod.SwitchOn("enter", @event))
 			{
 				if (!InServiceMenu)
-				{					
-					Print("sw:Enter");
+				{
+					//enter service menu					
 					InServiceMenu = true;
 
-					if (GameGlobals.GameInPlay)
-						GetNode("Modes/Game")?.QueueFree();
-					else
-						GetNode("Modes/Attract")?.Free();
+					Task.Run(() =>
+					{
+						if (pinGod.GameInPlay)
+							GetNode("Modes/Game")?.QueueFree();
+						else
+							GetNode("Modes/Attract")?.Free();
 
-					//load service menu into modes
-					_loaded(ServiceMenu);
-					gameGlobal.EmitSignal("ServiceMenuEnter");
+						//load service menu into modes
+						CallDeferred("_loaded", ServiceMenu);
+
+						pinGod.EmitSignal("ServiceMenuEnter");
+					});
 				}				
 			}
 		}
 	}
 
-	static bool IsSceneLoading = false;
+	Mutex m = new Mutex();
 
 	/// <summary>
-	/// Runs a new task to load a scene and poll until finished. Display freezes in VP without this if scenes are med/large <para/>
+	/// Probably best to use <see cref="LoadSceneMode(string)"/> Runs a new task to load a scene and poll until finished. Display freezes in VP without this if scenes are med/large <para/>
 	/// <see cref="_loaded(PackedScene)"/>, this will be added a child to the Modes node
 	/// </summary>
-	private void LoadSceneMode(string resourcePath)
+	private void LoadSceneModeInteractive(string resourcePath)
 	{
-		if (IsSceneLoading) return;
-
 		Task.Run(() =>
 		{
-			IsSceneLoading = true;
+			m.Lock();
 			var ril = ResourceLoader.LoadInteractive(resourcePath);
 			PackedScene res; //the resource to return after finished loading
 			Print("loading-" + resourcePath);
@@ -142,16 +149,33 @@ public class MainScene : Node2D
 					break;
 				}
 			}
-
+			
 			CallDeferred("_loaded", res);
+
+			m.Unlock();
+		});
+	}
+
+	/// <summary>
+	/// Runs a new task to load a scene and poll until finished. Display freezes in VP without this if scenes are med/large <para/>
+	/// <see cref="_loaded(PackedScene)"/>, this will be added a child to the Modes node
+	/// </summary>
+	private async void LoadSceneMode(string resourcePath)
+	{
+		await Task.Run(() =>
+		{
+			m.Lock();
+			//the resource to return after finished loading
+			var res = ResourceLoader.Load(resourcePath) as PackedScene;
+			CallDeferred("_loaded", res);
+			m.Unlock();
 		});
 	}
 
 	void _loaded(PackedScene packedScene)
 	{
 		Print("resource loaded");
-		var instance = packedScene.Instance();
-		GetNode("Modes").AddChild(instance);
-		IsSceneLoading = false;
+		GetNode("Modes").AddChild(packedScene.Instance());
+		Print("added packed scene to Modes");
 	}
 }
