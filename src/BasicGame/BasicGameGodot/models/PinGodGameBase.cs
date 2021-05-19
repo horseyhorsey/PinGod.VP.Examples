@@ -10,7 +10,9 @@ public abstract class PinGodGameBase : Node
 	const string GAME_SETTINGS_FILE = "user://settings.save";
 
 	#region Signals
-	[Signal] public delegate void BallEnded();
+	[Signal] public delegate void BallEnded(bool lastBall);
+	[Signal] public delegate void BallSearchReset();
+	[Signal] public delegate void BallSearchStop();
 	[Signal] public delegate void BallStarted();
 	[Signal] public delegate void BonusEnded();
 	[Signal] public delegate void CreditAdded();
@@ -20,6 +22,8 @@ public abstract class PinGodGameBase : Node
 	[Signal] public delegate void GameStarted();
 	[Signal] public delegate void GameTilted();
 	[Signal] public delegate void PlayerAdded();
+	[Signal] public delegate void ModeTimedOut(string title);
+	[Signal] public delegate void MultiballStarted();
 	[Signal] public delegate void ServiceMenuEnter();
 	[Signal] public delegate void ServiceMenuExit();
 	[Signal] public delegate void ScoresUpdated();
@@ -27,22 +31,15 @@ public abstract class PinGodGameBase : Node
 	#endregion
 
 	#region Public Properties - Standard Pinball / Players
-	public Dictionary<string, byte> Lamps { get; private set; }
-	public const byte CreditButtonNum = 2;
-	public const byte FlippersEnableCoil = 2;
-	public const byte SlamTiltSwitch = 16;
-	public const byte StartSwitchNum = 19;	
-	public const byte TiltSwitchNum = 17;
-	public const byte TroughSolenoid = 1;
-	public static bool GameInPlay { get; set; }
-	public static bool InBonusMode = false;
-	public static bool IsTilted { get; set; }
-	public static byte BallInPlay { get; set; }	
-	public static byte Credits { get; set; }
+	public bool GameInPlay { get; set; }
+	public bool InBonusMode = false;
+	public bool IsMultiballRunning = false;
+	public bool IsTilted { get; set; }
+	public static byte BallInPlay { get; set; }
 	public static byte CurrentPlayerIndex { get; set; }
 	public static byte FlippersEnabled = 0;
 	public static byte MaxPlayers = 4;
-
+	public static bool LogSwitchEvents = true;
 	private uint gameLoadTimeMsec;
 	private uint gameStartTime;
 	private uint gameEndTime;
@@ -52,13 +49,11 @@ public abstract class PinGodGameBase : Node
 	public static PinGodPlayer Player { get; set; }
 	public static GameData GameData { get; private set; }
 	public static GameSettings GameSettings { get; private set; }
-
-	#endregion
+#endregion
 
 	public PinGodGameBase()
 	{
 		Players = new List<PinGodPlayer>();
-		Lamps = new Dictionary<string, byte>();		
 
 		GameSettings = new GameSettings();
 		LoadGameSettings();
@@ -106,13 +101,32 @@ public abstract class PinGodGameBase : Node
 		}
 	}
 
+	public virtual void BallSearchSignals(BallSearchSignalOption searchResetOption = BallSearchSignalOption.None)
+	{
+		Print("signals", searchResetOption.ToString());
+		switch (searchResetOption)
+		{
+			case BallSearchSignalOption.On:
+			case BallSearchSignalOption.None:
+				break;
+			case BallSearchSignalOption.Reset:
+				EmitSignal(nameof(BallSearchReset));
+				break;
+			case BallSearchSignalOption.Off:
+				EmitSignal(nameof(BallSearchStop));
+				break;
+			default:
+				break;
+		}
+	}
+
 	/// <summary>
 	/// Disables all lamps in <see cref="Lamps"/> <para/>
 	/// TODO: Change so we can send array of lamp nums in one hit over address.
 	/// </summary>
 	public virtual void DisableAllLamps()
 	{
-		foreach (var lamp in Lamps)
+		foreach (var lamp in Machine.Lamps)
 		{
 			OscService.SetLampState(lamp.Value, 0);
 		}
@@ -121,7 +135,7 @@ public abstract class PinGodGameBase : Node
 	public virtual void EnableFlippers(byte enabled)
 	{
 		FlippersEnabled = enabled;
-		OscService.SetCoilState(FlippersEnableCoil, enabled);
+		this.SolenoidOn("flippers", enabled);
 	}
 
 	/// <summary>
@@ -131,9 +145,11 @@ public abstract class PinGodGameBase : Node
 	/// <returns>True if all balls finished, game is finished</returns>
 	public virtual bool EndBall()
 	{
+		if (!GameInPlay) return false;
+
 		EnableFlippers(0);
 
-		if (GameInPlay && Players.Count > 0)
+		if (Players.Count > 0)
 		{
 			Print("end of ball. current ball:" + BallInPlay);
 			if (Players.Count > 1)
@@ -156,13 +172,14 @@ public abstract class PinGodGameBase : Node
 			if (BallInPlay > GameSettings.BallsPerGame)
 			{
 				//signal that ball has ended
-				this.EmitSignal(nameof(BallEnded));
+				
+				this.EmitSignal(nameof(BallEnded), true);
 				return true;
 			}
 			else
 			{
 				//signal that ball has ended
-				this.EmitSignal(nameof(BallEnded));
+				this.EmitSignal(nameof(BallEnded), false);
 			}
 		}
 
@@ -176,7 +193,7 @@ public abstract class PinGodGameBase : Node
 	{
 		GameInPlay = false;
 		GameData.GamesFinished++;
-		ResetTilt();		
+		ResetTilt();
 		gameEndTime = OS.GetTicksMsec();
 		GameData.TimePlayed = gameEndTime - gameStartTime;
 		this.EmitSignal(nameof(GameEnded));
@@ -219,11 +236,13 @@ public abstract class PinGodGameBase : Node
 			return false;
 		}
 
-		if (!GameInPlay && GameGlobals.GameData.Credits > 0) //first player start game
+		if (!GameInPlay && PinGodGame.GameData.Credits > 0) //first player start game
 		{
+			Print("starting game, checking trough...");
 			if (!Trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
 			{
 				Print("Trough not ready. Can't start game with empty trough.");
+				EmitSignal(nameof(BallSearchReset));
 				return false;
 			}
 
@@ -239,7 +258,7 @@ public abstract class PinGodGameBase : Node
 			GameData.GamesStarted++;
 			gameStartTime = OS.GetTicksMsec();
 			EmitSignal(nameof(PlayerAdded));
-			EmitSignal(nameof(GameStarted));			
+			EmitSignal(nameof(GameStarted));
 			return true;
 		}
 		//game started already, add more players until max
@@ -264,9 +283,149 @@ public abstract class PinGodGameBase : Node
 		ResetTilt();
 		Player = Players[CurrentPlayerIndex];
 		EnableFlippers(1);
-		OscService.PulseCoilState(TroughSolenoid);
+		SolenoidPulse("trough", 100);
 		EmitSignal(nameof(BallStarted));
 	}
+
+	/// <summary>
+	/// Sets MultiBall running to send a <see cref="MultiballStarted"/>
+	/// </summary>
+	/// <param name="numOfBalls"></param>
+	/// <param name="ballSaveTime"></param>
+	public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime)
+	{		
+		Trough.BallSaveMultiballSeconds = ballSaveTime;
+		Trough.NumOfBallToSave = numOfBalls;
+		IsMultiballRunning = true;
+		EmitSignal(nameof(MultiballStarted));
+	}
+
+	public virtual void SolenoidOn(string name, int state) { OscService.SetCoilState(Machine.Coils[name], state) ; }
+
+	public virtual void SolenoidPulse(string name, byte pulse = 125) { OscService.PulseCoilState(Machine.Coils[name], pulse); }
+
+	/// <summary>
+	/// Use in Godot _Input events. Checks a switches input event by friendly name from switch collection <para/>
+	/// "coin", @event
+	/// </summary>
+	/// <param name="swName"></param>
+	/// <param name="inputEvent"></param>
+	/// <returns></returns>
+	public virtual bool SwitchOn(string swName, InputEvent inputEvent)
+	{		
+		if (Machine.Switches.ContainsKey(swName))
+		{
+			var result = Machine.Switches[swName].IsOn(inputEvent);
+			if (LogSwitchEvents && result) Print("swOn:" + swName);
+			return result;
+		}
+
+		PrintErr("no switch found in dict for", swName);
+		return false;
+	}
+
+	/// <summary>
+	/// Checks a switches input event by friendly name. <para/>
+	/// If the "coin" switch is still held down then will return true
+	/// </summary>
+	/// <param name="swName"></param>
+	/// <returns>on / off</returns>
+	public virtual bool SwitchOn(string swName)
+	{		
+		if (Machine.Switches.ContainsKey(swName)) 
+		{
+			return Machine.Switches[swName].IsOn(); 
+		}
+
+		PrintErr("no switch found in dict for", swName);
+		return false;
+	}
+
+	/// <summary>
+	/// Wrapper for the Input.IsActionPressed. Checks actions prefixed with "sw"
+	/// </summary>
+	/// <param name="sw"></param>
+	/// <param name="event"></param>
+	/// <param name="resetOption">Sends a BallSearch signal</param>
+	/// <returns></returns>
+	public virtual bool SwitchOn(byte sw, InputEvent @event, BallSearchSignalOption resetOption = BallSearchSignalOption.None)
+	{
+		var pressed = @event.IsActionPressed("sw" + sw);
+		if (pressed)
+		{
+			if (LogSwitchEvents) Print("swOn:" + sw);
+			if (SwitchOn("plunger_lane"))
+			{
+				BallSearchSignals(resetOption);
+			}
+		}
+		return pressed;
+	}
+
+	/// <summary>
+	/// Is the switch you're checking a trough switch? <see cref="Trough.TroughSwitches"/>
+	/// </summary>
+	/// <param name="input"></param>
+	/// <returns>The number of the trough switch. 0 not found</returns>
+	public virtual byte IsTroughSwitch(InputEvent input)
+    {
+        for (int i = 0; i < Trough.TroughSwitches.Length; i++)
+        {
+            if (input.IsActionPressed("sw"+ Trough.TroughSwitches[i]))
+            {
+				return Trough.TroughSwitches[i];
+            }
+        }
+		return 0;
+    }
+
+	/// <summary>
+	/// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
+	/// "coin", @event
+	/// </summary>
+	/// <param name="swName"></param>
+	/// <param name="inputEvent"></param>
+	/// <returns></returns>
+	public virtual bool SwitchOff(string swName, InputEvent inputEvent)
+	{
+		if (Machine.Switches.ContainsKey(swName)) 
+		{
+			var result = Machine.Switches[swName].IsOff(inputEvent);
+			if(LogSwitchEvents && result)
+			{
+				Print("swOff:" + swName);
+			}
+			return result; 
+		}
+
+		PrintErr("no switch found in dict for", swName);
+		return false;
+	}
+
+	/// <summary>
+	/// Wrapper for the Input.IsActionReleased
+	/// </summary>
+	/// <param name="sw"></param>
+	/// <param name="event"></param>
+	/// <param name="resetOption">Sends a BallSearch signal</param>
+	/// <returns></returns>
+	public virtual bool SwitchOff(byte sw, InputEvent @event, BallSearchSignalOption resetOption = BallSearchSignalOption.None)
+	{
+		var pressed = @event.IsActionReleased("sw" + sw);
+		if (pressed)
+		{
+			if (SwitchOn("plunger_lane"))
+			{
+				if (LogSwitchEvents)
+				{
+					Print("swOff:" + sw);
+				}
+				BallSearchSignals(resetOption);
+			}
+		}
+		return pressed;
+	}
+
 	#endregion
 
 	#region Private Methods
@@ -337,4 +496,12 @@ public abstract class PinGodGameBase : Node
 		Print("saved game settings");
 	}
 	#endregion
+}
+
+public enum BallSearchSignalOption
+{
+	None,
+	Reset,
+	Off,
+	On
 }
