@@ -36,7 +36,7 @@ public abstract class PinGodGameBase : Node
 	public static byte CurrentPlayerIndex { get; set; }
 	public static byte FlippersEnabled = 0;
 	public static byte MaxPlayers = 4;
-	public static bool LogSwitchEvents = true;
+	public static bool LogSwitchEvents = false;
 	private uint gameLoadTimeMsec;
 	private uint gameStartTime;
 	private uint gameEndTime;

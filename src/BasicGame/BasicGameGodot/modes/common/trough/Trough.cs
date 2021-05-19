@@ -1,4 +1,5 @@
 using Godot;
+using System.Threading.Tasks;
 using static Godot.GD;
 
 /// <summary>
@@ -58,6 +59,11 @@ public class Trough : Node
 
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		pinGod.Connect("MultiballStarted", this, "OnMultiballStarted");
+
+		//MAKE SURE TO CONNECT TIMERS AFTER ADDING A CHILD. THE ERROR YOU GET BACK MAKES NO SENSE -- **ERROR**: FATAL: Index p_index = 11 is out of bounds
+		troughPulseTimer = new Timer() { OneShot = false, Autostart = false, WaitTime = 1, Name = "TroughPulseTimer" };
+		AddChild(troughPulseTimer);
+		troughPulseTimer.Connect("timeout", this, "_trough_pulse_timeout");		
 
 		Print("trough:loaded");
 	}
@@ -153,17 +159,21 @@ public class Trough : Node
 		return cnt;
 	}
 
-	public void OnMultiballStarted()
-	{		
-		BallSaveActive = true;
-		OscService.SetLampState(Machine.Lamps["shoot_again"], 2);
-		ballSaverTimer.Start(BallSaveMultiballSeconds);
-		Print("trough: mball started, save time:", BallSaveMultiballSeconds);
+	public async void OnMultiballStarted()
+	{
+		await Task.Run(() =>
+		{
+			BallSaveActive = true;
+			OscService.SetLampState(Machine.Lamps["shoot_again"], 2);
+			ballSaverTimer.Start(BallSaveMultiballSeconds);
+			Print("trough: mball started, save time:", BallSaveMultiballSeconds);
 
-		troughPulseTimer = new Timer() { OneShot = false, Autostart = true, WaitTime = 1, Name = "TroughPulseTimer" };
-		troughPulseTimer.Connect("timeout", this, "_trough_pulse_timeout");
-		AddChild(troughPulseTimer);		
+			//let balls go all time in a multiball
+			CallDeferred("_startMballTrough");
+		});
 	}
+
+	void _startMballTrough() => troughPulseTimer.Start(1);
 
 	void _trough_pulse_timeout()
 	{
@@ -171,7 +181,7 @@ public class Trough : Node
 		{
 			if (BallsInTrough() < NumOfBallToSave)
 			{
-				pinGod.SolenoidPulse("trough", 125);
+				pinGod.SolenoidPulse("trough", 225);
 			}
 		}
 
@@ -180,8 +190,7 @@ public class Trough : Node
 		if(BallSaveMultiballSeconds < 1)
 		{			
 			troughPulseTimer.Stop();
-			RemoveChild(troughPulseTimer);
-			Print("trough: ended mball trough pulse");
+			Print("trough: ended mball trough pulse timer");
 			DisableBallSave();
 		}
 	}
@@ -221,7 +230,6 @@ public class Trough : Node
 	/// </summary>
 	private void _timeout()
 	{
-
 		DisableBallSave();
 		EmitSignal(nameof(BallSaveEnded));
 	}

@@ -23,13 +23,21 @@ public class BallSave : Control
 	/// </summary>
 	void OnBallSaved()
 	{
-		Print("ballsave: ball_saved");
-		this.Visible = true;
+		//Check if 3 balls
+		if(Trough.BallsInTrough() == Trough.TroughSwitches.Length-1)
+        {
+			Print("ballsave: ball_saved");
+			this.Visible = true;
 
-		if (!timer.IsStopped())
-			timer.Stop();
+			if (!timer.IsStopped())
+				timer.Stop();
 
-		timer.Start();
+			timer.Start();
+		}
+        else
+        {
+			Print("skipping save display in multiball");
+        }
 	}
 
 	void _on_Timer_timeout() => this.Visible = false;

@@ -70,17 +70,14 @@ public class Game : Node2D
 				}
 			}
 
-			Print("game: trough-", troughSwitch);
 			if (pinGod.IsMultiballRunning && !Trough.BallSaveActive)
 			{
-				Print("mball: trough ", troughSwitch);
 				//this was the last ball in multiball
 				if(Trough.BallsInTrough() == 3)
 				{
 					EndMultiball();
 				}
 			}
-
 		}
 
 		if (!pinGod.GameInPlay) return;
@@ -129,7 +126,8 @@ public class Game : Node2D
 			AddPoints(150);
 			if (!pinGod.IsMultiballRunning)
 			{
-				AddMultiballSceneToTree();
+				pinGod.IsMultiballRunning = true;
+				CallDeferred("AddMultiballSceneToTree");
 			}
 			pinGod.SolenoidPulse("mball_saucer");
 		}
@@ -143,17 +141,14 @@ public class Game : Node2D
 
 	void AddMultiballSceneToTree()
 	{
-		Task.Run(() =>
-		{
-			//create an mball instance from the packed scene
-			var mball = multiballPkd.Instance();
-			//add to multiball group
-			mball.AddToGroup("multiball");
-			//add to the tree
-			GetNode("CanvasLayer").AddChild(mball);
+		//create an mball instance from the packed scene
+		var mball = multiballPkd.Instance();
+		//add to multiball group
+		mball.AddToGroup("multiball");
+		//add to the tree
+		GetNode("CanvasLayer").AddChild(mball);
 
-			CallDeferred("PlayShow", 1);
-		});        
+		CallDeferred("PlayShow", 1);
 	}
 
 	//play a lampshow (VP LightSeq)
