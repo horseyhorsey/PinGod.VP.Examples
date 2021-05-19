@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using static Godot.GD;
 
 /// <summary>
@@ -19,14 +18,10 @@ public class Trough : Node
 	/// </summary>
 	[Signal] public delegate void BallSaved();
 	[Signal] public delegate void BallSaveStarted();
-	[Signal] public delegate void BallSaveEnded(); 
+	[Signal] public delegate void BallSaveEnded();
 	#endregion
 
 	#region Public Static
-	/// <summary>
-	/// Lamp number to blink when ball save is active
-	/// </summary>
-	public static byte BallSaveLamp { get; private set; } = 1;
 	/// <summary>
 	/// Is ball save active
 	/// </summary>
@@ -35,20 +30,22 @@ public class Trough : Node
 	/// Ball save time
 	/// </summary>
 	public static int BallSaveSeconds { get; set; } = 8;
+	public static int BallSaveMultiballSeconds { get; set; }
+
+	public static byte NumOfBallToSave { get; set; } = 1;
+
 	/// <summary>
 	/// Array of switches for a pinball trough. Used to check if full before starting game
 	/// </summary>
-	public static readonly byte[] TroughSwitches = new byte[4] { 81, 82, 83, 84 }; 
+	public static readonly byte[] TroughSwitches = new byte[4] { 81, 82, 83, 84 };
 	#endregion
 
-	/// <summary>
-	/// The switch to check when released to activate ball saves
-	/// </summary>
-	static byte PlungerLaneSwitch = 20;
 	/// <summary>
 	/// Ball saver timer. Setup in <see cref="_Ready"/>
 	/// </summary>
 	private Timer ballSaverTimer;
+	private PinGodGame pinGod;
+	private Timer troughPulseTimer;
 
 	/// <summary>
 	/// init <see cref="ballSaverTimer"/> and connect to <see cref="_timeout"/> to fire when finished.
@@ -59,8 +56,8 @@ public class Trough : Node
 		AddChild(ballSaverTimer);
 		ballSaverTimer.Connect("timeout", this, "_timeout");
 
-		var globals = GetNode("/root/GameGlobals") as GameGlobals;
-		globals.Connect("GameTilted", this, "OnGameTilted");
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod.Connect("MultiballStarted", this, "OnMultiballStarted");
 
 		Print("trough:loaded");
 	}
@@ -72,37 +69,47 @@ public class Trough : Node
 	public override void _Input(InputEvent @event)
 	{
 		//Check the last switch in the Trough Switches array
-		if (@event.IsActionPressed("sw" + TroughSwitches[TroughSwitches.Length - 1]))
+		if (!pinGod.IsMultiballRunning && pinGod.SwitchOn("trough_4", @event))
 		{
-			Print("trough: last switch");
 			//Put the ball back into play if BallSaveActive
-			if (IsTroughFull() && GameGlobals.GameInPlay)
+			if (IsTroughFull() && pinGod.GameInPlay)
 			{
+				Print("trough: is full");
 				if (BallSaveActive)
 				{
 					Print("trough:ball_saved");
+					pinGod.SolenoidPulse("trough");
 					EmitSignal("BallSaved");
-					OscService.PulseCoilState(GameGlobals.TroughSolenoid);
 				}
 			}
 		}
 
-		if (@event.IsActionPressed($"sw{PlungerLaneSwitch}"))
+		if (BallSaveActive)
 		{
-			Print("trough:entered plunger lane");
+			if (pinGod.SwitchOn("outlane_l", @event) || pinGod.SwitchOn("outlane_r", @event))
+			{
+				FireEarlySave();
+			}
 		}
-		else if (@event.IsActionReleased($"sw{PlungerLaneSwitch}"))
+
+		//when the ball is in the plunger lane stop any ball search running
+		if (pinGod.SwitchOn("plunger_lane", @event))
 		{
-			if (GameGlobals.GameInPlay && !GameGlobals.IsTilted)
+		}
+		//reset the ball search when leaving the switch
+		else if (pinGod.SwitchOff("plunger_lane", @event))
+		{
+			//start a ball saver if game in play
+			if (pinGod.GameInPlay && !pinGod.IsTilted && !pinGod.IsMultiballRunning)
 			{
 				var saveStarted = StartBallSaver();
 				if (saveStarted)
 					EmitSignal(nameof(BallSaveStarted));
 
-				Print($"trough:left plunger lane: Ball save started? {saveStarted}");
+				Print($"trough: ball_save_started? {saveStarted}");
 			}
 		}
-	}
+	}	
 
 	/// <summary>
 	/// Trough switches to check is full
@@ -112,13 +119,66 @@ public class Trough : Node
 		if (_isDebugTrough)
 			return true;
 
+		var isFull = true;
 		for (int i = 0; i < TroughSwitches.Length; i++)
 		{
-			if(!Input.IsActionPressed("sw"+TroughSwitches[i]))
-				return false;
+			if (!Input.IsActionPressed("sw" + TroughSwitches[i]))
+			{
+				isFull = false;
+				break;
+			}
 		}
-		
-		return true;
+		return isFull;
+	}
+
+	/// <summary>
+	/// Counts the number of trough switches currently active
+	/// </summary>
+	/// <returns></returns>
+	public static int BallsInTrough()
+	{
+		var cnt = 0;
+		for (int i = 0; i < TroughSwitches.Length; i++)
+		{
+			if (Input.IsActionPressed("sw" + TroughSwitches[i]))
+			{
+				cnt++;
+			}
+		}
+		return cnt;
+	}
+
+	public void OnMultiballStarted()
+	{		
+		BallSaveActive = true;
+		OscService.SetLampState(Machine.Lamps["shoot_again"], 2);
+		ballSaverTimer.Start(BallSaveMultiballSeconds);
+		Print("trough: mball started, save time:", BallSaveMultiballSeconds);
+
+		troughPulseTimer = new Timer() { OneShot = false, Autostart = true, WaitTime = 1, Name = "TroughPulseTimer" };
+		troughPulseTimer.Connect("timeout", this, "_trough_pulse_timeout");
+		AddChild(troughPulseTimer);		
+	}
+
+	void _trough_pulse_timeout()
+	{
+		if (!Machine.Switches["plunger_lane"].IsOn())
+		{
+			if (BallsInTrough() < NumOfBallToSave)
+			{
+				pinGod.SolenoidPulse("trough", 125);
+			}
+		}
+
+		BallSaveMultiballSeconds--;
+		Print("mball sec remain", BallSaveMultiballSeconds);
+		if(BallSaveMultiballSeconds < 1)
+		{			
+			troughPulseTimer.Stop();
+			RemoveChild(troughPulseTimer);
+			Print("trough: ended mball trough pulse");
+			DisableBallSave();
+		}
 	}
 
 	/// <summary>
@@ -130,27 +190,25 @@ public class Trough : Node
 		if (!BallSaveActive)
 		{
 			BallSaveActive = true;
-			OscService.SetLampState(BallSaveLamp, 2);
+			//set to blinking for visual pinball
+			OscService.SetLampState(Machine.Lamps["shoot_again"], 2);
 			ballSaverTimer.Start(BallSaveSeconds);
 		}
 
 		return BallSaveActive;
 	}
 
-	/// <summary>
-	/// Handler for <see cref="GameGlobals.GameTilted"/> to disable any ball saves
-	/// </summary>
-	public void OnGameTilted()
-	{
-		Print("trough:game_tilted");
-		GameGlobals.GameData.Tilted++;
-		DisableBallSave();
-	}
-
-	public static void DisableBallSave()
+	public void DisableBallSave()
 	{
 		BallSaveActive = false;
-		OscService.SetLampState(BallSaveLamp, 0);
+		OscService.SetLampState(Machine.Lamps["shoot_again"], 0);
+	}
+
+	private void FireEarlySave()
+	{
+		Print("trough:early ball_saved");
+		pinGod.SolenoidPulse("trough");
+		EmitSignal("BallSaved");
 	}
 
 	/// <summary>
@@ -158,6 +216,7 @@ public class Trough : Node
 	/// </summary>
 	private void _timeout()
 	{
+
 		DisableBallSave();
 		EmitSignal(nameof(BallSaveEnded));
 	}
