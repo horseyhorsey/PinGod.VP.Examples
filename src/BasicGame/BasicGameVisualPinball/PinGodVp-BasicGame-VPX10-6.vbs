@@ -29,7 +29,7 @@ Const UseSolenoids = 1 ' Check for solenoid states?
 Const UseLamps = True  ' Check for lamp states?
 'Const UsePdbLeds = False  ' PROC RGB Leds - TODO
 
-Dim bsTrough
+Dim bsTrough, bsSaucer, swSaucer : swSaucer = 27
 
 Sub Table1_Init	
 	With Controller
@@ -41,6 +41,8 @@ Sub Table1_Init
 		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
 		.DisplayLowDpi 		= False
 		.DisplayNoWindow 	= False
+		.CoilCount			= 64
+		.LampCount			= 64
 	On Error Resume Next
 		if isDebug Then '
 			.RunDebug GetPlayerHWnd, GameDirectory ' Load game from Godot folder with Godot exe
@@ -88,8 +90,13 @@ Sub InitGame
 	bsTrough.InitExitSounds "BallRelease", ""
 	bsTrough.Reset		
 
-    ' ### Nudging ###
-    vpmNudge.TiltSwitch = swTilt 'was 14 nFozzy
+	Set bsSaucer = New cvpmSaucer
+	bsSaucer.InitKicker Kicker001, swSaucer, 165, 10, 0
+	bsSaucer.CreateEvents "bsSaucer", Kicker001
+	'bsSaucer.InitSounds "sp76-kick-enter", "", "sp76-kick-exit"
+
+'    ' ### Nudging ###
+    vpmNudge.TiltSwitch = swTilt
     vpmNudge.Sensitivity = 0.8
 	vpmNudge.TiltObj = Array(LSling,RSling)
 
@@ -109,8 +116,37 @@ Sub LeftFlipper_Timer
 End Sub
 
 ' Solenoids / Coils
+SolCallback(0) = "Died"
 SolCallback(1) = "bsTrough.solOut"
 SolCallback(2) = "FlippersEnabled"
+SolCallback(3) = "bsSaucer.solOut"
+
+' Lampshows
+SolCallback(33) = "DisableLampShows"
+SolCallback(34) = "Lampshow1"
+SolCallback(35) = "Lampshow2"
+
+Sub Lampshow1(Enabled)
+	if Enabled then : LightSeq001.StopPlay : LightSeq001.Play SeqUpOff, 10, 2 : Debug.print "lampshow1"	
+End Sub
+
+Sub Lampshow2(Enabled)		
+	if Enabled then : LightSeq001.StopPlay : LightSeq001.Play SeqDownOff, 10, 2 : Debug.print "lampshow2"	
+End Sub
+
+Sub DisableLampShows(Enabled)		
+	if Enabled then : LightSeq001.StopPlay : Debug.print "stopping lampshows"	
+End Sub
+
+Sub Died(Enabled)
+	on error resume next
+	if enabled then Err.Raise 5
+	if( Err.number = 5 ) then 
+		MsgBox "Game window unavailable."
+		Err.clear()
+	end if
+	on error goto 0
+End Sub
 
 Sub Table1_KeyDown(ByVal keycode)
 
