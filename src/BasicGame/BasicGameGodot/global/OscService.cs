@@ -19,6 +19,7 @@ public class OscService : Node
 
     public int SendPort { get; set; } = 9001;
 	public int ReceivePort { get; set; } = 9000;
+	public bool LogActions { get; set; } = false;
 
 	public static uint GameStartTime { get; private set; }
 
@@ -57,7 +58,7 @@ public class OscService : Node
 					{
 						bool actionState = (bool)Convert(message[1], Variant.Type.Bool);
 						var ev = new InputEventAction() { Action = message[0].ToString(), Pressed = actionState};
-						Print($"in:{ev.Action}-state:{ev.Pressed}");
+						if (LogActions) { Print($"in:{ev.Action}-state:{ev.Pressed}"); }
 
                         if (RecordGame)
                         {
@@ -95,6 +96,7 @@ public class OscService : Node
 		Print("exiting osc service");
 		if (oscTask.Status == TaskStatus.Running)
 		{
+			SetCoilState(0, 1); //send game ended to VP via a coil. User could close this window first.
 			_tokenSource.Cancel();
 		}
 		Print("exited OSC service");
@@ -167,7 +169,7 @@ public class OscService : Node
 		Task.Run(() =>
 		{
 			sender.Send(new OscMessage("/coils", coilId, 1));
-			sender.WaitForAllMessagesToComplete();
+			//sender.WaitForAllMessagesToComplete();
 			Task.Delay(pulseTime).Wait();
 			sender.Send(new OscMessage("/coils", coilId, 0));
 		});
