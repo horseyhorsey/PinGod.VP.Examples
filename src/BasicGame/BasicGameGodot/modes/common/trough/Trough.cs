@@ -75,7 +75,7 @@ public class Trough : Node
 			if (IsTroughFull() && pinGod.GameInPlay)
 			{
 				Print("trough: is full");
-				if (BallSaveActive)
+				if (BallSaveActive && !pinGod.IsTilted)
 				{
 					Print("trough:ball_saved");
 					pinGod.SolenoidPulse("trough");
@@ -84,7 +84,7 @@ public class Trough : Node
 			}
 		}
 
-		if (BallSaveActive)
+		if (BallSaveActive && !pinGod.IsTilted)
 		{
 			if (pinGod.SwitchOn("outlane_l", @event) || pinGod.SwitchOn("outlane_r", @event))
 			{

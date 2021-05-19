@@ -368,16 +368,16 @@ public abstract class PinGodGameBase : Node
 	/// <param name="input"></param>
 	/// <returns>The number of the trough switch. 0 not found</returns>
 	public virtual byte IsTroughSwitch(InputEvent input)
-    {
-        for (int i = 0; i < Trough.TroughSwitches.Length; i++)
-        {
-            if (input.IsActionPressed("sw"+ Trough.TroughSwitches[i]))
-            {
+	{
+		for (int i = 0; i < Trough.TroughSwitches.Length; i++)
+		{
+			if (input.IsActionPressed("sw"+ Trough.TroughSwitches[i]))
+			{
 				return Trough.TroughSwitches[i];
-            }
-        }
+			}
+		}
 		return 0;
-    }
+	}
 
 	/// <summary>
 	/// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
