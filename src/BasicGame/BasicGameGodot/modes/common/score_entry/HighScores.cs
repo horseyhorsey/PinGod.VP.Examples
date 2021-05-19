@@ -1,15 +1,14 @@
 using Godot;
-using System;
 using System.Linq;
 
 public class HighScores : Control
 {
+	/// <summary>
+	/// Gets the top high scores from the <see cref="PinGodGame.GameData.HighScores"/> and sets the label
+	/// </summary>
 	public override void _Ready()
-	{
-		//Print("attract: starting game");
-		//(GetNode("/root/GameGlobals") as GameGlobals);
-		var scores = string.Join("\n\r", GameGlobals.GameData.HighScores.Select(x => $"{x.Name} - {x.Scores}"));
-		(GetNode("VBoxContainer/Label") as Label).Text = scores;
+	{		
+		var scores = string.Join("\n\r", PinGodGame.GameData.HighScores.Select(x => $"{x.Name} - {x.Scores}"));
+		(GetNode("CenterContainer/VBoxContainer/Label") as Label).Text = scores;
 	}
-
 }

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://modes/common/score_mode/ScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://layers/Text/CreditsLayer.tscn" type="PackedScene" id=4]
 
 [node name="ScoreMode" type="Node2D"]
 script = ExtResource( 1 )
@@ -103,3 +104,5 @@ valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Credits" parent="CanvasLayer" instance=ExtResource( 4 )]

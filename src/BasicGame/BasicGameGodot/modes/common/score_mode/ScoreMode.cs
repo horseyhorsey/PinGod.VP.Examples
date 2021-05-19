@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 /// <summary>
 /// Simple score display mode for 4 players with ball information. Used in the <see cref="Game"/> Scene
@@ -27,12 +26,11 @@ public class ScoreMode : Node2D
 			ScoreLabels[i].Text = string.Empty;
 		}
 
-
 		//signals
-		GetNode("/root/GameGlobals").Connect("BallStarted", this, "OnScoresUpdated");
-		GetNode("/root/GameGlobals").Connect("GameStarted", this, "OnScoresUpdated");
-		GetNode("/root/GameGlobals").Connect("ScoresUpdated", this, "OnScoresUpdated");
-		GetNode("/root/GameGlobals").Connect("PlayerAdded", this, "OnScoresUpdated");
+		GetNode("/root/PinGodGame").Connect("BallStarted", this, "OnScoresUpdated");
+		GetNode("/root/PinGodGame").Connect("GameStarted", this, "OnScoresUpdated");
+		GetNode("/root/PinGodGame").Connect("ScoresUpdated", this, "OnScoresUpdated");
+		GetNode("/root/PinGodGame").Connect("PlayerAdded", this, "OnScoresUpdated");
 
 		//update current player and ball
 		OnScoresUpdated();
@@ -43,22 +41,22 @@ public class ScoreMode : Node2D
 	/// </summary>
 	void OnScoresUpdated()
 	{
-		if (GameGlobals.Players?.Count > 0)
+		if (PinGodGame.Players?.Count > 0)
 		{
 			//main score display
-			if (GameGlobals.Player.Points > -1 && currentScoreLabel != null)
+			if (PinGodGame.Player.Points > -1 && currentScoreLabel != null)
 			{
-				currentScoreLabel.Text = GameGlobals.Player.Points.ToString();
+				currentScoreLabel.Text = PinGodGame.Player.Points.ToString();
 			}
 			else
 			{
 				currentScoreLabel.Text = null;
 			}
 
-			if (GameGlobals.Players.Count > 1)
+			if (PinGodGame.Players.Count > 1)
 			{
 				int i = 0;
-				foreach (var player in GameGlobals.Players)
+				foreach (var player in PinGodGame.Players)
 				{
 					var lbl = ScoreLabels[i];
 					if (lbl != null)
@@ -76,9 +74,9 @@ public class ScoreMode : Node2D
 				}
 			}
 
-			ballInfolabel.Text = $"BALL: {GameGlobals.BallInPlay}";
+			ballInfolabel.Text = $"BALL: {PinGodGame.BallInPlay}";
 			//update current player and ball
-			playerInfoLabel.Text = $"PLAYER: {GameGlobals.CurrentPlayerIndex + 1}";
+			playerInfoLabel.Text = $"PLAYER: {PinGodGame.CurrentPlayerIndex + 1}";
 		}
 	}
 }

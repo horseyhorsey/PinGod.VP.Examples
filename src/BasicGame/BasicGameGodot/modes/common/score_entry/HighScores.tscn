@@ -5,25 +5,30 @@
 [ext_resource path="res://assets/fonts/Bebas64.tres" type="DynamicFont" id=3]
 
 [node name="HighScores" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -102.0
-margin_top = -51.0
-margin_right = 102.0
-margin_bottom = 51.0
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label2" type="Label" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 410.0
+margin_top = 249.0
+margin_right = 614.0
+margin_bottom = 351.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_right = 204.0
 margin_bottom = 65.0
 custom_fonts/font = ExtResource( 3 )
@@ -35,7 +40,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_top = 69.0
 margin_right = 204.0
 margin_bottom = 102.0

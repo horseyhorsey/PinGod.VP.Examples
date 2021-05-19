@@ -46,9 +46,6 @@ public class TextLayer : Control
 
 	public void SetText(string text)
 	{
-		if(textLabel != null)
-		{
-			textLabel.Text = text;
-		}
+		textLabel.Text = text;
 	}
 }

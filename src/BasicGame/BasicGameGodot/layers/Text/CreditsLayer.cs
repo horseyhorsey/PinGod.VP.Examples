@@ -9,13 +9,13 @@ public class CreditsLayer : Label
 	public override void _Ready()
 	{
 		//update when the credit changes, when added and players added
-		GetNode("/root/GameGlobals").Connect("CreditAdded", this, "OnCreditsUpdated");
-		GetNode("/root/GameGlobals").Connect("PlayerAdded", this, "OnCreditsUpdated");
+		GetNode("/root/PinGodGame").Connect("CreditAdded", this, "OnCreditsUpdated");
+		GetNode("/root/PinGodGame").Connect("PlayerAdded", this, "OnCreditsUpdated");
 		OnCreditsUpdated();		
 	}
 
 	private void OnCreditsUpdated()
 	{
-		this.Text = $"{GameGlobals.GameData.Credits} CREDITS";
+		this.Text = $"{PinGodGame.GameData.Credits} CREDITS";
 	}
 }
