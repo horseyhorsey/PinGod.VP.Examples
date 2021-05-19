@@ -36,7 +36,8 @@ public static class Machine
         {"died",            0},
         {"trough",          1},
         {"flippers",        2},
-        {"mball_saucer",    3}
+        {"auto_plunger",    3},
+        {"mball_saucer",    4},        
     };
 }
 

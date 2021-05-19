@@ -29,7 +29,7 @@ Const UseSolenoids = 1 ' Check for solenoid states?
 Const UseLamps = True  ' Check for lamp states?
 'Const UsePdbLeds = False  ' PROC RGB Leds - TODO
 
-Dim bsTrough, bsSaucer, swSaucer : swSaucer = 27
+Dim bsTrough, bsSaucer, plungerIM, swSaucer : swSaucer = 27
 
 Sub Table1_Init	
 	With Controller
@@ -90,6 +90,17 @@ Sub InitGame
 	bsTrough.InitExitSounds "BallRelease", ""
 	bsTrough.Reset		
 
+  ' Auto Plunger
+    Const IMPowerSetting = 50 ' Plunger Power
+    Const IMTime = 0.6        ' Time in seconds for Full Plunge
+    Set plungerIM = New cvpmImpulseP
+    With plungerIM
+        .InitImpulseP swplunger, IMPowerSetting, IMTime
+        .Random 0.3        
+        .CreateEvents "plungerIM"
+		'.InitExitSnd "plunger2", "plunger"
+    End With
+
 	Set bsSaucer = New cvpmSaucer
 	bsSaucer.InitKicker Kicker001, swSaucer, 165, 10, 0
 	bsSaucer.CreateEvents "bsSaucer", Kicker001
@@ -115,39 +126,9 @@ Sub LeftFlipper_Timer
 	InitGame
 End Sub
 
-' Solenoids / Coils
-SolCallback(0) = "Died"
-SolCallback(1) = "bsTrough.solOut"
-SolCallback(2) = "FlippersEnabled"
-SolCallback(3) = "bsSaucer.solOut"
-
-' Lampshows
-SolCallback(33) = "DisableLampShows"
-SolCallback(34) = "Lampshow1"
-SolCallback(35) = "Lampshow2"
-
-Sub Lampshow1(Enabled)
-	if Enabled then : LightSeq001.StopPlay : LightSeq001.Play SeqUpOff, 10, 2 : Debug.print "lampshow1"	
-End Sub
-
-Sub Lampshow2(Enabled)		
-	if Enabled then : LightSeq001.StopPlay : LightSeq001.Play SeqDownOff, 10, 2 : Debug.print "lampshow2"	
-End Sub
-
-Sub DisableLampShows(Enabled)		
-	if Enabled then : LightSeq001.StopPlay : Debug.print "stopping lampshows"	
-End Sub
-
-Sub Died(Enabled)
-	on error resume next
-	if enabled then Err.Raise 5
-	if( Err.number = 5 ) then 
-		MsgBox "Game window unavailable."
-		Err.clear()
-	end if
-	on error goto 0
-End Sub
-
+'****************************
+' Keyboard / Machine
+'****************************
 Sub Table1_KeyDown(ByVal keycode)
 
 	if Controller.GameRunning = 0 then Exit Sub 'exit because no display is available
@@ -165,28 +146,6 @@ Sub Table1_KeyDown(ByVal keycode)
 	If keycode = RightFlipperKey and FlippersOn Then
 		RightFlipper.RotateToEnd
 		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
-	End If
-
-    ' Manual Ball Control
-	If keycode = 46 Then	 				' C Key
-		If EnableBallControl = 1 Then
-			EnableBallControl = 0
-		Else
-			EnableBallControl = 1
-		End If
-	End If
-    If EnableBallControl = 1 Then
-		If keycode = 48 Then 				' B Key
-			If BCboost = 1 Then
-				BCboost = BCboostmulti
-			Else
-				BCboost = 1
-			End If
-		End If
-		If keycode = 203 Then BCleft = 1	' Left Arrow
-		If keycode = 200 Then BCup = 1		' Up Arrow
-		If keycode = 208 Then BCdown = 1	' Down Arrow
-		If keycode = 205 Then BCright = 1	' Right Arrow
 	End If
 
 	If vpmKeyDown(keycode) Then Exit Sub  ' This will handle machine switches and flippers etc
@@ -212,27 +171,66 @@ Sub Table1_KeyUp(ByVal keycode)
 		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
 	End If
 
-    'Manual Ball Control
-	If EnableBallControl = 1 Then
-		If keycode = 203 Then BCleft = 0	' Left Arrow
-		If keycode = 200 Then BCup = 0		' Up Arrow
-		If keycode = 208 Then BCdown = 0	' Down Arrow
-		If keycode = 205 Then BCright = 0	' Right Arrow
-	End If
-
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc
 End Sub
+'****************************
 
-'Example of manually setting switch handler. See AllSwitches for automatic
-Sub sw_plunger_lane_hit() : Controller.Switch 20, 1 :  End Sub   
-Sub sw_plunger_lane_unhit() : Controller.Switch 20, 0 :  End Sub
+'****************************
+' Solenoids / Coils / Callbacks
+'****************************
+SolCallback(0) = "Died"
+SolCallback(1) = "bsTrough.solOut" ' This exit is setup in the init
+SolCallback(2) = "FlippersEnabled"
+SolCallback(3) = "AutoPlunger"
+SolCallback(4) = "bsSaucer.solOut" ' This exit is setup in the init
 
+' Lampshows (coils, fake innit)
+SolCallback(33) = "DisableLampShows"
+SolCallback(34) = "Lampshow1"
+SolCallback(35) = "Lampshow2"
+
+Sub Died(Enabled)
+	on error resume next
+	if enabled then Err.Raise 5
+	if( Err.number = 5 ) then 
+		MsgBox "Game window unavailable."
+		Err.clear()
+	end if
+	on error goto 0
+End Sub
+
+'Do it like this as one on/off, will make it faster
 Dim FlippersOn : FlippersOn = 0
 Sub FlippersEnabled(Enabled)
 	Debug.Print "flippers on coil " & Enabled
 	FlippersOn = Enabled
 	If not FlippersOn then LeftFlipper.RotateToStart : RightFlipper.RotateToStart
 End Sub
+
+Sub AutoPlunger(Enabled)
+  If Enabled Then
+    PlungerIM.AutoFire
+  End If
+End Sub
+
+Sub Lampshow1(Enabled)
+	if Enabled then : LightSeq001.StopPlay : LightSeq001.Play SeqUpOff, 10, 2 : Debug.print "lampshow1"	
+End Sub
+
+Sub Lampshow2(Enabled)		
+	if Enabled then : LightSeq001.StopPlay : LightSeq001.Play SeqDownOff, 10, 2 : Debug.print "lampshow2"	
+End Sub
+
+Sub DisableLampShows(Enabled)		
+	if Enabled then : LightSeq001.StopPlay : Debug.print "stopping lampshows"	
+End Sub
+''****************************
+
+
+'Example of manually setting switch handler. See AllSwitches for automatic
+Sub sw_plunger_lane_hit() : Controller.Switch 20, 1 :  End Sub   
+Sub sw_plunger_lane_unhit() : Controller.Switch 20, 0 :  End Sub
+
 
 '*****GI Lights On
 dim xx
@@ -341,51 +339,6 @@ End Function
 Function BallVel(ball) 'Calculates the ball speed
     BallVel = INT(SQR((ball.VelX ^2) + (ball.VelY ^2) ) )
 End Function
-
-
-'*****************************************
-'   rothbauerw's Manual Ball Control
-'*****************************************
-
-Dim BCup, BCdown, BCleft, BCright
-Dim ControlBallInPlay, ControlActiveBall
-Dim BCvel, BCyveloffset, BCboostmulti, BCboost
-
-BCboost = 1				'Do Not Change - default setting
-BCvel = 4				'Controls the speed of the ball movement
-BCyveloffset = -0.01 	'Offsets the force of gravity to keep the ball from drifting vertically on the table, should be negative
-BCboostmulti = 3		'Boost multiplier to ball veloctiy (toggled with the B key) 
-
-ControlBallInPlay = false
-
-Sub StartBallControl_Hit()
-	Set ControlActiveBall = ActiveBall
-	ControlBallInPlay = true
-End Sub
-
-Sub StopBallControl_Hit()
-	ControlBallInPlay = false
-End Sub	
-
-Sub BallControlTimer_Timer()
-	If EnableBallControl and ControlBallInPlay then
-		If BCright = 1 Then
-			ControlActiveBall.velx =  BCvel*BCboost
-		ElseIf BCleft = 1 Then
-			ControlActiveBall.velx = -BCvel*BCboost
-		Else
-			ControlActiveBall.velx = 0
-		End If
-
-		If BCup = 1 Then
-			ControlActiveBall.vely = -BCvel*BCboost
-		ElseIf BCdown = 1 Then
-			ControlActiveBall.vely =  BCvel*BCboost
-		Else
-			ControlActiveBall.vely = bcyveloffset
-		End If
-	End If
-End Sub
 
 
 '********************************************************************
