@@ -6,9 +6,6 @@ using static Godot.GD;
 
 public abstract class PinGodGameBase : Node
 {
-	const string GAME_DATA_FILE = "user://gamedata.save";
-	const string GAME_SETTINGS_FILE = "user://settings.save";
-
 	#region Signals
 	[Signal] public delegate void BallEnded(bool lastBall);
 	[Signal] public delegate void BallSearchReset();
@@ -55,11 +52,7 @@ public abstract class PinGodGameBase : Node
 	{
 		Players = new List<PinGodPlayer>();
 
-		GameSettings = new GameSettings();
-		LoadGameSettings();
-
-		GameData = new GameData() { GamesPlayed = 0 };
-		LoadGameData();
+		LoadSettingsAndData();
 
 		gameLoadTimeMsec = OS.GetTicksMsec();
 
@@ -68,11 +61,12 @@ public abstract class PinGodGameBase : Node
 	}
 
 	/// <summary>
-	/// Save game data before exit
+	/// Save game data / settings before exit
 	/// </summary>
 	public override void _ExitTree()
 	{
-		SaveGameData();
+		GameData.Save(GameData);
+		GameSettings.Save(GameSettings);
 	}
 
 	#region Public Methods
@@ -428,74 +422,11 @@ public abstract class PinGodGameBase : Node
 
 	#endregion
 
-	#region Private Methods
-
-	/// <summary>
-	/// Loads game data from user directory.
-	/// </summary>
-	private void LoadGameData()
+	private static void LoadSettingsAndData()
 	{
-		var saveGame = new File();
-		var err = saveGame.Open(GAME_DATA_FILE, File.ModeFlags.Read);
-		Print(err.ToString());
-		if (err != Error.FileNotFound)
-		{
-			Print("loading game data");
-			GameData = JsonConvert.DeserializeObject<GameData>(saveGame.GetLine());
-			saveGame.Close();
-		}
-		else
-		{
-			SaveGameData();
-			Print("saved default data");
-		}
+		GameData = GameData.Load();
+		GameSettings = GameSettings.Load();
 	}
-
-	/// <summary>
-	/// Loads game data from user directory.
-	/// </summary>
-	private void LoadGameSettings()
-	{
-		var settingsSave = new File();
-		var err = settingsSave.Open(GAME_SETTINGS_FILE, File.ModeFlags.Read);
-		Print(err.ToString());
-		if (err != Error.FileNotFound)
-		{
-			Print("loading game settings");
-			GameSettings = JsonConvert.DeserializeObject<GameSettings>(settingsSave.GetLine());
-			settingsSave.Close();
-		}
-		else
-		{
-			SaveGameSettings();
-			Print("saved default setting");
-		}
-	}
-
-	/// <summary>
-	/// Saves the <see cref="GameData"/>
-	/// </summary>
-	private void SaveGameData()
-	{
-		var saveGame = new File();
-		saveGame.Open(GAME_DATA_FILE, File.ModeFlags.Write);
-		saveGame.StoreLine(JsonConvert.SerializeObject(GameData));
-		saveGame.Close();
-		Print("saved game data");
-	}
-
-	/// <summary>
-	/// Saves the <see cref="GameData"/>
-	/// </summary>
-	private void SaveGameSettings()
-	{
-		var saveGame = new File();
-		saveGame.Open(GAME_SETTINGS_FILE, File.ModeFlags.Write);
-		saveGame.StoreLine(JsonConvert.SerializeObject(GameSettings));
-		saveGame.Close();
-		Print("saved game settings");
-	}
-	#endregion
 }
 
 public enum BallSearchSignalOption

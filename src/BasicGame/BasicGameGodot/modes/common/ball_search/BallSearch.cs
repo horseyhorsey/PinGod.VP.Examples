@@ -13,7 +13,7 @@ public class BallSearch : Control
 	/// </summary>
 	[Export] private byte[] _search_coils;
 
-	[Export] private int _wait_time_secs;
+	[Export] private int _wait_time_secs = 10;
 
 	/// <summary>
 	/// Taken from the default timer when ready and <see cref="_wait_time_secs"/> isn't set
@@ -21,11 +21,11 @@ public class BallSearch : Control
 	private float _ballSearchWaitTime;
 	private Timer _timer;
 	private Label _label;
-
-	bool IsBallSearchRunning = false;
+	private bool IsBallSearchRunning = false;
 
 	public override void _Ready()
 	{
+		IsBallSearchRunning = false;
 		//timer to activate ball searches
 		_timer = GetNode("Timer") as Timer;
 

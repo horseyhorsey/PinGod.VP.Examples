@@ -97,9 +97,9 @@ public class Trough : Node
 		{
 			//auto plunge the ball if in ball save or game is tilted to get the balls back
 			if (Trough.BallSaveActive || pinGod.IsTilted)
-            {
+			{
 				pinGod.SolenoidPulse("auto_plunger");
-            }
+			}
 		}
 		//reset the ball search when leaving the switch
 		else if (pinGod.SwitchOff("plunger_lane", @event))
