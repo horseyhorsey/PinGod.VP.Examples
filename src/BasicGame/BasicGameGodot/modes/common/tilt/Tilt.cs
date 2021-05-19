@@ -2,8 +2,8 @@ using Godot;
 using static Godot.GD;
 
 /// <summary>
-/// Manages the <see cref="GameGlobals.TiltSwitchNum"/> and <see cref="GameGlobals.SlamTiltSwitch"/> inputs <para/>
-/// Sets the <see cref="GameGlobals.Tiltwarnings"/> and <see cref="GameGlobals.IsTilted"/> if player goes over their warnings
+/// Manages the <see cref="PinGodGame.TiltSwitchNum"/> and <see cref="PinGodGame.SlamTiltSwitch"/> inputs <para/>
+/// Sets the <see cref="PinGodGame.Tiltwarnings"/> and <see cref="PinGodGame.IsTilted"/> if player goes over their warnings
 /// </summary>
 public class Tilt : Control
 {
@@ -14,7 +14,8 @@ public class Tilt : Control
 
 	private Timer timer;
 	float displayForSecs = 2f;
-	private GameGlobals gGlobals;
+	private PinGodGame pinGod;
+	private Trough trough;
 	private TextLayer blinkingLayer;
 
 	public override void _Ready()
@@ -22,64 +23,63 @@ public class Tilt : Control
 		//hide this mode
 		Visible = false;
 
-		gGlobals = GetNode("/root/GameGlobals") as GameGlobals;
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		trough = GetNode("/root/Trough") as Trough;
 		//text layer to display warnings and tilted
 		blinkingLayer = GetNode("TextLayerControl") as TextLayer;
 		blinkingLayer.SetText("");
 
 		//reset the tilt if new ball started
-		gGlobals.Connect("BallStarted", this, "OnBallStarted");
+		pinGod.Connect("BallStarted", this, "OnBallStarted");
 
 		//timer to hide the tilt layers
 		timer = GetNode("Timer") as Timer;		
 	}
 
 	/// <summary>
-	/// Sends <see cref="GameGlobals.GameTilted"/> if tilted or slam tilt
+	/// Sends <see cref="PinGodGame.GameTilted"/> if tilted or slam tilt
 	/// </summary>
-	/// <param name="event"></param>
-	public override void _Input(InputEvent @event)
+	/// <param name="input"></param>
+	public override void _Input(InputEvent input)
 	{
-		if (!GameGlobals.GameInPlay) return;
+		if (!pinGod.GameInPlay) return;
+		if (pinGod.IsTilted) return;
 
-		if (@event.IsActionPressed("sw" + GameGlobals.TiltSwitchNum))
+		if (pinGod.SwitchOn("tilt", input))
 		{
-			if (!GameGlobals.IsTilted && !Trough.IsTroughFull())
+			if (!timer.IsStopped()) { timer.Stop(); }
+
+			//add a warning
+			PinGodGame.Tiltwarnings++;
+			//set tilted
+			if (PinGodGame.Tiltwarnings > _num_tilt_warnings)
 			{
-				Visible = false;
-				timer?.Stop();
-				//add a warning
-				GameGlobals.Tiltwarnings++;				
-				//set tilted
-				if (GameGlobals.Tiltwarnings > _num_tilt_warnings)
-				{
-					//stop the timer for showing tilt information
-					GameGlobals.IsTilted = true;
-					Print("game tilted");
-					blinkingLayer.SetText("Tilted");
-					Visible = true;
-					gGlobals.EnableFlippers(0);
-					gGlobals.EmitSignal("GameTilted");					
-				}
-				//show warnings
-				else
-				{
-					ShowWarning();
-					Visible = true;
-				}
-			}            
+				pinGod.IsTilted = true;
+				pinGod.EnableFlippers(0);
+				trough.DisableBallSave();
+
+				Visible = true;
+				Print("game tilted");
+				//stop the timer for showing tilt information
+				CallDeferred("setText", "TILTED");
+			}
+			//show warnings
+			else
+			{
+				ShowWarning();
+			}
 		}
 
 		//Slam tilt - Sends 
-		if (@event.IsActionPressed("sw" + GameGlobals.SlamTiltSwitch))
+		if (pinGod.SwitchOn("slam_tilt", input))
 		{
-			timer?.Stop();
-			Print("slam tilt");
+			timer.Stop();
+			Print("slam_tilt");
 			blinkingLayer.SetText("SLAM TILT");
-			GameGlobals.IsTilted = true;			
-			gGlobals.EnableFlippers(0);
+			pinGod.IsTilted = true;			
+			pinGod.EnableFlippers(0);
 			Visible = true;
-			gGlobals.EmitSignal("GameTilted");
+			trough.DisableBallSave();
 		}
 	}
 
@@ -90,17 +90,23 @@ public class Tilt : Control
 	/// </summary>
 	void ShowWarning()
 	{
-		Print("tilt warning: " + GameGlobals.Tiltwarnings);
-		blinkingLayer.SetText("Danger" + System.Environment.NewLine + $"Warnings {GameGlobals.Tiltwarnings}");
-		timer?.Start(displayForSecs);
+		timer.Start(displayForSecs);
+		CallDeferred("setText", "Danger" + System.Environment.NewLine + $"Warnings {PinGodGame.Tiltwarnings}");
+		Visible = true;
 	}
 
-	/// <summary>
-	/// Hide the tilt "screen" and stop any timers
-	/// </summary>
+	void setText(string text)
+	{
+		blinkingLayer.SetText(text);
+	}
+
+	///// <summary>
+	///// Hide the tilt "screen" and stop any timers
+	///// </summary>
 	void OnBallStarted()
 	{
-		this.Visible = false;
-		timer?.Stop();
+		if (!timer.IsStopped()) { timer.Stop(); }
+		blinkingLayer.SetText("");
+		Visible = false;
 	}
 }
