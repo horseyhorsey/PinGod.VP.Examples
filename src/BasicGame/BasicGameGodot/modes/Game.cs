@@ -1,162 +1,236 @@
 using Godot;
-using System;
 using static Godot.GD;
+using System.Threading.Tasks;
 
 public class Game : Node2D
 {
-	private GameGlobals gameGlobal;
+    const string MULTIBALL_SCENE = "res://modes/common/multiball/Multiball.tscn";
 
-	/// <summary>
-	/// A bonus scene to create an instance from at the end of ball
-	/// </summary>
-	private PackedScene endOfBallBonus;
-	/// <summary>
-	/// The high score entry screen.
-	/// </summary>
-	private PackedScene scoreEntry;	
-	private bool lastBall;
+    private PinGodGame pinGod;
+    private ScoreEntry scoreEntry;
+    private Bonus endOfBallBonus;
+    private PackedScene multiballPkd;
+    private bool _lastBall;
 
-	public override void _Ready()
-	{
-		gameGlobal = GetNode("/root/GameGlobals") as GameGlobals;
-		gameGlobal.Connect("BallEnded", this, "OnBallEnded");
-		gameGlobal.Connect("BallStarted", this, "OnBallStarted");
-		gameGlobal.Connect("BonusEnded", this, "OnBonusEnded");
-		gameGlobal.Connect("ScoreEntryEnded", this, "OnScoreEntryEnded");		
+    public override void _EnterTree()
+    {
+        Print("game: enter tree");
+        //get packed scene to create an instance of when a Multiball gets activated
+        multiballPkd = ResourceLoader.Load(MULTIBALL_SCENE) as PackedScene;
+    }
 
-		endOfBallBonus = Load("res://modes/common/bonus/Bonus.tscn") as PackedScene;
-		scoreEntry = Load("res://modes/common/score_entry/ScoreEntry.tscn") as PackedScene;
-	}
+    public override void _Ready()
+    {
+        pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+        pinGod.Connect("BallEnded", this, "OnBallEnded");
+        pinGod.Connect("BallStarted", this, "OnBallStarted");
+        pinGod.Connect("BonusEnded", this, "OnBonusEnded");
+        pinGod.Connect("ScoreEntryEnded", this, "OnScoreEntryEnded");
 
-	/// <summary>
-	/// Handles the trough last switch and other in-lane switches if the game isn't tilted
-	/// </summary>
-	/// <param name="event"></param>
-	public override void _Input(InputEvent @event)
-	{		
-		//Check if the last trough switch was enabled
-		if (@event.IsActionPressed("sw" + Trough.TroughSwitches[Trough.TroughSwitches.Length - 1]))
-		{
-			Print("trough: switches active");
-			//end the ball in play?
-			if (!GameGlobals.InBonusMode && GameGlobals.GameInPlay && Trough.IsTroughFull() && !Trough.BallSaveActive)
-			{
-				Print("game: trough switches updated");
-				if (gameGlobal.EndBall())
-				{					
-					lastBall = true;
-				}
-				else
-				{
-					Print("game: new ball starting");
-				}
-			}
-		}
+        scoreEntry = GetNode("CanvasLayer/ScoreEntry") as ScoreEntry;
+        endOfBallBonus = GetNode("CanvasLayer/Bonus") as Bonus;
 
-		if (!GameGlobals.GameInPlay) return;
-		//game is tilted, don't process other switches when tilted
-		if (GameGlobals.IsTilted) return;
+        Print("game: _ready");
+    }
 
-		if (@event.IsActionPressed("sw21")) //Left outlane
-		{
-			Print("sw: l_outlane");
-			AddPoints(100);        
-		}
-		if (@event.IsActionPressed("sw22")) //Left inlane
-		{
-			Print("sw: l_inlane");
-			AddPoints(100);
-		}
-		if (@event.IsActionPressed("sw23")) //Right outlane
-		{
-			Print("sw: r_inlane");
-			AddPoints(100);
-		}
-		if (@event.IsActionPressed("sw24")) //Left inlane
-		{
-			Print("sw: r_outlane");
-			AddPoints(100);
-		}
-		if (@event.IsActionPressed("sw25")) //Left sling
-		{
-			Print("sw: l_sling");
-			AddPoints(50);
-		}
-		if (@event.IsActionPressed("sw26"))//Right sling
-		{
-			Print("sw: r_sling");
-			AddPoints(50);
-		}
-	}
+    /// <summary>
+    /// Handles the trough last switch and other in-lane switches if the game isn't tilted
+    /// </summary>
+    /// <param name="event"></param>
+    public override void _Input(InputEvent @event)
+    {
+        //check if the input is a trough switch
+        var troughSwitch = pinGod.IsTroughSwitch(@event);
+        if (troughSwitch > 0)
+        {
+            if (pinGod.IsMultiballRunning && !Trough.BallSaveActive)
+            {
+                Print("mball: trough ", troughSwitch);
+                //this was the last ball in multiball
+                if(Trough.BallsInTrough() == 3)
+                {
+                    EndMultiball();
+                }
+            }
+            //Check if the last trough switch was enabled
+            else if (troughSwitch == Trough.TroughSwitches[Trough.TroughSwitches.Length - 1])
+            {
+                Print("trough: switches active");
+                //end the ball in play?
+                if (!pinGod.InBonusMode && pinGod.GameInPlay && Trough.IsTroughFull() && !Trough.BallSaveActive)
+                {
+                    Print("game: trough switches updated");
+                    if (pinGod.EndBall())
+                    {
+                        Print("last ball played game ending");
+                    }
+                    else
+                    {
+                        Print("game: new ball starting");
+                    }
+                }
+            }
+        }
 
-	/// <summary>
-	/// Adds an instance of <see cref="scoreEntry"/> to the tree
-	/// </summary>
-	internal void AddScoreEntry()
-	{
-		AddChild(scoreEntry.Instance());
-	}
+        if (!pinGod.GameInPlay) return;
+        //game is tilted, don't process other switches when tilted
 
-	private void AddPoints(int points)
-	{
-		gameGlobal.AddPoints(points);
-		gameGlobal.AddBonus(25);
-	}
+        if (pinGod.IsTilted) return;
 
-	/// <summary>
-	/// Add a display at end of ball
-	/// </summary>
-	public void OnBallEnded()
-	{
-		Print("game: ball ended");
-		//set the bonus to true, stop trough twice
-		GameGlobals.InBonusMode = true;		
+        if (pinGod.SwitchOn("start", @event))
+        {
+            Print("attract: starting game. started?", pinGod.StartGame());
+        }
 
-		if (!GameGlobals.IsTilted)
-		{
-			Print("game: adding bonus scene for player: " + GameGlobals.CurrentPlayerIndex);
-			AddChild(endOfBallBonus.Instance());
-			return;
-		}
-		else if (GameGlobals.IsTilted && lastBall)
-		{
-			GameGlobals.InBonusMode = false;
-			AddChild(scoreEntry.Instance());
-			return;
-		}
+        // Flipper switches set to reset the ball search timer
+        if (pinGod.SwitchOn("flipper_l", @event))
+        {
+        }
+        if (pinGod.SwitchOn("flipper_r", @event))
+        {
+        }
+        if (pinGod.SwitchOn("outlane_l", @event))
+        {
+            AddPoints(100);
+        }
+        if (pinGod.SwitchOn("inlane_l", @event))
+        {
+            AddPoints(100);
+        }
+        if (pinGod.SwitchOn("inlane_r", @event))
+        {
+            AddPoints(100);
+        }
+        if (pinGod.SwitchOn("outlane_r", @event))
+        {
+            AddPoints(100);
+        }
+        if (pinGod.SwitchOn("sling_l", @event))
+        {
+            AddPoints(50);
+        }
+        if (pinGod.SwitchOn("sling_r", @event))
+        {
+            AddPoints(50);
+        }
+        if (pinGod.SwitchOn("mball_saucer", @event))
+        {
+            AddPoints(150);
+            if (!pinGod.IsMultiballRunning)
+            {
+                AddMultiballSceneToTree();
+            }
+            pinGod.SolenoidPulse("mball_saucer");
+        }
+    }
 
-		Print("no bonus, game was tilted");
-		GameGlobals.InBonusMode = false;
-		if(!lastBall)
-			gameGlobal.StartNewBall();
-	}
+    private void AddPoints(int points)
+    {
+        pinGod.AddPoints(points);
+        pinGod.AddBonus(25);
+    }
 
-	public void OnBonusEnded()
-	{
-		Print("game: bonus ended, starting new ball");
-		GameGlobals.InBonusMode = false;
+    void AddMultiballSceneToTree()
+    {
+        Task.Run(() =>
+        {
+            //create an mball instance from the packed scene
+            var mball = multiballPkd.Instance();
+            //add to multiball group
+            mball.AddToGroup("multiball");
+            //add to the tree
+            GetNode("CanvasLayer").AddChild(mball);
 
-		if(lastBall)
-		{
-			Print("game: last ball played, end of game");
-			AddScoreEntry();
-		}
-		else
-		{
-			gameGlobal.StartNewBall();
-		}		
-	}
+            CallDeferred("PlayShow", 1);
+        });        
+    }
 
-	public void OnBallStarted()
-	{
-		Print("game: ball started");
-	}		
+    //play a lampshow (VP LightSeq)
+    void PlayShow(int num) => pinGod.SolenoidOn("lampshow_"+num, 1);
 
-	/// <summary>
-	/// When score entry is finished set <see cref="GameGlobals.EndOfGame"/>
-	/// </summary>
-	void OnScoreEntryEnded()
-	{
-		gameGlobal.EndOfGame();
-	}
+
+    /// <summary>
+    /// Add a display at end of ball
+    /// </summary>
+    public void OnBallEnded(bool lastBall)
+    {
+        Print("game: ball ended", PinGodGame.BallInPlay, "last ball:" + lastBall);
+        _lastBall = lastBall;
+
+        EndMultiball();
+
+        if (!pinGod.IsTilted)
+        {
+            pinGod.InBonusMode = true;
+            Print("game: adding bonus scene for player: " + PinGodGame.CurrentPlayerIndex);
+            endOfBallBonus.StartBonusDisplay();
+            return;
+        }
+        else if (pinGod.IsTilted && lastBall)
+        {
+            Print("last ball in tilt");
+            pinGod.InBonusMode = false;
+            scoreEntry.DisplayHighScore();
+            return;
+        }
+        else if (pinGod.IsTilted)
+        {
+            pinGod.InBonusMode = false;
+
+            Task.Run(async () =>
+            {
+                Print("no bonus, game was tilted. running timer to make player wait");
+                await Task.Delay(4000);
+                if (!lastBall)
+                {
+                    CallDeferred("OnStartNewBall");
+                }
+            });
+        }
+    }
+
+    /// <summary>
+    /// Sets <see cref="PinGodGameBase.IsMultiballRunning"/> to false and Any node that is in the multiball group is removed from tree
+    /// </summary>
+    private void EndMultiball()
+    {
+        Print("removing multiballs");
+        GetTree().CallGroup("multiball", "EndMultiball");
+        pinGod.IsMultiballRunning = false;
+        pinGod.SolenoidOn("lampshow_1", 1);
+    }
+
+    void OnStartNewBall()
+    {
+        Print("game: starting ball after tilting");
+        pinGod.StartNewBall();
+    }
+
+    public void OnBonusEnded()
+    {
+        Print("game: bonus ended, starting new ball");
+        pinGod.InBonusMode = false;
+        if (_lastBall)
+        {
+            Print("game: last ball played, end of game");
+            scoreEntry.DisplayHighScore();
+        }
+        else
+        {
+            pinGod.StartNewBall();
+        }
+    }
+
+    public void OnBallStarted()
+    {
+        Print("game: ball started");
+    }
+
+    /// <summary>
+    /// When score entry is finished set <see cref="PinGodGame.EndOfGame"/>
+    /// </summary>
+    void OnScoreEntryEnded()
+    {
+        pinGod.EndOfGame();
+    }
 }
