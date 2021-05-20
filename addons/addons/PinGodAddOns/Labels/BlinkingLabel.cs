@@ -26,12 +26,13 @@ public class BlinkingLabel : Label
 	{
 		//connect up to these signals to stop the timer, no need to be running all the time not in view?
 		this.Connect("hide", this, "_hide");		
-		this.Connect("visibility_changed", this, "_visibility_changed");		
+		this.Connect("visibility_changed", this, "_visibility_changed");
 
+#if !TOOLS
 		_timer = new Timer() { Autostart = true, OneShot = false, WaitTime = _blinking <= 0 ? 0.3f : _blinking };
 		_timer.Connect("timeout", this, "timeout");
 		AddChild(_timer);
-
+#endif
 		blinkVisible = this.Visible;
 	}
 
@@ -45,15 +46,15 @@ public class BlinkingLabel : Label
 	/// </summary>
 	public override void _ExitTree()
 	{
-		_timer.Stop();
-		_timer.QueueFree();
+		_timer?.Stop();
+		_timer?.QueueFree();
 	}
 
 	/// <summary>
 	/// Restarts the timer with new speed
 	/// </summary>
 	/// <param name="speed"></param>
-	public void Start(float speed = 0.3f) => _timer.Start(speed <= 0 ? 0.3f : speed);
+	public void Start(float speed = 0.3f) => _timer?.Start(speed <= 0 ? 0.3f : speed);
 
 	/// <summary>
 	/// Stops the blinking and optionally hold text on screen 
@@ -61,6 +62,7 @@ public class BlinkingLabel : Label
 	/// <param name="showText">Hold the frame, show the text no blinking</param>
 	public void Stop(bool showText = false)
 	{
+		if (_timer == null) return;
 		_timer.Stop();
 		this.Visible = showText;
 	}
@@ -89,6 +91,7 @@ public class BlinkingLabel : Label
 	/// </summary>
 	void _visibility_changed()
 	{
+		if (_timer == null) return;
 		if (blinkVisible)
 		{
 			if (_timer.IsStopped())
@@ -104,6 +107,7 @@ public class BlinkingLabel : Label
 	/// </summary>
 	void _hide()
 	{
+		if (_timer == null) return;
 		blinked = false;
 		_timer.Stop();
 	}	
