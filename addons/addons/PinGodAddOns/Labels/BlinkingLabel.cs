@@ -15,8 +15,7 @@ public class BlinkingLabel : Label
 	internal float Blinking => _blinking;
 
 	private Timer _timer;
-	private Color fontDefaultColor;
-	private Color fontDefaultOutlineColor;
+	private Color modulateDefaultColor;
 	private bool blinkVisible;
 
 	#region Public Methods
@@ -29,14 +28,16 @@ public class BlinkingLabel : Label
 		this.Connect("hide", this, "_hide");		
 		this.Connect("visibility_changed", this, "_visibility_changed");		
 
-		fontDefaultColor = this.GetColor("font_color");
-		fontDefaultOutlineColor = this.GetColor("font_outline_modulate");
-
 		_timer = new Timer() { Autostart = true, OneShot = false, WaitTime = _blinking <= 0 ? 0.3f : _blinking };
 		_timer.Connect("timeout", this, "timeout");
 		AddChild(_timer);
 
 		blinkVisible = this.Visible;
+	}
+
+	public override void _Ready()
+	{
+		modulateDefaultColor = this.Modulate;
 	}
 
 	/// <summary>
@@ -73,13 +74,11 @@ public class BlinkingLabel : Label
 	{		
 		if (!blinked)
 		{
-			this.AddColorOverride("font_color", new Color(0, 0, 0, 0));
-			this.AddColorOverride("font_outline_modulate", new Color(0, 0, 0, 0));
+			this.Modulate = new Color(0, 0, 0, 0);
 		}			
 		else
 		{
-			this.AddColorOverride("font_color", fontDefaultColor);
-			this.AddColorOverride("font_outline_modulate", fontDefaultOutlineColor);
+			this.Modulate = modulateDefaultColor;
 		}			
 
 		blinked = !blinked;

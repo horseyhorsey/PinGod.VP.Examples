@@ -41,6 +41,5 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_blinking = 0.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
