@@ -16,7 +16,7 @@ public class Tilt : Control
 	float displayForSecs = 2f;
 	private PinGodGame pinGod;
 	private Trough trough;
-	private TextLayer blinkingLayer;
+	private BlinkingLabel blinkingLayer;
 
 	public override void _Ready()
 	{
@@ -26,8 +26,8 @@ public class Tilt : Control
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		trough = GetNode("/root/Trough") as Trough;
 		//text layer to display warnings and tilted
-		blinkingLayer = GetNode("TextLayerControl") as TextLayer;
-		blinkingLayer.SetText("");
+		blinkingLayer = GetNode("BlinkingLabel") as BlinkingLabel;
+		blinkingLayer.Text = "";
 
 		//reset the tilt if new ball started
 		pinGod.Connect("BallStarted", this, "OnBallStarted");
@@ -75,7 +75,7 @@ public class Tilt : Control
 		{
 			timer.Stop();
 			Print("slam_tilt");
-			blinkingLayer.SetText("SLAM TILT");
+			setText("SLAM TILT");
 			pinGod.IsTilted = true;			
 			pinGod.EnableFlippers(0);
 			Visible = true;
@@ -97,7 +97,7 @@ public class Tilt : Control
 
 	void setText(string text)
 	{
-		blinkingLayer.SetText(text);
+		blinkingLayer.Text = text;
 	}
 
 	///// <summary>
@@ -106,7 +106,7 @@ public class Tilt : Control
 	void OnBallStarted()
 	{
 		if (!timer.IsStopped()) { timer.Stop(); }
-		blinkingLayer.SetText("");
+		setText("");
 		Visible = false;
 	}
 }

@@ -25,7 +25,7 @@ public class BallSave : Control
 	{
 		//Check if 3 balls
 		if(Trough.BallsInTrough() == Trough.TroughSwitches.Length-1)
-        {
+		{
 			Print("ballsave: ball_saved");
 			this.Visible = true;
 
@@ -34,10 +34,10 @@ public class BallSave : Control
 
 			timer.Start();
 		}
-        else
-        {
+		else
+		{
 			Print("skipping save display in multiball");
-        }
+		}
 	}
 
 	void _on_Timer_timeout() => this.Visible = false;

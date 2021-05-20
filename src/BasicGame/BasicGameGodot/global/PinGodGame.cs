@@ -58,12 +58,12 @@ public class PinGodGame : PinGodGameBase
 	/// Add switches to the <see cref="Machine.Switches"/>. Invoked when ready
 	/// </summary>
 	void AddCustomSwitches()
-    {
-        if (!init)
-        {
+	{
+		if (!init)
+		{
 			Machine.Switches.Add("mball_saucer", new Switch(27));
 		}		
-    }
+	}
 
 	/// <summary>
 	/// Stops any game in progress

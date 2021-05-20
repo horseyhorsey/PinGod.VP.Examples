@@ -5,8 +5,15 @@ Table authors use this as a base or example for building games in Godot for Visu
 
 See Godot documentation for general scene creating, project settings and everything else. https://docs.godotengine.org/en/stable/getting_started/step_by_step/scripting.html#introduction
 
-# Common Pinball - Basic Modes / Placeholders
----
+## Setup before running
+
+In this directory add a symbolic link to where the addons directory is. *Full path is necessary*
+
+```
+mklink /D addons "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\addons\addons"
+```
+
+## Common Pinball - Basic Modes / Placeholders
 
 - Attract
 - Ball Saves
