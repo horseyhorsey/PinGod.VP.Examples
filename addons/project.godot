@@ -1,0 +1,21 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+[application]
+
+config/name="PinGodAddOns"
+config/description="Godot Addons for PinGod. Common pinball scenes, controls etc.
+Make a symbolic link to the addons directory in your game project. See BasicGame project readme.
+"
+run/main_scene="res://Node2D.tscn"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/PinGodAddOns/plugin.cfg" )
