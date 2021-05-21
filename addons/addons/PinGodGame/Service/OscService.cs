@@ -15,9 +15,9 @@ public class OscService : Node
 	private Task oscTask;
 	private CancellationToken _token;
 	private static OscSender sender;
-	CancellationTokenSource _tokenSource;    
+	CancellationTokenSource _tokenSource;
 
-    public int SendPort { get; set; } = 9001;
+	public int SendPort { get; set; } = 9001;
 	public int ReceivePort { get; set; } = 9000;
 	public bool LogActions { get; set; } = false;
 
@@ -30,17 +30,13 @@ public class OscService : Node
 	/// </summary>
 	public bool RecordGame { get; set; } = false;
 
-    /// <summary>
-    /// Sets up <see cref="receiver"/> to listen for actions from Sim. Connects the sender. Sends Ready to controllers.
-    /// </summary>
-    public override void _Ready()
+	/// <summary>
+	/// Sets up <see cref="receiver"/> to listen for actions from Sim. Connects the sender. Sends Ready to controllers.
+	/// </summary>
+	public override void _Ready()
 	{
-		_tokenSource = new CancellationTokenSource();
-		_token = _tokenSource.Token;
-		_token.Register(() => Print("osc receive task stopped"));
-
 		receiver = new OscReceiver(IPAddress.Loopback, ReceivePort);
-		receiver.Connect();		
+		receiver.Connect();
 
 		//create then start new task and listen new thread...
 		oscTask = new Task(() =>
@@ -57,15 +53,15 @@ public class OscService : Node
 					if (message.Count == 2)
 					{
 						bool actionState = (bool)Convert(message[1], Variant.Type.Bool);
-						var ev = new InputEventAction() { Action = message[0].ToString(), Pressed = actionState};
+						var ev = new InputEventAction() { Action = message[0].ToString(), Pressed = actionState };
 						if (LogActions) { Print($"in:{ev.Action}-state:{ev.Pressed}"); }
 
-                        if (RecordGame)
-                        {
+						if (RecordGame)
+						{
 							var switchTime = OS.GetTicksMsec() - GameStartTime;
 							var recordLine = $"{ev.Action}|{ev.Pressed}|{switchTime}";
 							stringBuilder?.AppendLine(recordLine);
-						}							
+						}
 						Input.ParseInputEvent(ev);
 					}
 				}
@@ -77,7 +73,7 @@ public class OscService : Node
 		if (sender == null)
 		{
 			sender = new OscSender(IPAddress.Loopback, SendPort);
-			sender.Connect();			
+			sender.Connect();
 		}
 
 		Print("OSC ready. Sending game_ready");
@@ -85,10 +81,17 @@ public class OscService : Node
 
 		//Game start time, fully loaded...
 		GameStartTime = OS.GetTicksMsec();
-        if (RecordGame)
-        {
+		if (RecordGame)
+		{
 			stringBuilder = new StringBuilder();
-		}		
+		}
+	}
+
+	public override void _EnterTree()
+	{
+		_tokenSource = new CancellationTokenSource();
+		_token = _tokenSource.Token;
+		_token.Register(() => Print("osc receive task stopped"));
 	}
 
 	public override void _ExitTree()
@@ -130,10 +133,10 @@ public class OscService : Node
 		sender.Send(new OscMessage("/lamps", lampId, lampState));
 	}
 
-    public override void _Notification(int what)
-    {
-        if(what == NotificationWmQuitRequest)
-        {
+	public override void _Notification(int what)
+	{
+		if (what == NotificationWmQuitRequest)
+		{
 			if (RecordGame)
 			{
 				Print("saving record file");
@@ -146,18 +149,18 @@ public class OscService : Node
 				Print("file saved");
 			}
 		}
-    }
+	}
 
-    /// <summary>
-    /// Listens for the Quit action
-    /// </summary>
-    /// <param name="event"></param>
-    public override void _Input(InputEvent @event)
+	/// <summary>
+	/// Listens for the Quit action
+	/// </summary>
+	/// <param name="event"></param>
+	public override void _Input(InputEvent @event)
 	{
 		if (@event.IsActionPressed("quit"))
 		{
 			GetTree().Quit(0);
-        }
+		}
 	}
 
 	/// <summary>

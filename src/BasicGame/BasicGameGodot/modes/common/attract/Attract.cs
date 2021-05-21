@@ -10,8 +10,8 @@ public class Attract : Node2D
 {
 	const byte SceneChangeTime = 5;
 	[Export] byte _scene_change_secs = SceneChangeTime;
-	int _currentScene = 0; int _lastScene = 0;	
-	private PinGodGame pinGodGame;    
+	int _currentScene = 0; int _lastScene = 0;
+	private PinGodGame pinGodGame;
 
 	private Timer timer;
 	List<CanvasItem> Scenes = new List<CanvasItem>();
@@ -24,9 +24,9 @@ public class Attract : Node2D
 		var nodes = GetNode("AttractLayers").GetChildren();
 		//add as canvas items as they are able to Hide / Show
 		foreach (var item in nodes)
-		{			
+		{
 			var cItem = item as CanvasItem;
-			if(cItem != null)
+			if (cItem != null)
 			{
 				Scenes.Add(cItem);
 			}
@@ -42,13 +42,13 @@ public class Attract : Node2D
 		if (pinGodGame.SwitchOn("start", @event))
 		{
 			var started = pinGodGame.StartGame();
-			if (started) 
-			{ 
-				pinGodGame.SolenoidPulse("disable_shows", 1); 
+			if (started)
+			{
+				pinGodGame.SolenoidPulse("disable_shows", 1);
 			}
-			Print("attract: starting game. started?", started);			
+			Print("attract: starting game. started?", started);
 		}
-		if(pinGodGame.SwitchOn("flipper_l", @event))
+		if (pinGodGame.SwitchOn("flipper_l", @event))
 		{
 			timer.Stop();
 			ChangeLayer(false);
@@ -64,14 +64,14 @@ public class Attract : Node2D
 
 	private void ChangeLayer(bool forward = false)
 	{
-		if (Scenes?.Count < 1) return;		
+		if (Scenes?.Count < 1) return;
 
 		//check if lower higher than our attract layers
-		_currentScene = forward ? _currentScene+1 : _currentScene-1;
+		_currentScene = forward ? _currentScene + 1 : _currentScene - 1;
 		Print("change layer forward: ", forward, " scene", _currentScene);
 
-		_currentScene = _currentScene > Scenes?.Count-1 ? 0 : _currentScene;
-		_currentScene = _currentScene < 0 ? Scenes?.Count-1 ?? 0 : _currentScene;
+		_currentScene = _currentScene > Scenes?.Count - 1 ? 0 : _currentScene;
+		_currentScene = _currentScene < 0 ? Scenes?.Count - 1 ?? 0 : _currentScene;
 
 		//hide the last layer and show new index
 		Scenes[_lastScene].Hide(); //Scenes[_lastScene].Visible = false;
@@ -81,11 +81,11 @@ public class Attract : Node2D
 	}
 
 	public override void _Ready()
-	{				
+	{
 		Print("Attract loaded");
 		pinGodGame.SolenoidPulse("disable_shows");
 	}
-	
+
 	/// <summary>
 	/// Just switches the scenes visibility on a timer. Plays lamp seq in VP
 	/// </summary>

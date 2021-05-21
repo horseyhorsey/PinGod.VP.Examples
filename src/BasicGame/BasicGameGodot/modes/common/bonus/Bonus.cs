@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using static Godot.GD;
 
 /// <summary>
@@ -8,17 +7,24 @@ using static Godot.GD;
 /// </summary>
 public class Bonus : Control
 {
-	private Timer timer;
-
 	[Export] int _display_for_seconds = 5;
 
-	public override void _EnterTree()
+	private Timer timer;
+    private Label label;
+    private PinGodGame pinGod;
+
+	/// <summary>
+	/// Awards the current player bonus and gets timer ref
+	/// </summary>
+    public override void _EnterTree()
 	{
-		if (PinGodGame.Player != null)
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		if (pinGod.Player != null)
 		{
-			PinGodGame.Player.Points += PinGodGame.Player.Bonus;
+			pinGod.Player.Points += pinGod.Player.Bonus;
 		}
 		timer = GetNode("Timer") as Timer;
+		label = GetNode("Label") as Label;
 	}
 
 	public override void _Ready()
@@ -28,8 +34,7 @@ public class Bonus : Control
 	}
 
 	public void StartBonusDisplay()
-	{
-		var label = GetNode("Label") as Label;
+	{		
 		label.Text = SetBonusText();
 		timer.Start(_display_for_seconds);
 		Visible = true;
@@ -43,7 +48,7 @@ public class Bonus : Control
 	{		
 		var txt = "END OF BALL" + System.Environment.NewLine;
 		txt += "BONUS" + System.Environment.NewLine;
-		txt += PinGodGame.Player?.Bonus.ToString("N0");		
+		txt += pinGod.Player?.Bonus.ToString("N0");		
 		return txt;
 	}
 
@@ -55,6 +60,6 @@ public class Bonus : Control
 		Print("bonus: BonusEnded");
 		timer.Stop();
 		this.Visible = false;
-		GetNode("/root/PinGodGame").EmitSignal("BonusEnded");	
+		pinGod.EmitSignal("BonusEnded");	
 	}
 }

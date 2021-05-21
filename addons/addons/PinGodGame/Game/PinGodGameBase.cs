@@ -1,5 +1,4 @@
 using Godot;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using static Godot.GD;
@@ -42,10 +41,10 @@ public abstract class PinGodGameBase : Node
 	private uint gameEndTime;
 
 	public static byte Tiltwarnings { get; set; }
-	public static List<PinGodPlayer> Players { get; set; }
-	public static PinGodPlayer Player { get; set; }
-	public static GameData GameData { get; private set; }
-	public static GameSettings GameSettings { get; private set; }
+	public List<PinGodPlayer> Players { get; private set; }
+	public PinGodPlayer Player { get; private set; }
+	public GameData GameData { get; private set; }
+	public GameSettings GameSettings { get; private set; }
 #endregion
 
 	public PinGodGameBase()
@@ -230,7 +229,7 @@ public abstract class PinGodGameBase : Node
 			return false;
 		}
 
-		if (!GameInPlay && PinGodGame.GameData.Credits > 0) //first player start game
+		if (!GameInPlay && GameData.Credits > 0) //first player start game
 		{
 			Print("starting game, checking trough...");
 			if (!Trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
@@ -422,7 +421,7 @@ public abstract class PinGodGameBase : Node
 
 	#endregion
 
-	private static void LoadSettingsAndData()
+	private void LoadSettingsAndData()
 	{
 		GameData = GameData.Load();
 		GameSettings = GameSettings.Load();

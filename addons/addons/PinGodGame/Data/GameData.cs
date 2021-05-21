@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,27 +16,27 @@ public class GameData
 	[NotMapped]
 	const string GAME_DATA_FILE = "user://gamedata.save";
 	public int BallsPlayed { get; set; }
-    public int BallsStarted { get; set; }
-    public byte Credits { get; set; }
-    public int GamesFinished { get; set; }
-    public int GamesPlayed { get; set; }
-    public int GamesStarted { get; set; }
-    public List<HighScore> HighScores { get; set; } = new List<HighScore>();
-    public int Tilted { get; set; }
-    public uint TimePlayed { get; set; }
+	public int BallsStarted { get; set; }
+	public byte Credits { get; set; }
+	public int GamesFinished { get; set; }
+	public int GamesPlayed { get; set; }
+	public int GamesStarted { get; set; }
+	public List<HighScore> HighScores { get; set; } = new List<HighScore>();
+	public int Tilted { get; set; }
+	public uint TimePlayed { get; set; }
 
 
 	#region Private Methods
 
-    public static GameData Load()
-    {
+	public static GameData Load()
+	{
 		var saveGame = new File();
 		var err = saveGame.Open(GAME_DATA_FILE, File.ModeFlags.Read);
 		GameData gameData = new GameData();
 		if (err != Error.FileNotFound)
 		{
-            gameData = JsonConvert.DeserializeObject<GameData>(saveGame.GetLine());
-            saveGame.Close();
+			gameData = JsonConvert.DeserializeObject<GameData>(saveGame.GetLine());
+			saveGame.Close();
 		}
 		else
 		{

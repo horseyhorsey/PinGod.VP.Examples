@@ -6,9 +6,12 @@ using Godot;
 /// </summary>
 public class CreditsLayer : Label
 {
-	public override void _Ready()
+    private PinGodGame pingod;
+
+    public override void _Ready()
 	{
 		//update when the credit changes, when added and players added
+		pingod = GetNode("/root/PinGodGame") as PinGodGame;
 		GetNode("/root/PinGodGame").Connect("CreditAdded", this, "OnCreditsUpdated");
 		GetNode("/root/PinGodGame").Connect("PlayerAdded", this, "OnCreditsUpdated");
 		OnCreditsUpdated();		
@@ -16,6 +19,6 @@ public class CreditsLayer : Label
 
 	private void OnCreditsUpdated()
 	{
-		this.Text = $"{PinGodGame.GameData.Credits} CREDITS";
+		this.Text = $"{pingod.GameData.Credits} CREDITS";
 	}
 }

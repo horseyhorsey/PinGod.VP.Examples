@@ -41,7 +41,7 @@ public class ScoreEntry : Control
 	{
 		IsPlayerEnteringScore = true;
 		this.Visible = true;
-		PlayerCount = PinGodGameBase.Players?.Count ?? 0;
+		PlayerCount = pinGodGame.Players?.Count ?? 0;
 		if (PlayerCount <= 0)
 		{
 			PrintErr("Need players for this mode to cycle through");
@@ -69,18 +69,18 @@ public class ScoreEntry : Control
 		//reset the entry player initials
 		entry = string.Empty;		
 		//get the player to check hi scores
-		_cPlayer = PinGodGame.Players[CurrentPlayer];
+		_cPlayer = pinGodGame.Players[CurrentPlayer];
 
 		playerLabel.Text = $"PLAYER {CurrentPlayer + 1}\r\nENTER NAME";
 
 		//hi scores has enough room to add new at any points
-		if (PinGodGame.GameData.HighScores.Count < PinGodGame.GameSettings.MaxHiScoresCount)
+		if (pinGodGame.GameData.HighScores.Count < pinGodGame.GameSettings.MaxHiScoresCount)
 		{
 			Print("Hi score has space, adding this player");
 			CurrentPlayer++;
 		}
 		//this hi score isn't as big as the others
-		else if (!PinGodGame.GameData.HighScores.Any(x => x.Scores < _cPlayer.Points))
+		else if (!pinGodGame.GameData.HighScores.Any(x => x.Scores < _cPlayer.Points))
 		{
 			Print("hi score not large enough for board");
 			CurrentPlayer++;
@@ -122,14 +122,14 @@ public class ScoreEntry : Control
 				else if (allowedChars[selectedIndex] == 61)
 				{
 					//add the hi score and order it
-					PinGodGame.GameData.HighScores.Add(new HighScore()
+					pinGodGame.GameData.HighScores.Add(new HighScore()
 					{
 						Name = entry,
 						Created = DateTime.Now,
 						Scores = _cPlayer.Points
 					});
-					PinGodGame.GameData.HighScores = PinGodGame.GameData.HighScores.OrderByDescending(x => x.Scores)
-						.Take(PinGodGame.GameSettings.MaxHiScoresCount)
+					pinGodGame.GameData.HighScores = pinGodGame.GameData.HighScores.OrderByDescending(x => x.Scores)
+						.Take(pinGodGame.GameSettings.MaxHiScoresCount)
 						.ToList();
 					Print("hi score added", entry, _cPlayer.Points);
 
