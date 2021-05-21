@@ -7,15 +7,21 @@ using static Godot.GD;
 public class BallSave : Control
 {
 	private Timer timer;
+    private PinGodGame pinGod;
 
-	/// <summary>
-	/// Hide initially and connect to ball saved signals from Trough <see cref="Trough.BallSaved"/>
-	/// </summary>
-	public override void _Ready()
-	{
-		Visible = false;
+    public override void _EnterTree()
+    {
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		GetNode("/root/Trough").Connect("BallSaved", this, "OnBallSaved");
 		timer = GetNode("Timer") as Timer;
+	}
+
+    /// <summary>
+    /// Hide initially and connect to ball saved signals from Trough <see cref="Trough.BallSaved"/>
+    /// </summary>
+    public override void _Ready()
+	{
+		Visible = false;
 	}
 
 	/// <summary>
@@ -23,9 +29,8 @@ public class BallSave : Control
 	/// </summary>
 	void OnBallSaved()
 	{
-		//Check if 3 balls
-		if(Trough.BallsInTrough() == Trough.TroughSwitches.Length-1)
-		{
+        if (!pinGod.IsMultiballRunning)
+        {
 			Print("ballsave: ball_saved");
 			this.Visible = true;
 
@@ -34,8 +39,8 @@ public class BallSave : Control
 
 			timer.Start();
 		}
-		else
-		{
+        else
+        {
 			Print("skipping save display in multiball");
 		}
 	}

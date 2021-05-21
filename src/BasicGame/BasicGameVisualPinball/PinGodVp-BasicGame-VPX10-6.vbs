@@ -33,10 +33,10 @@ Dim bsTrough, bsSaucer, plungerIM, swSaucer : swSaucer = 27
 
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 0
-		.DisplayY			= 0
-		.DisplayWidth 		= 600
-		.DisplayHeight 		= 400
+		.DisplayX			= 10
+		.DisplayY			= 10
+		.DisplayWidth 		= 512 ' 1024 FS
+		.DisplayHeight 		= 300 ' 600  FS
 		.DisplayAlwaysOnTop = True
 		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
 		.DisplayLowDpi 		= False
