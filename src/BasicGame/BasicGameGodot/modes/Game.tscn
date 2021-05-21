@@ -22,6 +22,7 @@ texture = ExtResource( 4 )
 
 [node name="Bonus" parent="CanvasLayer" instance=ExtResource( 7 )]
 visible = false
+_display_for_seconds = 2
 
 [node name="Tilt" parent="CanvasLayer" instance=ExtResource( 5 )]
 visible = false

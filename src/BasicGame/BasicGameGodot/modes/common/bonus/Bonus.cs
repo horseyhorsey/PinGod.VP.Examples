@@ -12,14 +12,17 @@ public class Bonus : Control
 
 	[Export] int _display_for_seconds = 5;
 
-	public override void _Ready()
+	public override void _EnterTree()
 	{
-		if(PinGodGame.Player != null)
+		if (PinGodGame.Player != null)
 		{
 			PinGodGame.Player.Points += PinGodGame.Player.Bonus;
-		}		
-
+		}
 		timer = GetNode("Timer") as Timer;
+	}
+
+	public override void _Ready()
+	{		
 		if (!timer.IsStopped())
 			timer.Stop();		
 	}

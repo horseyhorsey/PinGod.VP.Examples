@@ -11,29 +11,31 @@ public class ScoreMode : Node2D
 	private Label ballInfolabel;
 	Label[] ScoreLabels = new Label[4];
 	#endregion
-	
+
 	/// <summary>
 	/// Initialize all labels from the scene so we can update
 	/// </summary>
-	public override void _Ready()
+	public override void _EnterTree()
 	{
 		currentScoreLabel = this.GetNode("CanvasLayer/ScoreMain") as Label;
 		playerInfoLabel = this.GetNode("CanvasLayer/PlayerInfo") as Label;
 		ballInfolabel = this.GetNode("CanvasLayer/BallInfo") as Label;
 		for (int i = 0; i < ScoreLabels.Length; i++)
 		{
-			ScoreLabels[i] = this.GetNode($"CanvasLayer/ScoreP{i+1}") as Label;
+			ScoreLabels[i] = this.GetNode($"CanvasLayer/ScoreP{i + 1}") as Label;
 			ScoreLabels[i].Text = string.Empty;
 		}
-
 		//signals
 		GetNode("/root/PinGodGame").Connect("BallStarted", this, "OnScoresUpdated");
 		GetNode("/root/PinGodGame").Connect("GameStarted", this, "OnScoresUpdated");
 		GetNode("/root/PinGodGame").Connect("ScoresUpdated", this, "OnScoresUpdated");
 		GetNode("/root/PinGodGame").Connect("PlayerAdded", this, "OnScoresUpdated");
+	}
 
+	public override void _Ready()
+	{
 		//update current player and ball
-		OnScoresUpdated();
+		CallDeferred(nameof(OnScoresUpdated));
 	}
 
 	/// <summary>
@@ -46,7 +48,7 @@ public class ScoreMode : Node2D
 			//main score display
 			if (PinGodGame.Player.Points > -1 && currentScoreLabel != null)
 			{
-				currentScoreLabel.Text = PinGodGame.Player.Points.ToString();
+				currentScoreLabel.Text = PinGodGame.Player.Points.ToScoreString();
 			}
 			else
 			{
@@ -63,7 +65,7 @@ public class ScoreMode : Node2D
 					{
 						if (player.Points > -1)
 						{
-							lbl.Text = player.Points.ToString("N0");
+							lbl.Text = player.Points.ToScoreString();
 						}
 						else
 						{
@@ -74,9 +76,16 @@ public class ScoreMode : Node2D
 				}
 			}
 
-			ballInfolabel.Text = $"BALL: {PinGodGame.BallInPlay}";
 			//update current player and ball
+			ballInfolabel.Text = $"BALL: {PinGodGame.BallInPlay}";
 			playerInfoLabel.Text = $"PLAYER: {PinGodGame.CurrentPlayerIndex + 1}";
+		}
+		else
+		{
+			//give default in case we have no players and ball
+			currentScoreLabel.Text = ((long)369000).ToScoreString();
+			ballInfolabel.Text = $"BALL: 369";
+			playerInfoLabel.Text = $"PLAYER: 369";
 		}
 	}
 }

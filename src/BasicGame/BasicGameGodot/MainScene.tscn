@@ -16,7 +16,12 @@ script = ExtResource( 3 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="BallSave" parent="CanvasLayer" instance=ExtResource( 4 )]
+visible = false
 
 [node name="BallSearch" parent="CanvasLayer" instance=ExtResource( 5 )]
+visible = false
 
 [node name="PauseControl" parent="CanvasLayer" instance=ExtResource( 2 )]
+visible = false
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]

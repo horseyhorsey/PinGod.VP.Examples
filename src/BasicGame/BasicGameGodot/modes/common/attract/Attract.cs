@@ -48,13 +48,13 @@ public class Attract : Node2D
 			}
 			Print("attract: starting game. started?", started);			
 		}
-		else if(pinGodGame.SwitchOn("flipper_l", @event))
+		if(pinGodGame.SwitchOn("flipper_l", @event))
 		{
 			timer.Stop();
 			ChangeLayer(false);
 			timer.Start(_scene_change_secs);
 		}
-		else if (pinGodGame.SwitchOn("flipper_r", @event))
+		if (pinGodGame.SwitchOn("flipper_r", @event))
 		{
 			timer.Stop();
 			ChangeLayer(true);
@@ -91,7 +91,7 @@ public class Attract : Node2D
 	/// </summary>
 	private void _on_Timer_timeout()
 	{
-		ChangeLayer();
+		CallDeferred(nameof(ChangeLayer), true);
 		pinGodGame.SolenoidPulse("lampshow_1");
 	}
 }

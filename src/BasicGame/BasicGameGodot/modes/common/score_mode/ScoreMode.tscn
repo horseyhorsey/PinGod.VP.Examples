@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://modes/common/score_mode/ScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
 [ext_resource path="res://layers/Text/CreditsLayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/img/pingod-logo.png" type="Texture" id=5]
 
 [node name="ScoreMode" type="Node2D"]
 script = ExtResource( 1 )
@@ -13,9 +14,17 @@ script = ExtResource( 1 )
 [node name="BackgroundColour" type="ColorRect" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.337255, 0.301961, 0.513726, 0 )
+color = Color( 0.160278, 0.40625, 0.181417, 1 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
+}
+
+[node name="pingod-logo" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 519.583, 292.553 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
 }
 
 [node name="ScoreMain" type="Label" parent="CanvasLayer"]
@@ -26,6 +35,7 @@ text = "0"
 align = 1
 valign = 1
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -37,6 +47,7 @@ margin_top = 10.0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -49,6 +60,7 @@ custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -61,6 +73,7 @@ custom_fonts/font = ExtResource( 2 )
 text = "0"
 valign = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -75,6 +88,7 @@ text = "0"
 align = 2
 valign = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -88,6 +102,7 @@ custom_fonts/font = ExtResource( 3 )
 text = "Player: "
 valign = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -96,7 +111,7 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -83.0
+margin_left = -130.0
 margin_top = -33.0
 custom_fonts/font = ExtResource( 3 )
 text = "BALL: "
@@ -106,3 +121,4 @@ __meta__ = {
 }
 
 [node name="Credits" parent="CanvasLayer" instance=ExtResource( 4 )]
+margin_top = -33.0
