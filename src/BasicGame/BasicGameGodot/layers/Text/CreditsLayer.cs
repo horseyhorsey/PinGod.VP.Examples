@@ -6,9 +6,9 @@ using Godot;
 /// </summary>
 public class CreditsLayer : Label
 {
-    private PinGodGame pingod;
+	private PinGodGame pingod;
 
-    public override void _Ready()
+	public override void _Ready()
 	{
 		//update when the credit changes, when added and players added
 		pingod = GetNode("/root/PinGodGame") as PinGodGame;

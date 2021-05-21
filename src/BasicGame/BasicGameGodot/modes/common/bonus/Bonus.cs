@@ -10,13 +10,13 @@ public class Bonus : Control
 	[Export] int _display_for_seconds = 5;
 
 	private Timer timer;
-    private Label label;
-    private PinGodGame pinGod;
+	private Label label;
+	private PinGodGame pinGod;
 
 	/// <summary>
 	/// Awards the current player bonus and gets timer ref
 	/// </summary>
-    public override void _EnterTree()
+	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		if (pinGod.Player != null)
