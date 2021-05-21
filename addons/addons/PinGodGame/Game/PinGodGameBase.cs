@@ -45,7 +45,8 @@ public abstract class PinGodGameBase : Node
 	public PinGodPlayer Player { get; private set; }
 	public GameData GameData { get; private set; }
 	public GameSettings GameSettings { get; private set; }
-#endregion
+	public AudioManager AudioManager { get; protected set; } = new AudioManager();
+	#endregion
 
 	public PinGodGameBase()
 	{
@@ -57,15 +58,6 @@ public abstract class PinGodGameBase : Node
 
 		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
 		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);
-	}
-
-	/// <summary>
-	/// Save game data / settings before exit
-	/// </summary>
-	public override void _ExitTree()
-	{
-		GameData.Save(GameData);
-		GameSettings.Save(GameSettings);
 	}
 
 	#region Public Methods

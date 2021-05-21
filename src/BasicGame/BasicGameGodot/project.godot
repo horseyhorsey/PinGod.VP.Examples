@@ -18,7 +18,7 @@ config/windows_native_icon="res://assets/img/pingod.ico"
 
 [autoload]
 
-PinGodGame="*res://addons/PinGodGame/Game/PinGodGame.cs"
+PinGodGame="*res://PinGodGame.cs"
 Trough="*res://addons/PinGodGame/Game/Trough.cs"
 OscService="*res://addons/PinGodGame/Service/OscService.cs"
 

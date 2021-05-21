@@ -10,10 +10,8 @@ public class MainScene : Node2D
 
 	private Control pauseLayer;
 	private Node2D attractnode;    
-
 	public  PinGodGame pinGod { get; private set; }
 	public bool InServiceMenu { get; private set; }
-
 	private ResourcePreloader _resourcePreLoader;
 
 	public override void _EnterTree()
