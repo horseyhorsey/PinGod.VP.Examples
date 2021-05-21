@@ -16,11 +16,6 @@ public class PinGodGame : PinGodGameBase
 
     public override void _EnterTree()
     {
-        base._EnterTree();
-    }
-
-    public override void _Ready()
-	{
 		sfxPlayer = new AudioStreamPlayer();
 		Sounds.Add("credit", Load(COIN_SFX) as AudioStream);
 		AddChild(sfxPlayer);

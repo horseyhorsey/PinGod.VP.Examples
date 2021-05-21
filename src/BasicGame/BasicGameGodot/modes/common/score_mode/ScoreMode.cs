@@ -82,8 +82,8 @@ public class ScoreMode : Control
             }
 
             //update current player and ball
-            ballInfolabel.Text = $"BALL: {PinGodGame.BallInPlay}";
-            playerInfoLabel.Text = $"PLAYER: {PinGodGame.CurrentPlayerIndex + 1}";
+            ballInfolabel.Text = $"BALL: {pinGod.BallInPlay}";
+            playerInfoLabel.Text = $"PLAYER: {pinGod.CurrentPlayerIndex + 1}";
         }
         else
         {

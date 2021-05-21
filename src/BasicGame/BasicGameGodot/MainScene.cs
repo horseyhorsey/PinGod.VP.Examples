@@ -26,22 +26,22 @@ public class MainScene : Node2D
 		_resourcePreLoader = GetNode("ResourcePreloader") as ResourcePreloader;
 		var sMenu = Load(SERVICE_MENU_SCENE) as PackedScene;
 		_resourcePreLoader.AddResource(SERVICE_MENU_SCENE.BaseName(), sMenu);
-	}
-
-	public override void _Ready()
-	{
-		//attract mod already in the tree, get the instance so we can free it when game started
-		attractnode = GetNode("Modes/Attract") as Node2D;
-
-		//show a pause menu when pause enabled.
-		pauseLayer = GetNode("CanvasLayer/PauseControl") as Control;
-		pauseLayer.Hide();		
 
 		//save a reference to connect signals
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		pinGod.Connect("GameStarted", this, "OnGameStarted");
 		pinGod.Connect("GameEnded", this, "OnGameEnded");
-		pinGod.Connect("ServiceMenuExit", this, "OnServiceMenuExit");		
+		pinGod.Connect("ServiceMenuExit", this, "OnServiceMenuExit");
+
+		//attract mod already in the tree, get the instance so we can free it when game started
+		attractnode = GetNode("Modes/Attract") as Node2D;
+		//show a pause menu when pause enabled.
+		pauseLayer = GetNode("CanvasLayer/PauseControl") as Control;
+	}
+
+	public override void _Ready()
+	{
+		pauseLayer.Hide();			
 		Print("main: ready");
 	}
 
@@ -89,7 +89,7 @@ public class MainScene : Node2D
 	}
 	void OnStartGameDeferred()
 	{
-		PinGodGame.BallInPlay = 1;
+		pinGod.BallInPlay = 1;
 		//pulse ball from trough
 		pinGod.StartNewBall();
 	}

@@ -32,8 +32,8 @@ public class Game : Node2D
 		endOfBallBonus = GetNode("CanvasLayer/Bonus") as Bonus;
 
 		_tiltedTimeOut = new Timer() { OneShot = true, WaitTime = 4, Autostart = false };
-		_tiltedTimeOut.Connect("timeout", this, "timeout");
 		AddChild(_tiltedTimeOut);
+		_tiltedTimeOut.Connect("timeout", this, "timeout");
 
 		Print("game: _ready");
 	}
@@ -160,7 +160,7 @@ public class Game : Node2D
 	/// </summary>
 	public void OnBallEnded(bool lastBall)
 	{
-		Print("game: ball ended", PinGodGame.BallInPlay, "last ball:" + lastBall);
+		Print("game: ball ended", pinGod.BallInPlay, "last ball:" + lastBall);
 		_lastBall = lastBall;
 
 		EndMultiball();
@@ -168,7 +168,7 @@ public class Game : Node2D
 		if (!pinGod.IsTilted)
 		{
 			pinGod.InBonusMode = true;
-			Print("game: adding bonus scene for player: " + PinGodGame.CurrentPlayerIndex);
+			Print("game: adding bonus scene for player: " + pinGod.CurrentPlayerIndex);
 			endOfBallBonus.StartBonusDisplay();
 			return;
 		}

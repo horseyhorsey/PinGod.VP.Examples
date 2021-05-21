@@ -31,11 +31,11 @@ public abstract class PinGodGameBase : Node
 	public bool InBonusMode = false;
 	public bool IsMultiballRunning = false;
 	public bool IsTilted { get; set; }
-	public static byte BallInPlay { get; set; }
-	public static byte CurrentPlayerIndex { get; set; }
-	public static byte FlippersEnabled = 0;
-	public static byte MaxPlayers = 4;
-	public static bool LogSwitchEvents = false;
+	public byte BallInPlay { get; set; }
+	public byte CurrentPlayerIndex { get; set; }
+	public byte FlippersEnabled = 0;
+	public byte MaxPlayers = 4;
+	public bool LogSwitchEvents = false;
 	private uint gameLoadTimeMsec;
 	private uint gameStartTime;
 	private uint gameEndTime;
