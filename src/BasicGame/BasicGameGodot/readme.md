@@ -7,22 +7,11 @@ See Godot documentation for general scene creating, project settings and everyth
 
 ## Setup before running
 
-In this directory add a symbolic link to where the addons directory is. *Full path is necessary*
+In this directory add a symbolic link to where the `addons` directory is. *Full path is necessary*
 
 ```
 mklink /D addons "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\addons\addons"
 ```
-
-## Common Pinball - Basic Modes / Placeholders
-
-- Attract
-- Ball Saves
-- Bonus (End of ball display)
-- Pause
-- Score Entry - TODO
-- Score Mode
-- Tilt
-- Trough
 
 ## MainScene
 ---
@@ -40,10 +29,12 @@ Pause mode is inside this scene and listens for the `pause action`. `@event.IsAc
 
 You can find any of these in the project settings inside Godot. `Project Settings/Autoload`
 
-### GameGlobals.cs
+### PinGodGame.cs
 ---
 
 Holds game specific variables. `BallsPerGame` `Players` and the like can be found for pinball as a base.
+
+A small class for you to edit and override game methods. Edit the methods to custom load sounds. Add machine switches and coils.
 
 ### Trough.cs
 ---
@@ -74,6 +65,30 @@ This sends to multiple addresses. The helper methods like `SetCoilState`, `SetLa
 
 ---
 
+## Default window keys
+
+- Coin = 5
+- Start = 1
+- Trough Switch = Q, W, E, R
+- Flippers = \, / - Can't use L-Shift and RShift
+- Tilt = X
+- Slam Tilt = END
+
+See the `InputMap` tab in project settings
+
+## Common Pinball - Basic Modes / Placeholders
+
+- Attract
+- Ball Saves
+- Ball Search (Todo)
+- Bonus (End of ball display)
+- Multiball
+- Pause
+- Score Entry
+- Score Mode
+- Service Menu (TODO)
+- Tilt
+- Trough
 
 # Logging.
 ---
