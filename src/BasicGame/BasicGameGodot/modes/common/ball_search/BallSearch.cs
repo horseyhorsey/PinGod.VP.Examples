@@ -22,6 +22,14 @@ public class BallSearch : Control
 	private Timer _timer;
 	private Label _label;
 	private bool IsBallSearchRunning = false;
+	private PinGodGame pinGodGame;
+
+	public override void _EnterTree()
+	{
+		pinGodGame = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGodGame?.Connect("BallSearchReset", this, "OnBallSearchReset");
+		pinGodGame?.Connect("BallSearchStop", this, "OnBallSearchStop");
+	}
 
 	public override void _Ready()
 	{
@@ -32,10 +40,6 @@ public class BallSearch : Control
 		_ballSearchWaitTime = _wait_time_secs;
 
 		_label = GetNode("Label") as Label;
-
-		var pinGodGame = GetNode("/root/PinGodGame") as PinGodGame;
-		pinGodGame?.Connect("BallSearchReset", this, "OnBallSearchReset");
-		pinGodGame?.Connect("BallSearchStop", this, "OnBallSearchStop");
 	}
 
 	void OnBallSearchReset()
@@ -65,7 +69,7 @@ public class BallSearch : Control
 
 			for (int i = 0; i < _search_coils.Length; i++)
 			{
-				OscService.PulseCoilState(_search_coils[i]);
+				pinGodGame.PinballSender.PulseCoilState(_search_coils[i]);
 			}
 		}
 		else

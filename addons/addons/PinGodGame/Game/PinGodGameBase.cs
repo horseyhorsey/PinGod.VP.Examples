@@ -46,6 +46,11 @@ public abstract class PinGodGameBase : Node
 	public GameData GameData { get; private set; }
 	public GameSettings GameSettings { get; private set; }
 	public AudioManager AudioManager { get; protected set; } = new AudioManager();
+
+	/// <summary>
+	/// Sends via implementation <see cref="OscService"/>
+	/// </summary>
+	public IPinballSendReceive PinballSender = new OscService();
 	#endregion
 
 	public PinGodGameBase()
@@ -58,6 +63,17 @@ public abstract class PinGodGameBase : Node
 
 		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
 		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);
+	}
+
+	public override void _Notification(int what)
+	{
+		if (what == NotificationWmQuitRequest)
+		{
+			if (PinballSender.Record)
+			{
+				PinballSender.SaveRecording();
+			}
+		}
 	}
 
 	#region Public Methods
@@ -113,7 +129,7 @@ public abstract class PinGodGameBase : Node
 	{
 		foreach (var lamp in Machine.Lamps)
 		{
-			OscService.SetLampState(lamp.Value, 0);
+			PinballSender.SetLampState(lamp.Value, 0);
 		}
 	}
 
@@ -285,9 +301,9 @@ public abstract class PinGodGameBase : Node
 		EmitSignal(nameof(MultiballStarted));
 	}
 
-	public virtual void SolenoidOn(string name, int state) { OscService.SetCoilState(Machine.Coils[name], state) ; }
+	public virtual void SolenoidOn(string name, int state) { PinballSender.SetCoilState(Machine.Coils[name], state) ; }
 
-	public virtual void SolenoidPulse(string name, byte pulse = 125) { OscService.PulseCoilState(Machine.Coils[name], pulse); }
+	public virtual void SolenoidPulse(string name, byte pulse = 125) { PinballSender.PulseCoilState(Machine.Coils[name], pulse); }
 
 	/// <summary>
 	/// Use in Godot _Input events. Checks a switches input event by friendly name from switch collection <para/>

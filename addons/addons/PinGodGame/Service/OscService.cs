@@ -1,5 +1,6 @@
 using Godot;
 using Rug.Osc;
+using System;
 using System.Net;
 using System.Text;
 using System.Threading;
@@ -9,32 +10,73 @@ using static Godot.GD;
 /// <summary>
 /// Godot singleton to send/receive OSC message over loopback
 /// </summary>
-public class OscService : Node
+public class OscService : IPinballSendReceive
 {
-	private OscReceiver receiver;
-	private Task oscTask;
-	private CancellationToken _token;
-	private static OscSender sender;
-	CancellationTokenSource _tokenSource;
-
+	public uint GameStartTime { get; private set; }
 	public int SendPort { get; set; } = 9001;
 	public int ReceivePort { get; set; } = 9000;
 	public bool LogActions { get; set; } = false;
 
-	public static uint GameStartTime { get; private set; }
+	private OscReceiver receiver;
+	private OscSender sender;
 
+	private Task oscTask;
+	private CancellationToken _token;	
+	CancellationTokenSource _tokenSource;
+
+	/// <summary>
+	/// recording actions
+	/// </summary>
 	StringBuilder stringBuilder;
+
+	public OscService()
+	{
+		_tokenSource = new CancellationTokenSource();
+		_token = _tokenSource.Token;
+		_token.Register(() => Print("osc receive task stopped"));
+	}
 
 	/// <summary>
 	/// Records the actions / switches
 	/// </summary>
-	public bool RecordGame { get; set; } = false;
+	public bool Record { get; set; } = false;	
 
 	/// <summary>
-	/// Sets up <see cref="receiver"/> to listen for actions from Sim. Connects the sender. Sends Ready to controllers.
+	/// Sends game_ready message over the /evt address
 	/// </summary>
-	public override void _Ready()
+	public void SendGameReady()
 	{
+		sender?.Send(new OscMessage("/evt", "game_ready"));
+	}
+
+	/// <summary>
+	/// Sends message over the /coils address
+	/// </summary>
+	/// <param name="num"></param>
+	/// <param name="state"></param>
+	public void SetCoilState(byte num, int state)
+	{
+		sender?.Send(new OscMessage("/coils", num, state));
+	}
+
+	/// <summary>
+	/// Sends message over the /lamps address
+	/// </summary>
+	/// <param name="lampId"></param>
+	/// <param name="lampState"></param>
+	public void SetLampState(int lampId, int lampState)
+	{
+		sender?.Send(new OscMessage("/lamps", lampId, lampState));
+	}
+
+	public void Start()
+	{
+		if(receiver != null)
+		{
+			Print("osc service already initialized");
+			return;
+		}
+
 		receiver = new OscReceiver(IPAddress.Loopback, ReceivePort);
 		receiver.Connect();
 
@@ -56,7 +98,7 @@ public class OscService : Node
 						var ev = new InputEventAction() { Action = message[0].ToString(), Pressed = actionState };
 						if (LogActions) { Print($"in:{ev.Action}-state:{ev.Pressed}"); }
 
-						if (RecordGame)
+						if (Record)
 						{
 							var switchTime = OS.GetTicksMsec() - GameStartTime;
 							var recordLine = $"{ev.Action}|{ev.Pressed}|{switchTime}";
@@ -81,100 +123,46 @@ public class OscService : Node
 
 		//Game start time, fully loaded...
 		GameStartTime = OS.GetTicksMsec();
-		if (RecordGame)
+		if (Record)
 		{
 			stringBuilder = new StringBuilder();
 		}
-	}
-
-	public override void _EnterTree()
-	{
-		_tokenSource = new CancellationTokenSource();
-		_token = _tokenSource.Token;
-		_token.Register(() => Print("osc receive task stopped"));
-	}
-
-	public override void _ExitTree()
-	{
-		Print("exiting osc service");
-		if (oscTask.Status == TaskStatus.Running)
-		{
-			SetCoilState(0, 1); //send game ended to VP via a coil. User could close this window first.
-			_tokenSource.Cancel();
-		}
-		Print("exited OSC service");
-	}
-
-	/// <summary>
-	/// Sends game_ready message over the /evt address
-	/// </summary>
-	public static void SendGameReady()
-	{
-		sender.Send(new OscMessage("/evt", "game_ready"));
-	}
-
-	/// <summary>
-	/// Sends message over the /coils address
-	/// </summary>
-	/// <param name="num"></param>
-	/// <param name="state"></param>
-	public static void SetCoilState(byte num, int state)
-	{
-		sender.Send(new OscMessage("/coils", num, state));
-	}
-
-	/// <summary>
-	/// Sends message over the /lamps address
-	/// </summary>
-	/// <param name="lampId"></param>
-	/// <param name="lampState"></param>
-	public static void SetLampState(int lampId, int lampState)
-	{
-		sender.Send(new OscMessage("/lamps", lampId, lampState));
-	}
-
-	public override void _Notification(int what)
-	{
-		if (what == NotificationWmQuitRequest)
-		{
-			if (RecordGame)
-			{
-				Print("saving record file");
-				var userDir = OS.GetUserDataDir();
-				using (var txtFile = System.IO.File.CreateText(userDir + "/recording.txt"))
-				{
-					txtFile.Write(stringBuilder.ToString());
-				}
-				stringBuilder.Clear();
-				Print("file saved");
-			}
-		}
-	}
-
-	/// <summary>
-	/// Listens for the Quit action
-	/// </summary>
-	/// <param name="event"></param>
-	public override void _Input(InputEvent @event)
-	{
-		if (@event.IsActionPressed("quit"))
-		{
-			GetTree().Quit(0);
-		}
-	}
+	}	
 
 	/// <summary>
 	/// Runs task to pulse 255ms. TODO: why new task?
 	/// </summary>
 	/// <param name="coilId"></param>
-	public static void PulseCoilState(byte coilId, byte pulseTime = 125)
+	public void PulseCoilState(byte coilId, byte pulseTime = 125)
 	{
 		Task.Run(() =>
 		{
-			sender.Send(new OscMessage("/coils", coilId, 1));
+			sender?.Send(new OscMessage("/coils", coilId, 1));
 			//sender.WaitForAllMessagesToComplete();
 			Task.Delay(pulseTime).Wait();
-			sender.Send(new OscMessage("/coils", coilId, 0));
+			sender?.Send(new OscMessage("/coils", coilId, 0));
 		});
+	}
+
+	public void SaveRecording()
+	{
+		Print("saving record file");
+		var userDir = OS.GetUserDataDir();
+		var file = DateTime.Now.ToFileTime()+".record";
+		using (var txtFile = System.IO.File.CreateText(userDir + $"/recordings/{file}"))
+		{
+			txtFile.Write(stringBuilder.ToString());
+		}
+		stringBuilder.Clear();
+		Print("file saved");
+	}
+
+	public void Stop()
+	{
+		if (oscTask?.Status == TaskStatus.Running)
+		{
+			SetCoilState(0, 1); //send game ended to VP via a coil. User could close this window first.
+			_tokenSource.Cancel();
+		}
 	}
 }

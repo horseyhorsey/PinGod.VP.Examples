@@ -164,7 +164,7 @@ public class Trough : Node
 		await Task.Run(() =>
 		{
 			BallSaveActive = true;
-			OscService.SetLampState(Machine.Lamps["shoot_again"], 2);
+			pinGod.PinballSender.SetLampState(Machine.Lamps["shoot_again"], 2);
 			ballSaverTimer.Start(BallSaveMultiballSeconds);
 			Print("trough: mball started, save time:", BallSaveMultiballSeconds);
 
@@ -205,7 +205,7 @@ public class Trough : Node
 		{
 			BallSaveActive = true;
 			//set to blinking for visual pinball
-			OscService.SetLampState(Machine.Lamps["shoot_again"], 2);
+			pinGod.PinballSender.SetLampState(Machine.Lamps["shoot_again"], 2);
 			ballSaverTimer.Start(BallSaveSeconds);
 		}
 
@@ -215,7 +215,7 @@ public class Trough : Node
 	public void DisableBallSave()
 	{
 		BallSaveActive = false;
-		OscService.SetLampState(Machine.Lamps["shoot_again"], 0);
+		pinGod.PinballSender.SetLampState(Machine.Lamps["shoot_again"], 0);
 	}
 
 	private void FireEarlySave()

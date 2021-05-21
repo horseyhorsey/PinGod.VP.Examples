@@ -30,19 +30,32 @@ public class PinGodGame : PinGodGameBase
 		AddCustomSwitches(); AddCustomSolenoids();		
 
 		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
+
+		Print("Starting Pinball Sender");
+		PinballSender.Start();
 	}
 
 	/// <summary>
 	/// Save game data / settings before exit
 	/// </summary>
 	public override void _ExitTree()
-	{
+	{		
 		GameData.Save(GameData);
 		GameSettings.Save(GameSettings);
+
+		Print("exiting pinball sender");		
+		PinballSender.Stop();
+		Print("exited pinball sender");
 	}
 
 	public override void _Input(InputEvent @event)
 	{
+		//quits the game. ESC
+		if (@event.IsActionPressed("quit"))
+		{
+			GetTree().Quit(0);
+		}
+
 		//Coin button. See PinGod.vbs for Standard switches
 		if (SwitchOn("coin", @event))
 		{
