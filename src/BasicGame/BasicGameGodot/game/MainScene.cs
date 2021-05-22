@@ -16,6 +16,7 @@ public class MainScene : Node2D
 
 	public override void _EnterTree()
 	{
+		Print("Splash timer msecs", OS.GetSplashTickMsec());
 		//try to catch anything unhandled here, not when ready
 		AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 		PauseMode = PauseModeEnum.Process;
@@ -34,13 +35,13 @@ public class MainScene : Node2D
 		//attract mod already in the tree, get the instance so we can free it when game started
 		attractnode = GetNode("Modes/Attract") as Node2D;
 		//show a pause menu when pause enabled.
-		pauseLayer = GetNode("CanvasLayer/PauseControl") as Control;
+		pauseLayer = GetNode("CanvasLayer/PauseControl") as Control;		
 	}
 
 	public override void _Ready()
 	{
-		pauseLayer.Hide();			
-		Print("main: ready");
+		pauseLayer.Hide();
+		Print("main: ready");		
 	}
 
 	private void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
@@ -89,7 +90,7 @@ public class MainScene : Node2D
 	{
 		pinGod.BallInPlay = 1;
 		//pulse ball from trough
-		pinGod.StartNewBall();
+		pinGod.StartNewBall();		
 	}
 
 	void OnServiceMenuExit()

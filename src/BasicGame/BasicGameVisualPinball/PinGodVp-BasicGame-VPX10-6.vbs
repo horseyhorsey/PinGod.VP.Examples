@@ -26,8 +26,8 @@ End Sub
 Const IsDebug = True
 Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\BasicGame\BasicGameGodot"
 Const UseSolenoids = 1 ' Check for solenoid states?
-Const UseLamps = True  ' Check for lamp states?
-'Const UsePdbLeds = False  ' PROC RGB Leds - TODO
+'Const UseLamps = True  ' Check for lamp states?
+Const UsePdbLeds = True  ' PROC RGB Leds - TODO
 
 Dim bsTrough, bsSaucer, plungerIM, swSaucer : swSaucer = 27
 
@@ -41,8 +41,6 @@ Sub Table1_Init
 		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
 		.DisplayLowDpi 		= False
 		.DisplayNoWindow 	= False
-		.CoilCount			= 64
-		.LampCount			= 64
 	On Error Resume Next
 		if isDebug Then '
 			.RunDebug GetPlayerHWnd, GameDirectory ' Load game from Godot folder with Godot exe

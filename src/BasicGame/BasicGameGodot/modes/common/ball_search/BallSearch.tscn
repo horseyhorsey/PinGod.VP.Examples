@@ -10,8 +10,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_search_coils = PoolByteArray( 3 )
-_wait_time_secs = 10
+_search_coils = PoolStringArray( "mball_saucer" )
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

@@ -12,13 +12,13 @@ config_version=4
 
 config/name="BasicGameGodot"
 config/description="Example game running Godot projects with Visual Pinball"
-run/main_scene="res://MainScene.tscn"
+run/main_scene="res://game/MainScene.tscn"
 config/icon="res://assets/img/pingod-logo.png"
 config/windows_native_icon="res://assets/img/pingod.ico"
 
 [autoload]
 
-PinGodGame="*res://PinGodGame.cs"
+PinGodGame="*res://game/PinGodGame.cs"
 Trough="*res://addons/PinGodGame/Game/Trough.cs"
 
 [display]
@@ -179,3 +179,7 @@ sw27={
 "deadzone": 0.5,
 "events": [  ]
 }
+
+[rendering]
+
+quality/dynamic_fonts/use_oversampling=false

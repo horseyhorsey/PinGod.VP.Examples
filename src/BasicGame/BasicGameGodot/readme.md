@@ -13,8 +13,41 @@ In this directory add a symbolic link to where the `addons` directory is. *Full 
 mklink /D addons "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\addons\addons"
 ```
 
-## MainScene
+## Autoloaded Scenes / Scripts
+
+You can find any of these in the project settings inside Godot. `Project Settings/Autoload`
+
+### PinGodGame.cs
 ---
+
+The base class `PinGodGameBase` this uses holds game specific variables. `BallsPerGame` `Players` and the like can be found for pinball.
+
+This class you should add to for sharing properties and methods with other scenes. You can reference and use like so.
+
+#### Adding Properties / Methods
+
+Add a variable like `int SwitchesHit = 369` in `PinGodGame` and access from the node.
+
+```
+var pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+GD.Print("How many switches hit?", pinGod.SwitchesHit);
+```
+
+#### Adding Switches / Coils / Lamps / Leds
+
+See `AddCustomMachineItems` in `_EnterTree` to add more.
+
+#### Audio Streams
+
+See `AddAudioStreams` in `_EnterTree` to add more.
+
+## Trough.cs
+
+Basic handling of a trough in a pinball machine with added ball save. Ball saving requires a `plungerlane` switch number.
+
+`res://addons/PinGodAddons/PinGodGame/Game/Trough`
+
+## MainScene (res://game/MainScene)
 
 This should be looked at as a master scene which controls the game and scene changes etc and never removed. Entirely up to you of course.
 
@@ -24,46 +57,18 @@ This should be looked at as a master scene which controls the game and scene cha
 
 Pause mode is inside this scene and listens for the `pause action`. `@event.IsActionReleased("pause")`
 
-## Autoloaded Scenes / Scripts
----
+## Game (res://modes/Game)
 
-You can find any of these in the project settings inside Godot. `Project Settings/Autoload`
+After the player pushes start with a full trough and credits this scene is added to the tree.
 
-### PinGodGame.cs
----
+In `_EnterTree` there are example `Signal` connections wired like the following.
 
-Holds game specific variables. `BallsPerGame` `Players` and the like can be found for pinball as a base.
+```
+pinGod.Connect("BallEnded", this, "OnBallEnded");
+pinGod.Connect("BallStarted", this, "OnBallStarted");
+```
 
-A small class for you to edit and override game methods. Edit the methods to custom load sounds. Add machine switches and coils.
-
-### Trough.cs
----
-
-Basic handling of a trough in a pinball machine with added ball save. Ball saving requires a `plungerlane` switch number.
-
-
-### OscService.cs
----
-
-The service that handles requests from the PinGod.VP.Controller on local machine loopback. Recording playback TODO.
-
-#### Receiver (default port 9000)
----
-
-This listens on the `/action` address. An action name and pressed number is sent to this.
-
-The `quit` action is handled in this class to close the app on request.
-
-#### Sender port (default port 9001)
----
-
-This sends to multiple addresses. The helper methods like `SetCoilState`, `SetLampState` use these and can be used from the other modes.
-
-- `/evt`    == Sends an event. `game_ready` is an example to the controller.
-- `/coils`  == Sends a coil state change
-- `/lamps`  == Sends a lamp state change
-
----
+See `Game.cs`
 
 ## Default window keys
 

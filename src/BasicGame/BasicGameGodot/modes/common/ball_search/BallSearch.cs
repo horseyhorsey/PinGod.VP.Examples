@@ -11,7 +11,7 @@ public class BallSearch : Control
 	/// <summary>
 	/// The coil numbers to pulse when timer runs out.
 	/// </summary>
-	[Export] private byte[] _search_coils;
+	[Export] private string[] _search_coils;
 
 	[Export] private int _wait_time_secs = 10;
 
@@ -69,7 +69,7 @@ public class BallSearch : Control
 
 			for (int i = 0; i < _search_coils.Length; i++)
 			{
-				pinGodGame.PinballSender.PulseCoilState(_search_coils[i]);
+				pinGodGame.SolenoidPulse(_search_coils[i]);
 			}
 		}
 		else

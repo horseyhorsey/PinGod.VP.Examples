@@ -11,34 +11,33 @@ public class PinGodGame : PinGodGameBase
 
 	public override void _EnterTree()
     {
-		Print("PinGod: entering tree. Loading audiomanager");
+        Print("PinGod: entering tree. Loading audiomanager");
 
-		//create and get ref to the audiomanager scene
-		var audioMan = Load(AUDIO_MANAGER) as PackedScene;
-		AddChild(audioMan.Instance());
-		AudioManager = GetNode("AudioManager") as AudioManager;
-		Print("PinGod: audiomanager loaded.", AudioManager != null);
+        //create and get ref to the audiomanager scene
+        var audioMan = Load(AUDIO_MANAGER) as PackedScene;
+        AddChild(audioMan.Instance());
+        AudioManager = GetNode("AudioManager") as AudioManager;
+        Print("PinGod: audiomanager loaded.", AudioManager != null);
 
-		//set to false, no music in this particular game
-		AudioManager.MusicEnabled = false;
-		AudioManager.Bgm = string.Empty;
+        //set to false, no music in this particular game
+        AudioManager.MusicEnabled = false;
+        AudioManager.Bgm = string.Empty;
 
-		//load audio streams, music / sfx / vox
-		AddAudioStreams();
+        //load audio streams, music / sfx / vox
+        AddAudioStreams();
+        //add custom coils and switches for this game
+        AddCustomMachineItems();
 
-		//add custom coils and switches for this game
-		AddCustomSwitches(); AddCustomSolenoids();		
+        Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
 
-		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
+        Print("Starting Pinball Sender");
+        PinballSender.Start();
+    }
 
-		Print("Starting Pinball Sender");
-		PinballSender.Start();
-	}
-
-	/// <summary>
-	/// Save game data / settings before exit
-	/// </summary>
-	public override void _ExitTree()
+    /// <summary>
+    /// Save game data / settings before exit
+    /// </summary>
+    public override void _ExitTree()
 	{		
 		GameData.Save(GameData);
 		GameSettings.Save(GameSettings);
@@ -75,9 +74,9 @@ public class PinGodGame : PinGodGameBase
 	/// </summary>
 	void AddCustomSolenoids()
 	{
-		Machine.Coils.Add("disable_shows", 33);
-		Machine.Coils.Add("lampshow_1", 34);
-		Machine.Coils.Add("lampshow_2", 35);
+		Machine.Coils.Add("disable_shows", new PinStateObject(33));
+		Machine.Coils.Add("lampshow_1", new PinStateObject(34));
+		Machine.Coils.Add("lampshow_2", new PinStateObject(35));
 	}
 
 	/// <summary>
@@ -88,6 +87,22 @@ public class PinGodGame : PinGodGameBase
 		Machine.Switches.Add("mball_saucer", new Switch(27));
 	}
 
+	/// <summary>
+	/// Add custom leds to the <see cref="Machine.Leds"/>. Invoked when ready
+	/// </summary>
+	void AddCustomLeds()
+	{
+		
+	}
+
+	/// <summary>
+	/// Add custom lamps to the <see cref="Machine.Lamps"/>. Invoked when ready
+	/// </summary>
+	void AddCustomLamps()
+	{
+
+	}
+
 	void AddAudioStreams()
     {
 		//adds the default credit sound
@@ -95,6 +110,14 @@ public class PinGodGame : PinGodGameBase
 
 		//add music for the game. Ogg to autoloop
 		//AudioManager.AddMusic("res://assets/audio/music/mymusic.ogg", "mymusic");
+	}
+
+	private void AddCustomMachineItems()
+	{
+		AddCustomSwitches(); 
+		AddCustomSolenoids();
+		AddCustomLeds();
+		AddCustomLamps();
 	}
 
 	/// <summary>

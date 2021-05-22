@@ -44,7 +44,7 @@ public class Attract : Node2D
 			var started = pinGodGame.StartGame();
 			if (started)
 			{
-				pinGodGame.SolenoidPulse("disable_shows", 1);
+				pinGodGame.SolenoidPulse("disable_shows");
 			}
 			Print("attract: starting game. started?", started);
 		}

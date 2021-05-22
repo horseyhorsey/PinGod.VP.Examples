@@ -1,6 +1,7 @@
 using Godot;
 using static Godot.GD;
 using System.Threading.Tasks;
+using System.Drawing;
 
 public class Game : Node2D
 {
@@ -18,10 +19,7 @@ public class Game : Node2D
 		Print("game: enter tree");
 		//get packed scene to create an instance of when a Multiball gets activated
 		multiballPkd = ResourceLoader.Load(MULTIBALL_SCENE) as PackedScene;
-	}
 
-	public override void _Ready()
-	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		pinGod.Connect("BallEnded", this, "OnBallEnded");
 		pinGod.Connect("BallStarted", this, "OnBallStarted");
@@ -34,8 +32,12 @@ public class Game : Node2D
 		_tiltedTimeOut = new Timer() { OneShot = true, WaitTime = 4, Autostart = false };
 		AddChild(_tiltedTimeOut);
 		_tiltedTimeOut.Connect("timeout", this, "timeout");
+	}
 
+	public override void _Ready()
+	{
 		Print("game: _ready");
+		pinGod.DisableAllLamps();
 	}
 
 	/// <summary>
@@ -128,8 +130,13 @@ public class Game : Node2D
 			{
 				pinGod.IsMultiballRunning = true;
 				CallDeferred("AddMultiballSceneToTree");
+				pinGod.SolenoidPulse("mball_saucer", 125);
+            }
+            else
+            {
+				//already in multiball
+				pinGod.SolenoidPulse("mball_saucer", 125);
 			}
-			pinGod.SolenoidPulse("mball_saucer");
 		}
 	}
 
@@ -146,14 +153,8 @@ public class Game : Node2D
 		//add to multiball group
 		mball.AddToGroup("multiball");
 		//add to the tree
-		GetNode("CanvasLayer").AddChild(mball);
-
-		CallDeferred("PlayShow", 1);
+		GetNode("CanvasLayer").AddChild(mball);		
 	}
-
-	//play a lampshow (VP LightSeq)
-	void PlayShow(int num) => pinGod.SolenoidOn("lampshow_"+num, 1);
-
 
 	/// <summary>
 	/// Add a display at end of ball
@@ -210,6 +211,7 @@ public class Game : Node2D
 		Print("removing multiballs");
 		GetTree().CallGroup("multiball", "EndMultiball");
 		pinGod.IsMultiballRunning = false;
+		//set coil and send update
 		pinGod.SolenoidOn("lampshow_1", 1);
 	}
 
@@ -237,6 +239,7 @@ public class Game : Node2D
 	public void OnBallStarted()
 	{
 		Print("game: ball started");
+		pinGod.SetLedState("shoot_again", 2, System.Drawing.Color.Green, true);
 	}
 
 	/// <summary>
