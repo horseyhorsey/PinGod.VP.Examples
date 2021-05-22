@@ -39,12 +39,7 @@ public class PinGodGame : PinGodGameBase
     /// </summary>
     public override void _ExitTree()
 	{		
-		GameData.Save(GameData);
-		GameSettings.Save(GameSettings);
-
-		Print("exiting pinball sender");		
-		PinballSender.Stop();
-		Print("exited pinball sender");
+		Quit(true);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -74,6 +69,7 @@ public class PinGodGame : PinGodGameBase
 	/// </summary>
 	void AddCustomSolenoids()
 	{
+		Machine.Coils.Add("mball_saucer", new PinStateObject(4));  
 		Machine.Coils.Add("disable_shows", new PinStateObject(33));
 		Machine.Coils.Add("lampshow_1", new PinStateObject(34));
 		Machine.Coils.Add("lampshow_2", new PinStateObject(35));

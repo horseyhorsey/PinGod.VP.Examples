@@ -230,6 +230,21 @@ public abstract class PinGodGameBase : Node
 		return 0;
 	}
 	/// <summary>
+	/// Quits the game, cleans up
+	/// </summary>
+	/// <param name="saveData">save game on exit?</param>
+	public virtual void Quit(bool saveData = true)
+    {
+		if(saveData)
+        {
+			GameData.Save(GameData);
+			GameSettings.Save(GameSettings);
+		}
+		Print("exiting pinball sender");
+		PinballSender.Stop(); //don't remove, game won't close from VP otherwise
+		Print("exited pinball sender");
+	}
+	/// <summary>
 	/// Reset player warnings and tilt
 	/// </summary>
 	public virtual void ResetTilt()
@@ -391,7 +406,7 @@ public abstract class PinGodGameBase : Node
 	{
 		if (Machine.Coils?.Count <= 0) return;
 
-		Task.Run(async () =>
+		await Task.Run(async () =>
 		{
 			var coil = Machine.Coils[name];
 			coil.State = 1;

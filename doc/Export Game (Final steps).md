@@ -1,4 +1,4 @@
-# 4. Export Game (Final steps)
+# Export Game (Final steps)
 ---
 
 This would be the final step but isn't necessary when creating / debugging games.

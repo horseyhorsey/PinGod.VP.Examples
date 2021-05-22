@@ -95,7 +95,11 @@ See the `InputMap` tab in project settings
 - Tilt
 - Trough
 
-# Logging.
+# Logging / GameData / Settings
 ---
 
 Can view most of it from the debug console window but if you miss something they can be found at `C:\Users\YOURNAME\AppData\Roaming\Godot\app_userdata\BasicGameGodot`.
+
+Opening the folder in editors like `Sublime, VsCode` is a quick way to view your `SaveData`, `Settings` and `Logs`
+
+![image](../../../doc/images/sublime-userdata-folder.jpg)

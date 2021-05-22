@@ -43,8 +43,7 @@ public static class Machine
         {"died",            new PinStateObject(0)},
         {"trough",          new PinStateObject(1)},
         {"flippers",        new PinStateObject(2)},
-        {"auto_plunger",    new PinStateObject(3)},
-        {"mball_saucer",    new PinStateObject(4)},        
+        {"auto_plunger",    new PinStateObject(3)}      
     };
 }
 
