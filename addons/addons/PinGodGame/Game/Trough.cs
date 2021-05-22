@@ -1,4 +1,5 @@
 using Godot;
+using System.Drawing;
 using System.Threading.Tasks;
 using static Godot.GD;
 
@@ -115,7 +116,10 @@ public class Trough : Node
 			{
 				var saveStarted = StartBallSaver();
 				if (saveStarted)
+                {
+					pinGod.SetLedState("shoot_again", 2, ColorTranslator.ToOle(System.Drawing.Color.Green), true);
 					EmitSignal(nameof(BallSaveStarted));
+				}				
 
 				Print($"trough: ball_save_started? {saveStarted}");
 			}
@@ -164,7 +168,10 @@ public class Trough : Node
 		await Task.Run(() =>
 		{
 			BallSaveActive = true;
-			pinGod.PinballSender.SetLampState(Machine.Lamps["shoot_again"], 2);
+
+			//pinGod.SetLampState("shoot_again", 2);
+			pinGod.SetLedState("shoot_again", 2, ColorTranslator.ToOle(System.Drawing.Color.Yellow));
+
 			ballSaverTimer.Start(BallSaveMultiballSeconds);
 			Print("trough: mball started, save time:", BallSaveMultiballSeconds);
 
@@ -205,7 +212,7 @@ public class Trough : Node
 		{
 			BallSaveActive = true;
 			//set to blinking for visual pinball
-			pinGod.PinballSender.SetLampState(Machine.Lamps["shoot_again"], 2);
+			//pinGod.SetLampState("shoot_again", 2);			
 			ballSaverTimer.Start(BallSaveSeconds);
 		}
 
@@ -215,7 +222,8 @@ public class Trough : Node
 	public void DisableBallSave()
 	{
 		BallSaveActive = false;
-		pinGod.PinballSender.SetLampState(Machine.Lamps["shoot_again"], 0);
+		//pinGod.SetLampState("shoot_again", 0);
+		pinGod.SetLedState("shoot_again", 0, 255);
 	}
 
 	private void FireEarlySave()

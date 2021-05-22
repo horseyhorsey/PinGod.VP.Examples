@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+
 public static class Machine 
 {
     public static readonly Switches Switches = new Switches()
@@ -28,19 +30,25 @@ public static class Machine
 
     public static readonly Lamps Lamps = new Lamps()
     {
-        {"shoot_again",        1}
+        {"shoot_again",        new PinStateObject(1)}
+    };
+
+    public static readonly Leds Leds = new Leds()
+    {
+        {"shoot_again",        new PinStateObject(1)}
     };
 
     public static readonly Coils Coils = new Coils()
     {
-        {"died",            0},
-        {"trough",          1},
-        {"flippers",        2},
-        {"auto_plunger",    3},
-        {"mball_saucer",    4},        
+        {"died",            new PinStateObject(0)},
+        {"trough",          new PinStateObject(1)},
+        {"flippers",        new PinStateObject(2)},
+        {"auto_plunger",    new PinStateObject(3)},
+        {"mball_saucer",    new PinStateObject(4)},        
     };
 }
 
+public class Coils : PinStates { }
 public class Switches : Dictionary<string, Switch> { }
-public class Lamps : Dictionary<string, byte> { }
-public class Coils : Dictionary<string, byte> { }
+public class Lamps : PinStates { }
+public class Leds : PinStates { }

@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static Godot.GD;
 
 public abstract class PinGodGameBase : Node
@@ -65,6 +66,7 @@ public abstract class PinGodGameBase : Node
 		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);
 	}
 
+	#region Godot overrides
 	public override void _Notification(int what)
 	{
 		if (what == NotificationWmQuitRequest)
@@ -75,6 +77,7 @@ public abstract class PinGodGameBase : Node
 			}
 		}
 	}
+	#endregion
 
 	#region Public Methods
 	/// <summary>
@@ -89,7 +92,6 @@ public abstract class PinGodGameBase : Node
 			EmitSignal(nameof(ScoresUpdated));
 		}
 	}
-
 	/// <summary>
 	/// Adds bonus to the current player
 	/// </summary>
@@ -101,7 +103,6 @@ public abstract class PinGodGameBase : Node
 			Player.Bonus += points;
 		}
 	}
-
 	public virtual void BallSearchSignals(BallSearchSignalOption searchResetOption = BallSearchSignalOption.None)
 	{
 		Print("signals", searchResetOption.ToString());
@@ -120,25 +121,36 @@ public abstract class PinGodGameBase : Node
 				break;
 		}
 	}
-
 	/// <summary>
-	/// Disables all lamps in <see cref="Lamps"/> <para/>
-	/// TODO: Change so we can send array of lamp nums in one hit over address.
+	/// Disables all <see cref="Lamps"/> and <see cref="Leds"/>
 	/// </summary>
-	public virtual void DisableAllLamps()
+	/// <param name="sendUpdate">Runs <see cref="UpdateLampStates"/> and <see cref="UpdateLedStates"/></param>
+	public virtual void DisableAllLamps(bool sendUpdate = true)
 	{
-		foreach (var lamp in Machine.Lamps)
+		if(Machine.Lamps.Count > 0)
+        {
+			foreach (var lamp in Machine.Lamps)
+			{
+				lamp.Value.State = 0;
+			}
+			if(sendUpdate)
+				UpdateLampStates();
+		}
+		if (Machine.Leds.Count > 0)
 		{
-			PinballSender.SetLampState(lamp.Value, 0);
+			foreach (var led in Machine.Leds)
+			{
+				led.Value.State = 0;
+			}
+			if (sendUpdate)
+				UpdateLedStates();
 		}
 	}
-
 	public virtual void EnableFlippers(byte enabled)
 	{
 		FlippersEnabled = enabled;
 		this.SolenoidOn("flippers", enabled);
 	}
-
 	/// <summary>
 	/// Ends the current ball. Changes the player <para/>
 	/// Sends <see cref="BallEnded"/> signal
@@ -186,7 +198,6 @@ public abstract class PinGodGameBase : Node
 
 		return false;
 	}
-
 	/// <summary>
 	/// Game has ended, sets <see cref="GameInPlay"/> to false and Sends <see cref="GameEnded"/>
 	/// </summary>
@@ -199,12 +210,25 @@ public abstract class PinGodGameBase : Node
 		GameData.TimePlayed = gameEndTime - gameStartTime;
 		this.EmitSignal(nameof(GameEnded));
 	}
-
 	public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
-
 	public virtual long GetTopScorePoints => GameData?.HighScores?
 		.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
-
+	/// <summary>
+	/// Is the switch you're checking a trough switch? <see cref="Trough.TroughSwitches"/>
+	/// </summary>
+	/// <param name="input"></param>
+	/// <returns>The number of the trough switch. 0 not found</returns>
+	public virtual byte IsTroughSwitch(InputEvent input)
+	{
+		for (int i = 0; i < Trough.TroughSwitches.Length; i++)
+		{
+			if (input.IsActionPressed("sw" + Trough.TroughSwitches[i]))
+			{
+				return Trough.TroughSwitches[i];
+			}
+		}
+		return 0;
+	}
 	/// <summary>
 	/// Reset player warnings and tilt
 	/// </summary>
@@ -213,17 +237,14 @@ public abstract class PinGodGameBase : Node
 		Tiltwarnings = 0;
 		IsTilted = false;
 	}
-
 	/// <summary>
 	/// Sends a signal game is paused <see cref="GamePaused"/>
 	/// </summary>
 	public virtual void SetGamePaused() => EmitSignal(nameof(GamePaused));
-
 	/// <summary>
 	/// Sends a signal game is resumed <see cref="GameResumed"/>
 	/// </summary>
 	public virtual void SetGameResumed() => EmitSignal(nameof(GameResumed));
-
 	/// <summary>
 	/// Attempts to start a game. If games in play then add more players until <see cref="MaxPlayers"/> <para/>
 	/// </summary>
@@ -273,21 +294,38 @@ public abstract class PinGodGameBase : Node
 
 		return false;
 	}
+	public virtual void SetLampState(string name, byte state, bool sendUpdate = true)
+    {
+		if (Machine.Lamps?.Count <= 0) return;
+		Machine.Lamps[name].State = state;
 
-	/// <summary>
-	/// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
-	/// </summary>
-	public virtual void StartNewBall()
+		if(sendUpdate)
+			UpdateLampStates();
+	}
+	public virtual void SetLedState(string name, byte state, int color = 0, bool sendUpdate = true)
+	{
+		if (Machine.Leds?.Count <= 0) return;
+
+		Machine.Leds[name].State = state;
+		Machine.Leds[name].Colour = color > 0 ? color : Machine.Leds[name].Colour;
+
+		if (sendUpdate)
+			UpdateLedStates();
+	}
+
+    /// <summary>
+    /// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
+    /// </summary>
+    public virtual void StartNewBall()
 	{
 		Print("base:starting new ball");
 		GameData.BallsStarted++;
 		ResetTilt();
 		Player = Players[CurrentPlayerIndex];
 		EnableFlippers(1);
-		SolenoidPulse("trough", 100);
+		SolenoidPulse("trough", 25);
 		EmitSignal(nameof(BallStarted));
 	}
-
 	/// <summary>
 	/// Sets MultiBall running to send a <see cref="MultiballStarted"/>
 	/// </summary>
@@ -300,11 +338,28 @@ public abstract class PinGodGameBase : Node
 		IsMultiballRunning = true;
 		EmitSignal(nameof(MultiballStarted));
 	}
+	public virtual void SolenoidOn(string name, byte state, bool sendUpdate = true) 
+	{
+		if (Machine.Coils?.Count <= 0) return;
+		Machine.Coils[name].State = state;
 
-	public virtual void SolenoidOn(string name, int state) { PinballSender.SetCoilState(Machine.Coils[name], state) ; }
+		if (sendUpdate)
+			UpdateCoilsStates();
+	}
+	public virtual async void SolenoidPulse(string name, byte pulse = 255) 
+	{
+		if (Machine.Coils?.Count <= 0) return;
 
-	public virtual void SolenoidPulse(string name, byte pulse = 125) { PinballSender.PulseCoilState(Machine.Coils[name], pulse); }
-
+		Task.Run(async () =>
+		{
+			var coil = Machine.Coils[name];
+			coil.State = 1;
+			UpdateCoilsStates();
+			await Task.Delay(pulse);
+			coil.State = 0;
+			UpdateCoilsStates();
+		});
+	}
 	/// <summary>
 	/// Use in Godot _Input events. Checks a switches input event by friendly name from switch collection <para/>
 	/// "coin", @event
@@ -324,7 +379,6 @@ public abstract class PinGodGameBase : Node
 		PrintErr("no switch found in dict for", swName);
 		return false;
 	}
-
 	/// <summary>
 	/// Checks a switches input event by friendly name. <para/>
 	/// If the "coin" switch is still held down then will return true
@@ -341,7 +395,6 @@ public abstract class PinGodGameBase : Node
 		PrintErr("no switch found in dict for", swName);
 		return false;
 	}
-
 	/// <summary>
 	/// Wrapper for the Input.IsActionPressed. Checks actions prefixed with "sw"
 	/// </summary>
@@ -362,24 +415,6 @@ public abstract class PinGodGameBase : Node
 		}
 		return pressed;
 	}
-
-	/// <summary>
-	/// Is the switch you're checking a trough switch? <see cref="Trough.TroughSwitches"/>
-	/// </summary>
-	/// <param name="input"></param>
-	/// <returns>The number of the trough switch. 0 not found</returns>
-	public virtual byte IsTroughSwitch(InputEvent input)
-	{
-		for (int i = 0; i < Trough.TroughSwitches.Length; i++)
-		{
-			if (input.IsActionPressed("sw"+ Trough.TroughSwitches[i]))
-			{
-				return Trough.TroughSwitches[i];
-			}
-		}
-		return 0;
-	}
-
 	/// <summary>
 	/// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
 	/// "coin", @event
@@ -402,7 +437,6 @@ public abstract class PinGodGameBase : Node
 		PrintErr("no switch found in dict for", swName);
 		return false;
 	}
-
 	/// <summary>
 	/// Wrapper for the Input.IsActionReleased
 	/// </summary>
@@ -426,7 +460,15 @@ public abstract class PinGodGameBase : Node
 		}
 		return pressed;
 	}
-
+	/// <summary>
+	/// Sends all coil states to receiver
+	/// </summary>
+	public virtual void UpdateCoilsStates() => PinballSender.SendCoilStates(Machine.Coils.GetStatesJson());
+	/// <summary>
+	/// Sends all lamp states to receiver
+	/// </summary>
+	public virtual void UpdateLampStates() => PinballSender.SendLampStates(Machine.Lamps.GetStatesJson());
+	public virtual void UpdateLedStates() => PinballSender.SendLedStates(Machine.Leds.GetLedStatesJson());
 	#endregion
 
 	private void LoadSettingsAndData()

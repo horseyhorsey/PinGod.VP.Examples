@@ -1,0 +1,82 @@
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Drawing;
+
+public class PinStateObject
+{
+    public byte Num { get; set; }
+    public byte State { get; set; }
+    public int Colour { get; set; } = ColorTranslator.ToOle(Color.Red);
+    public PinStateObject(byte num, byte state = 0, int color = 0)
+    {
+        Num = num;
+        State = state;
+        Colour = color;
+    }    
+}
+
+public class PinStates : Dictionary<string, PinStateObject>
+{
+    /// <summary>
+    /// Gets all states with the number [,2]
+    /// </summary>
+    /// <returns></returns>
+    byte[,] GetStates()
+    {
+        if (this.Count <= 0) return null;
+
+        byte[,] arr = new byte[this.Count, 2];
+        int i = 0;
+        foreach (var item in this.Values)
+        {
+            arr[i, 0] = item.Num;
+            arr[i, 1] = item.State;
+            i++;
+        }
+        return arr;
+    }
+
+    /// <summary>
+    /// Gets all states with the number [num,3]
+    /// </summary>
+    /// <returns>[num, state, colour]</returns>
+    int[,] GetLedStates()
+    {
+        if (this.Count <= 0) return null;
+
+        int[,] arr = new int[this.Count, 3];
+        int i = 0;
+        foreach (var item in this.Values)
+        {
+            arr[i, 0] = item.Num;
+            arr[i, 1] = item.State;
+            arr[i, 2] = item.Colour;
+            i++;
+        }
+        return arr;
+    }
+
+    public string GetStatesJson()
+    {
+        if (this.Keys.Count > 0)
+        {
+            var states = this.GetStates();
+            if (states != null)
+                return JsonConvert.SerializeObject(states);
+        }
+
+        return string.Empty;
+    }
+
+    public string GetLedStatesJson()
+    {
+        if (this.Keys.Count > 0)
+        {
+            var states = this.GetLedStates();
+            if (states != null)
+                return JsonConvert.SerializeObject(states);
+        }
+
+        return string.Empty;
+    }
+}

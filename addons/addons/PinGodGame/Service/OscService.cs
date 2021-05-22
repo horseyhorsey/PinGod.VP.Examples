@@ -35,12 +35,10 @@ public class OscService : IPinballSendReceive
 		_token = _tokenSource.Token;
 		_token.Register(() => Print("osc receive task stopped"));
 	}
-
 	/// <summary>
 	/// Records the actions / switches
 	/// </summary>
-	public bool Record { get; set; } = false;	
-
+	public bool Record { get; set; } = false;
 	/// <summary>
 	/// Sends game_ready message over the /evt address
 	/// </summary>
@@ -48,27 +46,20 @@ public class OscService : IPinballSendReceive
 	{
 		sender?.Send(new OscMessage("/evt", "game_ready"));
 	}
-
-	/// <summary>
-	/// Sends message over the /coils address
-	/// </summary>
-	/// <param name="num"></param>
-	/// <param name="state"></param>
-	public void SetCoilState(byte num, int state)
+	public void SendCoilStates(string json)
 	{
-		sender?.Send(new OscMessage("/coils", num, state));
+		sender?.Send(new OscMessage("/all_coils", json));
+		//sender.WaitForAllMessagesToComplete();
 	}
-
-	/// <summary>
-	/// Sends message over the /lamps address
-	/// </summary>
-	/// <param name="lampId"></param>
-	/// <param name="lampState"></param>
-	public void SetLampState(int lampId, int lampState)
+	public void SendLampStates(string json)
 	{
-		sender?.Send(new OscMessage("/lamps", lampId, lampState));
+		sender?.Send(new OscMessage("/all_lamps", json));
 	}
-
+	public void SendLedStates(string json)
+	{
+		//Print(json);
+		sender?.Send(new OscMessage("/all_leds", json));
+	}
 	public void Start()
 	{
 		if(receiver != null)
@@ -128,22 +119,6 @@ public class OscService : IPinballSendReceive
 			stringBuilder = new StringBuilder();
 		}
 	}	
-
-	/// <summary>
-	/// Runs task to pulse 255ms. TODO: why new task?
-	/// </summary>
-	/// <param name="coilId"></param>
-	public void PulseCoilState(byte coilId, byte pulseTime = 125)
-	{
-		Task.Run(() =>
-		{
-			sender?.Send(new OscMessage("/coils", coilId, 1));
-			//sender.WaitForAllMessagesToComplete();
-			Task.Delay(pulseTime).Wait();
-			sender?.Send(new OscMessage("/coils", coilId, 0));
-		});
-	}
-
 	public void SaveRecording()
 	{
 		Print("saving record file");
@@ -156,12 +131,11 @@ public class OscService : IPinballSendReceive
 		stringBuilder.Clear();
 		Print("file saved");
 	}
-
 	public void Stop()
 	{
 		if (oscTask?.Status == TaskStatus.Running)
 		{
-			SetCoilState(0, 1); //send game ended to VP via a coil. User could close this window first.
+			SendCoilStates("[[0, 1]]"); //send game ended to VP via a coil. User could close this window first.
 			_tokenSource.Cancel();
 		}
 	}
