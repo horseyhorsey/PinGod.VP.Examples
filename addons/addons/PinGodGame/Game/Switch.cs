@@ -1,4 +1,5 @@
 ﻿using Godot;
+using System;
 
 public class Switch
 {
@@ -6,6 +7,14 @@ public class Switch
     public Switch(byte num, BallSearchSignalOption ballSearch) { this.Num = num; this.BallSearch = ballSearch; }
     public byte Num { get; set; }
     public BallSearchSignalOption BallSearch { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="Pressed"></param>
+    /// <returns></returns>
+    public void SetSwitch(bool Pressed) => Input.ParseInputEvent(new InputEventAction() { Action = this.ToString(), Pressed = Pressed });
+
     /// <summary>
     /// Checks the current input event. IsActionPressed(sw+num)
     /// </summary>
