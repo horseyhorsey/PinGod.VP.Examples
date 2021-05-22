@@ -1,7 +1,7 @@
 # PinGod.VP Examples
 ---
 
-Godot addons and template for creating pinball games. Created for running alongside Visual Pinball Simulation.
+Godot addons and template for creating pinball games. Created for running alongside Visual Pinball Simulation (The best, open source pinball simulation since 2000).
 
 ### .Net 5 Visual Pinball Controller Setup
 ---
