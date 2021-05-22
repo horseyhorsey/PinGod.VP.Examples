@@ -37,10 +37,6 @@ public abstract class PinGodGameBase : Node
 	public byte FlippersEnabled = 0;
 	public byte MaxPlayers = 4;
 	public bool LogSwitchEvents = false;
-	private uint gameLoadTimeMsec;
-	private uint gameStartTime;
-	private uint gameEndTime;
-
 	public static byte Tiltwarnings { get; set; }
 	public List<PinGodPlayer> Players { get; private set; }
 	public PinGodPlayer Player { get; private set; }
@@ -53,6 +49,10 @@ public abstract class PinGodGameBase : Node
 	/// </summary>
 	public IPinballSendReceive PinballSender = new OscService();
 	#endregion
+
+	private uint gameLoadTimeMsec;
+	private uint gameStartTime;
+	private uint gameEndTime;
 
 	public PinGodGameBase()
 	{
@@ -312,11 +312,52 @@ public abstract class PinGodGameBase : Node
 		if (sendUpdate)
 			UpdateLedStates();
 	}
-
-    /// <summary>
-    /// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
-    /// </summary>
-    public virtual void StartNewBall()
+	/// <summary>
+	/// Sets led states from System.Drawing Color
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="state"></param>
+	/// <param name="colour"></param>
+	/// <param name="sendUpdate"></param>
+	public virtual void SetLedState(string name, byte state, System.Drawing.Color? colour = null, bool sendUpdate = true)
+	{
+		var c = colour.HasValue ?
+			System.Drawing.ColorTranslator.ToOle(colour.Value) : Machine.Leds[name].Colour;
+		SetLedState(name, state, c, sendUpdate);
+	}
+	/// <summary>
+	/// Sets led state from godot color
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="state"></param>
+	/// <param name="colour"></param>
+	/// <param name="sendUpdate"></param>
+	public virtual void SetLedState(string name, byte state, Color? colour = null, bool sendUpdate = true)
+	{
+		var c = colour.HasValue ?
+			System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(colour.Value.r8, colour.Value.b8, colour.Value.g8)) 
+			: Machine.Leds[name].Colour;
+		SetLedState(name, state, c, sendUpdate);
+	}
+	/// <summary>
+	/// Sets led from RGB
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="state"></param>
+	/// <param name="r"></param>
+	/// <param name="g"></param>
+	/// <param name="b"></param>
+	/// <param name="sendUpdate"></param>
+	public virtual void SetLedState(string name, byte state, byte r, byte g, byte b, bool sendUpdate = true)
+	{
+		var c = System.Drawing.Color.FromArgb(r, g, b);
+		var ole = System.Drawing.ColorTranslator.ToOle(c);
+		SetLedState(name, state, ole, sendUpdate);
+	}
+	/// <summary>
+	/// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
+	/// </summary>
+	public virtual void StartNewBall()
 	{
 		Print("base:starting new ball");
 		GameData.BallsStarted++;
