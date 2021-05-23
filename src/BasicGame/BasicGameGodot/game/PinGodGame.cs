@@ -1,4 +1,6 @@
 using Godot;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using static Godot.GD;
 
 /// <summary>
@@ -9,35 +11,50 @@ public class PinGodGame : PinGodGameBase
 	const string COIN_SFX = "res://assets/audio/sfx/credit.wav";
 	const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
 
+	[Export] bool _write_machine_states = true;
+	[Export] int _write_machine_states_delay = 10;
+
+	[Export] Godot.Collections.Dictionary<string, byte> _coils = new Godot.Collections.Dictionary<string, byte>();
+	[Export] Godot.Collections.Dictionary<string, byte> _switches = new Godot.Collections.Dictionary<string, byte>();
+	[Export] Godot.Collections.Dictionary<string, byte> _lamps = new Godot.Collections.Dictionary<string, byte>();
+	[Export] Godot.Collections.Dictionary<string, byte> _leds = new Godot.Collections.Dictionary<string, byte>();    
+
 	public override void _EnterTree()
-    {
-        Print("PinGod: entering tree. Loading audiomanager");
+	{
+		Print("PinGod: entering tree. Loading audiomanager");
 
-        //create and get ref to the audiomanager scene
-        var audioMan = Load(AUDIO_MANAGER) as PackedScene;
-        AddChild(audioMan.Instance());
-        AudioManager = GetNode("AudioManager") as AudioManager;
-        Print("PinGod: audiomanager loaded.", AudioManager != null);
+		//create and get ref to the audiomanager scene
+		var audioMan = Load(AUDIO_MANAGER) as PackedScene;
+		AddChild(audioMan.Instance());
+		AudioManager = GetNode("AudioManager") as AudioManager;
+		Print("PinGod: audiomanager loaded.", AudioManager != null);
 
-        //set to false, no music in this particular game
-        AudioManager.MusicEnabled = false;
-        AudioManager.Bgm = string.Empty;
+		//set to false, no music in this particular game
+		AudioManager.MusicEnabled = false;
+		AudioManager.Bgm = string.Empty;
 
-        //load audio streams, music / sfx / vox
-        AddAudioStreams();
-        //add custom coils and switches for this game
-        AddCustomMachineItems();
+		//load audio streams, music / sfx / vox
+		AddAudioStreams();
+		//add custom coils and switches for this game
+		AddCustomMachineItems();
 
-        Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
+		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
 
-        Print("Starting Pinball Sender");
-        PinballSender.Start();
-    }
+		//setup and run writing memory states for other application to access
+		if (_write_machine_states)
+		{
+			memMapping = new MemoryMap();
+			Print("pingod:writing machine states is enabled");
+			memMapping.Start(_write_machine_states_delay);
+		}
 
-    /// <summary>
-    /// Save game data / settings before exit
-    /// </summary>
-    public override void _ExitTree()
+		PinballSender.Start();
+	}
+
+	/// <summary>
+	/// Save game data / settings before exit
+	/// </summary>
+	public override void _ExitTree()
 	{		
 		Quit(true);
 	}
@@ -64,57 +81,72 @@ public class PinGodGame : PinGodGameBase
 		EmitSignal(nameof(CreditAdded));
 	}
 
+	#region Custom Machine Items
+	private void AddCustomMachineItems()
+	{
+		AddCustomSwitches();
+		AddCustomSolenoids();
+		AddCustomLeds();
+		AddCustomLamps();
+	}
 	/// <summary>
 	/// Add extra solenoids to the <see cref="Machine.Coils"/>. Invoked when ready
 	/// </summary>
 	void AddCustomSolenoids()
 	{
-		Machine.Coils.Add("mball_saucer", new PinStateObject(4));  
-		Machine.Coils.Add("disable_shows", new PinStateObject(33));
-		Machine.Coils.Add("lampshow_1", new PinStateObject(34));
-		Machine.Coils.Add("lampshow_2", new PinStateObject(35));
+		foreach (var coil in _coils)
+		{
+			Machine.Coils.Add(coil.Key, new PinStateObject(coil.Value));
+			Print($"pingod: added coil {coil.Key}-{coil.Value}");
+		}
+		_coils.Clear();
 	}
-
 	/// <summary>
 	/// Add switches to the <see cref="Machine.Switches"/>. Invoked when ready
 	/// </summary>
 	void AddCustomSwitches()
 	{
-		Machine.Switches.Add("mball_saucer", new Switch(27));
+		foreach (var sw in _switches)
+		{
+			Machine.Switches.Add(sw.Key, new Switch(sw.Value));
+			Print($"pingod: added switch {sw.Key}-{sw.Value}");
+		}
+		_switches.Clear();
 	}
-
 	/// <summary>
 	/// Add custom leds to the <see cref="Machine.Leds"/>. Invoked when ready
 	/// </summary>
 	void AddCustomLeds()
 	{
-		
+		foreach (var led in _leds)
+		{
+			Machine.Leds.Add(led.Key, new PinStateObject(led.Value));
+			Print($"pingod: added led {led.Key}-{led.Value}");
+		}
+		_leds.Clear();
 	}
-
 	/// <summary>
 	/// Add custom lamps to the <see cref="Machine.Lamps"/>. Invoked when ready
 	/// </summary>
 	void AddCustomLamps()
 	{
-
-	}
+		foreach (var lamp in _lamps)
+		{
+			Machine.Lamps.Add(lamp.Key, new PinStateObject(lamp.Value));
+			Print($"pingod: added lamp {lamp.Key}-{lamp.Value}");
+		}
+		_lamps.Clear();
+	} 
+	#endregion
 
 	void AddAudioStreams()
-    {
+	{
 		//adds the default credit sound
 		AudioManager.AddSfx(COIN_SFX, "credit");
 
 		//add music for the game. Ogg to autoloop
 		//AudioManager.AddMusic("res://assets/audio/music/mymusic.ogg", "mymusic");
-	}
-
-	private void AddCustomMachineItems()
-	{
-		AddCustomSwitches(); 
-		AddCustomSolenoids();
-		AddCustomLeds();
-		AddCustomLamps();
-	}
+	}	
 
 	/// <summary>
 	/// Stops any game in progress

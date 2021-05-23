@@ -33,10 +33,6 @@ var pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 GD.Print("How many switches hit?", pinGod.SwitchesHit);
 ```
 
-#### Adding Switches / Coils / Lamps / Leds
-
-See `AddCustomMachineItems` in `_EnterTree` to add more.
-
 #### Audio Streams
 
 See `AddAudioStreams` in `_EnterTree` to add more.

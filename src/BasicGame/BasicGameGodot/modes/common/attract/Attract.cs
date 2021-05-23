@@ -1,7 +1,6 @@
 using Godot;
 using System.Collections.Generic;
 using static Godot.GD;
-using System.Linq;
 
 /// <summary>
 /// Adds all Canvas Items in the "AttractLayers". These cycle on a timer and can be cycled with Flipper actions
@@ -34,7 +33,7 @@ public class Attract : Node2D
 	}
 
 	/// <summary>
-	/// Checks for start button presses to Start a game.
+	/// Checks for start button presses to Start a game. Players can cycle the scenes with flippers
 	/// </summary>
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
@@ -44,27 +43,27 @@ public class Attract : Node2D
 			var started = pinGodGame.StartGame();
 			if (started)
 			{
-				pinGodGame.SolenoidPulse("disable_shows");
+				Print("playing lampshow hi coil");
+				//pinGodGame.SolenoidPulse("disable_shows");
 			}
 			Print("attract: starting game. started?", started);
 		}
 		if (pinGodGame.SwitchOn("flipper_l", @event))
 		{
-			timer.Stop();
-			ChangeLayer(false);
-			timer.Start(_scene_change_secs);
+			CallDeferred("ChangeLayer", false);
 		}
 		if (pinGodGame.SwitchOn("flipper_r", @event))
 		{
-			timer.Stop();
-			ChangeLayer(true);
-			timer.Start(_scene_change_secs);
+			
+			CallDeferred("ChangeLayer", true);			
 		}
 	}
 
 	private void ChangeLayer(bool forward = false)
 	{
 		if (Scenes?.Count < 1) return;
+
+		timer.Stop();
 
 		//check if lower higher than our attract layers
 		_currentScene = forward ? _currentScene + 1 : _currentScene - 1;
@@ -78,12 +77,14 @@ public class Attract : Node2D
 		Scenes[_currentScene].Show();// Scenes[_currentScene].Visible = true;
 
 		_lastScene = _currentScene;
+
+		timer.Start(_scene_change_secs);
 	}
 
 	public override void _Ready()
 	{
 		Print("Attract loaded");
-		pinGodGame.SolenoidPulse("disable_shows");
+		//pinGodGame.SolenoidPulse("disable_shows");
 	}
 
 	/// <summary>
@@ -92,6 +93,6 @@ public class Attract : Node2D
 	private void _on_Timer_timeout()
 	{
 		CallDeferred(nameof(ChangeLayer), true);
-		pinGodGame.SolenoidPulse("lampshow_1");
+		//pinGodGame.SolenoidPulse("lampshow_1");
 	}
 }

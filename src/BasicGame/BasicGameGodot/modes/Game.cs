@@ -130,12 +130,12 @@ public class Game : Node2D
 			{
 				pinGod.IsMultiballRunning = true;
 				CallDeferred("AddMultiballSceneToTree");
-				pinGod.SolenoidPulse("mball_saucer", 125);
+				pinGod.SolenoidPulse("mball_saucer", 225);
             }
             else
             {
 				//already in multiball
-				pinGod.SolenoidPulse("mball_saucer", 125);
+				pinGod.SolenoidPulse("mball_saucer", 225);
 			}
 		}
 	}
@@ -212,7 +212,7 @@ public class Game : Node2D
 		GetTree().CallGroup("multiball", "EndMultiball");
 		pinGod.IsMultiballRunning = false;
 		//set coil and send update
-		pinGod.SolenoidOn("lampshow_1", 1);
+		//pinGod.SolenoidOn("lampshow_1", 1);
 	}
 
 	void OnStartNewBall()
@@ -239,7 +239,7 @@ public class Game : Node2D
 	public void OnBallStarted()
 	{
 		Print("game: ball started");
-		pinGod.SetLedState("shoot_again", 2, System.Drawing.Color.Green, true);
+		pinGod.SetLedState("shoot_again", 2, System.Drawing.Color.Green);
 	}
 
 	/// <summary>

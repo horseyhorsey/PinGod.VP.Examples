@@ -102,10 +102,12 @@ public class Trough : Node
 		//when the ball is in the plunger lane stop any ball search running TODO
 		if (pinGod.SwitchOn("plunger_lane", @event))
 		{
+			Print("plunger lane hit");
 			//auto plunge the ball if in ball save or game is tilted to get the balls back
 			if (Trough.BallSaveActive || pinGod.IsTilted)
 			{
-				pinGod.SolenoidPulse("auto_plunger");
+				pinGod.SolenoidPulse("auto_plunger", 125);
+				Print("pulsed plunger");
 			}
 		}
 		//reset the ball search when leaving the switch
@@ -117,7 +119,7 @@ public class Trough : Node
 				var saveStarted = StartBallSaver();
 				if (saveStarted)
                 {
-					pinGod.SetLedState("shoot_again", 2, ColorTranslator.ToOle(System.Drawing.Color.Green), true);
+					pinGod.SetLedState("shoot_again", 2, ColorTranslator.ToOle(System.Drawing.Color.Green));
 					EmitSignal(nameof(BallSaveStarted));
 				}				
 

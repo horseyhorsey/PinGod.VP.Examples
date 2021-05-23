@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/PinGodGame.cs" type="Script" id=1]
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_write_machine_states_delay = 20
+_coils = {
+"auto_plunger": 3,
+"died": 0,
+"disable_shows": 33,
+"flippers": 2,
+"lampshow_1": 34,
+"lampshow_2": 35,
+"mball_saucer": 4,
+"trough": 1
+}
+_switches = {
+"coin": 2,
+"down": 5,
+"enter": 7,
+"exit": 4,
+"flipper_l": 11,
+"flipper_r": 9,
+"inlane_l": 22,
+"inlane_r": 23,
+"mball_saucer": 27,
+"outlane_l": 21,
+"outlane_r": 24,
+"plunger_lane": 20,
+"slam_tilt": 16,
+"sling_l": 25,
+"sling_r": 26,
+"start": 19,
+"tilt": 17,
+"trough_1": 81,
+"trough_2": 82,
+"trough_3": 83,
+"trough_4": 84,
+"up": 6
+}
+_lamps = {
+"shoot_again": 1
+}
+_leds = {
+"shoot_again": 1
+}

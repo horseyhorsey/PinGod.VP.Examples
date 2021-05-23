@@ -1,11 +1,13 @@
 using Godot;
 using Rug.Osc;
 using System;
+using System.IO.MemoryMappedFiles;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Godot.GD;
+using Mutex = System.Threading.Mutex;
 
 /// <summary>
 /// Godot singleton to send/receive OSC message over loopback
@@ -31,10 +33,14 @@ public class OscService : IPinballSendReceive
 
 	public OscService()
 	{
-		_tokenSource = new CancellationTokenSource();
-		_token = _tokenSource.Token;
-		_token.Register(() => Print("osc receive task stopped"));
+		if (!Engine.EditorHint)
+		{
+			_tokenSource = new CancellationTokenSource();
+			_token = _tokenSource.Token;
+			_token.Register(() => Print("osc receive task stopped"));		
+		}		
 	}
+
 	/// <summary>
 	/// Records the actions / switches
 	/// </summary>
@@ -45,20 +51,6 @@ public class OscService : IPinballSendReceive
 	public void SendGameReady()
 	{
 		sender?.Send(new OscMessage("/evt", "game_ready"));
-	}
-	public void SendCoilStates(string json)
-	{
-		sender?.Send(new OscMessage("/all_coils", json));
-		//sender.WaitForAllMessagesToComplete();
-	}
-	public void SendLampStates(string json)
-	{
-		sender?.Send(new OscMessage("/all_lamps", json));
-	}
-	public void SendLedStates(string json)
-	{
-		//Print(json);
-		sender?.Send(new OscMessage("/all_leds", json));
 	}
 	public void Start()
 	{
@@ -135,7 +127,6 @@ public class OscService : IPinballSendReceive
 	{
 		if (oscTask?.Status == TaskStatus.Running)
 		{
-			SendCoilStates("[[0, 1]]"); //send game ended to VP via a coil. User could close this window first.
 			_tokenSource.Cancel();
 		}
 	}

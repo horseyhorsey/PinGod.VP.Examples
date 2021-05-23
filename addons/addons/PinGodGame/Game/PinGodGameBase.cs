@@ -53,6 +53,7 @@ public abstract class PinGodGameBase : Node
 	private uint gameLoadTimeMsec;
 	private uint gameStartTime;
 	private uint gameEndTime;
+	protected MemoryMap memMapping;
 
 	public PinGodGameBase()
 	{
@@ -127,23 +128,19 @@ public abstract class PinGodGameBase : Node
 	/// <param name="sendUpdate">Runs <see cref="UpdateLampStates"/> and <see cref="UpdateLedStates"/></param>
 	public virtual void DisableAllLamps(bool sendUpdate = true)
 	{
-		if(Machine.Lamps.Count > 0)
+		if(Machine.Lamps?.Count > 0)
         {
 			foreach (var lamp in Machine.Lamps)
 			{
 				lamp.Value.State = 0;
 			}
-			if(sendUpdate)
-				UpdateLampStates();
 		}
-		if (Machine.Leds.Count > 0)
+		if (Machine.Leds?.Count > 0)
 		{
 			foreach (var led in Machine.Leds)
 			{
 				led.Value.State = 0;
 			}
-			if (sendUpdate)
-				UpdateLedStates();
 		}
 	}
 	public virtual void EnableFlippers(byte enabled)
@@ -240,6 +237,8 @@ public abstract class PinGodGameBase : Node
 			GameData.Save(GameData);
 			GameSettings.Save(GameSettings);
 		}
+
+		memMapping?.Dispose(); //dispose invokes stop as well
 		Print("exiting pinball sender");
 		PinballSender.Stop(); //don't remove, game won't close from VP otherwise
 		Print("exited pinball sender");
@@ -309,23 +308,17 @@ public abstract class PinGodGameBase : Node
 
 		return false;
 	}
-	public virtual void SetLampState(string name, byte state, bool sendUpdate = true)
+	public virtual void SetLampState(string name, byte state)
     {
 		if (Machine.Lamps?.Count <= 0) return;
 		Machine.Lamps[name].State = state;
-
-		if(sendUpdate)
-			UpdateLampStates();
 	}
-	public virtual void SetLedState(string name, byte state, int color = 0, bool sendUpdate = true)
+	public virtual void SetLedState(string name, byte state, int color = 0)
 	{
 		if (Machine.Leds?.Count <= 0) return;
 
 		Machine.Leds[name].State = state;
 		Machine.Leds[name].Colour = color > 0 ? color : Machine.Leds[name].Colour;
-
-		if (sendUpdate)
-			UpdateLedStates();
 	}
 	/// <summary>
 	/// Sets led states from System.Drawing Color
@@ -334,11 +327,11 @@ public abstract class PinGodGameBase : Node
 	/// <param name="state"></param>
 	/// <param name="colour"></param>
 	/// <param name="sendUpdate"></param>
-	public virtual void SetLedState(string name, byte state, System.Drawing.Color? colour = null, bool sendUpdate = true)
+	public virtual void SetLedState(string name, byte state, System.Drawing.Color? colour = null)
 	{
 		var c = colour.HasValue ?
 			System.Drawing.ColorTranslator.ToOle(colour.Value) : Machine.Leds[name].Colour;
-		SetLedState(name, state, c, sendUpdate);
+		SetLedState(name, state, c);
 	}
 	/// <summary>
 	/// Sets led state from godot color
@@ -347,12 +340,12 @@ public abstract class PinGodGameBase : Node
 	/// <param name="state"></param>
 	/// <param name="colour"></param>
 	/// <param name="sendUpdate"></param>
-	public virtual void SetLedState(string name, byte state, Color? colour = null, bool sendUpdate = true)
+	public virtual void SetLedState(string name, byte state, Color? colour = null)
 	{
 		var c = colour.HasValue ?
 			System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(colour.Value.r8, colour.Value.b8, colour.Value.g8)) 
 			: Machine.Leds[name].Colour;
-		SetLedState(name, state, c, sendUpdate);
+		SetLedState(name, state, c);
 	}
 	/// <summary>
 	/// Sets led from RGB
@@ -363,11 +356,11 @@ public abstract class PinGodGameBase : Node
 	/// <param name="g"></param>
 	/// <param name="b"></param>
 	/// <param name="sendUpdate"></param>
-	public virtual void SetLedState(string name, byte state, byte r, byte g, byte b, bool sendUpdate = true)
+	public virtual void SetLedState(string name, byte state, byte r, byte g, byte b)
 	{
 		var c = System.Drawing.Color.FromArgb(r, g, b);
 		var ole = System.Drawing.ColorTranslator.ToOle(c);
-		SetLedState(name, state, ole, sendUpdate);
+		SetLedState(name, state, ole);
 	}
 	/// <summary>
 	/// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
@@ -379,7 +372,7 @@ public abstract class PinGodGameBase : Node
 		ResetTilt();
 		Player = Players[CurrentPlayerIndex];
 		EnableFlippers(1);
-		SolenoidPulse("trough", 25);
+		SolenoidPulse("trough");
 		EmitSignal(nameof(BallStarted));
 	}
 	/// <summary>
@@ -394,26 +387,23 @@ public abstract class PinGodGameBase : Node
 		IsMultiballRunning = true;
 		EmitSignal(nameof(MultiballStarted));
 	}
-	public virtual void SolenoidOn(string name, byte state, bool sendUpdate = true) 
-	{
+	public virtual void SolenoidOn(string name, byte state) 
+	{		
 		if (Machine.Coils?.Count <= 0) return;
 		Machine.Coils[name].State = state;
-
-		if (sendUpdate)
-			UpdateCoilsStates();
 	}
 	public virtual async void SolenoidPulse(string name, byte pulse = 255) 
 	{
 		if (Machine.Coils?.Count <= 0) return;
 
+		var coil = Machine.Coils[name];
 		await Task.Run(async () =>
-		{
-			var coil = Machine.Coils[name];
+		{			
 			coil.State = 1;
-			UpdateCoilsStates();
+			//PinballSender.WriteStates();			
 			await Task.Delay(pulse);
 			coil.State = 0;
-			UpdateCoilsStates();
+			//PinballSender.WriteStates();
 		});
 	}
 	/// <summary>
@@ -516,15 +506,6 @@ public abstract class PinGodGameBase : Node
 		}
 		return pressed;
 	}
-	/// <summary>
-	/// Sends all coil states to receiver
-	/// </summary>
-	public virtual void UpdateCoilsStates() => PinballSender.SendCoilStates(Machine.Coils.GetStatesJson());
-	/// <summary>
-	/// Sends all lamp states to receiver
-	/// </summary>
-	public virtual void UpdateLampStates() => PinballSender.SendLampStates(Machine.Lamps.GetStatesJson());
-	public virtual void UpdateLedStates() => PinballSender.SendLedStates(Machine.Leds.GetLedStatesJson());
 	#endregion
 
 	private void LoadSettingsAndData()

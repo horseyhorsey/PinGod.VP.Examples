@@ -26,14 +26,14 @@ End Sub
 Const IsDebug = True
 Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\BasicGame\BasicGameGodot"
 Const UseSolenoids = 1 ' Check for solenoid states?
-'Const UseLamps = True  ' Check for lamp states?
-Const UsePdbLeds = True  ' PROC RGB Leds - TODO
+Const UsePdbLeds = 1
+Const UseLamps = 0  ' Check for lamp states?
 
 Dim bsTrough, bsSaucer, plungerIM, swSaucer : swSaucer = 27
 
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 10
+		.DisplayX			= 1920 - 512
 		.DisplayY			= 10
 		.DisplayWidth 		= 512 ' 1024 FS
 		.DisplayHeight 		= 300 ' 600  FS
@@ -200,7 +200,7 @@ End Sub
 'Do it like this as one on/off, will make it faster
 Dim FlippersOn : FlippersOn = 0
 Sub FlippersEnabled(Enabled)
-	Debug.Print "flippers on coil " & Enabled
+	'Debug.Print "flippers on coil " & Enabled
 	FlippersOn = Enabled
 	If not FlippersOn then LeftFlipper.RotateToStart : RightFlipper.RotateToStart
 End Sub
