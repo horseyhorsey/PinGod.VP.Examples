@@ -367,6 +367,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/src/BasicGame/Exported
-/src/MoonStation/MoonStationVisualPinball/vp-playfield.png
-/src/MoonStation/MoonStationVisualPinball/vp-plastics.png

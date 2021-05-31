@@ -1,0 +1,64 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/PinGodGame.cs" type="Script" id=1]
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_coils = {
+"auto_plunger": 3,
+"crater_saucer": 4,
+"died": 0,
+"disable_shows": 7,
+"drops_l": 5,
+"drops_r": 6,
+"flippers": 2,
+"lampshow_1": 8,
+"trough": 1
+}
+_switches = {
+"Moon": 31,
+"Station": 35,
+"bumper_l": 29,
+"bumper_r": 30,
+"coin": 2,
+"crater_saucer": 27,
+"down": 5,
+"enter": 7,
+"exit": 4,
+"flipper_l": 11,
+"flipper_r": 9,
+"inlane_l": 22,
+"inlane_r": 23,
+"mOon": 32,
+"moOn": 33,
+"mooN": 34,
+"outlane_l": 21,
+"outlane_r": 24,
+"plunger_lane": 20,
+"sTation": 36,
+"slam_tilt": 16,
+"sling_l": 25,
+"sling_r": 26,
+"spinner": 28,
+"stAtion": 37,
+"staTion": 38,
+"start": 19,
+"statIon": 39,
+"statiOn": 40,
+"statioN": 41,
+"tilt": 17,
+"top_left_target": 42,
+"trough_1": 81,
+"trough_2": 82,
+"trough_3": 83,
+"trough_4": 84,
+"up": 6
+}
+_lamps = {
+"multiplier_2": 12,
+"multiplier_3": 13,
+"multiplier_4": 14,
+"shoot_again": 1
+}
+_leds = {
+}

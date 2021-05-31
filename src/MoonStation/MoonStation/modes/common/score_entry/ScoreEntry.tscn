@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/fonts/Bebas32.tres" type="DynamicFont" id=1]
+[ext_resource path="res://modes/common/score_entry/ScoreEntry.cs" type="Script" id=2]
+
+[node name="ScoreEntry" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.662745, 0.678431, 0.152941, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+margin_left = 1.0
+margin_top = 93.0
+margin_right = 1.0
+margin_bottom = 162.0
+custom_fonts/font = ExtResource( 1 )
+text = "PLAYER XX 
+ENTER NAME"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectedChar" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = 43.0
+margin_right = 512.0
+margin_bottom = 32.5
+custom_fonts/font = ExtResource( 1 )
+text = "A"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -32.5
+margin_right = 512.0
+margin_bottom = 32.5
+custom_fonts/font = ExtResource( 1 )
+text = "A"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

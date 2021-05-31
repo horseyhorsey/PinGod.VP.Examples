@@ -1,0 +1,83 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://modes/custom/Crater.cs" type="Script" id=3]
+[ext_resource path="res://assets/audio/sfx/craterhit-horsepin.wav" type="AudioStream" id=4]
+
+[sub_resource type="StreamTexture" id=1]
+flags = 4
+load_path = "res://.import/crater.png-a416b61a2606c653e67dae9343e79c3c.stex"
+
+[sub_resource type="Animation" id=2]
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.572549, 0.521569, 0.0862745, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("crater:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.046622, 0.046622 ), Vector2( 0.75, 0.75 ) ]
+}
+
+[node name="Crater" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 512.0
+margin_bottom = 384.0
+color = Color( 0.52549, 0.52549, 0.52549, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="crater" type="Sprite" parent="."]
+position = Vector2( 252.478, 192.54 )
+scale = Vector2( 0.75, 0.75 )
+texture = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "bgcolor"
+anims/bgcolor = SubResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -5.42
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -79.0
+margin_top = -100.5
+margin_right = 79.0
+margin_bottom = 100.5
+custom_fonts/font = ExtResource( 2 )
+text = "crater
+scores 
+1000"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

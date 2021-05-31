@@ -1,0 +1,137 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://modes/common/score_mode/ScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/img/moon-horsepin.svg" type="Texture" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "MoveMoon"
+length = 29.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("moon-station-logo:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 29 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 182.989 ), Vector2( 650, 182.989 ) ]
+}
+
+[node name="ScoreMode" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BackgroundColour" type="ColorRect" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0470588, 0.0117647, 0.160784, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="moon-station-logo" type="Sprite" parent="CanvasLayer"]
+modulate = Color( 1, 1, 0.921569, 1 )
+position = Vector2( 0, 182.989 )
+scale = Vector2( 1.25924, 1.25924 )
+texture = ExtResource( 4 )
+
+[node name="ScoreMain" type="Label" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP1" type="Label" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 230.0
+margin_bottom = -89.0
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP2" type="Label" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 230.248
+margin_right = -10.0
+margin_bottom = -88.7515
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP3" type="Label" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 286.0
+margin_bottom = -25.0
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP4" type="Label" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 282.0
+margin_right = -10.0
+margin_bottom = -23.0
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 2
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInfo" type="Label" parent="CanvasLayer"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 11.9819
+margin_top = -33.0
+margin_right = 96.9819
+custom_fonts/font = ExtResource( 3 )
+text = "Player: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BallInfo" type="Label" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -85.6697
+margin_top = -33.0
+margin_right = -2.66968
+custom_fonts/font = ExtResource( 3 )
+text = "BALL: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+autoplay = "MoveMoon"
+anims/MoveMoon = SubResource( 1 )

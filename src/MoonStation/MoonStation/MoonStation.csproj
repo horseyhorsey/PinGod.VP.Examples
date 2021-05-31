@@ -1,0 +1,29 @@
+﻿<Project Sdk="Godot.NET.Sdk/3.3.0">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="addons\PinGodGame\Game\Trough.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Rug.Osc" Version="1.2.5" />    
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="modes\common\multiball\" />
+    <Folder Include="modes\common\score_entry\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="export_presets.cfg" />
+    <None Include="game\PinGodGame.tscn" />
+    <None Include="modes\common\ball_search\BallSearch.tscn" />
+    <None Include="modes\common\bonus\Bonus.tscn" />
+    <None Include="modes\common\tilt\Tilt.tscn" />
+    <None Include="modes\common\trough\BallSave.tscn" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <!--<ProjectReference Include="..\..\..\..\PinGod.VP.Examples\addons\PinGodAddOns.csproj" />-->
+  </ItemGroup>
+</Project>
