@@ -8,8 +8,12 @@ public abstract class PinGodGameBase : Node
 {
 	#region Signals
 	[Signal] public delegate void BallEnded(bool lastBall);
+	[Signal] public delegate void BallSaved();
+	[Signal] public delegate void BallSaveStarted();
 	[Signal] public delegate void BallSearchReset();
 	[Signal] public delegate void BallSearchStop();
+	[Signal] public delegate void BallDrained();
+	[Signal] public delegate void BallSaveEnded();	
 	[Signal] public delegate void BallStarted();
 	[Signal] public delegate void BonusEnded();
 	[Signal] public delegate void CreditAdded();
@@ -21,6 +25,7 @@ public abstract class PinGodGameBase : Node
 	[Signal] public delegate void PlayerAdded();
 	[Signal] public delegate void ModeTimedOut(string title);
 	[Signal] public delegate void MultiballStarted();
+	[Signal] public delegate void MultiBallEnded();
 	[Signal] public delegate void ServiceMenuEnter();
 	[Signal] public delegate void ServiceMenuExit();
 	[Signal] public delegate void ScoresUpdated();
@@ -37,13 +42,14 @@ public abstract class PinGodGameBase : Node
 	public byte FlippersEnabled = 0;
 	public byte MaxPlayers = 4;
 	public bool LogSwitchEvents = false;
+
+	public bool IsBallStarted { get; internal set; }
 	public static byte Tiltwarnings { get; set; }
 	public List<PinGodPlayer> Players { get; private set; }
 	public PinGodPlayer Player { get; private set; }
 	public GameData GameData { get; private set; }
 	public GameSettings GameSettings { get; private set; }
 	public AudioManager AudioManager { get; protected set; } = new AudioManager();
-
 	/// <summary>
 	/// Sends via implementation <see cref="OscService"/>
 	/// </summary>
@@ -54,8 +60,9 @@ public abstract class PinGodGameBase : Node
 	private uint gameStartTime;
 	private uint gameEndTime;
 	protected MemoryMap memMapping;
+    private Trough _trough;
 
-	public PinGodGameBase()
+    public PinGodGameBase()
 	{
 		Players = new List<PinGodPlayer>();
 
@@ -78,14 +85,21 @@ public abstract class PinGodGameBase : Node
 			}
 		}
 	}
-	#endregion
+    public override void _EnterTree()
+    {
+		Print("pingod:enter tree");
+		_trough = GetNode("/root/Trough") as Trough;
+		if (_trough == null)
+			Print("trough not found");
+    }
+    #endregion
 
-	#region Public Methods
-	/// <summary>
-	/// Adds points to the current player
-	/// </summary>
-	/// <param name="points"></param>
-	public virtual void AddPoints(int points)
+    #region Public Methods
+    /// <summary>
+    /// Adds points to the current player
+    /// </summary>
+    /// <param name="points"></param>
+    public virtual void AddPoints(int points)
 	{
 		if (Player != null)
 		{
@@ -103,6 +117,11 @@ public abstract class PinGodGameBase : Node
 		{
 			Player.Bonus += points;
 		}
+	}
+	public virtual void AddCredits(byte amt)
+	{
+		GameData.Credits += amt;
+		EmitSignal(nameof(CreditAdded));
 	}
 	public virtual void BallSearchSignals(BallSearchSignalOption searchResetOption = BallSearchSignalOption.None)
 	{
@@ -210,22 +229,7 @@ public abstract class PinGodGameBase : Node
 	public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
 	public virtual long GetTopScorePoints => GameData?.HighScores?
 		.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
-	/// <summary>
-	/// Is the switch you're checking a trough switch? <see cref="Trough.TroughSwitches"/>
-	/// </summary>
-	/// <param name="input"></param>
-	/// <returns>The number of the trough switch. 0 not found</returns>
-	public virtual byte IsTroughSwitch(InputEvent input)
-	{
-		for (int i = 0; i < Trough.TroughSwitches.Length; i++)
-		{
-			if (input.IsActionPressed("sw" + Trough.TroughSwitches[i]))
-			{
-				return Trough.TroughSwitches[i];
-			}
-		}
-		return 0;
-	}
+
 	/// <summary>
 	/// Quits the game, cleans up
 	/// </summary>
@@ -251,6 +255,7 @@ public abstract class PinGodGameBase : Node
 		Tiltwarnings = 0;
 		IsTilted = false;
 	}
+	public abstract void Setup();
 	/// <summary>
 	/// Sends a signal game is paused <see cref="GamePaused"/>
 	/// </summary>
@@ -275,7 +280,7 @@ public abstract class PinGodGameBase : Node
 		if (!GameInPlay && GameData.Credits > 0) //first player start game
 		{
 			Print("starting game, checking trough...");
-			if (!Trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
+			if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
 			{
 				Print("Trough not ready. Can't start game with empty trough.");
 				EmitSignal(nameof(BallSearchReset));
@@ -310,13 +315,12 @@ public abstract class PinGodGameBase : Node
 	}
 	public virtual void SetLampState(string name, byte state)
     {
-		if (Machine.Lamps?.Count <= 0) return;
+		if (!LampExists(name)) return;
 		Machine.Lamps[name].State = state;
 	}
 	public virtual void SetLedState(string name, byte state, int color = 0)
 	{
-		if (Machine.Leds?.Count <= 0) return;
-
+		if (!LedExists(name)) return;
 		Machine.Leds[name].State = state;
 		Machine.Leds[name].Colour = color > 0 ? color : Machine.Leds[name].Colour;
 	}
@@ -329,6 +333,7 @@ public abstract class PinGodGameBase : Node
 	/// <param name="sendUpdate"></param>
 	public virtual void SetLedState(string name, byte state, System.Drawing.Color? colour = null)
 	{
+		if (!LedExists(name)) return;
 		var c = colour.HasValue ?
 			System.Drawing.ColorTranslator.ToOle(colour.Value) : Machine.Leds[name].Colour;
 		SetLedState(name, state, c);
@@ -342,6 +347,7 @@ public abstract class PinGodGameBase : Node
 	/// <param name="sendUpdate"></param>
 	public virtual void SetLedState(string name, byte state, Color? colour = null)
 	{
+		if (!LedExists(name)) return;
 		var c = colour.HasValue ?
 			System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(colour.Value.r8, colour.Value.b8, colour.Value.g8)) 
 			: Machine.Leds[name].Colour;
@@ -358,6 +364,7 @@ public abstract class PinGodGameBase : Node
 	/// <param name="sendUpdate"></param>
 	public virtual void SetLedState(string name, byte state, byte r, byte g, byte b)
 	{
+		if (!LedExists(name)) return;
 		var c = System.Drawing.Color.FromArgb(r, g, b);
 		var ole = System.Drawing.ColorTranslator.ToOle(c);
 		SetLedState(name, state, ole);
@@ -367,6 +374,7 @@ public abstract class PinGodGameBase : Node
 	/// </summary>
 	public virtual void StartNewBall()
 	{
+		IsBallStarted = true;
 		Print("base:starting new ball");
 		GameData.BallsStarted++;
 		ResetTilt();
@@ -376,34 +384,31 @@ public abstract class PinGodGameBase : Node
 		EmitSignal(nameof(BallStarted));
 	}
 	/// <summary>
-	/// Sets MultiBall running to send a <see cref="MultiballStarted"/>
+	/// Sets MultiBall running and trough to send a <see cref="MultiballStarted"/>
 	/// </summary>
 	/// <param name="numOfBalls"></param>
 	/// <param name="ballSaveTime"></param>
 	public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime)
-	{		
-		Trough.BallSaveMultiballSeconds = ballSaveTime;
-		Trough.NumOfBallToSave = numOfBalls;
+	{
+		_trough.StartMultiball(numOfBalls, ballSaveTime);
 		IsMultiballRunning = true;
 		EmitSignal(nameof(MultiballStarted));
 	}
 	public virtual void SolenoidOn(string name, byte state) 
-	{		
-		if (Machine.Coils?.Count <= 0) return;
+	{
+		if (!SolenoidExists(name)) return;
 		Machine.Coils[name].State = state;
 	}
 	public virtual async void SolenoidPulse(string name, byte pulse = 255) 
 	{
-		if (Machine.Coils?.Count <= 0) return;
+		if (!SolenoidExists(name)) return;
 
 		var coil = Machine.Coils[name];
 		await Task.Run(async () =>
 		{			
 			coil.State = 1;
-			//PinballSender.WriteStates();			
 			await Task.Delay(pulse);
 			coil.State = 0;
-			//PinballSender.WriteStates();
 		});
 	}
 	/// <summary>
@@ -414,16 +419,11 @@ public abstract class PinGodGameBase : Node
 	/// <param name="inputEvent"></param>
 	/// <returns></returns>
 	public virtual bool SwitchOn(string swName, InputEvent inputEvent)
-	{		
-		if (Machine.Switches.ContainsKey(swName))
-		{
-			var result = Machine.Switches[swName].IsOn(inputEvent);
-			if (LogSwitchEvents && result) Print("swOn:" + swName);
-			return result;
-		}
-
-		PrintErr("no switch found in dict for", swName);
-		return false;
+	{
+		if (!SwitchExists(swName)) return false;
+		var result = Machine.Switches[swName].IsOn(inputEvent);
+		if (LogSwitchEvents && result) Print("swOn:" + swName);
+		return result;
 	}
 	/// <summary>
 	/// Checks a switches input event by friendly name. <para/>
@@ -432,14 +432,9 @@ public abstract class PinGodGameBase : Node
 	/// <param name="swName"></param>
 	/// <returns>on / off</returns>
 	public virtual bool SwitchOn(string swName)
-	{		
-		if (Machine.Switches.ContainsKey(swName)) 
-		{
-			return Machine.Switches[swName].IsOn(); 
-		}
-
-		PrintErr("no switch found in dict for", swName);
-		return false;
+	{
+		if (!SwitchExists(swName)) return false;
+		return Machine.Switches[swName].IsOn();
 	}
 	/// <summary>
 	/// Wrapper for the Input.IsActionPressed. Checks actions prefixed with "sw"
@@ -454,7 +449,7 @@ public abstract class PinGodGameBase : Node
 		if (pressed)
 		{
 			if (LogSwitchEvents) Print("swOn:" + sw);
-			if (SwitchOn("plunger_lane"))
+			if (SwitchOn("plunger_lane")) //TODO
 			{
 				BallSearchSignals(resetOption);
 			}
@@ -470,18 +465,13 @@ public abstract class PinGodGameBase : Node
 	/// <returns></returns>
 	public virtual bool SwitchOff(string swName, InputEvent inputEvent)
 	{
-		if (Machine.Switches.ContainsKey(swName)) 
+		if (!SwitchExists(swName)) return false;
+		var result = Machine.Switches[swName].IsOff(inputEvent);
+		if (LogSwitchEvents && result)
 		{
-			var result = Machine.Switches[swName].IsOff(inputEvent);
-			if(LogSwitchEvents && result)
-			{
-				Print("swOff:" + swName);
-			}
-			return result; 
+			Print("swOff:" + swName);
 		}
-
-		PrintErr("no switch found in dict for", swName);
-		return false;
+		return result;
 	}
 	/// <summary>
 	/// Wrapper for the Input.IsActionReleased
@@ -495,7 +485,7 @@ public abstract class PinGodGameBase : Node
 		var pressed = @event.IsActionReleased("sw" + sw);
 		if (pressed)
 		{
-			if (SwitchOn("plunger_lane"))
+			if (SwitchOn("plunger_lane")) //TODO
 			{
 				if (LogSwitchEvents)
 				{
@@ -512,6 +502,50 @@ public abstract class PinGodGameBase : Node
 	{
 		GameData = GameData.Load();
 		GameSettings = GameSettings.Load();
+	}
+
+	private bool LedExists(string name)
+	{
+		if (!Machine.Leds.ContainsKey(name))
+		{
+			PrintErr("ERROR:no led found for: ", name);
+			return false;
+		}
+
+		return true;
+	}
+
+	private bool LampExists(string name)
+	{
+		if (!Machine.Lamps.ContainsKey(name))
+		{
+			PrintErr("ERROR:no lamp found for: ", name);
+			return false;
+		}
+
+		return true;
+	}
+
+	private bool SolenoidExists(string name)
+	{
+		if (!Machine.Coils.ContainsKey(name))
+		{
+			PrintErr("ERROR:no solenoid found for: ", name);
+			return false;
+		}
+
+		return true;
+	}
+
+	private bool SwitchExists(string name)
+    {
+        if (!Machine.Switches.ContainsKey(name))
+        {
+			PrintErr("ERROR:no switch found for: ", name);
+			return false;
+		}
+
+		return true;
 	}
 }
 

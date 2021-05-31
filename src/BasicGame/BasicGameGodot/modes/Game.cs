@@ -1,7 +1,5 @@
 using Godot;
 using static Godot.GD;
-using System.Threading.Tasks;
-using System.Drawing;
 
 public class Game : Node2D
 {
@@ -21,10 +19,12 @@ public class Game : Node2D
 		multiballPkd = ResourceLoader.Load(MULTIBALL_SCENE) as PackedScene;
 
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-		pinGod.Connect("BallEnded", this, "OnBallEnded");
-		pinGod.Connect("BallStarted", this, "OnBallStarted");
-		pinGod.Connect("BonusEnded", this, "OnBonusEnded");
-		pinGod.Connect("ScoreEntryEnded", this, "OnScoreEntryEnded");
+		pinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
+		pinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
+		pinGod.Connect(nameof(PinGodGameBase.BallStarted), this, "OnBallStarted");
+		pinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
+		pinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
+		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
 
 		scoreEntry = GetNode("CanvasLayer/ScoreEntry") as ScoreEntry;
 		endOfBallBonus = GetNode("CanvasLayer/Bonus") as Bonus;
@@ -46,46 +46,8 @@ public class Game : Node2D
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
 	{
-		//check if the input is a trough switch
-		var troughSwitch = pinGod.IsTroughSwitch(@event);
-		if (troughSwitch > 0)
-		{
-			//Check if the last trough switch was enabled
-			if (troughSwitch == Trough.TroughSwitches[Trough.TroughSwitches.Length - 1])
-			{
-				Print("trough: switches active");
-				//end the ball in play?
-				if (!pinGod.InBonusMode && pinGod.GameInPlay && Trough.IsTroughFull() && !Trough.BallSaveActive)
-				{
-					Print("game: trough switches updated");
-					if (_tiltedTimeOut.IsStopped())
-					{
-						if (pinGod.EndBall())
-						{
-							Print("last ball played game ending");
-						}
-						else
-						{
-							Print("game: new ball starting");
-						}
-					}					
-				}
-			}
-
-			if (pinGod.IsMultiballRunning && !Trough.BallSaveActive)
-			{
-				//this was the last ball in multiball
-				if(Trough.BallsInTrough() == 3)
-				{
-					EndMultiball();
-				}
-			}
-		}
-
-		if (!pinGod.GameInPlay) return;
-		//game is tilted, don't process other switches when tilted
-
-		if (pinGod.IsTilted) return;
+		if (!pinGod.GameInPlay) return;		
+		if (pinGod.IsTilted) return; //game is tilted, don't process other switches when tilted
 
 		if (pinGod.SwitchOn("start", @event))
 		{
@@ -191,6 +153,21 @@ public class Game : Node2D
 			else
 			{
 				Print("Still tilted");
+			}
+		}
+	}
+
+	void OnBallDrained()
+    {
+		if (_tiltedTimeOut.IsStopped())
+		{
+			if (pinGod.EndBall())
+			{
+				Print("last ball played game ending");
+			}
+			else
+			{
+				Print("game: new ball starting");
 			}
 		}
 	}

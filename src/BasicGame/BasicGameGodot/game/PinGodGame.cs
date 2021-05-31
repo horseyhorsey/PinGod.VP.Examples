@@ -1,6 +1,4 @@
 using Godot;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using static Godot.GD;
 
 /// <summary>
@@ -21,8 +19,37 @@ public class PinGodGame : PinGodGameBase
 
 	public override void _EnterTree()
 	{
-		Print("PinGod: entering tree. Loading audiomanager");
+		base._EnterTree(); //setup base for trough
+		Print("PinGod: entering tree. Setup");
+		Setup();
+	}
 
+	/// <summary>
+	/// Save game data / settings before exit
+	/// </summary>
+	public override void _ExitTree()
+	{		
+		Quit(true);
+	}
+
+	public override void _Input(InputEvent @event)
+	{
+		//quits the game. ESC
+		if (@event.IsActionPressed("quit"))
+		{
+			GetTree().Quit(0);
+		}
+
+		//Coin button. See PinGod.vbs for Standard switches
+		if (SwitchOn("coin", @event))
+		{
+			AudioManager.PlaySfx("credit");
+			AddCredits(1);
+		}
+	}
+
+	public override void Setup()
+	{
 		//create and get ref to the audiomanager scene
 		var audioMan = Load(AUDIO_MANAGER) as PackedScene;
 		AddChild(audioMan.Instance());
@@ -51,37 +78,17 @@ public class PinGodGame : PinGodGameBase
 		PinballSender.Start();
 	}
 
-	/// <summary>
-	/// Save game data / settings before exit
-	/// </summary>
-	public override void _ExitTree()
-	{		
-		Quit(true);
-	}
-
-	public override void _Input(InputEvent @event)
+	void AddAudioStreams()
 	{
-		//quits the game. ESC
-		if (@event.IsActionPressed("quit"))
-		{
-			GetTree().Quit(0);
-		}
+		//adds the default credit sound
+		AudioManager.AddSfx(COIN_SFX, "credit");
 
-		//Coin button. See PinGod.vbs for Standard switches
-		if (SwitchOn("coin", @event))
-		{
-			AudioManager.PlaySfx("credit");
-			AddCredits(1);
-		}
-	}
-
-	public void AddCredits(byte amt)
-	{
-		GameData.Credits += amt;
-		EmitSignal(nameof(CreditAdded));
+		//add music for the game. Ogg to autoloop
+		//AudioManager.AddMusic("res://assets/audio/music/mymusic.ogg", "mymusic");
 	}
 
 	#region Custom Machine Items
+
 	private void AddCustomMachineItems()
 	{
 		AddCustomSwitches();
@@ -137,16 +144,7 @@ public class PinGodGame : PinGodGameBase
 		}
 		_lamps.Clear();
 	} 
-	#endregion
-
-	void AddAudioStreams()
-	{
-		//adds the default credit sound
-		AudioManager.AddSfx(COIN_SFX, "credit");
-
-		//add music for the game. Ogg to autoloop
-		//AudioManager.AddMusic("res://assets/audio/music/mymusic.ogg", "mymusic");
-	}	
+	#endregion	
 
 	/// <summary>
 	/// Stops any game in progress
@@ -156,5 +154,5 @@ public class PinGodGame : PinGodGameBase
 		GameInPlay = false;
 		ResetTilt();
 		EnableFlippers(0);
-	}
+	}    
 }

@@ -12,7 +12,7 @@ public class BallSave : Control
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-		GetNode("/root/Trough").Connect("BallSaved", this, "OnBallSaved");
+		pinGod.Connect(nameof(PinGodGameBase.BallSaved), this, "OnBallSaved");
 		timer = GetNode("Timer") as Timer;
 	}
 

@@ -4,7 +4,6 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_write_machine_states_delay = 20
 _coils = {
 "auto_plunger": 3,
 "died": 0,

@@ -19,7 +19,7 @@ config/windows_native_icon="res://assets/img/pingod.ico"
 [autoload]
 
 PinGodGame="*res://game/PinGodGame.tscn"
-Trough="*res://addons/PinGodGame/Game/Trough.cs"
+Trough="*res://addons/PinGodGame/Nodes/Trough.tscn"
 
 [display]
 
@@ -157,7 +157,8 @@ sw19={
 }
 sw20={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":84,"unicode":0,"echo":false,"script":null)
+ ]
 }
 sw23={
 "deadzone": 0.5,

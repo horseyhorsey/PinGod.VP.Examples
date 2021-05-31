@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Nodes/Trough.cs" type="Script" id=1]
+
+[node name="Trough" type="Node"]
+script = ExtResource( 1 )
+_auto_plunge_solenoid = "auto_plunger"
+_ball_save_lamp = ""
+
+[node name="BallSaverTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="TroughPulseTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="BallSaverTimer" to="." method="_on_BallSaverTimer_timeout"]
+[connection signal="timeout" from="TroughPulseTimer" to="." method="_trough_pulse_timeout"]
