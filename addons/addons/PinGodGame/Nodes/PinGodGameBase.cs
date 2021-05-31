@@ -411,6 +411,26 @@ public abstract class PinGodGameBase : Node
 			coil.State = 0;
 		});
 	}
+
+	/// <summary>
+	/// Detect if the input `isAction` found in the given switchNames
+	/// </summary>
+	/// <param name="switchNames"></param>
+	/// <param name="input"></param>
+	/// <returns></returns>
+	public virtual bool IsSwitch(string[] switchNames, InputEvent input)
+    {
+        for (int i = 0; i < switchNames.Length; i++)
+        {
+			var sw = Machine.Switches[switchNames[i]];
+			if (input.IsAction(sw.ToString()))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 	/// <summary>
 	/// Use in Godot _Input events. Checks a switches input event by friendly name from switch collection <para/>
 	/// "coin", @event
