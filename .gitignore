@@ -6,6 +6,7 @@
 # PinGod - Godot
 # import files that are built, no need to be in source
 .import
+Exported
 *.import
 .mono
 
