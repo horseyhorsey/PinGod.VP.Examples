@@ -11,9 +11,9 @@ public class MemoryMap : IDisposable
     const string MAP_NAME = "pingod_vp";
     const string MUTEX_NAME = "pingod_vp_mutex";
 
-    const int COIL_COUNT = 32 * 2;
-    const int LAMP_COUNT = 64 * 2;
-    const int LED_COUNT  = 64 * 3; //Led 3 = Num, State, Color (ole)
+    int COIL_COUNT = 32 * 2;
+    int LAMP_COUNT = 64 * 2;
+    int LED_COUNT  = 64 * 3; //Led 3 = Num, State, Color (ole)
 
     internal static System.Threading.Mutex mutex;
     private MemoryMappedFile mmf;
@@ -23,6 +23,11 @@ public class MemoryMap : IDisposable
     private Task _writeStatesTask;
 
     public MemoryMap()
+    {
+        SetUp();
+    }
+
+    private void SetUp()
     {
         if (!Engine.EditorHint)
         {
@@ -40,6 +45,14 @@ public class MemoryMap : IDisposable
             mmf = MemoryMappedFile.CreateOrOpen(MAP_NAME, MAP_SIZE);
             viewAccessor = mmf.CreateViewAccessor(0, MAP_SIZE, MemoryMappedFileAccess.ReadWrite);
         }
+    }
+
+    public MemoryMap(byte coilCount = 32, byte lampCount = 64, byte ledCount = 64)
+    {
+        this.COIL_COUNT = coilCount * 2;
+        this.LAMP_COUNT = lampCount * 2;
+        this.LED_COUNT = ledCount * 2;
+        SetUp();
     }
 
     public void Start(int writeDelay = WRITE_DELAY)

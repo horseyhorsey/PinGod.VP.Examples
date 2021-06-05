@@ -44,3 +44,5 @@ _lamps = {
 _leds = {
 "shoot_again": 1
 }
+_ball_save_lamp = ""
+_ball_save_led = "shoot_again"

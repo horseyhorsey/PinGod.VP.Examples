@@ -1,8 +1,6 @@
 # PinGod - MoonStation
 ---
 
-A basic example of creating a pinball with Visual Pinball and PinGod.
-
 ![image](screen.jpg)
 
 ## Setup before running

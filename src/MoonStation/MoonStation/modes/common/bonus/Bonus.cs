@@ -19,10 +19,6 @@ public class Bonus : Control
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-		if (pinGod.Player != null)
-		{
-			pinGod.Player.Points += pinGod.Player.Bonus;
-		}
 		timer = GetNode("Timer") as Timer;
 		label = GetNode("Label") as Label;
 	}
@@ -34,7 +30,11 @@ public class Bonus : Control
 	}
 
 	public void StartBonusDisplay()
-	{		
+	{
+		if (pinGod.Player != null)
+		{
+			pinGod.Player.Points += pinGod.Player.Bonus;
+		}
 		label.Text = SetBonusText();
 		timer.Start(_display_for_seconds);
 		Visible = true;

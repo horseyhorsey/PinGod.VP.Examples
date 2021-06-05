@@ -5,7 +5,7 @@
 [node name="Trough" type="Node"]
 script = ExtResource( 1 )
 _auto_plunge_solenoid = "auto_plunger"
-_ball_save_lamp = ""
+_ball_save_led = ""
 
 [node name="BallSaverTimer" type="Timer" parent="."]
 one_shot = true

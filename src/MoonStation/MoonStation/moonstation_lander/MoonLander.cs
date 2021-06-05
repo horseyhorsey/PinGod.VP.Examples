@@ -15,7 +15,7 @@ public class MoonLander : Node2D
 	public override void _Ready()
 	{
 		ship = GetNode("PlayerShip") as RigidBody2D;        
-		_flagInstance = GD.Load("moonstation_lander/Flag.tscn") as PackedScene;
+		_flagInstance = GD.Load("moonstation_lander/flag.tscn") as PackedScene;
 		scoreLabel = GetNode("Label") as Label;
 		scoreLabel.Visible = false;
 

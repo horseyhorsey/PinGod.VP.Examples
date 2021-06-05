@@ -5,7 +5,7 @@
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
 _coils = {
-"auto_plunger": 3,
+"auto_plunge": 3,
 "crater_saucer": 4,
 "died": 0,
 "disable_shows": 7,

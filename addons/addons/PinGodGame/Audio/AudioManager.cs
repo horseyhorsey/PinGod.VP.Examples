@@ -69,6 +69,7 @@ public class AudioManager : Node
 
 	public void PlayMusic(string name, float pos = 0f)
 	{
+		GD.Print("playing music:", name, "music enabled: ", MusicEnabled);
 		if (string.IsNullOrWhiteSpace(name) || !MusicEnabled || Music == null) return;
 		if (!Music.ContainsKey(name))
 			GD.PrintErr("play music: not found under ", name);

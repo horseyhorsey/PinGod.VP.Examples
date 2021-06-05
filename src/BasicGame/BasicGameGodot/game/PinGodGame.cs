@@ -9,13 +9,27 @@ public class PinGodGame : PinGodGameBase
 	const string COIN_SFX = "res://assets/audio/sfx/credit.wav";
 	const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
 
+	#region Exports
 	[Export] bool _write_machine_states = true;
 	[Export] int _write_machine_states_delay = 10;
 
 	[Export] Godot.Collections.Dictionary<string, byte> _coils = new Godot.Collections.Dictionary<string, byte>();
 	[Export] Godot.Collections.Dictionary<string, byte> _switches = new Godot.Collections.Dictionary<string, byte>();
 	[Export] Godot.Collections.Dictionary<string, byte> _lamps = new Godot.Collections.Dictionary<string, byte>();
-	[Export] Godot.Collections.Dictionary<string, byte> _leds = new Godot.Collections.Dictionary<string, byte>();    
+	[Export] Godot.Collections.Dictionary<string, byte> _leds = new Godot.Collections.Dictionary<string, byte>();
+
+	[Export] public string _trough_entry_switch_name = "trough_4";
+	[Export] public string[] _trough_switches = { "trough_1", "trough_2", "trough_3", "trough_4" };
+	[Export] public string[] _early_save_switches = { "outlane_l", "outlane_r" };
+	[Export] public string _trough_solenoid = "trough";
+	[Export] public string _auto_plunge_solenoid = "auto_plunge";
+	[Export] public string _plunger_lane_switch = "plunger_lane";
+	[Export] public string _ball_save_lamp = "";
+	[Export] public string _ball_save_led = "shoot_again";
+	[Export] public byte _ball_save_seconds = 8;
+	[Export] public byte _ball_save_multiball_seconds = 8;
+	[Export] public byte _number_of_balls_to_save = 1;
+	#endregion
 
 	public override void _EnterTree()
 	{

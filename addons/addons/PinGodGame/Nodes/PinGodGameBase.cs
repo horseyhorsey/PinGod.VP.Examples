@@ -142,6 +142,14 @@ public abstract class PinGodGameBase : Node
 		}
 	}
 	/// <summary>
+	/// Creates a new <see cref="PlayerBasicGame"/>. Override this for your own players
+	/// </summary>
+	/// <param name="name"></param>
+	public virtual void CreatePlayer(string name)
+	{
+		Players.Add(new PlayerBasicGame() { Name = name, Points = 0 });
+	}
+	/// <summary>
 	/// Disables all <see cref="Lamps"/> and <see cref="Leds"/>
 	/// </summary>
 	/// <param name="sendUpdate">Runs <see cref="UpdateLampStates"/> and <see cref="UpdateLedStates"/></param>
@@ -231,6 +239,26 @@ public abstract class PinGodGameBase : Node
 		.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
 
 	/// <summary>
+	/// Uses the <see cref="AudioManager.PlayMusic(string, float)"/>
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="pos"></param>
+	public virtual void PlayMusic(string name, float pos = 0)
+    {
+		AudioManager.PlayMusic(name, pos);
+    }
+
+	/// <summary>
+	/// Uses the <see cref="AudioManager.PlaySfx(string)"/>
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="pos"></param>
+	public virtual void PlaySfx(string name)
+	{
+		AudioManager.PlaySfx(name);
+	}
+
+	/// <summary>
 	/// Quits the game, cleans up
 	/// </summary>
 	/// <param name="saveData">save game on exit?</param>
@@ -278,42 +306,43 @@ public abstract class PinGodGameBase : Node
 		}
 
 		if (!GameInPlay && GameData.Credits > 0) //first player start game
-		{
-			Print("starting game, checking trough...");
-			if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
-			{
-				Print("Trough not ready. Can't start game with empty trough.");
-				EmitSignal(nameof(BallSearchReset));
-				return false;
-			}
+        {
+            Print("starting game, checking trough...");
+            if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
+            {
+                Print("Trough not ready. Can't start game with empty trough.");
+                EmitSignal(nameof(BallSearchReset));
+                return false;
+            }
 
-			Players.Clear(); //clear any players from previous game
-			GameInPlay = true;
+            Players.Clear(); //clear any players from previous game
+            GameInPlay = true;
 
-			//remove a credit and add a new player
-			GameData.Credits--;
-			Players.Add(new PlayerBasicGame() { Name = $"P{Players.Count + 1}", Points = 0 });
-			CurrentPlayerIndex = 0;
-			Player = Players[CurrentPlayerIndex];
-			Print("signal: player 1 added");
-			GameData.GamesStarted++;
-			gameStartTime = OS.GetTicksMsec();
-			EmitSignal(nameof(PlayerAdded));
-			EmitSignal(nameof(GameStarted));
-			return true;
-		}
-		//game started already, add more players until max
-		else if (BallInPlay <= 1 && GameInPlay && Players.Count < MaxPlayers && GameData.Credits > 0)
+            //remove a credit and add a new player
+            GameData.Credits--;
+
+            CreatePlayer($"P{Players.Count + 1}");
+            CurrentPlayerIndex = 0;
+            Player = Players[CurrentPlayerIndex];
+            Print("signal: player 1 added");
+            GameData.GamesStarted++;
+            gameStartTime = OS.GetTicksMsec();
+            EmitSignal(nameof(PlayerAdded));
+            EmitSignal(nameof(GameStarted));
+            return true;
+        }
+        //game started already, add more players until max
+        else if (BallInPlay <= 1 && GameInPlay && Players.Count < MaxPlayers && GameData.Credits > 0)
 		{
 			GameData.Credits--;
-			Players.Add(new PlayerBasicGame() { Name = $"P{Players.Count + 1}", Points = 0 });
+			CreatePlayer($"P{Players.Count + 1}");
 			Print($"signal: player added. {Players.Count}");
 			EmitSignal(nameof(PlayerAdded));
 		}
 
 		return false;
 	}
-	public virtual void SetLampState(string name, byte state)
+    public virtual void SetLampState(string name, byte state)
     {
 		if (!LampExists(name)) return;
 		Machine.Lamps[name].State = state;
@@ -378,9 +407,9 @@ public abstract class PinGodGameBase : Node
 		Print("base:starting new ball");
 		GameData.BallsStarted++;
 		ResetTilt();
-		Player = Players[CurrentPlayerIndex];
+		Player = Players[CurrentPlayerIndex];		
+		_trough.PulseTrough();
 		EnableFlippers(1);
-		SolenoidPulse("trough");
 		EmitSignal(nameof(BallStarted));
 	}
 	/// <summary>
