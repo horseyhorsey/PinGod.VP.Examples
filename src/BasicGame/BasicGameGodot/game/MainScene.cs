@@ -84,13 +84,6 @@ public class MainScene : Node2D
 	void OnGameStarted()
 	{
 		StartGame();
-		CallDeferred("OnStartGameDeferred");
-	}
-	void OnStartGameDeferred()
-	{
-		pinGod.BallInPlay = 1;
-		//pulse ball from trough
-		pinGod.StartNewBall();		
 	}
 
 	void OnServiceMenuExit()

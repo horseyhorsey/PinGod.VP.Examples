@@ -30,7 +30,6 @@ public class Trough : Node
 	/// </summary>
 	private Timer ballSaverTimer;
 	private Timer troughPulseTimer;
-	private bool _isDraining;
 
 	public override void _EnterTree()
 	{
@@ -38,7 +37,6 @@ public class Trough : Node
 		pinGod.Connect(nameof(PinGodGameBase.MultiballStarted), this, "OnMultiballStarted");	
 		ballSaverTimer = GetNode("BallSaverTimer") as Timer;
 		troughPulseTimer = GetNode("TroughPulseTimer") as Timer;
-
 		Print("trough:_enter tree");
 	}
 
@@ -73,7 +71,9 @@ public class Trough : Node
 		{
 			var troughFull = IsTroughFull();
 			var balls = BallsInTrough();
-			Print("trough active:", pinGod._trough_entry_switch_name, " balls:", balls);
+
+			if(pinGod.LogSwitchEvents)
+				Print("trough active:", pinGod._trough_entry_switch_name, " balls:", balls);
 
 			if (troughFull && pinGod.IsBallStarted && !pinGod.IsMultiballRunning)
 			{				

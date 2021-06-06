@@ -13,6 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="export_presets.cfg" />
+    <None Include="modes\common\lanes\TopLanes.tscn" />
     <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>

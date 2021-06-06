@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://modes/common/Lanes/TopLanes.cs" type="Script" id=1]
+
+[node name="TopLanes" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_lane_switches = PoolStringArray( "toplane_0", "toplane_1", "toplane_2" )
+_lane_lamps = PoolStringArray( "toplane_0", "toplane_1", "toplane_2" )

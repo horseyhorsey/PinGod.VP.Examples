@@ -38,6 +38,9 @@ public class Game : Node2D
 	{
 		Print("game: _ready");
 		pinGod.DisableAllLamps();
+
+		pinGod.BallInPlay = 1;
+		pinGod.StartNewBall();
 	}
 
 	/// <summary>
