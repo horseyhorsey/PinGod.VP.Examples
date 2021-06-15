@@ -22,13 +22,14 @@ public class PinGodGame : PinGodGameBase
 	[Export] public string[] _trough_switches = { "trough_1", "trough_2", "trough_3", "trough_4" };
 	[Export] public string[] _early_save_switches = { "outlane_l", "outlane_r" };
 	[Export] public string _trough_solenoid = "trough";
-	[Export] public string _auto_plunge_solenoid = "auto_plunge";
+	[Export] public string _auto_plunge_solenoid = "auto_plunger";
 	[Export] public string _plunger_lane_switch = "plunger_lane";
 	[Export] public string _ball_save_lamp = "";
 	[Export] public string _ball_save_led = "shoot_again";
 	[Export] public byte _ball_save_seconds = 8;
 	[Export] public byte _ball_save_multiball_seconds = 8;
 	[Export] public byte _number_of_balls_to_save = 1;
+	[Export] public string[] _ball_search_coils;
 	#endregion
 
 	public override void _EnterTree()

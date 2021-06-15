@@ -167,6 +167,8 @@ public class Trough : Node
 		return cnt;
 	}
 
+	public int BallsInPlay() => pinGod._trough_switches.Length - BallsInTrough();
+
 	public async void OnMultiballStarted()
 	{
 		await Task.Run(() =>
@@ -179,7 +181,7 @@ public class Trough : Node
 			Print("trough: mball started, save time:", pinGod._ball_save_multiball_seconds);
 
 			//let balls go all time in a multiball
-			CallDeferred("_startMballTrough");
+			CallDeferred("_startMballTrough", 2f);
 		});
 	}
 
@@ -228,13 +230,15 @@ public class Trough : Node
 		pinGod.SolenoidPulse(pinGod._trough_solenoid);
 	}
 
-	internal void StartMultiball(byte numOfBalls, byte ballSaveTime)
+	internal void StartMultiball(byte numOfBalls, byte ballSaveTime, float pulseTimerDelay = 0)
 	{
 		pinGod._ball_save_multiball_seconds = ballSaveTime;
 		pinGod._number_of_balls_to_save = numOfBalls;
+		if (pulseTimerDelay > 0)
+			_startMballTrough(pulseTimerDelay);
 	}
 
-	void _startMballTrough() => troughPulseTimer.Start(2);
+	void _startMballTrough(float delay) => troughPulseTimer.Start(delay);
 
 
 	/// <summary>

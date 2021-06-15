@@ -7,6 +7,7 @@ public class Switch
     public Switch(byte num, BallSearchSignalOption ballSearch) { this.Num = num; this.BallSearch = ballSearch; }
     public byte Num { get; set; }
     public BallSearchSignalOption BallSearch { get; set; }
+    public ulong Time { get; private set; }
 
     /// <summary>
     /// 
@@ -20,18 +21,43 @@ public class Switch
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public bool IsOn(InputEvent input) => input.IsActionPressed(ToString());
+    public bool IsOn(InputEvent input) 
+    { 
+        bool active = input.IsActionPressed(ToString());
+        if (active)
+        {
+            Time = OS.GetSystemTimeMsecs();
+        }
+        return active;
+    }
     /// <summary>
     /// Checks the current input event. IsActionReleased(sw+num)
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public bool IsOff(InputEvent input) => input.IsActionReleased(ToString());
+    public bool IsOff(InputEvent input) {
+        bool released = input.IsActionReleased(ToString());
+        if (released)
+        {
+            Time = OS.GetSystemTimeMsecs();
+        }
+        return released;
+    }
     /// <summary>
     /// Checks if On/Off
     /// </summary>
     /// <returns></returns>
     public bool IsOn() => Input.IsActionPressed(ToString());
+
+    public ulong TimeSinceChange()
+    {
+        if(Time > 0)
+        {
+            return Time - OS.GetSystemTimeMsecs();
+        }
+
+        return 0;
+    }
     /// <summary>
     /// The action. sw+SwitchNum
     /// </summary>

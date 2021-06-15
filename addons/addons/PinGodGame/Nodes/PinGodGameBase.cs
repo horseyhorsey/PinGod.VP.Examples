@@ -92,19 +92,21 @@ public abstract class PinGodGameBase : Node
 		if (_trough == null)
 			Print("trough not found");
     }
-    #endregion
+	#endregion
 
-    #region Public Methods
-    /// <summary>
-    /// Adds points to the current player
-    /// </summary>
-    /// <param name="points"></param>
-    public virtual void AddPoints(int points)
+	#region Public Methods
+	/// <summary>
+	/// Adds points to the current player
+	/// </summary>
+	/// <param name="points"></param>
+	/// <param name="emitUpdateSignal">Sends a <see cref="ScoresUpdated"/> signal if set. See <see cref="ScoreMode"/> for use</param>
+	public virtual void AddPoints(int points, bool emitUpdateSignal = true)
 	{
 		if (Player != null)
 		{
 			Player.Points += points;
-			EmitSignal(nameof(ScoresUpdated));
+			if(emitUpdateSignal)
+				EmitSignal(nameof(ScoresUpdated));
 		}
 	}
 	/// <summary>
@@ -123,6 +125,8 @@ public abstract class PinGodGameBase : Node
 		GameData.Credits += amt;
 		EmitSignal(nameof(CreditAdded));
 	}
+
+	public virtual int BallsInPlay() => _trough?.BallsInPlay() ?? 0;
 	public virtual void BallSearchSignals(BallSearchSignalOption searchResetOption = BallSearchSignalOption.None)
 	{
 		Print("signals", searchResetOption.ToString());
@@ -189,34 +193,39 @@ public abstract class PinGodGameBase : Node
 		if (Players.Count > 0)
 		{
 			Print("end of ball. current ball:" + BallInPlay);
-			if (Players.Count > 1)
-			{
-				CurrentPlayerIndex++;
-				if (CurrentPlayerIndex + 1 > Players.Count)
+			if (Player.ExtraBalls > 0)
+            {
+				this.EmitSignal(nameof(BallEnded), false);
+			}
+            else
+            {
+				if (Players.Count > 1)
 				{
-					CurrentPlayerIndex = 0;
+					CurrentPlayerIndex++;
+					if (CurrentPlayerIndex + 1 > Players.Count)
+					{
+						CurrentPlayerIndex = 0;
+						BallInPlay++;
+					}
+				}
+				else
+				{
 					BallInPlay++;
 				}
-			}
-			else
-			{
-				BallInPlay++;
-			}
 
-			Print("ball in play " + BallInPlay);
-			GameData.BallsPlayed++;
-
-			if (BallInPlay > GameSettings.BallsPerGame)
-			{
-				//signal that ball has ended
-				
-				this.EmitSignal(nameof(BallEnded), true);
-				return true;
-			}
-			else
-			{
-				//signal that ball has ended
-				this.EmitSignal(nameof(BallEnded), false);
+				Print("ball in play " + BallInPlay);
+				GameData.BallsPlayed++;
+				if (BallInPlay > GameSettings.BallsPerGame)
+				{
+					//signal that ball has ended
+					this.EmitSignal(nameof(BallEnded), true);
+					return true;
+				}
+				else
+				{
+					//signal that ball has ended
+					this.EmitSignal(nameof(BallEnded), false);
+				}
 			}
 		}
 
@@ -237,6 +246,8 @@ public abstract class PinGodGameBase : Node
 	public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
 	public virtual long GetTopScorePoints => GameData?.HighScores?
 		.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
+
+	public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
 
 	/// <summary>
 	/// Uses the <see cref="AudioManager.PlayMusic(string, float)"/>
@@ -408,6 +419,11 @@ public abstract class PinGodGameBase : Node
 		GameData.BallsStarted++;
 		ResetTilt();
 		Player = Players[CurrentPlayerIndex];		
+		if(Player.ExtraBalls > 0)
+        {
+			Player.ExtraBalls--;
+			Print("base: player shoot again");
+		}
 		_trough.PulseTrough();
 		EnableFlippers(1);
 		EmitSignal(nameof(BallStarted));
@@ -417,9 +433,9 @@ public abstract class PinGodGameBase : Node
 	/// </summary>
 	/// <param name="numOfBalls"></param>
 	/// <param name="ballSaveTime"></param>
-	public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime)
+	public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime, float pulseTime = 0)
 	{
-		_trough.StartMultiball(numOfBalls, ballSaveTime);
+		_trough.StartMultiball(numOfBalls, ballSaveTime, pulseTime);
 		IsMultiballRunning = true;
 		EmitSignal(nameof(MultiballStarted));
 	}

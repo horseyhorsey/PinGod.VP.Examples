@@ -7,4 +7,5 @@ public abstract class PinGodPlayer : IPlayer
     public string Name { get; set; } = "Android AI";
     public long Points { get; set; } = 0;
     public long Bonus { get; set; } = 0;
+    public int ExtraBalls { get; set; }
 }

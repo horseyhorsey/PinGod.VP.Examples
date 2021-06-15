@@ -12,8 +12,14 @@ public class PinGodAddOns : EditorPlugin
 	/// </summary>
 	public override void _EnterTree()
 	{
-		var bLabelScript = GD.Load<Script>(ROOT_DIR+"Labels/BlinkingLabel.cs");
-		AddCustomType("BlinkingLabel", "Label", bLabelScript, null);
+		var script = GD.Load<Script>(ROOT_DIR+"Labels/BlinkingLabel.cs");
+		AddCustomType("BlinkingLabel", "Label", script, null);
+
+		script = GD.Load<Script>(ROOT_DIR + "VideoPlayers/VideoPlayerPinball.cs");
+		AddCustomType("VideoPlayerPinball", "VideoPlayer", script, null);
+
+		script = GD.Load<Script>(ROOT_DIR + "Timers/BallStackPinball.cs");
+		AddCustomType("BallStackPinball", "Timer", script, null);
 	}
 
 	/// <summary>
@@ -22,6 +28,8 @@ public class PinGodAddOns : EditorPlugin
 	public override void _ExitTree()
 	{
 		RemoveCustomType("BlinkingLabel");
+		RemoveCustomType("BallStackPinball");
+		RemoveCustomType("VideoPlayerPinball");
 	}
 }
 #endif
