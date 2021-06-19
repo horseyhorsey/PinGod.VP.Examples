@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://layers/Text/PauseLayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://modes/common/attract/Attract.tscn" type="PackedScene" id=2]
-[ext_resource path="res://modes/common/ball_search/BallSearch.tscn" type="PackedScene" id=3]
 [ext_resource path="res://modes/common/trough/BallSave.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/MainScene.cs" type="Script" id=5]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=6]
@@ -18,10 +17,6 @@ script = ExtResource( 5 )
 
 [node name="BallSave" parent="CanvasLayer" instance=ExtResource( 4 )]
 visible = false
-
-[node name="BallSearch" parent="CanvasLayer" instance=ExtResource( 3 )]
-visible = false
-_search_coils = null
 
 [node name="PauseControl" parent="CanvasLayer" instance=ExtResource( 1 )]
 visible = false

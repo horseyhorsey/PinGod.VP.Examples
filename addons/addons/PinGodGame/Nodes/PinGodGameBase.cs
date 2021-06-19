@@ -4,33 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using static Godot.GD;
 
-public enum BallSearchSignalOption
-{
-    None,
-    Reset,
-    Off,
-    On
-}
-
 public abstract class PinGodGameBase : Node
 {
     #region Signals
     [Signal] public delegate void BallDrained();
-
     [Signal] public delegate void BallEnded(bool lastBall);
     [Signal] public delegate void BallSaved();
     [Signal] public delegate void BallSaveEnded();
     [Signal] public delegate void BallSaveStarted();
     [Signal] public delegate void BallSearchReset();
-	[Signal] public delegate void BallSearchStop();
-	[Signal] public delegate void BallStarted();
-	[Signal] public delegate void BonusEnded();
-	[Signal] public delegate void CreditAdded();
-	[Signal] public delegate void GameEnded();
-	[Signal] public delegate void GamePaused();
-	[Signal] public delegate void GameResumed();
-	[Signal] public delegate void GameStarted();
-	[Signal] public delegate void GameTilted();
+    [Signal] public delegate void BallSearchStop();
+    [Signal] public delegate void BallStarted();
+    [Signal] public delegate void BonusEnded();
+    [Signal] public delegate void CreditAdded();
+    [Signal] public delegate void GameEnded();
+    [Signal] public delegate void GamePaused();
+    [Signal] public delegate void GameResumed();
+    [Signal] public delegate void GameStarted();
+    [Signal] public delegate void GameTilted();
     [Signal] public delegate void ModeTimedOut(string title);
     [Signal] public delegate void MultiBallEnded();
     [Signal] public delegate void MultiballStarted();
@@ -67,24 +58,26 @@ public abstract class PinGodGameBase : Node
     public bool IsTilted { get; set; }
     public PinGodPlayer Player { get; private set; }
     public List<PinGodPlayer> Players { get; private set; }
+    public BallSearchOptions BallSearchOptions { get; set; }
+    public Timer BallSearchTimer { get; set; }
     #endregion
 
     protected MemoryMap memMapping;
-    private Trough _trough;
+    internal Trough _trough;
     private uint gameEndTime;
     private uint gameLoadTimeMsec;
     private uint gameStartTime;
     public PinGodGameBase()
-	{
-		Players = new List<PinGodPlayer>();
+    {
+        Players = new List<PinGodPlayer>();
 
-		LoadSettingsAndData();
+        LoadSettingsAndData();
 
-		gameLoadTimeMsec = OS.GetTicksMsec();
+        gameLoadTimeMsec = OS.GetTicksMsec();
 
-		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
-		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);
-	}
+        AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);
+    }
 
     #region Godot overrides
     public override void _EnterTree()
@@ -93,18 +86,37 @@ public abstract class PinGodGameBase : Node
         _trough = GetNode("/root/Trough") as Trough;
         if (_trough == null)
             Print("trough not found");
+
+        BallSearchTimer = new Timer() { Autostart = false };
+        BallSearchTimer.Connect("timeout", this, "_OnBallSearchTimeout");
     }
     public override void _Notification(int what)
     {
-		if (what == NotificationWmQuitRequest)
-		{
-			if (PinballSender.Record)
-			{
-				PinballSender.SaveRecording();
-			}
-		}
-	}
+        if (what == NotificationWmQuitRequest)
+        {
+            if (PinballSender.Record)
+            {
+                PinballSender.SaveRecording();
+            }
+        }
+    }
+
     #endregion
+
+    private void _OnBallSearchTimeout()
+    {
+        if (BallSearchOptions?.SearchCoils?.Length > 0)
+        {
+            for (int i = 0; i < BallSearchOptions?.SearchCoils.Length; i++)
+            {
+                SolenoidPulse(BallSearchOptions?.SearchCoils[i]);
+            }
+        }
+        else
+        {
+            BallSearchTimer.Stop();
+        }
+    }
 
     #region Public Methods
     public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
@@ -132,14 +144,14 @@ public abstract class PinGodGameBase : Node
     /// <param name="points"></param>
     /// <param name="emitUpdateSignal">Sends a <see cref="ScoresUpdated"/> signal if set. See <see cref="ScoreMode"/> for use</param>
     public virtual void AddPoints(int points, bool emitUpdateSignal = true)
-	{
-		if (Player != null)
-		{
-			Player.Points += points;
-			if(emitUpdateSignal)
-				EmitSignal(nameof(ScoresUpdated));
-		}
-	}
+    {
+        if (Player != null)
+        {
+            Player.Points += points;
+            if (emitUpdateSignal)
+                EmitSignal(nameof(ScoresUpdated));
+        }
+    }
     public virtual void BallSearchSignals(BallSearchSignalOption searchResetOption = BallSearchSignalOption.None)
     {
         Print("signals", searchResetOption.ToString());
@@ -158,106 +170,115 @@ public abstract class PinGodGameBase : Node
                 break;
         }
     }
+
+    public virtual void SetBallSearchReset()
+    {
+        BallSearchTimer.Start(BallSearchOptions?.SearchWaitTime ?? 10);
+    }
+    public virtual void SetBallSearchStop()
+    {
+        BallSearchTimer.Stop();
+    }
     public virtual int BallsInPlay() => _trough?.BallsInPlay() ?? 0;
     /// <summary>
     /// Creates a new <see cref="PlayerBasicGame"/>. Override this for your own players
     /// </summary>
     /// <param name="name"></param>
     public virtual void CreatePlayer(string name)
-	{
-		Players.Add(new PlayerBasicGame() { Name = name, Points = 0 });
-	}
-	/// <summary>
-	/// Disables all <see cref="Lamps"/> and <see cref="Leds"/>
-	/// </summary>
-	/// <param name="sendUpdate">Runs <see cref="UpdateLampStates"/> and <see cref="UpdateLedStates"/></param>
-	public virtual void DisableAllLamps()
-	{
-		if(Machine.Lamps?.Count > 0)
+    {
+        Players.Add(new PlayerBasicGame() { Name = name, Points = 0 });
+    }
+    /// <summary>
+    /// Disables all <see cref="Lamps"/> and <see cref="Leds"/>
+    /// </summary>
+    /// <param name="sendUpdate">Runs <see cref="UpdateLampStates"/> and <see cref="UpdateLedStates"/></param>
+    public virtual void DisableAllLamps()
+    {
+        if (Machine.Lamps?.Count > 0)
         {
-			foreach (var lamp in Machine.Lamps)
-			{
-				lamp.Value.State = 0;
-			}
-		}
-		if (Machine.Leds?.Count > 0)
-		{
-			foreach (var led in Machine.Leds)
-			{
-				led.Value.State = 0;
-			}
-		}
-	}
-	public virtual void EnableFlippers(byte enabled)
-	{
-		FlippersEnabled = enabled;
-		this.SolenoidOn("flippers", enabled);
-	}
-	/// <summary>
-	/// Ends the current ball. Changes the player <para/>
-	/// Sends <see cref="BallEnded"/> signal
-	/// </summary>
-	/// <returns>True if all balls finished, game is finished</returns>
-	public virtual bool EndBall()
-	{
-		if (!GameInPlay) return false;
-
-		EnableFlippers(0);
-
-		if (Players.Count > 0)
-		{
-			Print("end of ball. current ball:" + BallInPlay);
-			if (Player.ExtraBalls > 0)
+            foreach (var lamp in Machine.Lamps)
             {
-				this.EmitSignal(nameof(BallEnded), false);
-			}
+                lamp.Value.State = 0;
+            }
+        }
+        if (Machine.Leds?.Count > 0)
+        {
+            foreach (var led in Machine.Leds)
+            {
+                led.Value.State = 0;
+            }
+        }
+    }
+    public virtual void EnableFlippers(byte enabled)
+    {
+        FlippersEnabled = enabled;
+        this.SolenoidOn("flippers", enabled);
+    }
+    /// <summary>
+    /// Ends the current ball. Changes the player <para/>
+    /// Sends <see cref="BallEnded"/> signal
+    /// </summary>
+    /// <returns>True if all balls finished, game is finished</returns>
+    public virtual bool EndBall()
+    {
+        if (!GameInPlay) return false;
+
+        EnableFlippers(0);
+
+        if (Players.Count > 0)
+        {
+            Print("end of ball. current ball:" + BallInPlay);
+            if (Player.ExtraBalls > 0)
+            {
+                this.EmitSignal(nameof(BallEnded), false);
+            }
             else
             {
-				if (Players.Count > 1)
-				{
-					CurrentPlayerIndex++;
-					if (CurrentPlayerIndex + 1 > Players.Count)
-					{
-						CurrentPlayerIndex = 0;
-						BallInPlay++;
-					}
-				}
-				else
-				{
-					BallInPlay++;
-				}
+                if (Players.Count > 1)
+                {
+                    CurrentPlayerIndex++;
+                    if (CurrentPlayerIndex + 1 > Players.Count)
+                    {
+                        CurrentPlayerIndex = 0;
+                        BallInPlay++;
+                    }
+                }
+                else
+                {
+                    BallInPlay++;
+                }
 
-				Print("ball in play " + BallInPlay);
-				GameData.BallsPlayed++;
-				if (BallInPlay > GameSettings.BallsPerGame)
-				{
-					//signal that ball has ended
-					this.EmitSignal(nameof(BallEnded), true);
-					return true;
-				}
-				else
-				{
-					//signal that ball has ended
-					this.EmitSignal(nameof(BallEnded), false);
-				}
-			}
-		}
+                Print("ball in play " + BallInPlay);
+                GameData.BallsPlayed++;
+                if (BallInPlay > GameSettings.BallsPerGame)
+                {
+                    //signal that ball has ended
+                    this.EmitSignal(nameof(BallEnded), true);
+                    return true;
+                }
+                else
+                {
+                    //signal that ball has ended
+                    this.EmitSignal(nameof(BallEnded), false);
+                }
+            }
+        }
 
-		return false;
-	}
-	/// <summary>
-	/// Game has ended, sets <see cref="GameInPlay"/> to false and Sends <see cref="GameEnded"/>
-	/// </summary>
-	public virtual void EndOfGame()
-	{
-		GameInPlay = false;
-		GameData.GamesFinished++;
-		ResetTilt();
-		gameEndTime = OS.GetTicksMsec();
-		GameData.TimePlayed = gameEndTime - gameStartTime;
-		this.EmitSignal(nameof(GameEnded));
-	}
-	public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
+        return false;
+    }
+    /// <summary>
+    /// Game has ended, sets <see cref="GameInPlay"/> to false and Sends <see cref="GameEnded"/>
+    /// </summary>
+    public virtual void EndOfGame()
+    {
+        GameInPlay = false;
+        GameData.GamesFinished++;
+        ResetTilt();
+        gameEndTime = OS.GetTicksMsec();
+        GameData.TimePlayed = gameEndTime - gameStartTime;
+        this.EmitSignal(nameof(GameEnded));
+    }
+    public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
     /// <summary>
     /// Detect if the input `isAction` found in the given switchNames
     /// </summary>
@@ -284,42 +305,42 @@ public abstract class PinGodGameBase : Node
     /// <param name="pos"></param>
     public virtual void PlayMusic(string name, float pos = 0)
     {
-		AudioManager.PlayMusic(name, pos);
+        AudioManager.PlayMusic(name, pos);
     }
-	/// <summary>
-	/// Uses the <see cref="AudioManager.PlaySfx(string)"/>
-	/// </summary>
-	/// <param name="name"></param>
-	/// <param name="pos"></param>
-	public virtual void PlaySfx(string name)
-	{
-		AudioManager.PlaySfx(name);
-	}
-	/// <summary>
-	/// Quits the game, cleans up
-	/// </summary>
-	/// <param name="saveData">save game on exit?</param>
-	public virtual void Quit(bool saveData = true)
+    /// <summary>
+    /// Uses the <see cref="AudioManager.PlaySfx(string)"/>
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="pos"></param>
+    public virtual void PlaySfx(string name)
     {
-		if(saveData)
+        AudioManager.PlaySfx(name);
+    }
+    /// <summary>
+    /// Quits the game, cleans up
+    /// </summary>
+    /// <param name="saveData">save game on exit?</param>
+    public virtual void Quit(bool saveData = true)
+    {
+        if (saveData)
         {
-			GameData.Save(GameData);
-			GameSettings.Save(GameSettings);
-		}
+            GameData.Save(GameData);
+            GameSettings.Save(GameSettings);
+        }
 
-		memMapping?.Dispose(); //dispose invokes stop as well
-		Print("exiting pinball sender");
-		PinballSender.Stop(); //don't remove, game won't close from VP otherwise
-		Print("exited pinball sender");
-	}
-	/// <summary>
-	/// Reset player warnings and tilt
-	/// </summary>
-	public virtual void ResetTilt()
-	{
-		Tiltwarnings = 0;
-		IsTilted = false;
-	}
+        memMapping?.Dispose(); //dispose invokes stop as well
+        Print("exiting pinball sender");
+        PinballSender.Stop(); //don't remove, game won't close from VP otherwise
+        Print("exited pinball sender");
+    }
+    /// <summary>
+    /// Reset player warnings and tilt
+    /// </summary>
+    public virtual void ResetTilt()
+    {
+        Tiltwarnings = 0;
+        IsTilted = false;
+    }
     /// <summary>
     /// Sends a signal game is paused <see cref="GamePaused"/>
     /// </summary>
@@ -407,15 +428,15 @@ public abstract class PinGodGameBase : Node
     /// </summary>
     /// <returns>True if the game was started</returns>
     public virtual bool StartGame()
-	{
-		Print("base:start game");
-		if (IsTilted)
-		{
-			Print("base: Cannot start game when game is tilted");
-			return false;
-		}
+    {
+        Print("base:start game");
+        if (IsTilted)
+        {
+            Print("base: Cannot start game when game is tilted");
+            return false;
+        }
 
-		if (!GameInPlay && GameData.Credits > 0) //first player start game
+        if (!GameInPlay && GameData.Credits > 0) //first player start game
         {
             Print("starting game, checking trough...");
             if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
@@ -443,15 +464,15 @@ public abstract class PinGodGameBase : Node
         }
         //game started already, add more players until max
         else if (BallInPlay <= 1 && GameInPlay && Players.Count < MaxPlayers && GameData.Credits > 0)
-		{
-			GameData.Credits--;
-			CreatePlayer($"P{Players.Count + 1}");
-			Print($"signal: player added. {Players.Count}");
-			EmitSignal(nameof(PlayerAdded));
-		}
+        {
+            GameData.Credits--;
+            CreatePlayer($"P{Players.Count + 1}");
+            Print($"signal: player added. {Players.Count}");
+            EmitSignal(nameof(PlayerAdded));
+        }
 
-		return false;
-	}
+        return false;
+    }
     /// <summary>
     /// Sets MultiBall running and trough to send a <see cref="MultiballStarted"/>
     /// </summary>
@@ -467,21 +488,21 @@ public abstract class PinGodGameBase : Node
     /// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
     /// </summary>
     public virtual void StartNewBall()
-	{
-		IsBallStarted = true;
-		Print("base:starting new ball");
-		GameData.BallsStarted++;
-		ResetTilt();
-		Player = Players[CurrentPlayerIndex];		
-		if(Player.ExtraBalls > 0)
+    {
+        IsBallStarted = true;
+        Print("base:starting new ball");
+        GameData.BallsStarted++;
+        ResetTilt();
+        Player = Players[CurrentPlayerIndex];
+        if (Player.ExtraBalls > 0)
         {
-			Player.ExtraBalls--;
-			Print("base: player shoot again");
-		}
-		_trough.PulseTrough();
-		EnableFlippers(1);
-		EmitSignal(nameof(BallStarted));
-	}
+            Player.ExtraBalls--;
+            Print("base: player shoot again");
+        }
+        _trough.PulseTrough();
+        EnableFlippers(1);
+        EmitSignal(nameof(BallStarted));
+    }
     /// <summary>
     /// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
     /// "coin", @event
@@ -530,43 +551,61 @@ public abstract class PinGodGameBase : Node
     /// <param name="inputEvent"></param>
     /// <returns></returns>
     public virtual bool SwitchOn(string swName, InputEvent inputEvent)
-	{
-		if (!SwitchExists(swName)) return false;
-		var result = Machine.Switches[swName].IsOn(inputEvent);
-		if (LogSwitchEvents && result) Print("swOn:" + swName);
-		return result;
-	}
-	/// <summary>
-	/// Checks a switches input event by friendly name. <para/>
-	/// If the "coin" switch is still held down then will return true
-	/// </summary>
-	/// <param name="swName"></param>
-	/// <returns>on / off</returns>
-	public virtual bool SwitchOn(string swName)
-	{
-		if (!SwitchExists(swName)) return false;
-		return Machine.Switches[swName].IsOn();
-	}
-	/// <summary>
-	/// Wrapper for the Input.IsActionPressed. Checks actions prefixed with "sw"
-	/// </summary>
-	/// <param name="sw"></param>
-	/// <param name="event"></param>
-	/// <param name="resetOption">Sends a BallSearch signal</param>
-	/// <returns></returns>
-	public virtual bool SwitchOn(byte sw, InputEvent @event, BallSearchSignalOption resetOption = BallSearchSignalOption.None)
-	{
-		var pressed = @event.IsActionPressed("sw" + sw);
-		if (pressed)
-		{
-			if (LogSwitchEvents) Print("swOn:" + sw);
-			if (SwitchOn("plunger_lane")) //TODO
-			{
-				BallSearchSignals(resetOption);
-			}
-		}
-		return pressed;
-	}
+    {
+        if (!SwitchExists(swName)) return false;
+        var sw = Machine.Switches[swName];
+        var result = sw.IsOn(inputEvent);
+        if (result && BallSearchOptions.IsSearchEnabled)
+        {
+            if(sw.BallSearch != BallSearchSignalOption.None)
+            {
+                switch (sw.BallSearch)
+                {
+                    case BallSearchSignalOption.Reset:
+                        SetBallSearchReset();
+                        break;
+                    case BallSearchSignalOption.Off:
+                        SetBallSearchStop();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        if (LogSwitchEvents && result) Print("swOn:" + swName);
+        return result;
+    }
+    /// <summary>
+    /// Checks a switches input event by friendly name. <para/>
+    /// If the "coin" switch is still held down then will return true
+    /// </summary>
+    /// <param name="swName"></param>
+    /// <returns>on / off</returns>
+    public virtual bool SwitchOn(string swName)
+    {
+        if (!SwitchExists(swName)) return false;
+        return Machine.Switches[swName].IsOn();
+    }
+    /// <summary>
+    /// Wrapper for the Input.IsActionPressed. Checks actions prefixed with "sw"
+    /// </summary>
+    /// <param name="sw"></param>
+    /// <param name="event"></param>
+    /// <param name="resetOption">Sends a BallSearch signal</param>
+    /// <returns></returns>
+    public virtual bool SwitchOn(byte sw, InputEvent @event, BallSearchSignalOption resetOption = BallSearchSignalOption.None)
+    {
+        var pressed = @event.IsActionPressed("sw" + sw);
+        if (pressed)
+        {
+            if (LogSwitchEvents) Print("swOn:" + sw);
+            if (SwitchOn("plunger_lane")) //TODO
+            {
+                BallSearchSignals(resetOption);
+            }
+        }
+        return pressed;
+    }
 
     /// <summary>
     /// Invokes UpdateLamps on all groups within the scene tree.
@@ -597,27 +636,27 @@ public abstract class PinGodGameBase : Node
     }
     private void LoadSettingsAndData()
     {
-		GameData = GameData.Load();
-		GameSettings = GameSettings.Load();
-	}
-	private bool SolenoidExists(string name)
-	{
-		if (!Machine.Coils.ContainsKey(name))
-		{
-			PrintErr("ERROR:no solenoid found for: ", name);
-			return false;
-		}
+        GameData = GameData.Load();
+        GameSettings = GameSettings.Load();
+    }
+    private bool SolenoidExists(string name)
+    {
+        if (!Machine.Coils.ContainsKey(name))
+        {
+            PrintErr("ERROR:no solenoid found for: ", name);
+            return false;
+        }
 
-		return true;
-	}
-	private bool SwitchExists(string name)
+        return true;
+    }
+    private bool SwitchExists(string name)
     {
         if (!Machine.Switches.ContainsKey(name))
         {
-			PrintErr("ERROR:no switch found for: ", name);
-			return false;
-		}
+            PrintErr("ERROR:no switch found for: ", name);
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

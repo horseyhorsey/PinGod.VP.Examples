@@ -96,9 +96,9 @@ public class Game : Node2D
 				pinGod.IsMultiballRunning = true;
 				CallDeferred("AddMultiballSceneToTree");
 				pinGod.SolenoidPulse("mball_saucer", 225);
-            }
-            else
-            {
+			}
+			else
+			{
 				//already in multiball
 				pinGod.SolenoidPulse("mball_saucer", 225);
 			}
@@ -161,7 +161,7 @@ public class Game : Node2D
 	}
 
 	void OnBallDrained()
-    {
+	{
 		if (_tiltedTimeOut.IsStopped())
 		{
 			if (pinGod.EndBall())

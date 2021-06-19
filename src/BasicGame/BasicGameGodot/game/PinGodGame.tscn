@@ -39,10 +39,9 @@ _switches = {
 "up": 6
 }
 _lamps = {
-"shoot_again": 1
 }
 _leds = {
 "shoot_again": 1
 }
-_ball_save_lamp = ""
-_ball_save_led = "shoot_again"
+_ball_search_coils = PoolStringArray( "mball_saucer" )
+_ball_search_stop_switches = PoolStringArray( "mball_saucer" )
