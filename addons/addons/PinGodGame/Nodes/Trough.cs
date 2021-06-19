@@ -15,14 +15,6 @@ public class Trough : Node
 	/// </summary>
 	public static bool _isDebugTrough = false;
 
-	#region Public Static
-	/// <summary>
-	/// Is ball save active
-	/// </summary>
-	public static bool BallSaveActive { get; internal set; }
-
-	#endregion
-
 	private PinGodGame pinGod;
 
 	/// <summary>
@@ -53,7 +45,7 @@ public class Trough : Node
 	{
 
 		//fire early saves
-		if (!pinGod.IsBallStarted && !pinGod.IsTilted && BallSaveActive)
+		if (!pinGod.IsBallStarted && !pinGod.IsTilted && pinGod.BallSaveActive)
 		{
 			for (int i = 0; i < pinGod._early_save_switches.Length; i++)
 			{
@@ -77,7 +69,7 @@ public class Trough : Node
 
 			if (troughFull && pinGod.IsBallStarted && !pinGod.IsMultiballRunning)
 			{				
-				if (BallSaveActive && !pinGod.IsTilted)
+				if (pinGod.BallSaveActive && !pinGod.IsTilted)
 				{
 					Print("trough: ball_saved");
 					pinGod.SolenoidPulse(pinGod._trough_solenoid);
@@ -89,10 +81,12 @@ public class Trough : Node
 					pinGod.EmitSignal(nameof(PinGodGameBase.BallDrained));
 				}
 			}
-			else if(pinGod.IsMultiballRunning)
+			else if(pinGod.IsMultiballRunning && !pinGod.BallSaveActive)
 			{
 				if (pinGod._trough_switches.Length - 1 == balls)
 				{
+					pinGod.IsMultiballRunning = false;
+					troughPulseTimer.Stop();
 					pinGod.EmitSignal(nameof(PinGodGameBase.MultiBallEnded));
 				}
 			}
@@ -105,7 +99,7 @@ public class Trough : Node
 		if (pinGod.SwitchOn(pinGod._plunger_lane_switch, @event))
 		{
 			//auto plunge the ball if in ball save or game is tilted to get the balls back
-			if (BallSaveActive || pinGod.IsTilted)
+			if (pinGod.BallSaveActive || pinGod.IsTilted)
 			{
 				pinGod.SolenoidPulse(pinGod._auto_plunge_solenoid, 125);
 				Print("trough: auto saved");
@@ -171,9 +165,10 @@ public class Trough : Node
 
 	public async void OnMultiballStarted()
 	{
+		Print("trough: multiball starting");
 		await Task.Run(() =>
 		{
-			BallSaveActive = true;
+			pinGod.BallSaveActive = true;
 
 			UpdateLamps(LightState.Blink);
 
@@ -191,19 +186,19 @@ public class Trough : Node
 	/// <returns>True if the ball saver is active</returns>
 	public bool StartBallSaver()
 	{
-		if (!BallSaveActive)
+		if (!pinGod.BallSaveActive)
 		{
-			BallSaveActive = true;
+			pinGod.BallSaveActive = true;
 			UpdateLamps(LightState.Blink);
 			ballSaverTimer.Start(pinGod._ball_save_seconds);
 		}
 
-		return BallSaveActive;
+		return pinGod.BallSaveActive;
 	}
 
 	public void DisableBallSave()
 	{
-		BallSaveActive = false;
+		pinGod.BallSaveActive = false;
 		UpdateLamps(LightState.Off);
 	}
 
@@ -230,7 +225,13 @@ public class Trough : Node
 		pinGod.SolenoidPulse(pinGod._trough_solenoid);
 	}
 
-	internal void StartMultiball(byte numOfBalls, byte ballSaveTime, float pulseTimerDelay = 0)
+	/// <summary>
+	/// Starts multi-ball trough
+	/// </summary>
+	/// <param name="numOfBalls"></param>
+	/// <param name="ballSaveTime"></param>
+	/// <param name="pulseTimerDelay">Timer to pulse trough</param>
+	internal void StartMultiball(byte numOfBalls, byte ballSaveTime, float pulseTimerDelay = 1)
 	{
 		pinGod._ball_save_multiball_seconds = ballSaveTime;
 		pinGod._number_of_balls_to_save = numOfBalls;
@@ -266,22 +267,25 @@ public class Trough : Node
 
 	void _trough_pulse_timeout()
 	{
-		if (!pinGod.SwitchOn(pinGod._plunger_lane_switch))
-		{
-			if (BallsInTrough() < pinGod._number_of_balls_to_save)
-			{
-				PulseTrough();
-			}
-		}
-
 		pinGod._ball_save_multiball_seconds--;
-		Print("mball sec remain", pinGod._ball_save_multiball_seconds);
 		if (pinGod._ball_save_multiball_seconds < 1)
 		{
+			DisableBallSave();
 			troughPulseTimer.Stop();
 			Print("trough: ended mball trough pulse timer");
-			DisableBallSave();
 		}
+
+		//put a ball into plunger_lane
+		if (!pinGod.SwitchOn(pinGod._plunger_lane_switch) && pinGod._ball_save_multiball_seconds > 0)
+		{
+			var ballsIntTrough = BallsInTrough();
+			var b = pinGod._trough_switches.Length - ballsIntTrough;
+			if (b < pinGod._number_of_balls_to_save)
+			{
+				Print("trough: pulse");
+				PulseTrough();
+			}
+		}		
 	}
 	#endregion
 }

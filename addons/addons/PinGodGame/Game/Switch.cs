@@ -7,7 +7,7 @@ public class Switch
     public Switch(byte num, BallSearchSignalOption ballSearch) { this.Num = num; this.BallSearch = ballSearch; }
     public byte Num { get; set; }
     public BallSearchSignalOption BallSearch { get; set; }
-    public ulong Time { get; private set; }
+    public ulong Time { get; set; }
 
     /// <summary>
     /// 
@@ -53,7 +53,7 @@ public class Switch
     {
         if(Time > 0)
         {
-            return Time - OS.GetSystemTimeMsecs();
+            return OS.GetSystemTimeMsecs() - Time;
         }
 
         return 0;

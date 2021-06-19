@@ -4,6 +4,7 @@ using System.Linq;
 public static class PinGodExtensions
 {
     public static string ToScoreString(this long points) => points.ToString("N0");
+    public static string ToScoreString(this int points) => points.ToString("N0");
 
     /// <summary>
     /// Randomizes an array and returns a given length
