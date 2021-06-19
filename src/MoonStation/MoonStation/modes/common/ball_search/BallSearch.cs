@@ -21,7 +21,7 @@ public class BallSearch : Control
 	private float _ballSearchWaitTime;
 	private Timer _timer;
 	private Label _label;
-	private bool IsBallSearchRunning = false;
+	private bool IsBallSearchRunning { get; set; } = false;
 	private PinGodGame pinGodGame;
 
 	public override void _EnterTree()

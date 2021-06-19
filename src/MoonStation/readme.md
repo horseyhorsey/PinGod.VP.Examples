@@ -13,11 +13,13 @@ mklink /D addons "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\addons\a
 
 You also could just make a copy of the addons and add it to the project.
 
-# Logging.
----
+## Logging.
 
 Can view most of it from the debug console window but if you miss something they can be found at `C:\Users\YOURNAME\AppData\Roaming\Godot\app_userdata\MoonStation`.
 
+## Building (Export)
+
+- Running `godot --export "Windows Desktop"` will export the game to the `Exported` folder.
 
 
 # Moon Station - Visual Pinball
@@ -45,3 +47,6 @@ Used to export `Plastics` and `Playfield` artwork for the table with `Inkscape`.
 ## Rules
 
 - Completing drop target banks increase table multiplier
+
+
+

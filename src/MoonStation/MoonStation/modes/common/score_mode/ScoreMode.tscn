@@ -116,7 +116,7 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -85.0
+margin_left = -116.0
 margin_top = -33.0
 custom_fonts/font = ExtResource( 3 )
 text = "Player: "
@@ -128,6 +128,7 @@ __meta__ = {
 [node name="BallInfo" type="Label" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
+margin_left = 13.0
 margin_top = -33.0
 margin_right = 59.0
 custom_fonts/font = ExtResource( 3 )
