@@ -11,7 +11,7 @@ public class BallSearch : Control
 	/// <summary>
 	/// The coil numbers to pulse when timer runs out.
 	/// </summary>
-	[Export] private string[] _search_coils;
+	[Export] private string[] _search_coils = null;
 
 	[Export] private int _wait_time_secs = 10;
 
@@ -21,8 +21,13 @@ public class BallSearch : Control
 	private float _ballSearchWaitTime;
 	private Timer _timer;
 	private Label _label;
-	private bool IsBallSearchRunning = false;
+	private bool IsBallSearchRunning;
 	private PinGodGame pinGodGame;
+
+    public BallSearch()
+    {
+		IsBallSearchRunning = false;
+	}
 
 	public override void _EnterTree()
 	{
@@ -65,7 +70,8 @@ public class BallSearch : Control
 		if(_search_coils?.Length > 0)
 		{
 			_label.Visible = true;
-			IsBallSearchRunning = true;
+			if(!IsBallSearchRunning)
+				IsBallSearchRunning = true;
 
 			for (int i = 0; i < _search_coils.Length; i++)
 			{

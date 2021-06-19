@@ -8,7 +8,7 @@ using System;
 public class BallStackPinball : Timer
 {
 
-	[Export] string _sw_action;
+	[Export] string _sw_action = null;
 	[Signal] public delegate void SwitchActive();
 	[Signal] public delegate void SwitchInActive();
 

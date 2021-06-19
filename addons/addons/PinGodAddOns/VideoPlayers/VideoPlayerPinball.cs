@@ -7,8 +7,8 @@ using System;
 [Tool]
 public class VideoPlayerPinball : VideoPlayer
 {
-	[Export] private bool _hold;
-	[Export] private bool _loop;
+	[Export] private bool _hold = false;
+	[Export] private bool _loop = false;
 	[Export] private bool _play_when_visible = false;
 	[Export] private bool _pause_when_hidden = false;
 
