@@ -14,7 +14,6 @@ public abstract class PinGodGameBase : Node
     [Signal] public delegate void BallSaveStarted();
     [Signal] public delegate void BallSearchReset();
     [Signal] public delegate void BallSearchStop();
-    [Signal] public delegate void BallStarted();
     [Signal] public delegate void BonusEnded();
     [Signal] public delegate void CreditAdded();
     [Signal] public delegate void GameEnded();
@@ -133,6 +132,10 @@ public abstract class PinGodGameBase : Node
             Player.Bonus += points;
         }
     }
+    /// <summary>
+    /// Adds credits to the GameData and emits <see cref="CreditAdded"/> signal
+    /// </summary>
+    /// <param name="amt"></param>
     public virtual void AddCredits(byte amt)
     {
         GameData.Credits += amt;
@@ -170,7 +173,6 @@ public abstract class PinGodGameBase : Node
                 break;
         }
     }
-
     public virtual void SetBallSearchReset()
     {
         BallSearchTimer.Start(BallSearchOptions?.SearchWaitTime ?? 10);
@@ -501,8 +503,14 @@ public abstract class PinGodGameBase : Node
         }
         _trough.PulseTrough();
         EnableFlippers(1);
-        EmitSignal(nameof(BallStarted));
     }
+
+    /// <summary>
+    /// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
+    /// </summary>
+    /// <param name="sceneTree"></param>
+    public virtual void OnBallStarted(SceneTree sceneTree, string group = "Mode", string method = "OnBallStarted") => sceneTree.CallGroup(group, method);
+
     /// <summary>
     /// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
     /// "coin", @event
@@ -557,7 +565,7 @@ public abstract class PinGodGameBase : Node
         var result = sw.IsOn(inputEvent);
         if (result && BallSearchOptions.IsSearchEnabled)
         {
-            if(sw.BallSearch != BallSearchSignalOption.None)
+            if (sw.BallSearch != BallSearchSignalOption.None)
             {
                 switch (sw.BallSearch)
                 {
@@ -608,10 +616,10 @@ public abstract class PinGodGameBase : Node
     }
 
     /// <summary>
-    /// Invokes UpdateLamps on all groups within the scene tree.
+    /// Invokes UpdateLamps on all groups marked as Mode within the scene tree.
     /// </summary>
     /// <param name="sceneTree"></param>
-    public virtual void UpdateLamps(SceneTree sceneTree, string group = "update_lamps", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
+    public virtual void UpdateLamps(SceneTree sceneTree, string group = "Mode", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
     #endregion
 
     private bool LampExists(string name)
