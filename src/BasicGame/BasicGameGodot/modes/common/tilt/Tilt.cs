@@ -29,9 +29,6 @@ public class Tilt : Control
 		blinkingLayer = GetNode("BlinkingLabel") as BlinkingLabel;
 		blinkingLayer.Text = "";
 
-		//reset the tilt if new ball started
-		pinGod.Connect("BallStarted", this, "OnBallStarted");
-
 		//timer to hide the tilt layers
 		timer = GetNode("Timer") as Timer;		
 	}

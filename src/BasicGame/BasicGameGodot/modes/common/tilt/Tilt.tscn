@@ -3,7 +3,9 @@
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/Bebas128.tres" type="DynamicFont" id=3]
 
-[node name="Tilt" type="Control"]
+[node name="Tilt" type="Control" groups=[
+"Mode",
+]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {

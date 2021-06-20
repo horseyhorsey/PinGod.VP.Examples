@@ -5,12 +5,12 @@ public class Game : Node2D
 {
 	const string MULTIBALL_SCENE = "res://modes/common/multiball/Multiball.tscn";
 
-	private PinGodGame pinGod;
-	private ScoreEntry scoreEntry;
-	private Bonus endOfBallBonus;
-	private PackedScene multiballPkd;
 	private bool _lastBall;
 	private Timer _tiltedTimeOut;
+	private Bonus endOfBallBonus;
+	private PackedScene multiballPkd;
+	private PinGodGame pinGod;
+	private ScoreEntry scoreEntry;
 
 	public override void _EnterTree()
 	{
@@ -21,7 +21,6 @@ public class Game : Node2D
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		pinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
 		pinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
-		pinGod.Connect(nameof(PinGodGameBase.BallStarted), this, "OnBallStarted");
 		pinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
 		pinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
 		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
@@ -34,93 +33,28 @@ public class Game : Node2D
 		_tiltedTimeOut.Connect("timeout", this, "timeout");
 	}
 
+	/// <summary>
+	/// Starts a new game and ball (soon as this Game enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode
+	/// </summary>
 	public override void _Ready()
 	{
 		Print("game: _ready");
-		pinGod.DisableAllLamps();
 
 		pinGod.BallInPlay = 1;
 		pinGod.StartNewBall();
+		//call on ball started on modes that have the method
+		pinGod.OnBallStarted(GetTree());
 	}
 
-	/// <summary>
-	/// Handles the trough last switch and other in-lane switches if the game isn't tilted
-	/// </summary>
-	/// <param name="event"></param>
-	public override void _Input(InputEvent @event)
-	{
-		if (!pinGod.GameInPlay) return;		
-		if (pinGod.IsTilted) return; //game is tilted, don't process other switches when tilted
-
-		if (pinGod.SwitchOn("start", @event))
-		{
-			Print("attract: starting game. started?", pinGod.StartGame());
-		}
-
-		// Flipper switches set to reset the ball search timer
-		if (pinGod.SwitchOn("flipper_l", @event))
-		{
-		}
-		if (pinGod.SwitchOn("flipper_r", @event))
-		{
-		}
-		if (pinGod.SwitchOn("outlane_l", @event))
-		{
-			AddPoints(100);
-		}
-		if (pinGod.SwitchOn("inlane_l", @event))
-		{
-			AddPoints(100);
-		}
-		if (pinGod.SwitchOn("inlane_r", @event))
-		{
-			AddPoints(100);
-		}
-		if (pinGod.SwitchOn("outlane_r", @event))
-		{
-			AddPoints(100);
-		}
-		if (pinGod.SwitchOn("sling_l", @event))
-		{
-			AddPoints(50);
-		}
-		if (pinGod.SwitchOn("sling_r", @event))
-		{
-			AddPoints(50);
-		}
-		if (pinGod.SwitchOn("mball_saucer", @event))
-		{
-			AddPoints(150);
-			if (!pinGod.IsMultiballRunning)
-			{
-				pinGod.IsMultiballRunning = true;
-				CallDeferred("AddMultiballSceneToTree");
-				pinGod.SolenoidPulse("mball_saucer", 225);
-			}
-			else
-			{
-				//already in multiball
-				pinGod.SolenoidPulse("mball_saucer", 225);
-			}
-		}
-	}
-
-	private void AddPoints(int points)
-	{
-		pinGod.AddPoints(points);
-		pinGod.AddBonus(25);
-	}
-
-	void AddMultiballSceneToTree()
+	public void AddMultiballSceneToTree()
 	{
 		//create an mball instance from the packed scene
 		var mball = multiballPkd.Instance();
 		//add to multiball group
 		mball.AddToGroup("multiball");
 		//add to the tree
-		GetNode("CanvasLayer").AddChild(mball);		
+		GetNode("CanvasLayer").AddChild(mball);
 	}
-
 	/// <summary>
 	/// Add a display at end of ball
 	/// </summary>
@@ -150,7 +84,7 @@ public class Game : Node2D
 			if (_tiltedTimeOut.IsStopped())
 			{
 				pinGod.InBonusMode = false;
-				Print("no bonus, game was tilted. running timer to make player wait");				
+				Print("no bonus, game was tilted. running timer to make player wait");
 				_tiltedTimeOut.Start(4);
 			}
 			else
@@ -159,48 +93,6 @@ public class Game : Node2D
 			}
 		}
 	}
-
-	void OnBallDrained()
-	{
-		if (_tiltedTimeOut.IsStopped())
-		{
-			if (pinGod.EndBall())
-			{
-				Print("last ball played game ending");
-			}
-			else
-			{
-				Print("game: new ball starting");
-			}
-		}
-	}
-
-	void timeout()
-	{		
-		if (!_lastBall)
-		{
-			CallDeferred("OnStartNewBall");
-		}
-	}
-
-	/// <summary>
-	/// Sets <see cref="PinGodGameBase.IsMultiballRunning"/> to false and Any node that is in the multiball group is removed from tree
-	/// </summary>
-	private void EndMultiball()
-	{
-		Print("removing multiballs");
-		GetTree().CallGroup("multiball", "EndMultiball");
-		pinGod.IsMultiballRunning = false;
-		//set coil and send update
-		//pinGod.SolenoidOn("lampshow_1", 1);
-	}
-
-	void OnStartNewBall()
-	{
-		Print("game: starting ball after tilting");
-		pinGod.StartNewBall();
-	}
-
 	public void OnBonusEnded()
 	{
 		Print("game: bonus ended, starting new ball");
@@ -213,20 +105,61 @@ public class Game : Node2D
 		else
 		{
 			pinGod.StartNewBall();
+			//call on ball started on modes that have the method
+			pinGod.OnBallStarted(GetTree());
 		}
 	}
-
-	public void OnBallStarted()
+	private void AddPoints(int points)
 	{
-		Print("game: ball started");
-		pinGod.SetLedState("shoot_again", 2, System.Drawing.Color.Green);
+		pinGod.AddPoints(points);
+		pinGod.AddBonus(25);
 	}
+	/// <summary>
+	/// Sets <see cref="PinGodGameBase.IsMultiballRunning"/> to false and Any node that is in the multiball group is removed from tree
+	/// </summary>
+	private void EndMultiball()
+	{
+		Print("removing multiballs");
+		GetTree().CallGroup("multiball", "EndMultiball");
+		pinGod.IsMultiballRunning = false;
+		//set coil and send update
+		//pinGod.SolenoidOn("lampshow_1", 1);
+	}
+	void OnBallDrained()
+	{
+		pinGod.IsBallStarted = false;
 
+		if (_tiltedTimeOut.IsStopped())
+		{
+			if (pinGod.EndBall())
+			{
+				Print("last ball played game ending");
+			}
+			else
+			{
+				Print("game: new ball starting");
+			}
+		}
+	}
 	/// <summary>
 	/// When score entry is finished set <see cref="PinGodGame.EndOfGame"/>
 	/// </summary>
 	void OnScoreEntryEnded()
 	{
 		pinGod.EndOfGame();
+	}
+	void OnStartNewBall()
+	{
+		Print("game: starting ball after tilting");
+		pinGod.StartNewBall();
+		//call on ball started on modes that have the method
+		pinGod.OnBallStarted(GetTree());
+	}
+	void timeout()
+	{		
+		if (!_lastBall)
+		{
+			CallDeferred("OnStartNewBall");
+		}
 	}
 }

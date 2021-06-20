@@ -103,6 +103,11 @@ public class PinGodGame : PinGodGameBase
 		PinballSender.Start();
 	}
 
+	public override void CreatePlayer(string name)
+	{
+		Players.Add(new BasicGamePlayer());
+	}
+
 	void AddAudioStreams()
 	{
 		//adds the default credit sound

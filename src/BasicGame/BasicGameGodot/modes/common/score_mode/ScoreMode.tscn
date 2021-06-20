@@ -6,7 +6,9 @@
 [ext_resource path="res://layers/Text/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/img/pingod-logo.png" type="Texture" id=5]
 
-[node name="ScoreMode" type="Control"]
+[node name="ScoreMode" type="Control" groups=[
+"Mode",
+]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )

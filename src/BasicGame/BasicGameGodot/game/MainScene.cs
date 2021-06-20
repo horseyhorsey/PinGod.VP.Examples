@@ -9,7 +9,7 @@ public class MainScene : Node2D
 	const string GAME_SCENE = "res://modes/Game.tscn";
 
 	private Control pauseLayer;
-	private Node2D attractnode;    
+	private Control attractnode;    
 	public  PinGodGame pinGod { get; private set; }
 	public bool InServiceMenu { get; private set; }
 	private ResourcePreloader _resourcePreLoader;
@@ -33,7 +33,7 @@ public class MainScene : Node2D
 		pinGod.Connect("ServiceMenuExit", this, "OnServiceMenuExit");
 
 		//attract mod already in the tree, get the instance so we can free it when game started
-		attractnode = GetNode("Modes/Attract") as Node2D;
+		attractnode = GetNode("Modes/Attract") as Control;
 		//show a pause menu when pause enabled.
 		pauseLayer = GetNode("CanvasLayer/PauseControl") as Control;		
 	}

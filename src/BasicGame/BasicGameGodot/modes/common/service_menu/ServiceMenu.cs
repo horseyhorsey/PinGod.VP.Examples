@@ -5,11 +5,6 @@ public class ServiceMenu : CanvasLayer
 {
 	private PinGodGame pinGodGame;
 
-	public override void _Ready()
-	{
-		
-	}
-
 	public override void _EnterTree()
 	{
 		pinGodGame = GetNode("/root/PinGodGame") as PinGodGame;

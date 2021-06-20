@@ -29,7 +29,6 @@ public class ScoreMode : Control
 			ScoreLabels[i].Text = string.Empty;
 		}
 		//signals
-		pinGod.Connect("BallStarted", this, "OnScoresUpdated");
 		pinGod.Connect("GameStarted", this, "OnScoresUpdated");
 		pinGod.Connect("ScoresUpdated", this, "OnScoresUpdated");
 		pinGod.Connect("PlayerAdded", this, "OnScoresUpdated");
@@ -42,6 +41,8 @@ public class ScoreMode : Control
 	{        
 		CallDeferred(nameof(OnScoresUpdated));
 	}
+
+	void OnBallStarted() => OnScoresUpdated();
 
 	/// <summary>
 	/// Set the labels text on signals.

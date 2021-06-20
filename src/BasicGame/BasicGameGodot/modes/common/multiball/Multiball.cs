@@ -14,7 +14,7 @@ public class Multiball : Control
 	/// </summary>
 	[Export] byte _num_of_balls = 4;
 
-	[Export] byte _ball_save_time_seconds = 3;
+	[Export] byte _ball_save_time_seconds = 12;
 
 	public override void _EnterTree()
 	{

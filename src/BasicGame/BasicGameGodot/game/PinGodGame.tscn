@@ -43,5 +43,6 @@ _lamps = {
 _leds = {
 "shoot_again": 1
 }
+_ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "mball_saucer" )
 _ball_search_stop_switches = PoolStringArray( "mball_saucer" )

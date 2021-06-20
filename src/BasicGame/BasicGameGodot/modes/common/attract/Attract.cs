@@ -5,7 +5,7 @@ using static Godot.GD;
 /// <summary>
 /// Adds all Canvas Items in the "AttractLayers". These cycle on a timer and can be cycled with Flipper actions
 /// </summary>
-public class Attract : Node2D
+public class Attract : Control
 {
 	const byte SceneChangeTime = 5;
 	[Export] byte _scene_change_secs = SceneChangeTime;

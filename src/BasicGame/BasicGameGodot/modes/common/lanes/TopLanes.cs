@@ -24,8 +24,6 @@ public class TopLanes : Control
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-		//rest the targets on new ball by listening for BallStarted
-		pinGod.Connect(nameof(PinGodGameBase.BallStarted), this, "OnBallStarted");
 		ResetLanesCompleted();
 
 		if (_logging_enabled)
@@ -42,39 +40,39 @@ public class TopLanes : Control
 
 		if(_lane_switches != null)
 		{
-            if (_flipper_changes_lanes)
-            {
+			if (_flipper_changes_lanes)
+			{
 				if (pinGod.SwitchOn("flipper_l", @event))
-                {
-                    RotateLanesRight();
-                    UpdateLamps();
-                }
-                if (pinGod.SwitchOn("flipper_r", @event))
-                {
-                    RotateLanesLeft();
-                    UpdateLamps();
-                }
-            }
+				{
+					RotateLanesRight();
+					UpdateLamps();
+				}
+				if (pinGod.SwitchOn("flipper_r", @event))
+				{
+					RotateLanesLeft();
+					UpdateLamps();
+				}
+			}
 
-            if (_lane_switches != null)
+			if (_lane_switches != null)
 			{
 				bool wasSet = false;
 				for (int i = 0; i < _lane_switches.Length; i++)
 				{
 					if (pinGod.SwitchOn(_lane_switches[i], @event))
-                    {
+					{
 						//Do stuff with the switch
-                        LaneSwitchActivated();
+						LaneSwitchActivated();
 
-                        //Lane switch activated
-                        if (!_lanesCompleted[i])
-                        {
-                            _lanesCompleted[i] = true;
-                            wasSet = true;
-                            break;
-                        }
-                    }
-                }
+						//Lane switch activated
+						if (!_lanesCompleted[i])
+						{
+							_lanesCompleted[i] = true;
+							wasSet = true;
+							break;
+						}
+					}
+				}
 
 				if (wasSet)
 				{
@@ -86,9 +84,9 @@ public class TopLanes : Control
 						_lanesCompleted = new bool[_lane_switches.Length];
 
 						EmitSignal(nameof(LanesCompleted));
-                    }
-                    else
-                    {
+					}
+					else
+					{
 						if (_logging_enabled)
 							GD.Print("top_lanes: lanes checked");
 					}
@@ -100,11 +98,11 @@ public class TopLanes : Control
 	}
 
 	private void LaneSwitchActivated()
-    {
-        //TODO: Do stuff with the switches when activated
-    }
+	{
+		//TODO: Do stuff with the switches when activated
+	}
 
-    private bool CheckLanes()
+	private bool CheckLanes()
 	{
 		bool complete = true;
 		for (int i = 0; i < _lanesCompleted.Length; i++)
@@ -120,8 +118,8 @@ public class TopLanes : Control
 
 	void OnBallStarted()
 	{
-        if (_reset_on_ball_started)
-        {
+		if (_reset_on_ball_started)
+		{
 			ResetLanesCompleted();
 		}		
 	}
