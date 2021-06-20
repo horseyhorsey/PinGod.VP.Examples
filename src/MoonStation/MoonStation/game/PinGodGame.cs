@@ -73,21 +73,21 @@ public class PinGodGame : PinGodGameBase
 		}
 	}
 
+	/// <summary>
+	/// Sets up machine items from the collections, starts memory mapping
+	/// </summary>
 	public override void Setup()
 	{
-		//create and get ref to the audiomanager scene
-		var audioMan = Load(AUDIO_MANAGER) as PackedScene;
-		AddChild(audioMan.Instance());
-		AudioManager = GetNode("AudioManager") as AudioManager;
-		Print("PinGod: audiomanager loaded.", AudioManager != null);
-
-		//set default music
-		AudioManager.Bgm = "techno";
+		base.Setup();
 
 		//load audio streams, music / sfx / vox
 		AddAudioStreams();
-		//add custom coils and switches for this game
-		AddCustomMachineItems();
+		//set default music
+		AudioManager.Bgm = "techno";
+		AudioManager.MusicEnabled = true;
+
+		//add custom coils and switches for this game which can be set in the PinGodGame.tscn scene UI or file
+		AddCustomMachineItems(_coils, _switches, _lamps, _leds);
 
 		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
 
@@ -102,72 +102,14 @@ public class PinGodGame : PinGodGameBase
 		PinballSender.Start();
 	}
 
-	#region Custom Machine Items
-
-	private void AddCustomMachineItems()
-	{
-		AddCustomSwitches();
-		AddCustomSolenoids();
-		AddCustomLeds();
-		AddCustomLamps();
-	}
 	/// <summary>
-	/// Add extra solenoids to the <see cref="Machine.Coils"/>. Invoked when ready
+	/// Use to add your own player based on <see cref="PinGodPlayer"/>
 	/// </summary>
-	void AddCustomSolenoids()
+	/// <param name="name"></param>
+	public override void CreatePlayer(string name)
 	{
-		foreach (var coil in _coils)
-		{
-			Machine.Coils.Add(coil.Key, new PinStateObject(coil.Value));
-			Print($"pingod: added coil {coil.Key}-{coil.Value}");
-		}
-		_coils.Clear();
+		Players.Add(new BasicGamePlayer());
 	}
-	/// <summary>
-	/// Add switches to the <see cref="Machine.Switches"/>. Invoked when ready
-	/// </summary>
-	void AddCustomSwitches()
-	{
-		foreach (var sw in _switches)
-		{
-			if (BallSearchOptions.StopSearchSwitches?.Any(x => x == sw.Key) ?? false)
-			{
-				Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Off));
-			}
-			else
-			{
-				Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Reset));
-			}
-
-			Print($"pingod: added switch {sw.Key}-{sw.Value}");
-		}
-		_switches.Clear();
-	}
-	/// <summary>
-	/// Add custom leds to the <see cref="Machine.Leds"/>. Invoked when ready
-	/// </summary>
-	void AddCustomLeds()
-	{
-		foreach (var led in _leds)
-		{
-			Machine.Leds.Add(led.Key, new PinStateObject(led.Value));
-			Print($"pingod: added led {led.Key}-{led.Value}");
-		}
-		_leds.Clear();
-	}
-	/// <summary>
-	/// Add custom lamps to the <see cref="Machine.Lamps"/>. Invoked when ready
-	/// </summary>
-	void AddCustomLamps()
-	{
-		foreach (var lamp in _lamps)
-		{
-			Machine.Lamps.Add(lamp.Key, new PinStateObject(lamp.Value));
-			Print($"pingod: added lamp {lamp.Key}-{lamp.Value}");
-		}
-		_lamps.Clear();
-	}
-	#endregion
 
 	void AddAudioStreams()
 	{

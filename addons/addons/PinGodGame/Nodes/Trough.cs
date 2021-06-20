@@ -37,7 +37,7 @@ public class Trough : Node
 	public override void _Input(InputEvent @event)
 	{
 		//fire early saves
-		if (!pinGod.IsBallStarted && !pinGod.IsTilted && pinGod.BallSaveActive)
+		if (pinGod.IsBallStarted && !pinGod.IsTilted && pinGod.BallSaveActive)
 		{
 			for (int i = 0; i < TroughOptions?.EarlySaveSwitches?.Length; i++)
 			{

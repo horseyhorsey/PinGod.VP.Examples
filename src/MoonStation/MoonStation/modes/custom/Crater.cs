@@ -1,11 +1,9 @@
 using Godot;
-using System;
 using static Godot.GD;
 
 public class Crater : Control
 {
 	private Timer saucerTimer;
-	private AnimationPlayer player;
 	private PinGodGame pinGod;
 
 	public AudioStreamPlayer AudioStream { get; private set; }

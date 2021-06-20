@@ -42,6 +42,7 @@ public abstract class PinGodGameBase : Node
     /// </summary>
     public IPinballSendReceive PinballSender = new OscService();
 
+    const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
     public static byte Tiltwarnings { get; set; }
     public AudioManager AudioManager { get; protected set; } = new AudioManager();
     public byte BallInPlay { get; set; }
@@ -49,6 +50,8 @@ public abstract class PinGodGameBase : Node
 	/// Is ball save active
 	/// </summary>
 	public bool BallSaveActive { get; internal set; }
+    public BallSearchOptions BallSearchOptions { get; set; }
+    public Timer BallSearchTimer { get; set; }
     public byte CurrentPlayerIndex { get; set; }
     public GameData GameData { get; private set; }
     public bool GameInPlay { get; set; }
@@ -57,12 +60,10 @@ public abstract class PinGodGameBase : Node
     public bool IsTilted { get; set; }
     public PinGodPlayer Player { get; private set; }
     public List<PinGodPlayer> Players { get; private set; }
-    public BallSearchOptions BallSearchOptions { get; set; }
-    public Timer BallSearchTimer { get; set; }
     #endregion
 
-    protected MemoryMap memMapping;
     internal Trough _trough;
+    protected MemoryMap memMapping;
     private uint gameEndTime;
     private uint gameLoadTimeMsec;
     private uint gameStartTime;
@@ -121,6 +122,7 @@ public abstract class PinGodGameBase : Node
     public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
     public virtual long GetTopScorePoints => GameData?.HighScores?
             .OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
+    
     /// <summary>
     /// Adds bonus to the current player
     /// </summary>
@@ -140,6 +142,49 @@ public abstract class PinGodGameBase : Node
     {
         GameData.Credits += amt;
         EmitSignal(nameof(CreditAdded));
+    }
+    protected void AddCustomMachineItems(Godot.Collections.Dictionary<string, byte> coils, Godot.Collections.Dictionary<string, byte> switches,
+        Godot.Collections.Dictionary<string, byte> lamps, Godot.Collections.Dictionary<string, byte> leds)
+    {
+        foreach (var coil in coils)
+        {
+            Machine.Coils.Add(coil.Key, new PinStateObject(coil.Value));            
+        }
+        var itemAddResult = string.Join(", ", coils.Keys);
+        Print($"pingod: added coils {itemAddResult}");
+        coils.Clear();
+
+        foreach (var sw in switches)
+        {
+            if (BallSearchOptions.StopSearchSwitches?.Any(x => x == sw.Key) ?? false)
+            {
+                Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Off));
+            }
+            else
+            {
+                Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Reset));
+            }
+        }
+
+        itemAddResult = string.Join(", ", switches.Keys);
+        Print($"pingod: added switches {itemAddResult}");
+        switches.Clear();
+
+        foreach (var lamp in lamps)
+        {
+            Machine.Lamps.Add(lamp.Key, new PinStateObject(lamp.Value));
+        }
+        itemAddResult = string.Join(", ", lamps.Keys);
+        Print($"pingod: added lamps {itemAddResult}");
+        lamps.Clear();
+
+        foreach (var led in leds)
+        {
+            Machine.Leds.Add(led.Key, new PinStateObject(led.Value));
+        }
+        itemAddResult = string.Join(", ", leds.Keys);
+        Print($"pingod: added leds {itemAddResult}");
+        leds.Clear();
     }
     /// <summary>
     /// Adds points to the current player
@@ -173,15 +218,8 @@ public abstract class PinGodGameBase : Node
                 break;
         }
     }
-    public virtual void SetBallSearchReset()
-    {
-        BallSearchTimer.Start(BallSearchOptions?.SearchWaitTime ?? 10);
-    }
-    public virtual void SetBallSearchStop()
-    {
-        BallSearchTimer.Stop();
-    }
     public virtual int BallsInPlay() => _trough?.BallsInPlay() ?? 0;
+
     /// <summary>
     /// Creates a new <see cref="PlayerBasicGame"/>. Override this for your own players
     /// </summary>
@@ -190,6 +228,7 @@ public abstract class PinGodGameBase : Node
     {
         Players.Add(new PlayerBasicGame() { Name = name, Points = 0 });
     }
+
     /// <summary>
     /// Disables all <see cref="Lamps"/> and <see cref="Leds"/>
     /// </summary>
@@ -211,11 +250,13 @@ public abstract class PinGodGameBase : Node
             }
         }
     }
+
     public virtual void EnableFlippers(byte enabled)
     {
         FlippersEnabled = enabled;
         this.SolenoidOn("flippers", enabled);
     }
+
     /// <summary>
     /// Ends the current ball. Changes the player <para/>
     /// Sends <see cref="BallEnded"/> signal
@@ -268,6 +309,7 @@ public abstract class PinGodGameBase : Node
 
         return false;
     }
+
     /// <summary>
     /// Game has ended, sets <see cref="GameInPlay"/> to false and Sends <see cref="GameEnded"/>
     /// </summary>
@@ -281,6 +323,7 @@ public abstract class PinGodGameBase : Node
         this.EmitSignal(nameof(GameEnded));
     }
     public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
+
     /// <summary>
     /// Detect if the input `isAction` found in the given switchNames
     /// </summary>
@@ -300,6 +343,13 @@ public abstract class PinGodGameBase : Node
 
         return false;
     }
+
+    /// <summary>
+    /// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
+    /// </summary>
+    /// <param name="sceneTree"></param>
+    public virtual void OnBallStarted(SceneTree sceneTree, string group = "Mode", string method = "OnBallStarted") => sceneTree.CallGroup(group, method);
+
     /// <summary>
     /// Uses the <see cref="AudioManager.PlayMusic(string, float)"/>
     /// </summary>
@@ -309,6 +359,7 @@ public abstract class PinGodGameBase : Node
     {
         AudioManager.PlayMusic(name, pos);
     }
+
     /// <summary>
     /// Uses the <see cref="AudioManager.PlaySfx(string)"/>
     /// </summary>
@@ -318,6 +369,7 @@ public abstract class PinGodGameBase : Node
     {
         AudioManager.PlaySfx(name);
     }
+
     /// <summary>
     /// Quits the game, cleans up
     /// </summary>
@@ -335,6 +387,7 @@ public abstract class PinGodGameBase : Node
         PinballSender.Stop(); //don't remove, game won't close from VP otherwise
         Print("exited pinball sender");
     }
+
     /// <summary>
     /// Reset player warnings and tilt
     /// </summary>
@@ -342,6 +395,14 @@ public abstract class PinGodGameBase : Node
     {
         Tiltwarnings = 0;
         IsTilted = false;
+    }
+    public virtual void SetBallSearchReset()
+    {
+        BallSearchTimer.Start(BallSearchOptions?.SearchWaitTime ?? 10);
+    }
+    public virtual void SetBallSearchStop()
+    {
+        BallSearchTimer.Stop();
     }
     /// <summary>
     /// Sends a signal game is paused <see cref="GamePaused"/>
@@ -407,7 +468,20 @@ public abstract class PinGodGameBase : Node
         var ole = System.Drawing.ColorTranslator.ToOle(c);
         SetLedState(name, state, ole);
     }
-    public abstract void Setup();
+    /// <summary>
+    /// Sets up the AudioManager to play standard music and Sfx
+    /// </summary>
+    public virtual void Setup()
+    {
+        //create and get ref to the audiomanager scene
+        var audioMan = Load(AUDIO_MANAGER) as PackedScene;
+        AddChild(audioMan.Instance());
+        AudioManager = GetNode("AudioManager") as AudioManager;
+        //set to false, no music in this particular game
+        AudioManager.MusicEnabled = false;
+        AudioManager.Bgm = string.Empty;
+        Print("PinGod: audiomanager loaded.", AudioManager != null);
+    }
     public virtual void SolenoidOn(string name, byte state)
     {
         if (!SolenoidExists(name)) return;
@@ -504,13 +578,6 @@ public abstract class PinGodGameBase : Node
         _trough.PulseTrough();
         EnableFlippers(1);
     }
-
-    /// <summary>
-    /// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
-    /// </summary>
-    /// <param name="sceneTree"></param>
-    public virtual void OnBallStarted(SceneTree sceneTree, string group = "Mode", string method = "OnBallStarted") => sceneTree.CallGroup(group, method);
-
     /// <summary>
     /// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
     /// "coin", @event
