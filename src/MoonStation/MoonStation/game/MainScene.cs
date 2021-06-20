@@ -96,6 +96,8 @@ public class MainScene : Node2D
 		pinGod.BallInPlay = 1;
 		//pulse ball from trough
 		pinGod.StartNewBall();
+		//call on ball started on modes that have the method
+		pinGod.OnBallStarted(GetTree());
 	}
 
 	void OnServiceMenuExit()

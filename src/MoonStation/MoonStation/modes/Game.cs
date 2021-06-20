@@ -14,10 +14,7 @@ public class Game : Node2D
 	private Timer _tiltedTimeOut;
 
 	#region Game Variables
-	int minScore = 50;
-	int medScore = 100;
-	int bigScore = 250;
-	int massiveScore = 1000;
+
 	public int Multiplier { get; internal set; }
 	public byte[] MoonTargets { get; internal set; }
 	public byte[] StationTargets { get; internal set; }
@@ -32,7 +29,6 @@ public class Game : Node2D
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		pinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
 		pinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
-		pinGod.Connect(nameof(PinGodGameBase.BallStarted), this, "OnBallStarted");
 		pinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
 		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
 
@@ -48,78 +44,6 @@ public class Game : Node2D
 	{
 		Print("game: _ready");
 		OnGameStarted();
-	}
-
-	/// <summary>
-	/// Handles the trough last switch and other in-lane switches if the game isn't tilted
-	/// </summary>
-	/// <param name="event"></param>
-	public override void _Input(InputEvent @event)
-	{
-		if (!pinGod.GameInPlay) return;
-		//game is tilted, don't process other switches when tilted
-
-		if (pinGod.IsTilted) return;
-
-		if (pinGod.SwitchOn("start", @event))
-		{
-			Print("attract: starting game. started?", pinGod.StartGame());
-		}
-
-		// Flipper switches set to reset the ball search timer
-		if (pinGod.SwitchOn("flipper_l", @event))
-		{
-
-		}
-		if (pinGod.SwitchOn("flipper_r", @event))
-		{
-
-		}
-		if (pinGod.SwitchOn("outlane_l", @event))
-		{
-			AddPoints(bigScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
-		if (pinGod.SwitchOn("inlane_l", @event))
-		{
-			AddPoints(medScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
-		if (pinGod.SwitchOn("inlane_r", @event))
-		{
-			AddPoints(medScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
-		if (pinGod.SwitchOn("outlane_r", @event))
-		{
-			AddPoints(bigScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
-		if (pinGod.SwitchOn("sling_l", @event))
-		{
-			AddPoints(minScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
-		if (pinGod.SwitchOn("sling_r", @event))
-		{
-			AddPoints(minScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
-		if (pinGod.SwitchOn("spinner", @event))
-		{
-			AddPoints(medScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
-		if (pinGod.SwitchOn("bumper_l", @event) || pinGod.SwitchOn("bumper_r", @event))
-		{
-			AddPoints(medScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
-		if (pinGod.SwitchOn("top_left_target", @event))
-		{
-			AddPoints(medScore);
-			pinGod.AudioManager.PlaySfx("spinner");
-		}
 	}
 
 	private void AddPoints(int points)
@@ -209,6 +133,8 @@ public class Game : Node2D
 		Print("game: starting ball after tilting");
 		pinGod.SolenoidOn("lampshow_1", 0);
 		pinGod.StartNewBall();
+		//call on ball started on modes that have the method
+		pinGod.OnBallStarted(GetTree());
 	}
 
 	public void OnBonusEnded()
@@ -223,6 +149,8 @@ public class Game : Node2D
 		else
 		{
 			pinGod.StartNewBall();
+			//call on ball started on modes that have the method
+			pinGod.OnBallStarted(GetTree());
 		}
 	}
 
@@ -238,16 +166,6 @@ public class Game : Node2D
 			{
 				Print("game: new ball starting");
 			}
-		}
-	}
-
-	void OnBallStarted()
-	{
-		Print("game: ball started");
-		if (pinGod.AudioManager.MusicEnabled)
-		{
-			Print("playing music");
-			pinGod.AudioManager.PlayMusic(pinGod.AudioManager.Bgm);
 		}
 	}
 
