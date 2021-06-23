@@ -9,6 +9,11 @@ public class Switch
     public BallSearchSignalOption BallSearch { get; set; }
     public ulong Time { get; set; }
 
+    public Switch()
+    {
+        Time = OS.GetSystemTimeMsecs();
+    }
+
     /// <summary>
     /// 
     /// </summary>

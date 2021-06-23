@@ -15,7 +15,7 @@ public class AudioManager : Node
 	public string Bgm { get; set; }
 	public string CurrentMusic { get; private set; }
 	public bool MusicEnabled { get; set; } = true;
-	public bool SfxEnabled { get; private set; } = true;
+	public bool SfxEnabled { get; set; } = true;
 	public AudioManager()
 	{
 		Music = new Dictionary<string, AudioStream>();
@@ -109,4 +109,10 @@ public class AudioManager : Node
 		MusicPlayer.Stop();
 		return lastPos;
 	}
+
+    internal void PlayBgm(float pos = 0)
+    {
+		if (!string.IsNullOrWhiteSpace(Bgm))
+			PlayMusic(Bgm, pos);
+    }
 }

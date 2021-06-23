@@ -8,9 +8,11 @@ using System;
 public class BallStackPinball : Timer
 {
 
-	[Export] string _sw_action = null;
+	[Export] string _switch = null;
+	[Export] public string _coil = null;
 	[Signal] public delegate void SwitchActive();
 	[Signal] public delegate void SwitchInActive();
+	private PinGodGameBase pingod;
 
 	#region Public Methods
 	/// <summary>
@@ -20,38 +22,39 @@ public class BallStackPinball : Timer
 	{
 		if (!Engine.EditorHint)
 		{
+			pingod = GetNode("/root/PinGodGame") as PinGodGameBase;
 			// Code to execute when in game.		
 		}
 	}
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		if (!Engine.EditorHint)
 		{
 			// Code to execute when in game.
-			if (string.IsNullOrWhiteSpace(_sw_action))
+			if (string.IsNullOrWhiteSpace(_switch))
 			{
 				GD.PrintErr("no _sw_action set", this.Name);
 				SetProcessInput(false);
 			}
 		}
 	}
-    public override void _Input(InputEvent @event)
-    {
-		if (@event.IsActionPressed(_sw_action))
-		{
+	public override void _Input(InputEvent @event)
+	{
+		if(pingod.SwitchOn(_switch, @event))
+        {
 			EmitSignal(nameof(SwitchActive));
 		}
-		if (@event.IsActionReleased(_sw_action))
+		if (pingod.SwitchOff(_switch, @event))
 		{
 			EmitSignal(nameof(SwitchInActive));
 		}
 	}
 
-    /// <summary>
-    /// Stops the timer
-    /// </summary>
-    public override void _ExitTree()
+	/// <summary>
+	/// Stops the timer
+	/// </summary>
+	public override void _ExitTree()
 	{
 		Stop();
 	}
