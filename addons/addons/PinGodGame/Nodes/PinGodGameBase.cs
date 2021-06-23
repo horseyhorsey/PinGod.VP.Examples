@@ -263,9 +263,10 @@ public abstract class PinGodGameBase : Node
     /// </summary>
     /// <returns>True if all balls finished, game is finished</returns>
     public virtual bool EndBall()
-    {
+    {        
         if (!GameInPlay) return false;
 
+        IsBallStarted = false;
         EnableFlippers(0);
 
         if (Players.Count > 0)
@@ -343,13 +344,12 @@ public abstract class PinGodGameBase : Node
 
         return false;
     }
-
+    public virtual void OnBallDrained(SceneTree sceneTree, string group = "Mode", string method = "OnBallDrained") => sceneTree.CallGroup(group, method);
     /// <summary>
     /// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
     /// </summary>
     /// <param name="sceneTree"></param>
     public virtual void OnBallStarted(SceneTree sceneTree, string group = "Mode", string method = "OnBallStarted") => sceneTree.CallGroup(group, method);
-
     /// <summary>
     /// Uses the <see cref="AudioManager.PlayMusic(string, float)"/>
     /// </summary>
@@ -359,7 +359,6 @@ public abstract class PinGodGameBase : Node
     {
         AudioManager.PlayMusic(name, pos);
     }
-
     /// <summary>
     /// Uses the <see cref="AudioManager.PlaySfx(string)"/>
     /// </summary>
@@ -578,6 +577,7 @@ public abstract class PinGodGameBase : Node
         _trough.PulseTrough();
         EnableFlippers(1);
     }
+    public virtual float StopMusic() => AudioManager.StopMusic();
     /// <summary>
     /// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
     /// "coin", @event
