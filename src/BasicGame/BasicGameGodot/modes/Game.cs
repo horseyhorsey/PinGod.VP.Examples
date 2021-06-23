@@ -127,10 +127,11 @@ public class Game : Node2D
 	}
 	void OnBallDrained()
 	{
-		pinGod.IsBallStarted = false;
-
 		if (_tiltedTimeOut.IsStopped())
 		{
+			//let the modes know we've drained
+			pinGod.OnBallDrained(GetTree());
+
 			if (pinGod.EndBall())
 			{
 				Print("last ball played game ending");

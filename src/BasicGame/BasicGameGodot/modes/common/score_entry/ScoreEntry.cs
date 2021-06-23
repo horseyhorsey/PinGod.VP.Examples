@@ -31,10 +31,10 @@ public class ScoreEntry : Control
 
 		pinGodGame = GetNode("/root/PinGodGame") as PinGodGame;
 		CharSelectionSetup();
-		selectedCharLabel = GetNode("SelectedChar") as Label;
-		selectedName = GetNode("Name") as Label;
+		selectedCharLabel = GetNode("CenterContainer/VBoxContainer/SelectedChar") as Label;
+		selectedName = GetNode("CenterContainer/VBoxContainer/Name") as Label;
 		selectedName.Text = entry;
-		playerLabel = GetNode("Label") as Label;		
+		playerLabel = GetNode("CenterContainer/VBoxContainer/Label") as Label;		
 	}
 
 	public void DisplayHighScore()

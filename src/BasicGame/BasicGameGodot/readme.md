@@ -18,7 +18,6 @@ mklink /D addons "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\addons\a
 You can find any of these in the project settings inside Godot. `Project Settings/Autoload`
 
 ### PinGodGame.cs
----
 
 The base class `PinGodGameBase` this uses holds game specific variables. `BallsPerGame` `Players` and the like can be found for pinball.
 
