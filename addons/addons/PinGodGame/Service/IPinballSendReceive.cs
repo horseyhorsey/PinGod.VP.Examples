@@ -12,5 +12,4 @@
 	/// Stops receiving and sending
 	/// </summary>
 	void Stop();
-    void SaveRecording();
 }

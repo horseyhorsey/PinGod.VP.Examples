@@ -15,8 +15,6 @@ public abstract class PinballSwitchLanesNode : Node
     /// Switches to handle lane events
     /// </summary>
     [Export] string[] _lane_switches = new string[0];
-    [Export] bool _logging_enabled = false;
-    [Export] bool _reset_on_ball_started = true;
     #endregion
 
     bool[] _lanesCompleted;
@@ -104,8 +102,7 @@ public abstract class PinballSwitchLanesNode : Node
         if (!_lanesCompleted[i])
         {
             _lanesCompleted[i] = true;
-            if (_logging_enabled)
-                GD.Print($"lane {i} complete");
+            pinGod.LogDebug($"lane {i} complete");
             return true;
         }
 
@@ -126,8 +123,7 @@ public abstract class PinballSwitchLanesNode : Node
         }
         _lanesCompleted[_lanesCompleted.Length - 1] = firstNum;
 
-        if (_logging_enabled)
-            GD.Print("top_lanes: rot left: ", string.Join(",", _lanesCompleted));
+        pinGod.LogDebug("top_lanes: rot left: ", string.Join(",", _lanesCompleted));
     }
 
     public virtual void RotateLanesRight()
@@ -139,8 +135,7 @@ public abstract class PinballSwitchLanesNode : Node
         }
         _lanesCompleted[0] = lastNum;
 
-        if (_logging_enabled)
-            GD.Print("top_lanes: rot right: ", string.Join(",", _lanesCompleted));
+        pinGod.LogDebug("top_lanes: rot right: ", string.Join(",", _lanesCompleted));
     }
 
     public virtual void UpdateLamps()

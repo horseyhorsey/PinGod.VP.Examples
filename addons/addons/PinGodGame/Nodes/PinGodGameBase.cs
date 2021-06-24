@@ -1,6 +1,8 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using static Godot.GD;
 
@@ -35,12 +37,13 @@ public abstract class PinGodGameBase : Node
     public byte FlippersEnabled = 0;
     public bool InBonusMode = false;
     public bool IsMultiballRunning = false;
-    public bool LogSwitchEvents = false;
     public byte MaxPlayers = 4;
     /// <summary>
     /// Sends via implementation <see cref="OscService"/>
     /// </summary>
     public IPinballSendReceive PinballSender = new OscService();
+
+    public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Info;
 
     const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
     public static byte Tiltwarnings { get; set; }
@@ -67,6 +70,10 @@ public abstract class PinGodGameBase : Node
     private uint gameEndTime;
     private uint gameLoadTimeMsec;
     private uint gameStartTime;
+    /// <summary>
+    /// recording actions
+    /// </summary>
+    protected StringBuilder stringBuilder;
     public PinGodGameBase()
     {
         Players = new List<PinGodPlayer>();
@@ -82,22 +89,21 @@ public abstract class PinGodGameBase : Node
     #region Godot overrides
     public override void _EnterTree()
     {
-        Print("pingod:enter tree");
+        LogInfo("pingod:enter tree");
         _trough = GetNode("/root/Trough") as Trough;
         if (_trough == null)
-            Print("trough not found");
+            LogWarning("trough not found");
 
         BallSearchTimer = new Timer() { Autostart = false };
         BallSearchTimer.Connect("timeout", this, "_OnBallSearchTimeout");
     }
-    public override void _Notification(int what)
+
+    public override void _ExitTree()
     {
-        if (what == NotificationWmQuitRequest)
+        LogInfo("pingodbase: exit tree");
+        if (PinballSender.Record)
         {
-            if (PinballSender.Record)
-            {
-                PinballSender.SaveRecording();
-            }
+            SaveRecording();
         }
     }
 
@@ -151,7 +157,7 @@ public abstract class PinGodGameBase : Node
             Machine.Coils.Add(coil.Key, new PinStateObject(coil.Value));            
         }
         var itemAddResult = string.Join(", ", coils.Keys);
-        Print($"pingod: added coils {itemAddResult}");
+        LogDebug($"pingod: added coils {itemAddResult}");
         coils.Clear();
 
         foreach (var sw in switches)
@@ -167,7 +173,7 @@ public abstract class PinGodGameBase : Node
         }
 
         itemAddResult = string.Join(", ", switches.Keys);
-        Print($"pingod: added switches {itemAddResult}");
+        LogDebug($"pingod: added switches {itemAddResult}");
         switches.Clear();
 
         foreach (var lamp in lamps)
@@ -175,15 +181,14 @@ public abstract class PinGodGameBase : Node
             Machine.Lamps.Add(lamp.Key, new PinStateObject(lamp.Value));
         }
         itemAddResult = string.Join(", ", lamps.Keys);
-        Print($"pingod: added lamps {itemAddResult}");
+        LogDebug($"pingod: added lamps {itemAddResult}");
         lamps.Clear();
 
         foreach (var led in leds)
         {
             Machine.Leds.Add(led.Key, new PinStateObject(led.Value));
         }
-        itemAddResult = string.Join(", ", leds.Keys);
-        Print($"pingod: added leds {itemAddResult}");
+        LogDebug($"pingod: added leds {string.Join(", ", leds.Keys)}");
         leds.Clear();
     }
     /// <summary>
@@ -202,7 +207,7 @@ public abstract class PinGodGameBase : Node
     }
     public virtual void BallSearchSignals(BallSearchSignalOption searchResetOption = BallSearchSignalOption.None)
     {
-        Print("signals", searchResetOption.ToString());
+        LogDebug("signals", searchResetOption.ToString());
         switch (searchResetOption)
         {
             case BallSearchSignalOption.On:
@@ -271,7 +276,7 @@ public abstract class PinGodGameBase : Node
 
         if (Players.Count > 0)
         {
-            Print("end of ball. current ball:" + BallInPlay);
+            LogInfo("end of ball. current ball:" + BallInPlay);
             if (Player.ExtraBalls > 0)
             {
                 this.EmitSignal(nameof(BallEnded), false);
@@ -292,7 +297,7 @@ public abstract class PinGodGameBase : Node
                     BallInPlay++;
                 }
 
-                Print("ball in play " + BallInPlay);
+                LogInfo("ball in play " + BallInPlay);
                 GameData.BallsPlayed++;
                 if (BallInPlay > GameSettings.BallsPerGame)
                 {
@@ -344,6 +349,36 @@ public abstract class PinGodGameBase : Node
 
         return false;
     }
+    public virtual void LogDebug(params object[] what) 
+    {
+        if (LogLevel <= PinGodLogLevel.Debug)
+        {
+            Print(what);
+        }
+    }
+    public virtual void LogInfo(params object[] what) 
+    { 
+        if(LogLevel <= PinGodLogLevel.Info)
+        {
+            Print(what);
+        }
+    }
+    public virtual void LogWarning(string message = null, params object[] what) 
+    {
+        if (LogLevel <= PinGodLogLevel.Warning)
+        {
+            Print(what ?? new object[] { message });
+            PushWarning(message);
+        }
+    }
+    public virtual void LogError(string message = null, params object[] what) 
+    {
+        if (LogLevel <= PinGodLogLevel.Warning)
+        {
+            PrintErr(what ?? new object[] { message });
+            PushError(message);
+        }
+    }
     public virtual void OnBallDrained(SceneTree sceneTree, string group = "Mode", string method = "OnBallDrained") => sceneTree.CallGroup(group, method);
     /// <summary>
     /// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
@@ -382,9 +417,9 @@ public abstract class PinGodGameBase : Node
         }
 
         memMapping?.Dispose(); //dispose invokes stop as well
-        Print("exiting pinball sender");
+        LogInfo("exiting pinball sender");
         PinballSender.Stop(); //don't remove, game won't close from VP otherwise
-        Print("exited pinball sender");
+        LogInfo("exited pinball sender");
     }
 
     /// <summary>
@@ -395,13 +430,36 @@ public abstract class PinGodGameBase : Node
         Tiltwarnings = 0;
         IsTilted = false;
     }
+
+    public virtual void SaveRecording()
+    {
+        if (PinballSender.Record)
+        {
+            LogInfo("saving record file");
+            var userDir = OS.GetUserDataDir();
+            var file = DateTime.Now.ToFileTime() + ".record";
+            var d = new Directory();
+            if (!d.DirExists(userDir + $"/recordings/)"))
+                d.MakeDir(userDir + $"/recordings/");
+
+            var final = userDir + $"/recordings/{file}";
+            using (var txtFile = System.IO.File.CreateText(final))
+            {
+                txtFile.Write(stringBuilder.ToString());
+            }
+            stringBuilder.Clear();
+            LogInfo("record file saved: ", final);
+        }        
+    }
     public virtual void SetBallSearchReset()
     {
         BallSearchTimer.Start(BallSearchOptions?.SearchWaitTime ?? 10);
+        LogDebug("ball search reset");
     }
     public virtual void SetBallSearchStop()
     {
         BallSearchTimer.Stop();
+        LogDebug("ball search stopped");
     }
     /// <summary>
     /// Sends a signal game is paused <see cref="GamePaused"/>
@@ -479,7 +537,46 @@ public abstract class PinGodGameBase : Node
         //set to false, no music in this particular game
         AudioManager.MusicEnabled = false;
         AudioManager.Bgm = string.Empty;
-        Print("PinGod: audiomanager loaded.", AudioManager != null);
+        LogInfo("PinGod: audiomanager loaded.", AudioManager != null);
+    }
+
+    /// <summary>
+    /// Sets up recording or playback from a .recording file
+    /// </summary>
+    /// <param name="playbackEnabled"></param>
+    /// <param name="recordingEnabled"></param>
+    /// <param name="playbackfile"></param>
+    public virtual void SetUpRecordingsOrPlayback(bool playbackEnabled, bool recordingEnabled, string playbackfile)
+    {
+        LogDebug("setting up recording / playback");
+        if (playbackEnabled)
+        {
+            if (string.IsNullOrWhiteSpace(playbackfile))
+            {
+                LogWarning("set a playback file from user directory eg: user://recordings/26232613.record");
+            }
+            else
+            {
+                LogInfo("running playback file: ", playbackfile);
+                var pBackFile = new File();
+                if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.DoesNotExist)
+                {
+                    LogError("playback file not found");
+                }
+                else
+                {
+                    var recordString = pBackFile.GetAsText();
+                    var recordLines = recordString.Split(System.Environment.NewLine, false);
+                    LogDebug("recording lines found: ", recordLines.Count());
+                }
+            }
+        }
+        else if (recordingEnabled)
+        {
+            PinballSender.Record = true;
+            stringBuilder = new System.Text.StringBuilder();
+            LogDebug("game switch recording on");
+        }
     }
     public virtual void SolenoidOn(string name, byte state)
     {
@@ -504,19 +601,19 @@ public abstract class PinGodGameBase : Node
     /// <returns>True if the game was started</returns>
     public virtual bool StartGame()
     {
-        Print("base:start game");
+        LogInfo("base:start game");
         if (IsTilted)
         {
-            Print("base: Cannot start game when game is tilted");
+            LogInfo("base: Cannot start game when game is tilted");
             return false;
         }
 
         if (!GameInPlay && GameData.Credits > 0) //first player start game
         {
-            Print("starting game, checking trough...");
+            LogInfo("starting game, checking trough...");
             if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
             {
-                Print("Trough not ready. Can't start game with empty trough.");
+                LogInfo("Trough not ready. Can't start game with empty trough.");
                 EmitSignal(nameof(BallSearchReset));
                 return false;
             }
@@ -530,7 +627,7 @@ public abstract class PinGodGameBase : Node
             CreatePlayer($"P{Players.Count + 1}");
             CurrentPlayerIndex = 0;
             Player = Players[CurrentPlayerIndex];
-            Print("signal: player 1 added");
+            LogDebug("signal: player 1 added");
             GameData.GamesStarted++;
             gameStartTime = OS.GetTicksMsec();
             EmitSignal(nameof(PlayerAdded));
@@ -542,7 +639,7 @@ public abstract class PinGodGameBase : Node
         {
             GameData.Credits--;
             CreatePlayer($"P{Players.Count + 1}");
-            Print($"signal: player added. {Players.Count}");
+            LogDebug($"signal: player added. {Players.Count}");
             EmitSignal(nameof(PlayerAdded));
         }
 
@@ -565,14 +662,14 @@ public abstract class PinGodGameBase : Node
     public virtual void StartNewBall()
     {
         IsBallStarted = true;
-        Print("base:starting new ball");
+        LogInfo("base:starting new ball");
         GameData.BallsStarted++;
         ResetTilt();
         Player = Players[CurrentPlayerIndex];
         if (Player.ExtraBalls > 0)
         {
             Player.ExtraBalls--;
-            Print("base: player shoot again");
+            LogInfo("base: player shoot again");
         }
         _trough.PulseTrough();
         EnableFlippers(1);
@@ -588,10 +685,36 @@ public abstract class PinGodGameBase : Node
     public virtual bool SwitchOff(string swName, InputEvent inputEvent)
     {
         if (!SwitchExists(swName)) return false;
-        var result = Machine.Switches[swName].IsOff(inputEvent);
-        if (LogSwitchEvents && result)
+        var sw = Machine.Switches[swName];
+        var result = sw.IsOff(inputEvent);
+        if (result)
         {
-            Print("swOff:" + swName);
+            LogDebug("swOff:" + swName);
+
+            if (PinballSender.Record)
+            {
+                var recordLine = $"{swName}|{false}|{OS.GetTicksMsec() - gameStartTime}";
+                stringBuilder?.AppendLine(recordLine);
+                LogDebug(recordLine);
+            }
+
+            if (BallSearchOptions.IsSearchEnabled)
+            {
+                if (sw.BallSearch != BallSearchSignalOption.None)
+                {
+                    switch (sw.BallSearch)
+                    {
+                        case BallSearchSignalOption.Reset:
+                            SetBallSearchReset();
+                            break;
+                        case BallSearchSignalOption.Off:
+                            SetBallSearchStop();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
         return result;
     }
@@ -609,10 +732,7 @@ public abstract class PinGodGameBase : Node
         {
             if (SwitchOn("plunger_lane")) //TODO
             {
-                if (LogSwitchEvents)
-                {
-                    Print("swOff:" + sw);
-                }
+                LogDebug("swOff:" + sw);
                 BallSearchSignals(resetOption);
             }
         }
@@ -647,7 +767,18 @@ public abstract class PinGodGameBase : Node
                 }
             }
         }
-        if (LogSwitchEvents && result) Print("swOn:" + swName);
+        if (result)
+        {
+            LogDebug("swOn:" + swName);
+
+            if (PinballSender.Record)
+            {
+                var switchTime = OS.GetTicksMsec() - gameStartTime;
+                var recordLine = $"{swName}|{true}|{switchTime}";                
+                stringBuilder?.AppendLine(recordLine);
+                LogDebug(recordLine);
+            }
+        }
         return result;
     }
     /// <summary>
@@ -673,7 +804,7 @@ public abstract class PinGodGameBase : Node
         var pressed = @event.IsActionPressed("sw" + sw);
         if (pressed)
         {
-            if (LogSwitchEvents) Print("swOn:" + sw);
+            LogDebug("swOn:" + sw);
             if (SwitchOn("plunger_lane")) //TODO
             {
                 BallSearchSignals(resetOption);
@@ -681,7 +812,6 @@ public abstract class PinGodGameBase : Node
         }
         return pressed;
     }
-
     /// <summary>
     /// Invokes UpdateLamps on all groups marked as Mode within the scene tree.
     /// </summary>
@@ -693,7 +823,7 @@ public abstract class PinGodGameBase : Node
     {
         if (!Machine.Lamps.ContainsKey(name))
         {
-            PrintErr("ERROR:no lamp found for: ", name);
+            LogError("ERROR:no lamp found for: ", name);
             return false;
         }
 
@@ -703,7 +833,7 @@ public abstract class PinGodGameBase : Node
     {
         if (!Machine.Leds.ContainsKey(name))
         {
-            PrintErr("ERROR:no led found for: ", name);
+            LogError("ERROR:no led found for: ", name);
             return false;
         }
 
@@ -718,7 +848,7 @@ public abstract class PinGodGameBase : Node
     {
         if (!Machine.Coils.ContainsKey(name))
         {
-            PrintErr("ERROR:no solenoid found for: ", name);
+            LogError("ERROR:no solenoid found for: ", name);
             return false;
         }
 
@@ -728,10 +858,18 @@ public abstract class PinGodGameBase : Node
     {
         if (!Machine.Switches.ContainsKey(name))
         {
-            PrintErr("ERROR:no switch found for: ", name);
+            LogError("ERROR:no switch found for: ", name);
             return false;
         }
 
         return true;
     }
+}
+
+public enum PinGodLogLevel
+{
+    Debug,
+    Info,    
+    Warning,
+    Error
 }

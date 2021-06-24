@@ -1,13 +1,9 @@
 using Godot;
 using Rug.Osc;
-using System;
-using System.IO.MemoryMappedFiles;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Godot.GD;
-using Mutex = System.Threading.Mutex;
 
 /// <summary>
 /// Godot singleton to send/receive OSC message over loopback
@@ -25,11 +21,6 @@ public class OscService : IPinballSendReceive
 	private Task oscTask;
 	private CancellationToken _token;	
 	CancellationTokenSource _tokenSource;
-
-	/// <summary>
-	/// recording actions
-	/// </summary>
-	StringBuilder stringBuilder;
 
 	public OscService()
 	{
@@ -81,12 +72,6 @@ public class OscService : IPinballSendReceive
 						var ev = new InputEventAction() { Action = message[0].ToString(), Pressed = actionState };
 						if (LogActions) { Print($"in:{ev.Action}-state:{ev.Pressed}"); }
 
-						if (Record)
-						{
-							var switchTime = OS.GetTicksMsec() - GameStartTime;
-							var recordLine = $"{ev.Action}|{ev.Pressed}|{switchTime}";
-							stringBuilder?.AppendLine(recordLine);
-						}
 						Input.ParseInputEvent(ev);
 					}
 				}
@@ -103,26 +88,8 @@ public class OscService : IPinballSendReceive
 
 		Print("OSC ready. Sending game_ready");
 		SendGameReady(); //Let the listeners know that the game is ready
-
-		//Game start time, fully loaded...
-		GameStartTime = OS.GetTicksMsec();
-		if (Record)
-		{
-			stringBuilder = new StringBuilder();
-		}
 	}	
-	public void SaveRecording()
-	{
-		Print("saving record file");
-		var userDir = OS.GetUserDataDir();
-		var file = DateTime.Now.ToFileTime()+".record";
-		using (var txtFile = System.IO.File.CreateText(userDir + $"/recordings/{file}"))
-		{
-			txtFile.Write(stringBuilder.ToString());
-		}
-		stringBuilder.Clear();
-		Print("file saved");
-	}
+
 	public void Stop()
 	{
 		if (oscTask?.Status == TaskStatus.Running)
