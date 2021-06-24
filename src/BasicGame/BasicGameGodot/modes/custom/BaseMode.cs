@@ -1,6 +1,4 @@
 using Godot;
-using static Godot.GD;
-
 public class BaseMode : Control
 {
 	private PinGodGame pinGod;
@@ -23,7 +21,7 @@ public class BaseMode : Control
 
 		if (pinGod.SwitchOn("start", @event))
 		{
-			Print("base: start button adding player...", pinGod.StartGame());
+			pinGod.LogInfo("base: start button adding player...", pinGod.StartGame());
 		}
 		if (pinGod.SwitchOn("flipper_l", @event))
 		{

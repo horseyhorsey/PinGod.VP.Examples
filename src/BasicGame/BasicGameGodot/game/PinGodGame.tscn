@@ -4,6 +4,7 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
+_logging_level = 2
 _coils = {
 "auto_plunger": 3,
 "died": 0,

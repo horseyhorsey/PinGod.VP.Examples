@@ -1,5 +1,4 @@
 using Godot;
-using static Godot.GD;
 
 public class ServiceMenu : Control
 {
@@ -30,7 +29,7 @@ public class ServiceMenu : Control
 		if (pinGod.SwitchOn("enter", @event))
 		{
 			var menu = CurrentMenuItems[selectedIndex];
-			Print("selected menu", menu);
+			pinGod.LogDebug("selected menu", menu);
 
 			if (inMusicMenu)
 			{
@@ -43,7 +42,7 @@ public class ServiceMenu : Control
 					case "techno":
 						pinGod.AudioManager.MusicEnabled = true;
 						pinGod.AudioManager.Bgm = menu;
-						Print("selected music", pinGod.AudioManager.Bgm);
+						pinGod.LogDebug("selected music", pinGod.AudioManager.Bgm);
 						break;
 					default:
 						break;

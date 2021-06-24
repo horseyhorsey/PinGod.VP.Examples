@@ -19,7 +19,7 @@ public class MoonLander : Node2D
 		scoreLabel = GetNode("Label") as Label;
 		scoreLabel.Visible = false;
 
-		PinGodGame = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 
 		SetUpFlags();
 	}
@@ -61,7 +61,7 @@ public class MoonLander : Node2D
 
 	bool completed = false;
 
-	public PinGodGame PinGodGame { get; private set; }
+	public PinGodGame pinGod { get; private set; }
 
 	void OnFlagEntered(byte value)
 	{
@@ -70,7 +70,7 @@ public class MoonLander : Node2D
 
 	private void _on_Moon_body_entered(object body)
 	{
-		GD.Print("hit the moon");
+		pinGod.LogDebug("hit the moon");
 		MoonLanderComplete(1);
 	}
 
@@ -82,9 +82,9 @@ public class MoonLander : Node2D
 			scoreLabel.Text = $"CRATER LANDING\r\nSCORES\r\n{value * 1000}";
 			scoreLabel.Visible = true;
 
-			PinGodGame.AddPoints(value * 1000);
+			pinGod.AddPoints(value * 1000);
 
-			GD.Print("flag value ", value);
+			pinGod.LogDebug("flag value ", value);
 			ship.QueueFree();
 			foreach (var flag in Flags)
 			{
@@ -99,13 +99,13 @@ public class MoonLander : Node2D
 	{
 		if (ship?.Visible ?? false)
 		{
-			if (PinGodGame.SwitchOn("flipper_l", @event))
+			if (pinGod.SwitchOn("flipper_l", @event))
 			{
 				var force = ship.AppliedForce.x <= -36f;
 				if (!force)
 					ship.AddCentralForce(new Vector2(-9, 0));
 			}
-			if (PinGodGame.SwitchOn("flipper_r", @event))
+			if (pinGod.SwitchOn("flipper_r", @event))
 			{
 				var force = ship.AppliedForce.x >= 36f;
 				if (!force)

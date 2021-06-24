@@ -1,5 +1,4 @@
 using Godot;
-using static Godot.GD;
 
 /// <summary>
 /// Manages the <see cref="PinGodGame.TiltSwitchNum"/> and <see cref="PinGodGame.SlamTiltSwitch"/> inputs <para/>
@@ -29,11 +28,8 @@ public class Tilt : Control
 		blinkingLayer = GetNode("BlinkingLabel") as BlinkingLabel;
 		blinkingLayer.Text = "";
 
-		//reset the tilt if new ball started
-		pinGod.Connect("BallStarted", this, "OnBallStarted");
-
 		//timer to hide the tilt layers
-		timer = GetNode("Timer") as Timer;		
+		timer = GetNode("Timer") as Timer;
 	}
 
 	/// <summary>
@@ -59,7 +55,7 @@ public class Tilt : Control
 				trough.DisableBallSave();
 
 				Visible = true;
-				Print("game tilted");
+				pinGod.LogInfo("game tilted");
 				//stop the timer for showing tilt information
 				CallDeferred("setText", "TILTED");
 			}
@@ -74,9 +70,9 @@ public class Tilt : Control
 		if (pinGod.SwitchOn("slam_tilt", input))
 		{
 			timer.Stop();
-			Print("slam_tilt");
+			pinGod.LogInfo("slam_tilt");
 			setText("SLAM TILT");
-			pinGod.IsTilted = true;			
+			pinGod.IsTilted = true;
 			pinGod.EnableFlippers(0);
 			Visible = true;
 			trough.DisableBallSave();

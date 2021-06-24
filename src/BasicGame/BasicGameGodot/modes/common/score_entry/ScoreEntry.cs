@@ -2,7 +2,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Godot.GD;
 
 /// <summary>
 /// Simple score entry: Sends <see cref="PinGodGame.ScoreEntryEnded"/> TODO entries, placeholder
@@ -18,7 +17,7 @@ public class ScoreEntry : Control
 	private Label selectedName;
 	private Label playerLabel;
 
-	private PinGodGame pinGodGame;
+	private PinGodGame pinGod;
 	private PinGodPlayer _cPlayer;
 
 	bool IsPlayerEnteringScore = false;
@@ -29,7 +28,7 @@ public class ScoreEntry : Control
 		//GameGlobals.Players.Add(new PlayerBasicGame() { Points = 2430 });
 		//GameGlobals.Players.Add(new PlayerBasicGame() { Points = 2530 });
 
-		pinGodGame = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		CharSelectionSetup();
 		selectedCharLabel = GetNode("CenterContainer/VBoxContainer/SelectedChar") as Label;
 		selectedName = GetNode("CenterContainer/VBoxContainer/Name") as Label;
@@ -41,10 +40,10 @@ public class ScoreEntry : Control
 	{
 		IsPlayerEnteringScore = true;
 		this.Visible = true;
-		PlayerCount = pinGodGame.Players?.Count ?? 0;
+		PlayerCount = pinGod.Players?.Count ?? 0;
 		if (PlayerCount <= 0)
 		{
-			PrintErr("Need players for this mode to cycle through");
+			pinGod.LogError("Need players for this mode to cycle through");
 			QuitScoreEntry();
 			return;
 		}
@@ -55,8 +54,8 @@ public class ScoreEntry : Control
 	{
 		IsPlayerEnteringScore = false;
 		this.Visible = false;
-		Print("score_entry: quit score entry");
-		pinGodGame.EmitSignal("ScoreEntryEnded");
+		pinGod.LogInfo("score_entry: quit score entry");
+		pinGod.EmitSignal("ScoreEntryEnded");
 	}
 	
 	private bool MoveNextPlayer()
@@ -69,20 +68,20 @@ public class ScoreEntry : Control
 		//reset the entry player initials
 		entry = string.Empty;		
 		//get the player to check hi scores
-		_cPlayer = pinGodGame.Players[CurrentPlayer];
+		_cPlayer = pinGod.Players[CurrentPlayer];
 
 		playerLabel.Text = $"PLAYER {CurrentPlayer + 1}\r\nENTER NAME";
 
 		//hi scores has enough room to add new at any points
-		if (pinGodGame.GameData.HighScores.Count < pinGodGame.GameSettings.MaxHiScoresCount)
+		if (pinGod.GameData.HighScores.Count < pinGod.GameSettings.MaxHiScoresCount)
 		{
-			Print("Hi score has space, adding this player");
+			pinGod.LogDebug("Hi score has space, adding this player");
 			CurrentPlayer++;
 		}
 		//this hi score isn't as big as the others
-		else if (!pinGodGame.GameData.HighScores.Any(x => x.Scores < _cPlayer.Points))
+		else if (!pinGod.GameData.HighScores.Any(x => x.Scores < _cPlayer.Points))
 		{
-			Print("hi score not large enough for board");
+			pinGod.LogDebug("hi score not large enough for board");
 			CurrentPlayer++;
 			if (!MoveNextPlayer())
 			{
@@ -102,15 +101,15 @@ public class ScoreEntry : Control
 	{
 		if (this.Visible && IsPlayerEnteringScore)
 		{
-			if (pinGodGame.SwitchOn("flipper_l", @event))
+			if (pinGod.SwitchOn("flipper_l", @event))
 			{
 				selectedIndex++;
 			}
-			if (pinGodGame.SwitchOn("flipper_r", @event))
+			if (pinGod.SwitchOn("flipper_r", @event))
 			{
 				selectedIndex--;
 			}
-			if (pinGodGame.SwitchOn("start", @event))
+			if (pinGod.SwitchOn("start", @event))
 			{
 				//delete char
 				if (allowedChars[selectedIndex] == 60)
@@ -122,16 +121,16 @@ public class ScoreEntry : Control
 				else if (allowedChars[selectedIndex] == 61)
 				{
 					//add the hi score and order it
-					pinGodGame.GameData.HighScores.Add(new HighScore()
+					pinGod.GameData.HighScores.Add(new HighScore()
 					{
 						Name = entry,
 						Created = DateTime.Now,
 						Scores = _cPlayer.Points
 					});
-					pinGodGame.GameData.HighScores = pinGodGame.GameData.HighScores.OrderByDescending(x => x.Scores)
-						.Take(pinGodGame.GameSettings.MaxHiScoresCount)
+					pinGod.GameData.HighScores = pinGod.GameData.HighScores.OrderByDescending(x => x.Scores)
+						.Take(pinGod.GameSettings.MaxHiScoresCount)
 						.ToList();
-					Print("hi score added", entry, _cPlayer.Points);
+					pinGod.LogInfo("hi score added", entry, _cPlayer.Points);
 
 					if (!MoveNextPlayer())
 					{

@@ -3,14 +3,14 @@ using static Godot.GD;
 
 public class BaseMode : Control
 {
-	private PinGodGame pinGod;
-	private Game game;
-	int minScore = 50;
-	int medScore = 100;
-	int bigScore = 250;
-	int massiveScore = 1000;
+    int bigScore = 250;
+    private Game game;
+    int medScore = 100;
+    int minScore = 50;
+    private PinGodGame pinGod;
+    //int massiveScore = 1000;
 
-	public override void _EnterTree()
+    public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
@@ -29,7 +29,7 @@ public class BaseMode : Control
 
 		if (pinGod.SwitchOn("start", @event))
 		{
-			Print("attract: starting game. started?", pinGod.StartGame());
+			pinGod.LogDebug("attract: starting game. started?", pinGod.StartGame());
 		}
 
 		// Flipper switches set to reset the ball search timer
@@ -88,8 +88,19 @@ public class BaseMode : Control
 		}
 	}
 
-	private void StartMultiball()
-	{
+    public void OnBallStarted()
+    {
+		pinGod.LogInfo("game: ball started");
+        if (pinGod.AudioManager.MusicEnabled)
+        {
+            pinGod.AudioManager.PlayMusic(pinGod.AudioManager.Bgm);
+        }
+    }
+
+    public void UpdateLamps() { }
+
+    private void StartMultiball()
+    {
 		if (!pinGod.IsMultiballRunning)
 		{
 			pinGod.IsMultiballRunning = true;
@@ -102,15 +113,4 @@ public class BaseMode : Control
 			pinGod.SolenoidPulse("mball_saucer");
 		}
 	}
-
-	public void OnBallStarted()
-	{
-		Print("game: ball started");
-		if (pinGod.AudioManager.MusicEnabled)
-		{
-			Print("playing music");
-			pinGod.AudioManager.PlayMusic(pinGod.AudioManager.Bgm);
-		}
-	}
-	public void UpdateLamps() { }
 }

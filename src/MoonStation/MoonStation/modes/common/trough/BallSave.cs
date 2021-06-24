@@ -1,14 +1,12 @@
 using Godot;
-using static Godot.GD;
 
 /// <summary>
 /// Ball saver display. Uses <see cref="Trough.BallSaved"/> to show and timeout
 /// </summary>
 public class BallSave : Control
 {
-	private Timer timer;
 	private PinGodGame pinGod;
-
+	private Timer timer;
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
@@ -24,6 +22,8 @@ public class BallSave : Control
 		Visible = false;
 	}
 
+	void _on_Timer_timeout() => this.Visible = false;
+
 	/// <summary>
 	/// Show the ball saved scene layers
 	/// </summary>
@@ -31,7 +31,7 @@ public class BallSave : Control
 	{
 		if (!pinGod.IsMultiballRunning)
 		{
-			Print("ballsave: ball_saved");
+			pinGod.LogDebug("ballsave: ball_saved");
 			this.Visible = true;
 
 			if (!timer.IsStopped())
@@ -41,9 +41,7 @@ public class BallSave : Control
 		}
 		else
 		{
-			Print("skipping save display in multiball");
+			pinGod.LogDebug("skipping save display in multiball");
 		}
 	}
-
-	void _on_Timer_timeout() => this.Visible = false;
 }

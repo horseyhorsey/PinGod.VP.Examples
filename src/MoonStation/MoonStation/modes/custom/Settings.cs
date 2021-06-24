@@ -73,7 +73,7 @@ public class Settings : CanvasLayer
 		if (@event.IsActionPressed("sw7"))
 		{
 			var menu = CurrentMenuItems[selectedIndex];
-			Print("selected menu", menu);
+			pinGod.LogDebug("selected menu", menu);
 
 			if (inMusicMenu)
 			{
@@ -86,7 +86,7 @@ public class Settings : CanvasLayer
 					case "techno":
 						pinGod.AudioManager.MusicEnabled = true;
 						pinGod.AudioManager.Bgm = menu;
-						Print("selected music", pinGod.AudioManager.Bgm);
+						pinGod.LogDebug("selected music", pinGod.AudioManager.Bgm);
 						break;
 					default:
 						break;

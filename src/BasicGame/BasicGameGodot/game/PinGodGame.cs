@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
 using System.Linq;
 using static Godot.GD;
 
@@ -9,16 +8,20 @@ using static Godot.GD;
 /// </summary>
 public class PinGodGame : PinGodGameBase
 {	
-	const string COIN_SFX = "res://assets/audio/sfx/credit.wav";	
+	const string COIN_SFX = "res://assets/audio/sfx/credit.wav";
 
 	#region Exports
+	[Export] PinGodLogLevel _logging_level = PinGodLogLevel.Info;
+	[Export] bool _record_game = false;
+	[Export] bool _playback_game = false;
+	[Export] string _playbackfile = null;
 	[Export] bool _write_machine_states = true;
 	[Export] int _write_machine_states_delay = 10;
 
-	[Export] Godot.Collections.Dictionary<string, byte> _coils = new Godot.Collections.Dictionary<string, byte>();
-	[Export] Godot.Collections.Dictionary<string, byte> _switches = new Godot.Collections.Dictionary<string, byte>();
-	[Export] Godot.Collections.Dictionary<string, byte> _lamps = new Godot.Collections.Dictionary<string, byte>();
-	[Export] Godot.Collections.Dictionary<string, byte> _leds = new Godot.Collections.Dictionary<string, byte>();
+	[Export] Dictionary<string, byte> _coils = new Dictionary<string, byte>();
+	[Export] Dictionary<string, byte> _switches = new Dictionary<string, byte>();
+	[Export] Dictionary<string, byte> _lamps = new Dictionary<string, byte>();
+	[Export] Dictionary<string, byte> _leds = new Dictionary<string, byte>();
 
 	[Export] public string[] _trough_switches = { "trough_1", "trough_2", "trough_3", "trough_4" };
 	[Export] public string[] _early_save_switches = { "outlane_l", "outlane_r" };
@@ -36,25 +39,31 @@ public class PinGodGame : PinGodGameBase
 	[Export] private int _ball_search_wait_time_secs = 10;
 	#endregion
 
+	/// <summary>
+	/// Runs setup for everything in the `machine`. Trough, ball-search etc <see cref="Setup"/>
+	/// </summary>
 	public override void _EnterTree()
 	{
 		base._EnterTree(); //setup base for trough
-		
+
+		LogLevel = _logging_level;
+
 		//trough
-		_trough.TroughOptions = new TroughOptions(_trough_switches, _trough_solenoid, _plunger_lane_switch, 
+		_trough.TroughOptions = new TroughOptions(_trough_switches, _trough_solenoid, _plunger_lane_switch,
 			_auto_plunge_solenoid, _early_save_switches, _ball_save_seconds, _ball_save_multiball_seconds, _ball_save_lamp, _ball_save_led, _number_of_balls_to_save);
 		//ball search options
 		BallSearchOptions = new BallSearchOptions(_ball_search_coils, _ball_search_stop_switches, _ball_search_wait_time_secs);
 
-		Print("PinGod: entering tree. Setup");
+		LogDebug("PinGod: entering tree. Setup");
 		Setup();
 	}
 
 	/// <summary>
-	/// Save game data / settings before exit
+	/// Save game data / settings / recordings before exit
 	/// </summary>
 	public override void _ExitTree()
-	{		
+	{
+		base._ExitTree();
 		Quit(true);
 	}
 
@@ -97,6 +106,9 @@ public class PinGodGame : PinGodGameBase
 			memMapping.Start(_write_machine_states_delay);
 		}
 
+		//set up recording / playback
+		SetUpRecordingsOrPlayback(_playback_game, _record_game, _playbackfile);
+
 		PinballSender.Start();
 	}
 
@@ -106,7 +118,7 @@ public class PinGodGame : PinGodGameBase
 	/// <param name="name"></param>
 	public override void CreatePlayer(string name)
 	{
-		Players.Add(new BasicGamePlayer());
+		Players.Add(new BasicGamePlayer() { Name = name });
 	}
 
 	void AddAudioStreams()
@@ -126,5 +138,5 @@ public class PinGodGame : PinGodGameBase
 		GameInPlay = false;
 		ResetTilt();
 		EnableFlippers(0);
-	}    
+	}
 }

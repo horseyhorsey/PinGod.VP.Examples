@@ -48,7 +48,7 @@ public class Crater : Control
 
 	private void _timeout()
 	{
-		Print("crater time out");
+		pinGod.LogInfo("crater time out");
 		instance.QueueFree();
 		RemoveChild(instance);        
 		pinGod.SolenoidPulse("crater_saucer");

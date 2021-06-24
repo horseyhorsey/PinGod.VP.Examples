@@ -65,7 +65,7 @@ public class DropTargets : Control
 
 		if (!game.MoonTargets.Any(x => x == 0))
 		{
-			Print("Moon drops completed. PF multiplier added");
+			pinGod.LogInfo("Moon drops completed. PF multiplier added");
 			game.Multiplier++;
 			game.UpdateLamps();
 			ResetMoon();
@@ -84,7 +84,7 @@ public class DropTargets : Control
 
 		if (!game.StationTargets.Any(x => x == 0))
 		{
-			Print("Station drops completed. PF multiplier added");
+			pinGod.LogInfo("Station drops completed. PF multiplier added");
 			game.Multiplier++;
 			game.UpdateLamps();
 			ResetStation();
@@ -98,28 +98,28 @@ public class DropTargets : Control
 	{
 		if (pinGod.SwitchOn("Moon", @event))
 		{
-			Print("sw: M");
+			pinGod.LogDebug("sw: M");
 			game.MoonTargets[0] = 1;
 			voicePlayer.Stream = voices["m"]; voicePlayer.Play();
 			MoonCheck();
 		}
 		if (pinGod.SwitchOn("mOon", @event))
 		{
-			Print("sw: O");
+			pinGod.LogDebug("sw: O");
 			game.MoonTargets[1] = 1;
 			voicePlayer.Stream = voices["o"]; voicePlayer.Play();
 			MoonCheck();
 		}
 		if (pinGod.SwitchOn("moOn", @event))
 		{
-			Print("sw: Ob");
+			pinGod.LogDebug("sw: Ob");
 			game.MoonTargets[2] = 1;
 			voicePlayer.Stream = voices["o"]; voicePlayer.Play();
 			MoonCheck();
 		}
 		if (pinGod.SwitchOn("mooN", @event))
 		{
-			Print("sw: N");
+			pinGod.LogDebug("sw: N");
 			game.MoonTargets[3] = 1;
 			voicePlayer.Stream = voices["n"]; voicePlayer.Play();
 			MoonCheck();
@@ -127,7 +127,7 @@ public class DropTargets : Control
 
 		if (pinGod.SwitchOn("Station", @event))
 		{
-			Print("sw: S");
+			pinGod.LogDebug("sw: S");
 			game.StationTargets[0] = 1;
 			voicePlayer.Stream = voices["s"]; voicePlayer.Play();
 			StationCheck();
@@ -135,20 +135,20 @@ public class DropTargets : Control
 		if (pinGod.SwitchOn("sTation", @event))
 		{
 			game.StationTargets[1] = 1;
-			Print("sw: T");
+			pinGod.LogDebug("sw: T");
 			voicePlayer.Stream = voices["t"]; voicePlayer.Play();
 			StationCheck();
 		}
 		if (pinGod.SwitchOn("stAtion", @event))
 		{
-			Print("sw: A");
+			pinGod.LogDebug("sw: A");
 			game.StationTargets[2] = 1;
 			voicePlayer.Stream = voices["a"]; voicePlayer.Play();
 			StationCheck();
 		}
 		if (pinGod.SwitchOn("staTion", @event))
 		{
-			Print("sw: T");
+			pinGod.LogDebug("sw: T");
 			game.StationTargets[3] = 1;
 			voicePlayer.Stream = voices["t"]; voicePlayer.Play();
 			StationCheck();
@@ -156,21 +156,21 @@ public class DropTargets : Control
 		if (pinGod.SwitchOn("statIon", @event))
 		{
 			game.StationTargets[4] = 1;
-			Print("sw: I");
+			pinGod.LogDebug("sw: I");
 			voicePlayer.Stream = voices["i"]; voicePlayer.Play();
 			StationCheck();
 		}
 		if (pinGod.SwitchOn("statiOn", @event))
 		{
 			game.StationTargets[5] = 1;
-			Print("sw: O");
+			pinGod.LogDebug("sw: O");
 			voicePlayer.Stream = voices["o"]; voicePlayer.Play();
 			StationCheck();
 		}
 		if (pinGod.SwitchOn("statioN", @event))
 		{
 			game.StationTargets[6] = 1;
-			Print("sw: N");
+			pinGod.LogDebug("sw: N");
 			voicePlayer.Stream = voices["n"]; voicePlayer.Play();
 			StationCheck();
 		}
