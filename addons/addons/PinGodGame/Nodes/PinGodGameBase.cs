@@ -81,10 +81,7 @@ public abstract class PinGodGameBase : Node
     {
         Players = new List<PinGodPlayer>();
 
-        LoadSettingsAndData();
-
-        gameLoadTimeMsec = OS.GetTicksMsec();
-
+        LoadSettingsAndData();        
         AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);
     }
@@ -99,6 +96,8 @@ public abstract class PinGodGameBase : Node
 
         BallSearchTimer = new Timer() { Autostart = false };
         BallSearchTimer.Connect("timeout", this, "_OnBallSearchTimeout");
+
+        gameLoadTimeMsec = OS.GetTicksMsec();
     }
 
     public override void _ExitTree()
@@ -127,9 +126,9 @@ public abstract class PinGodGameBase : Node
                 return;
             }
 
-            var time = OS.GetTicksMsec() - gameStartTime;
+            var time = OS.GetTicksMsec() - gameLoadTimeMsec;
             var nextEvt = _playbackQueue.Peek().Time;
-            if(nextEvt >= time)
+            if(nextEvt <= time)
             {
                 var pEvent = _playbackQueue.Dequeue();
                 var ev = new InputEventAction() { Action = pEvent.EvtName, Pressed = pEvent.State };
@@ -748,7 +747,7 @@ public abstract class PinGodGameBase : Node
 
             if (PinballSender.Record)
             {
-                var recordLine = $"{swName}|{false}|{OS.GetTicksMsec() - gameStartTime}";
+                var recordLine = $"sw{sw.Num}|{false}|{OS.GetTicksMsec() - gameLoadTimeMsec}";
                 stringBuilder?.AppendLine(recordLine);
                 LogDebug(recordLine);
             }
@@ -828,7 +827,7 @@ public abstract class PinGodGameBase : Node
 
             if (PinballSender.Record)
             {
-                var switchTime = OS.GetTicksMsec() - gameStartTime;
+                var switchTime = OS.GetTicksMsec() - gameLoadTimeMsec;
                 var recordLine = $"sw{sw.Num}|{true}|{switchTime}";
                 stringBuilder?.AppendLine(recordLine);
                 LogDebug(recordLine);
