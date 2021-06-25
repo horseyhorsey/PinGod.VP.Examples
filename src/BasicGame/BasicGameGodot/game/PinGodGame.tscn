@@ -46,4 +46,4 @@ _leds = {
 }
 _ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "mball_saucer" )
-_ball_search_stop_switches = PoolStringArray( "mball_saucer" )
+_ball_search_stop_switches = PoolStringArray( "mball_saucer", "trough_1", "trough_2", "trough_3", "trough_4" )

@@ -6,9 +6,9 @@ using static Godot.GD;
 /// </summary>
 public class BallSave : Control
 {
-    private PinGodGame pinGod;
-    private Timer timer;
-    public override void _EnterTree()
+	private PinGodGame pinGod;
+	private Timer timer;
+	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		pinGod.Connect(nameof(PinGodGameBase.BallSaved), this, "OnBallSaved");
@@ -23,12 +23,12 @@ public class BallSave : Control
 		Visible = false;
 	}
 
-    void _on_Timer_timeout() => this.Visible = false;
+	void _on_Timer_timeout() => this.Visible = false;
 
-    /// <summary>
-    /// Show the ball saved scene layers
-    /// </summary>
-    void OnBallSaved()
+	/// <summary>
+	/// Show the ball saved scene layers
+	/// </summary>
+	void OnBallSaved()
 	{
 		if (!pinGod.IsMultiballRunning)
 		{

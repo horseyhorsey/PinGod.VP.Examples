@@ -33,7 +33,7 @@ public class PinGodGame : PinGodGameBase
 	[Export] public byte _ball_save_seconds = 8;
 	[Export] public byte _ball_save_multiball_seconds = 8;
 	[Export] public byte _number_of_balls_to_save = 1;
-	[Export] public bool _ball_search_enabled;
+	[Export] public bool _ball_search_enabled = true;
 	[Export] public string[] _ball_search_coils;
 	[Export] public string[] _ball_search_stop_switches;
 	[Export] private int _ball_search_wait_time_secs = 10;
@@ -52,7 +52,7 @@ public class PinGodGame : PinGodGameBase
 		_trough.TroughOptions = new TroughOptions(_trough_switches, _trough_solenoid, _plunger_lane_switch,
 			_auto_plunge_solenoid, _early_save_switches, _ball_save_seconds, _ball_save_multiball_seconds, _ball_save_lamp, _ball_save_led, _number_of_balls_to_save);
 		//ball search options
-		BallSearchOptions = new BallSearchOptions(_ball_search_coils, _ball_search_stop_switches, _ball_search_wait_time_secs);
+		BallSearchOptions = new BallSearchOptions(_ball_search_coils, _ball_search_stop_switches, _ball_search_wait_time_secs, _ball_search_enabled);
 
 		LogDebug("PinGod: entering tree. Setup");
 		Setup();
