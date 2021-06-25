@@ -70,7 +70,7 @@ public abstract class PinballSwitchLanesNode : Node
     {
         if (_lane_switches == null)
         {
-            GD.PushError("no rollover switches defined. removing mode");
+            pinGod.LogError("no rollover switches defined. removing mode");
             this.QueueFree();
         }
         else

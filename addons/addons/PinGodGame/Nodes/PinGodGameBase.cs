@@ -74,6 +74,9 @@ public abstract class PinGodGameBase : Node
     /// recording actions
     /// </summary>
     protected StringBuilder stringBuilder;
+    private bool _playbackEnabled;
+    private Queue<PlaybackEvent> _playbackQueue;
+
     public PinGodGameBase()
     {
         Players = new List<PinGodPlayer>();
@@ -105,6 +108,35 @@ public abstract class PinGodGameBase : Node
         {
             SaveRecording();
         }
+    }
+
+    public override void _Process(float delta)
+    {
+        if (!_playbackEnabled)
+        {
+            SetProcess(false);
+            LogInfo("pingodbase: process loop ended playback switches is not enabled");
+            return;
+        }
+        else
+        {
+            if (_playbackQueue?.Count <= 0)
+            {
+                LogInfo("pingodbase: playback events ended");
+                _playbackEnabled = false;
+                return;
+            }
+
+            var time = OS.GetTicksMsec() - gameStartTime;
+            var nextEvt = _playbackQueue.Peek().Time;
+            if(nextEvt >= time)
+            {
+                var pEvent = _playbackQueue.Dequeue();
+                var ev = new InputEventAction() { Action = pEvent.EvtName, Pressed = pEvent.State };
+                Input.ParseInputEvent(ev);
+                LogDebug("pingodbase: playback evt ", pEvent.EvtName);
+            }
+        }        
     }
 
     #endregion
@@ -548,26 +580,36 @@ public abstract class PinGodGameBase : Node
     /// <param name="playbackfile"></param>
     public virtual void SetUpRecordingsOrPlayback(bool playbackEnabled, bool recordingEnabled, string playbackfile)
     {
+        _playbackEnabled = playbackEnabled;
         LogDebug("setting up recording / playback");
         if (playbackEnabled)
         {
             if (string.IsNullOrWhiteSpace(playbackfile))
             {
                 LogWarning("set a playback file from user directory eg: user://recordings/26232613.record");
+                _playbackEnabled = false;
             }
             else
             {
                 LogInfo("running playback file: ", playbackfile);
                 var pBackFile = new File();
-                if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.DoesNotExist)
+                if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.FileNotFound)
                 {
-                    LogError("playback file not found");
+                    _playbackEnabled = false;
+                    LogError("playback file not found, set playback false"); 
                 }
                 else
                 {
-                    var recordString = pBackFile.GetAsText();
-                    var recordLines = recordString.Split(System.Environment.NewLine, false);
-                    LogDebug("recording lines found: ", recordLines.Count());
+                    string[] eventLine = null;
+                    _playbackQueue = new Queue<PlaybackEvent>();
+                    while ((eventLine = pBackFile.GetCsvLine("|"))?.Length == 3)
+                    {
+                        bool.TryParse(eventLine[1], out var state);
+                        uint.TryParse(eventLine[2], out var time);
+                        _playbackQueue.Enqueue(new PlaybackEvent(eventLine[0], state, time));
+                    }
+                    _playbackQueue.Reverse();
+                    LogInfo(_playbackQueue.Count, " playback events queued. First event: ", _playbackQueue.Peek().EvtName);
                 }
             }
         }
@@ -577,6 +619,19 @@ public abstract class PinGodGameBase : Node
             stringBuilder = new System.Text.StringBuilder();
             LogDebug("game switch recording on");
         }
+    }
+    public class PlaybackEvent
+    {
+        public PlaybackEvent(string evtName, bool state, uint time)
+        {
+            EvtName = evtName;
+            State = state;
+            Time = time;
+        }
+
+        public string EvtName { get; }
+        public bool State { get; }
+        public uint Time { get; }
     }
     public virtual void SolenoidOn(string name, byte state)
     {
@@ -774,7 +829,7 @@ public abstract class PinGodGameBase : Node
             if (PinballSender.Record)
             {
                 var switchTime = OS.GetTicksMsec() - gameStartTime;
-                var recordLine = $"{swName}|{true}|{switchTime}";                
+                var recordLine = $"sw{sw.Num}|{true}|{switchTime}";
                 stringBuilder?.AppendLine(recordLine);
                 LogDebug(recordLine);
             }

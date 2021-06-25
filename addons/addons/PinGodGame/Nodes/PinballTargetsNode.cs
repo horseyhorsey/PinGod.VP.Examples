@@ -64,7 +64,7 @@ public abstract class PinballTargetsNode : Node
 				if (pinGod.SwitchOn(_target_switches[i], @event))
 				{
 					if (_enable_logging)
-						GD.Print("target: activated: ", _target_switches[i]);
+						pinGod.LogDebug("target: activated: ", _target_switches[i]);
 
 					if (CheckTargetsCompleted(i))
 					{
@@ -85,12 +85,12 @@ public abstract class PinballTargetsNode : Node
 	{
 		if (reset)
 		{
-			GD.Print("targets complete, resetting");
+			pinGod.LogDebug("targets complete, resetting");
 			ResetTargets();			
 		}
 		else
 		{
-			GD.Print("targets complete");
+			pinGod.LogDebug("targets complete");
 		}
 	}
 
