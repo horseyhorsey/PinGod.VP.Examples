@@ -32,9 +32,6 @@ public class OscService : IPinballSendReceive
 		}		
 	}
 
-	/// <summary>
-	/// Records the actions / switches
-	/// </summary>
 	public bool Record { get; set; } = false;
 	/// <summary>
 	/// Sends game_ready message over the /evt address

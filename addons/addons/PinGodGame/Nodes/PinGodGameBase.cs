@@ -2,11 +2,10 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using static Godot.GD;
 
-public abstract class PinGodGameBase : Node
+public abstract partial class PinGodGameBase : Node
 {
     #region Signals
     [Signal] public delegate void BallDrained();
@@ -69,13 +68,13 @@ public abstract class PinGodGameBase : Node
     protected MemoryMap memMapping;
     private uint gameEndTime;
     private uint gameLoadTimeMsec;
-    private uint gameStartTime;
-    /// <summary>
-    /// recording actions
-    /// </summary>
-    protected StringBuilder stringBuilder;
-    private bool _playbackEnabled;
+    private uint gameStartTime;    
     private Queue<PlaybackEvent> _playbackQueue;
+    private RecordPlaybackOption _recordPlayback;
+    /// <summary>
+    /// recording actions to file using godot
+    /// </summary>
+    private File _recordFile;
 
     public PinGodGameBase()
     {
@@ -101,17 +100,18 @@ public abstract class PinGodGameBase : Node
     }
 
     public override void _ExitTree()
-    {
-        LogInfo("pingodbase: exit tree");
-        if (PinballSender.Record)
+    {        
+        if (_recordPlayback == RecordPlaybackOption.Record)
         {
+            LogInfo("pingodbase: exit tree, saving recordings");
             SaveRecording();
         }
+        else LogInfo("pingodbase: exit tree");
     }
 
     public override void _Process(float delta)
     {
-        if (!_playbackEnabled)
+        if (_recordPlayback != RecordPlaybackOption.Playback)
         {
             SetProcess(false);
             LogInfo("pingodbase: process loop ended playback switches is not enabled");
@@ -122,7 +122,7 @@ public abstract class PinGodGameBase : Node
             if (_playbackQueue?.Count <= 0)
             {
                 LogInfo("pingodbase: playback events ended");
-                _playbackEnabled = false;
+                _recordPlayback = RecordPlaybackOption.Off;
                 return;
             }
 
@@ -464,22 +464,10 @@ public abstract class PinGodGameBase : Node
 
     public virtual void SaveRecording()
     {
-        if (PinballSender.Record)
+        if (_recordPlayback == RecordPlaybackOption.Record)
         {
-            LogInfo("saving record file");
-            var userDir = OS.GetUserDataDir();
-            var file = DateTime.Now.ToFileTime() + ".record";
-            var d = new Directory();
-            if (!d.DirExists(userDir + $"/recordings/)"))
-                d.MakeDir(userDir + $"/recordings/");
-
-            var final = userDir + $"/recordings/{file}";
-            using (var txtFile = System.IO.File.CreateText(final))
-            {
-                txtFile.Write(stringBuilder.ToString());
-            }
-            stringBuilder.Clear();
-            LogInfo("record file saved: ", final);
+            _recordFile?.Close();            
+            LogInfo("pingodbase: recording file closed");
         }        
     }
     public virtual void SetBallSearchReset()
@@ -570,7 +558,6 @@ public abstract class PinGodGameBase : Node
         AudioManager.Bgm = string.Empty;
         LogInfo("PinGod: audiomanager loaded.", AudioManager != null);
     }
-
     /// <summary>
     /// Sets up recording or playback from a .recording file
     /// </summary>
@@ -578,15 +565,18 @@ public abstract class PinGodGameBase : Node
     /// <param name="recordingEnabled"></param>
     /// <param name="playbackfile"></param>
     public virtual void SetUpRecordingsOrPlayback(bool playbackEnabled, bool recordingEnabled, string playbackfile)
-    {
-        _playbackEnabled = playbackEnabled;
-        LogDebug("setting up recording / playback");
-        if (playbackEnabled)
+    {        
+        _recordPlayback = RecordPlaybackOption.Off;
+        if (playbackEnabled) _recordPlayback = RecordPlaybackOption.Playback;
+        else if (recordingEnabled) _recordPlayback = RecordPlaybackOption.Record;
+
+        LogDebug("pingodbase: setup playback?: ", _recordPlayback.ToString());
+        if (_recordPlayback == RecordPlaybackOption.Playback)
         {
             if (string.IsNullOrWhiteSpace(playbackfile))
             {
                 LogWarning("set a playback file from user directory eg: user://recordings/26232613.record");
-                _playbackEnabled = false;
+                _recordPlayback = RecordPlaybackOption.Off;
             }
             else
             {
@@ -594,7 +584,7 @@ public abstract class PinGodGameBase : Node
                 var pBackFile = new File();
                 if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.FileNotFound)
                 {
-                    _playbackEnabled = false;
+                    _recordPlayback = RecordPlaybackOption.Off;
                     LogError("playback file not found, set playback false"); 
                 }
                 else
@@ -608,29 +598,22 @@ public abstract class PinGodGameBase : Node
                         _playbackQueue.Enqueue(new PlaybackEvent(eventLine[0], state, time));
                     }
                     _playbackQueue.Reverse();
-                    LogInfo(_playbackQueue.Count, " playback events queued. First event: ", _playbackQueue.Peek().EvtName);
+                    LogInfo(_playbackQueue.Count, " playback events queued. first action: ", _playbackQueue.Peek().EvtName);
                 }
             }
         }
-        else if (recordingEnabled)
+        else if (_recordPlayback == RecordPlaybackOption.Record)
         {
-            PinballSender.Record = true;
-            stringBuilder = new System.Text.StringBuilder();
-            LogDebug("game switch recording on");
-        }
-    }
-    public class PlaybackEvent
-    {
-        public PlaybackEvent(string evtName, bool state, uint time)
-        {
-            EvtName = evtName;
-            State = state;
-            Time = time;
-        }
+            var userDir = CreateRecordingsDirectory();
+            var file = DateTime.Now.ToFileTime() + ".record";
+            var recordDir = CreateRecordingsDirectory();
+            var final = recordDir + $"/{file}";
+            LogInfo("creating record file for write: ", final);
 
-        public string EvtName { get; }
-        public bool State { get; }
-        public uint Time { get; }
+            _recordFile = new File();            
+            _recordFile.Open(final, File.ModeFlags.WriteRead);            
+            LogDebug("pingodbase: game recording on");
+        }
     }
     public virtual void SolenoidOn(string name, byte state)
     {
@@ -745,10 +728,10 @@ public abstract class PinGodGameBase : Node
         {
             LogDebug("swOff:" + swName);
 
-            if (PinballSender.Record)
+            if (_recordPlayback == RecordPlaybackOption.Record)
             {
                 var recordLine = $"sw{sw.Num}|{false}|{OS.GetTicksMsec() - gameLoadTimeMsec}";
-                stringBuilder?.AppendLine(recordLine);
+                _recordFile?.StoreLine(recordLine);
                 LogDebug(recordLine);
             }
 
@@ -825,11 +808,11 @@ public abstract class PinGodGameBase : Node
         {
             LogDebug("swOn:" + swName);
 
-            if (PinballSender.Record)
+            if (_recordPlayback == RecordPlaybackOption.Record)
             {
                 var switchTime = OS.GetTicksMsec() - gameLoadTimeMsec;
                 var recordLine = $"sw{sw.Num}|{true}|{switchTime}";
-                stringBuilder?.AppendLine(recordLine);
+                _recordFile?.StoreLine(recordLine);
                 LogDebug(recordLine);
             }
         }
@@ -873,6 +856,20 @@ public abstract class PinGodGameBase : Node
     public virtual void UpdateLamps(SceneTree sceneTree, string group = "Mode", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
     #endregion
 
+    /// <summary>
+    /// Creates the recordings directory in the users folder
+    /// </summary>
+    /// <returns>The path to the recordings</returns>
+    private string CreateRecordingsDirectory()
+    {
+        var userDir = OS.GetUserDataDir();
+        var d = new Directory();
+        var dir = userDir + $"/recordings/";
+        if (!d.DirExists(dir))
+            d.MakeDir(dir);
+
+        return dir;
+    }
     private bool LampExists(string name)
     {
         if (!Machine.Lamps.ContainsKey(name))
@@ -918,12 +915,4 @@ public abstract class PinGodGameBase : Node
 
         return true;
     }
-}
-
-public enum PinGodLogLevel
-{
-    Debug,
-    Info,    
-    Warning,
-    Error
 }
