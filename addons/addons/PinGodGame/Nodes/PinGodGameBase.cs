@@ -13,8 +13,6 @@ public abstract partial class PinGodGameBase : Node
     [Signal] public delegate void BallSaved();
     [Signal] public delegate void BallSaveEnded();
     [Signal] public delegate void BallSaveStarted();
-    [Signal] public delegate void BallSearchReset();
-    [Signal] public delegate void BallSearchStop();
     [Signal] public delegate void BonusEnded();
     [Signal] public delegate void CreditAdded();
     [Signal] public delegate void GameEnded();
@@ -42,16 +40,14 @@ public abstract partial class PinGodGameBase : Node
     /// </summary>
     public IPinballSendReceive PinballSender = new OscService();
 
-    public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Info;
-
     const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
     public static byte Tiltwarnings { get; set; }
     public AudioManager AudioManager { get; protected set; } = new AudioManager();
     public byte BallInPlay { get; set; }
     /// <summary>
-	/// Is ball save active
-	/// </summary>
-	public bool BallSaveActive { get; internal set; }
+    /// Is ball save active
+    /// </summary>
+    public bool BallSaveActive { get; internal set; }
     public BallSearchOptions BallSearchOptions { get; set; }
     public Timer BallSearchTimer { get; set; }
     public byte CurrentPlayerIndex { get; set; }
@@ -60,22 +56,23 @@ public abstract partial class PinGodGameBase : Node
     public GameSettings GameSettings { get; private set; }
     public bool IsBallStarted { get; internal set; }
     public bool IsTilted { get; set; }
+    public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Info;
     public PinGodPlayer Player { get; private set; }
     public List<PinGodPlayer> Players { get; private set; }
     #endregion
 
     internal Trough _trough;
     protected MemoryMap memMapping;
-    private uint gameEndTime;
-    private uint gameLoadTimeMsec;
-    private uint gameStartTime;    
     private Queue<PlaybackEvent> _playbackQueue;
-    private RecordPlaybackOption _recordPlayback;
     /// <summary>
     /// recording actions to file using godot
     /// </summary>
     private File _recordFile;
 
+    private RecordPlaybackOption _recordPlayback;
+    private uint gameEndTime;
+    private uint gameLoadTimeMsec;
+    private uint gameStartTime;    
     public PinGodGameBase()
     {
         Players = new List<PinGodPlayer>();
@@ -89,12 +86,16 @@ public abstract partial class PinGodGameBase : Node
     public override void _EnterTree()
     {
         LogInfo("pingod:enter tree");
+
+        //get trough from tree
         _trough = GetNode("/root/Trough") as Trough;
         if (_trough == null)
             LogWarning("trough not found");
 
-        BallSearchTimer = new Timer() { Autostart = false };
+        //create and add ball search timer
+        BallSearchTimer = new Timer() { Autostart = false, OneShot = false };
         BallSearchTimer.Connect("timeout", this, "_OnBallSearchTimeout");
+        this.AddChild(BallSearchTimer);
 
         gameLoadTimeMsec = OS.GetTicksMsec();
     }
@@ -140,26 +141,11 @@ public abstract partial class PinGodGameBase : Node
 
     #endregion
 
-    private void _OnBallSearchTimeout()
-    {
-        if (BallSearchOptions?.SearchCoils?.Length > 0)
-        {
-            for (int i = 0; i < BallSearchOptions?.SearchCoils.Length; i++)
-            {
-                SolenoidPulse(BallSearchOptions?.SearchCoils[i]);
-            }
-        }
-        else
-        {
-            BallSearchTimer.Stop();
-        }
-    }
-
-    #region Public Methods
     public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
+
     public virtual long GetTopScorePoints => GameData?.HighScores?
             .OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
-    
+
     /// <summary>
     /// Adds bonus to the current player
     /// </summary>
@@ -171,6 +157,7 @@ public abstract partial class PinGodGameBase : Node
             Player.Bonus += points;
         }
     }
+
     /// <summary>
     /// Adds credits to the GameData and emits <see cref="CreditAdded"/> signal
     /// </summary>
@@ -180,48 +167,7 @@ public abstract partial class PinGodGameBase : Node
         GameData.Credits += amt;
         EmitSignal(nameof(CreditAdded));
     }
-    protected void AddCustomMachineItems(Godot.Collections.Dictionary<string, byte> coils, Godot.Collections.Dictionary<string, byte> switches,
-        Godot.Collections.Dictionary<string, byte> lamps, Godot.Collections.Dictionary<string, byte> leds)
-    {
-        foreach (var coil in coils)
-        {
-            Machine.Coils.Add(coil.Key, new PinStateObject(coil.Value));            
-        }
-        var itemAddResult = string.Join(", ", coils.Keys);
-        LogDebug($"pingod: added coils {itemAddResult}");
-        coils.Clear();
 
-        foreach (var sw in switches)
-        {
-            if (BallSearchOptions.StopSearchSwitches?.Any(x => x == sw.Key) ?? false)
-            {
-                Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Off));
-            }
-            else
-            {
-                Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Reset));
-            }
-        }
-
-        itemAddResult = string.Join(", ", switches.Keys);
-        LogDebug($"pingod: added switches {itemAddResult}");
-        switches.Clear();
-
-        foreach (var lamp in lamps)
-        {
-            Machine.Lamps.Add(lamp.Key, new PinStateObject(lamp.Value));
-        }
-        itemAddResult = string.Join(", ", lamps.Keys);
-        LogDebug($"pingod: added lamps {itemAddResult}");
-        lamps.Clear();
-
-        foreach (var led in leds)
-        {
-            Machine.Leds.Add(led.Key, new PinStateObject(led.Value));
-        }
-        LogDebug($"pingod: added leds {string.Join(", ", leds.Keys)}");
-        leds.Clear();
-    }
     /// <summary>
     /// Adds points to the current player
     /// </summary>
@@ -236,24 +182,7 @@ public abstract partial class PinGodGameBase : Node
                 EmitSignal(nameof(ScoresUpdated));
         }
     }
-    public virtual void BallSearchSignals(BallSearchSignalOption searchResetOption = BallSearchSignalOption.None)
-    {
-        LogDebug("signals", searchResetOption.ToString());
-        switch (searchResetOption)
-        {
-            case BallSearchSignalOption.On:
-            case BallSearchSignalOption.None:
-                break;
-            case BallSearchSignalOption.Reset:
-                EmitSignal(nameof(BallSearchReset));
-                break;
-            case BallSearchSignalOption.Off:
-                EmitSignal(nameof(BallSearchStop));
-                break;
-            default:
-                break;
-        }
-    }
+
     public virtual int BallsInPlay() => _trough?.BallsInPlay() ?? 0;
 
     /// <summary>
@@ -299,7 +228,7 @@ public abstract partial class PinGodGameBase : Node
     /// </summary>
     /// <returns>True if all balls finished, game is finished</returns>
     public virtual bool EndBall()
-    {        
+    {
         if (!GameInPlay) return false;
 
         IsBallStarted = false;
@@ -359,6 +288,7 @@ public abstract partial class PinGodGameBase : Node
         GameData.TimePlayed = gameEndTime - gameStartTime;
         this.EmitSignal(nameof(GameEnded));
     }
+
     public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
 
     /// <summary>
@@ -380,34 +310,34 @@ public abstract partial class PinGodGameBase : Node
 
         return false;
     }
-    public virtual void LogDebug(params object[] what) 
+    public virtual void LogDebug(params object[] what)
     {
         if (LogLevel <= PinGodLogLevel.Debug)
         {
             Print(what);
         }
     }
-    public virtual void LogInfo(params object[] what) 
-    { 
-        if(LogLevel <= PinGodLogLevel.Info)
-        {
-            Print(what);
-        }
-    }
-    public virtual void LogWarning(string message = null, params object[] what) 
-    {
-        if (LogLevel <= PinGodLogLevel.Warning)
-        {
-            Print(what ?? new object[] { message });
-            PushWarning(message);
-        }
-    }
-    public virtual void LogError(string message = null, params object[] what) 
+    public virtual void LogError(string message = null, params object[] what)
     {
         if (LogLevel <= PinGodLogLevel.Warning)
         {
             PrintErr(what ?? new object[] { message });
             PushError(message);
+        }
+    }
+    public virtual void LogInfo(params object[] what)
+    {
+        if (LogLevel <= PinGodLogLevel.Info)
+        {
+            Print(what);
+        }
+    }
+    public virtual void LogWarning(string message = null, params object[] what)
+    {
+        if (LogLevel <= PinGodLogLevel.Warning)
+        {
+            Print(what ?? new object[] { message });
+            PushWarning(message);
         }
     }
     public virtual void OnBallDrained(SceneTree sceneTree, string group = "Mode", string method = "OnBallDrained") => sceneTree.CallGroup(group, method);
@@ -425,6 +355,7 @@ public abstract partial class PinGodGameBase : Node
     {
         AudioManager.PlayMusic(name, pos);
     }
+
     /// <summary>
     /// Uses the <see cref="AudioManager.PlaySfx(string)"/>
     /// </summary>
@@ -466,39 +397,46 @@ public abstract partial class PinGodGameBase : Node
     {
         if (_recordPlayback == RecordPlaybackOption.Record)
         {
-            _recordFile?.Close();            
+            _recordFile?.Close();
             LogInfo("pingodbase: recording file closed");
-        }        
+        }
     }
+
     public virtual void SetBallSearchReset()
     {
         BallSearchTimer.Start(BallSearchOptions?.SearchWaitTime ?? 10);
-        LogDebug("ball search reset");
+        LogDebug("ball search timer reset.");
     }
+
     public virtual void SetBallSearchStop()
     {
         BallSearchTimer.Stop();
         LogDebug("ball search stopped");
     }
+
     /// <summary>
     /// Sends a signal game is paused <see cref="GamePaused"/>
     /// </summary>
     public virtual void SetGamePaused() => EmitSignal(nameof(GamePaused));
+
     /// <summary>
     /// Sends a signal game is resumed <see cref="GameResumed"/>
     /// </summary>
     public virtual void SetGameResumed() => EmitSignal(nameof(GameResumed));
+
     public virtual void SetLampState(string name, byte state)
     {
         if (!LampExists(name)) return;
         Machine.Lamps[name].State = state;
     }
+
     public virtual void SetLedState(string name, byte state, int color = 0)
     {
         if (!LedExists(name)) return;
         Machine.Leds[name].State = state;
         Machine.Leds[name].Colour = color > 0 ? color : Machine.Leds[name].Colour;
     }
+
     /// <summary>
     /// Sets led states from System.Drawing Color
     /// </summary>
@@ -513,6 +451,7 @@ public abstract partial class PinGodGameBase : Node
             System.Drawing.ColorTranslator.ToOle(colour.Value) : Machine.Leds[name].Colour;
         SetLedState(name, state, c);
     }
+
     /// <summary>
     /// Sets led state from godot color
     /// </summary>
@@ -528,6 +467,7 @@ public abstract partial class PinGodGameBase : Node
             : Machine.Leds[name].Colour;
         SetLedState(name, state, c);
     }
+
     /// <summary>
     /// Sets led from RGB
     /// </summary>
@@ -544,6 +484,7 @@ public abstract partial class PinGodGameBase : Node
         var ole = System.Drawing.ColorTranslator.ToOle(c);
         SetLedState(name, state, ole);
     }
+
     /// <summary>
     /// Sets up the AudioManager to play standard music and Sfx
     /// </summary>
@@ -558,6 +499,7 @@ public abstract partial class PinGodGameBase : Node
         AudioManager.Bgm = string.Empty;
         LogInfo("PinGod: audiomanager loaded.", AudioManager != null);
     }
+
     /// <summary>
     /// Sets up recording or playback from a .recording file
     /// </summary>
@@ -565,7 +507,7 @@ public abstract partial class PinGodGameBase : Node
     /// <param name="recordingEnabled"></param>
     /// <param name="playbackfile"></param>
     public virtual void SetUpRecordingsOrPlayback(bool playbackEnabled, bool recordingEnabled, string playbackfile)
-    {        
+    {
         _recordPlayback = RecordPlaybackOption.Off;
         if (playbackEnabled) _recordPlayback = RecordPlaybackOption.Playback;
         else if (recordingEnabled) _recordPlayback = RecordPlaybackOption.Record;
@@ -585,7 +527,7 @@ public abstract partial class PinGodGameBase : Node
                 if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.FileNotFound)
                 {
                     _recordPlayback = RecordPlaybackOption.Off;
-                    LogError("playback file not found, set playback false"); 
+                    LogError("playback file not found, set playback false");
                 }
                 else
                 {
@@ -610,16 +552,18 @@ public abstract partial class PinGodGameBase : Node
             var final = recordDir + $"/{file}";
             LogInfo("creating record file for write: ", final);
 
-            _recordFile = new File();            
-            _recordFile.Open(final, File.ModeFlags.WriteRead);            
+            _recordFile = new File();
+            _recordFile.Open(final, File.ModeFlags.WriteRead);
             LogDebug("pingodbase: game recording on");
         }
     }
+
     public virtual void SolenoidOn(string name, byte state)
     {
         if (!SolenoidExists(name)) return;
         Machine.Coils[name].State = state;
     }
+
     public virtual async void SolenoidPulse(string name, byte pulse = 255)
     {
         if (!SolenoidExists(name)) return;
@@ -632,6 +576,7 @@ public abstract partial class PinGodGameBase : Node
             coil.State = 0;
         });
     }
+
     /// <summary>
     /// Attempts to start a game. If games in play then add more players until <see cref="MaxPlayers"/> <para/>
     /// </summary>
@@ -651,7 +596,7 @@ public abstract partial class PinGodGameBase : Node
             if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
             {
                 LogInfo("Trough not ready. Can't start game with empty trough.");
-                EmitSignal(nameof(BallSearchReset));
+                BallSearchTimer.Start(1);
                 return false;
             }
 
@@ -682,6 +627,7 @@ public abstract partial class PinGodGameBase : Node
 
         return false;
     }
+
     /// <summary>
     /// Sets MultiBall running and trough to send a <see cref="MultiballStarted"/>
     /// </summary>
@@ -693,6 +639,7 @@ public abstract partial class PinGodGameBase : Node
         IsMultiballRunning = true;
         EmitSignal(nameof(MultiballStarted));
     }
+
     /// <summary>
     /// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
     /// </summary>
@@ -711,7 +658,9 @@ public abstract partial class PinGodGameBase : Node
         _trough.PulseTrough();
         EnableFlippers(1);
     }
+
     public virtual float StopMusic() => AudioManager.StopMusic();
+
     /// <summary>
     /// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
     /// "coin", @event
@@ -735,7 +684,7 @@ public abstract partial class PinGodGameBase : Node
                 LogDebug(recordLine);
             }
 
-            if (BallSearchOptions.IsSearchEnabled)
+            if (BallSearchOptions.IsSearchEnabled && GameInPlay)
             {
                 if (sw.BallSearch != BallSearchSignalOption.None)
                 {
@@ -755,26 +704,7 @@ public abstract partial class PinGodGameBase : Node
         }
         return result;
     }
-    /// <summary>
-    /// Wrapper for the Input.IsActionReleased
-    /// </summary>
-    /// <param name="sw"></param>
-    /// <param name="event"></param>
-    /// <param name="resetOption">Sends a BallSearch signal</param>
-    /// <returns></returns>
-    public virtual bool SwitchOff(byte sw, InputEvent @event, BallSearchSignalOption resetOption = BallSearchSignalOption.None)
-    {
-        var pressed = @event.IsActionReleased("sw" + sw);
-        if (pressed)
-        {
-            if (SwitchOn("plunger_lane")) //TODO
-            {
-                LogDebug("swOff:" + sw);
-                BallSearchSignals(resetOption);
-            }
-        }
-        return pressed;
-    }
+
     /// <summary>
     /// Use in Godot _Input events. Checks a switches input event by friendly name from switch collection <para/>
     /// "coin", @event
@@ -787,7 +717,7 @@ public abstract partial class PinGodGameBase : Node
         if (!SwitchExists(swName)) return false;
         var sw = Machine.Switches[swName];
         var result = sw.IsOn(inputEvent);
-        if (result && BallSearchOptions.IsSearchEnabled)
+        if (result && BallSearchOptions.IsSearchEnabled && GameInPlay)
         {
             if (sw.BallSearch != BallSearchSignalOption.None)
             {
@@ -818,6 +748,7 @@ public abstract partial class PinGodGameBase : Node
         }
         return result;
     }
+
     /// <summary>
     /// Checks a switches input event by friendly name. <para/>
     /// If the "coin" switch is still held down then will return true
@@ -829,33 +760,82 @@ public abstract partial class PinGodGameBase : Node
         if (!SwitchExists(swName)) return false;
         return Machine.Switches[swName].IsOn();
     }
-    /// <summary>
-    /// Wrapper for the Input.IsActionPressed. Checks actions prefixed with "sw"
-    /// </summary>
-    /// <param name="sw"></param>
-    /// <param name="event"></param>
-    /// <param name="resetOption">Sends a BallSearch signal</param>
-    /// <returns></returns>
-    public virtual bool SwitchOn(byte sw, InputEvent @event, BallSearchSignalOption resetOption = BallSearchSignalOption.None)
-    {
-        var pressed = @event.IsActionPressed("sw" + sw);
-        if (pressed)
-        {
-            LogDebug("swOn:" + sw);
-            if (SwitchOn("plunger_lane")) //TODO
-            {
-                BallSearchSignals(resetOption);
-            }
-        }
-        return pressed;
-    }
+
     /// <summary>
     /// Invokes UpdateLamps on all groups marked as Mode within the scene tree.
     /// </summary>
     /// <param name="sceneTree"></param>
     public virtual void UpdateLamps(SceneTree sceneTree, string group = "Mode", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
-    #endregion
 
+    protected void AddCustomMachineItems(Godot.Collections.Dictionary<string, byte> coils, Godot.Collections.Dictionary<string, byte> switches, Godot.Collections.Dictionary<string, byte> lamps, Godot.Collections.Dictionary<string, byte> leds)
+    {
+        foreach (var coil in coils)
+        {
+            Machine.Coils.Add(coil.Key, new PinStateObject(coil.Value));
+        }
+        var itemAddResult = string.Join(", ", coils.Keys);
+        LogDebug($"pingod: added coils {itemAddResult}");
+        coils.Clear();
+
+        foreach (var sw in switches)
+        {
+            if (BallSearchOptions.StopSearchSwitches?.Any(x => x == sw.Key) ?? false)
+            {
+                Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Off));
+            }
+            else
+            {
+                Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Reset));
+            }
+        }
+
+        itemAddResult = string.Join(", ", switches.Keys);
+        LogDebug($"pingod: added switches {itemAddResult}");
+        switches.Clear();
+
+        foreach (var lamp in lamps)
+        {
+            Machine.Lamps.Add(lamp.Key, new PinStateObject(lamp.Value));
+        }
+        itemAddResult = string.Join(", ", lamps.Keys);
+        LogDebug($"pingod: added lamps {itemAddResult}");
+        lamps.Clear();
+
+        foreach (var led in leds)
+        {
+            Machine.Leds.Add(led.Key, new PinStateObject(led.Value));
+        }
+        LogDebug($"pingod: added leds {string.Join(", ", leds.Keys)}");
+        leds.Clear();
+    }
+
+    /// <summary>
+    /// Pulse coils in the SearchCoils when ball search times out
+    /// </summary>
+    private void _OnBallSearchTimeout()
+    {
+        if (BallSearchOptions.IsSearchEnabled)
+        {
+            if (BallSearchOptions?.SearchCoils?.Length > 0)
+            {
+                LogDebug("pingodbase: pulsing search coils");
+                for (int i = 0; i < BallSearchOptions?.SearchCoils.Length; i++)
+                {
+                    SolenoidPulse(BallSearchOptions?.SearchCoils[i]);
+                }
+
+                BallSearchTimer.Stop();
+            }
+            else
+            {
+                BallSearchTimer.Stop();
+            }
+        }
+        else
+        {
+            BallSearchTimer.Stop();
+        }
+    }
     /// <summary>
     /// Creates the recordings directory in the users folder
     /// </summary>
