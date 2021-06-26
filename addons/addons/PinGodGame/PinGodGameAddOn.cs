@@ -7,12 +7,18 @@ public class PinGodGameAddOn : EditorPlugin
 {
 	public override void _EnterTree()
 	{
-		base._EnterTree();
+		if (!Engine.EditorHint)
+        {
+			base._EnterTree();
+		}			
 	}
 
 	public override void _ExitTree()
 	{
-		base._ExitTree();
+		if (!Engine.EditorHint)
+		{
+			base._ExitTree();
+		}		
 	}
 }
 #endif

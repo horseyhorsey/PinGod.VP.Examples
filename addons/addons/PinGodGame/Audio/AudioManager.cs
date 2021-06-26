@@ -2,10 +2,9 @@ using Godot;
 using System.Collections.Generic;
 
 public class AudioManager : Node
-{
-	public Dictionary<string, AudioStream> Music { get; private set; }
+{    
+    public Dictionary<string, AudioStream> Music { get; private set; }
 	public Dictionary<string, AudioStream> Sfx { get; private set; }
-
 	public AudioStreamPlayer MusicPlayer { get; private set; }
 	public AudioStreamPlayer SfxPlayer { get; private set; }
 
@@ -16,12 +15,14 @@ public class AudioManager : Node
 	public string CurrentMusic { get; private set; }
 	public bool MusicEnabled { get; set; } = true;
 	public bool SfxEnabled { get; set; } = true;
-	public AudioManager()
-	{
+
+    public AudioManager()
+    {        
 		Music = new Dictionary<string, AudioStream>();
-		Sfx = new Dictionary<string, AudioStream>();
+		Sfx = new Dictionary<string, AudioStream>();		
 	}
-	public override void _EnterTree()
+
+    public override void _EnterTree()
 	{
 		MusicPlayer = GetNode("MusicPlayer") as AudioStreamPlayer;
 		SfxPlayer = GetNode("SfxPlayer") as AudioStreamPlayer;
@@ -40,9 +41,9 @@ public class AudioManager : Node
 			if(stream != null)
 			{
 				Music.Add(key, stream);
-				GD.Print("music added: ", key, resource);
+				Logger.LogDebug("music added: ", key, resource);
 			}
-			else { GD.PrintErr("music add fail: ", key, resource); }
+			else { Logger.LogError("music add fail: ", key, resource); }
 		}
 	}
 
@@ -59,9 +60,9 @@ public class AudioManager : Node
 			if (stream != null)
 			{
 				Sfx.Add(key, stream);
-				GD.Print("sfx added: ", key, resource);
+				Logger.LogDebug("sfx added: ", key, resource);
 			}
-			else { GD.PrintErr("sfx add fail: ", key, resource); }
+			else { Logger.LogWarning($"sfx add fail: {key}", resource); }
 		}
 	}
 
@@ -71,10 +72,10 @@ public class AudioManager : Node
 	{
 		if (string.IsNullOrWhiteSpace(name) || !MusicEnabled || Music == null) return;
 		if (!Music.ContainsKey(name))
-			GD.PrintErr("play music: not found under ", name);
+			Logger.LogWarning($"play music: '{name}' not found");
 		else
 		{
-			GD.Print("playing music:",name);
+			Logger.LogDebug("playing music:",name);
 			CurrentMusic = name;
 			MusicPlayer.Stream = Music[name];
 			MusicPlayer.Play(pos);
@@ -84,8 +85,8 @@ public class AudioManager : Node
 	public void PlaySfx(string name)
 	{
 		if (string.IsNullOrWhiteSpace(name) || !SfxEnabled || Sfx == null) return;
-		if (!Sfx.ContainsKey(name))
-			GD.PrintErr("play sfx: not found under ", name);
+		if (!Sfx.ContainsKey(name))			
+			Logger.LogWarning($"play sfx: '{name}' not found");
 		else
 		{
 			SfxPlayer.Stream = Sfx[name];

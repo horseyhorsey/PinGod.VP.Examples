@@ -41,8 +41,8 @@ public abstract partial class PinGodGameBase : Node
     public IPinballSendReceive PinballSender = new OscService();
 
     const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
-    public static byte Tiltwarnings { get; set; }
-    public AudioManager AudioManager { get; protected set; } = new AudioManager();
+    public byte Tiltwarnings { get; set; }
+    public AudioManager AudioManager { get; protected set; }
     public byte BallInPlay { get; set; }
     /// <summary>
     /// Is ball save active
@@ -72,20 +72,22 @@ public abstract partial class PinGodGameBase : Node
     private RecordPlaybackOption _recordPlayback;
     private uint gameEndTime;
     private uint gameLoadTimeMsec;
-    private uint gameStartTime;    
+    private uint gameStartTime;
+
     public PinGodGameBase()
     {
         Players = new List<PinGodPlayer>();
 
-        LoadSettingsAndData();        
-        AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);
+        LoadSettingsAndData();
     }
 
     #region Godot overrides
     public override void _EnterTree()
     {
         LogInfo("pingod:enter tree");
+
+        AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);
 
         //get trough from tree
         _trough = GetNode("/root/Trough") as Trough;
@@ -310,36 +312,10 @@ public abstract partial class PinGodGameBase : Node
 
         return false;
     }
-    public virtual void LogDebug(params object[] what)
-    {
-        if (LogLevel <= PinGodLogLevel.Debug)
-        {
-            Print(what);
-        }
-    }
-    public virtual void LogError(string message = null, params object[] what)
-    {
-        if (LogLevel <= PinGodLogLevel.Warning)
-        {
-            PrintErr(what ?? new object[] { message });
-            PushError(message);
-        }
-    }
-    public virtual void LogInfo(params object[] what)
-    {
-        if (LogLevel <= PinGodLogLevel.Info)
-        {
-            Print(what);
-        }
-    }
-    public virtual void LogWarning(string message = null, params object[] what)
-    {
-        if (LogLevel <= PinGodLogLevel.Warning)
-        {
-            Print(what ?? new object[] { message });
-            PushWarning(message);
-        }
-    }
+    public virtual void LogDebug(params object[] what) => Logger.LogDebug(what);
+    public virtual void LogError(string message = null, params object[] what) => Logger.LogError(message, what);
+    public virtual void LogInfo(params object[] what) => Logger.LogInfo(what);
+    public virtual void LogWarning(string message = null, params object[] what) => Logger.LogWarning(message, what);
     public virtual void OnBallDrained(SceneTree sceneTree, string group = "Mode", string method = "OnBallDrained") => sceneTree.CallGroup(group, method);
     /// <summary>
     /// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
@@ -496,7 +472,7 @@ public abstract partial class PinGodGameBase : Node
         AudioManager = GetNode("AudioManager") as AudioManager;
         //set to false, no music in this particular game
         AudioManager.MusicEnabled = false;
-        AudioManager.Bgm = string.Empty;
+        AudioManager.Bgm = string.Empty;       
         LogInfo("PinGod: audiomanager loaded.", AudioManager != null);
     }
 
