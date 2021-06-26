@@ -15,6 +15,7 @@ public class PinGodGame : PinGodGameBase
 	[Export] bool _playback_game = false;
 	[Export] string _playbackfile = null;
 	[Export] bool _write_machine_states = true;
+	[Export] bool _read_machine_states = true;
 	[Export] int _write_machine_states_delay = 10;
 
 	[Export] Dictionary<string, byte> _coils = new Dictionary<string, byte>();
@@ -68,7 +69,12 @@ public class PinGodGame : PinGodGameBase
 		//quits the game. ESC
 		if (@event.IsActionPressed("quit"))
 		{
-			GetTree().Quit(0);
+			LogInfo("quit request");
+			SetGameResumed();
+			var ms = GetNode("/root/MainScene").GetTree();
+			ms.Paused = false;
+			ms.Quit(0);
+			//GetTree().Quit(0);
 		}
 
 		//Coin button. See PinGod.vbs for Standard switches
@@ -98,7 +104,7 @@ public class PinGodGame : PinGodGameBase
 		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
 
 		//setup and run writing memory states for other application to access
-		if (_write_machine_states)
+		if (_write_machine_states || _read_machine_states)
 		{
 			memMapping = new MemoryMap();
 			LogInfo("pingod:writing machine states is enabled");
@@ -107,8 +113,6 @@ public class PinGodGame : PinGodGameBase
 
 		//set up recording / playback
 		SetUpRecordingsOrPlayback(_playback_game, _record_game, _playbackfile);
-
-		PinballSender.Start();
 	}
 
 	/// <summary>

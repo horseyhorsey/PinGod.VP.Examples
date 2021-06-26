@@ -3,7 +3,7 @@ using Godot;
 /// <summary>
 /// A base node for managing a set of targets. Handling switches, lamps, when completed
 /// </summary>
-public abstract class PinballTargetsNode : Node
+public abstract class PinballTargetsControl : Control
 {
 	#region Exports
 	[Export] protected string[] _target_switches;

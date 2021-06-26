@@ -85,7 +85,8 @@ public class MainScene : Node2D
 	public override void _Ready()
 	{
 		pauseLayer.Hide();
-		pinGod.LogInfo("main: ready");
+		pinGod.LogInfo("main: ready. sending coil 0 for VP game ready");
+		pinGod.SolenoidOn("died", 1);
 	}
 
 	/// <summary>

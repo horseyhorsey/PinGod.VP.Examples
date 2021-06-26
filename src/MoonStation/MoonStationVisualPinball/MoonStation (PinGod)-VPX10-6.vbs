@@ -1,12 +1,15 @@
 Option Explicit
-
-On Error Resume Next ' Std Controller for DOF etc.
-	ExecuteGlobal GetTextFile("controller.vbs")
+On Error Resume Next
+	ExecuteGlobal GetTextFile("controller.vbs") ' Std Controller for DOF etc.
 	If Err Then MsgBox "You need the Controller.vbs file in order to run this table (installed with the VPX package in the scripts folder)"
 On Error Goto 0
 
+'*****************************
+' Controller scripts
+' PinGod.Vp.Controller. Requires modded Core Vbs for different switches csharp
+'*****************************
 LoadPinGoVpController 
-Sub LoadPinGoVpController ' PinGod.Vp.Controller. Requires modded Core Vbs for different switches csharp
+Sub LoadPinGoVpController
 	On Error Resume Next
 		If ScriptEngineMajorVersion<5 Then MsgBox "VB Script Engine 5.0 or higher required"
 		ExecuteGlobal GetTextFile("PinGod.vbs")
@@ -16,22 +19,29 @@ Sub LoadPinGoVpController ' PinGod.Vp.Controller. Requires modded Core Vbs for d
 	On Error Goto 0
 End Sub
 
-'Tesse
-'Const BallSize = 25  'Ball radius
-
-'Release builds
+'Release
 'Const IsDebug = False
-'Const GameDirectory = "PinGod.BasicGame.exe"
+'Const GameDirectory = ".\PinGod.MoonStation.exe"
 
 'Debug builds
 Const IsDebug = True
-Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\MoonStation\MoonStation"
+Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\MoonStation\MoonStation" ' Loads the godot pingod game project
 Const UseSolenoids = 1 ' Check for solenoid states?
-Const UseLamps = True  ' Check for lamp states?
-'Const UsePdbLeds = False  ' PROC RGB Leds - TODO
+Const UsePdbLeds = 0  ' use led (color)
+Const UseLamps = 1  ' Check for lamp states?
+Dim bsTrough, bsCraterSaucer, swSaucer : swSaucer = 27
 
+'**********************
+' VP table display / controller events
+'**********************
+Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
+Sub Table1_Paused: Controller.Pause 1 : End Sub
+Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 
-
+'**********************
+' VP init
+' Inits the controller then waits for the display to fully load into initial scene.
+'**********************
 Sub Table1_Init	
 	With Controller
 		.DisplayX			= 0
@@ -42,11 +52,6 @@ Sub Table1_Init
 		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
 		.DisplayLowDpi 		= False
 		.DisplayNoWindow 	= False
-
-		' FullScreen 2nd Monitor
-'		.DisplayX			= 1920
-'		.DisplayY			= 0
-'		.DisplayMaximized 	= False
 	On Error Resume Next
 		if isDebug Then '
 			.RunDebug GetPlayerHWnd, GameDirectory ' Load game from Godot folder with Godot exe
@@ -59,28 +64,24 @@ Sub Table1_Init
 
 	If Err Then MsgBox Err.Description : Exit Sub
 	
-	'Wait for game display to be ready so the VPPlayer doesn't get stuck
-	'Using any old game object Timer, usually you will have LeftFlipper but change this to what you please
+	'Wait for game display to be ready for the trough. Using any old game object Timer, usually you will have LeftFlipper but change this to what you please
 	LeftFlipper.TimerInterval = 369
-	LeftFlipper.TimerEnabled = 1		
+	LeftFlipper.TimerEnabled = 1
 End Sub
-Sub Table1_Exit: Controller.Stop : End Sub
-Sub Table1_Paused : Controller.Pause 1 : End Sub
-Sub Table1_UnPaused : Controller.Pause 0 : End Sub
-
+'Game ready checker from flipper timer
 Sub LeftFlipper_Timer
 	LeftFlipper.TimerEnabled = 0
 	if not Controller.GameRunning Then LeftFlipper.TimerEnabled = 1 : Exit Sub
-
 	InitGame
 End Sub
 
+'**********************
+' GAME / VP init
+' When the display is ready initialize VPM controller scripts and table objects
+'**********************
 Dim initialized : initialized = 0
-Dim bsTrough, bsCraterSaucer, swSaucer : swSaucer = 27
 Sub InitGame
-
 	if initialized then exit sub ' prevent any chance of init twice if author decides to use LFlipper Timers
-
 	'init core vbs, vpm
 	vpmInit me
 	vpmMapLights AllLamps		'Auto lamps collection, lamp id in timerinterval
@@ -89,8 +90,7 @@ Sub InitGame
 	'Init timers for updates
 	pulsetimer.Enabled=1
 	PinMAMETimer.Enabled=1		
-
-	LoadingText.Visible = false
+	
 	On Error Resume Next
 	Set bsTrough = New cvpmTrough
 	bsTrough.Size = 4
@@ -100,7 +100,7 @@ Sub InitGame
 	bsTrough.CreateEvents "bsTrough",  Drain
 	bsTrough.InitEntrySounds "sp76-kick-enter", "", ""
 	bsTrough.InitExitSounds "sp76-ballrelease", ""
-	bsTrough.Reset		
+	bsTrough.Reset	
 
 	Set bsCraterSaucer = New cvpmSaucer
 	bsCraterSaucer.InitKicker Kicker001, swSaucer, 165, 10, 0
@@ -110,37 +110,18 @@ Sub InitGame
     'Tilt 
     vpmNudge.TiltSwitch = 17 : vpmNudge.Sensitivity = 1
 	vpmNudge.TiltObj = Array(Bumper001, Bumper002, LSling,RSling)   
-	
+
 
 	If Err Then MsgBox Err.Description
-
 	initialized = 1
+	LoadingText.Visible = false ' Hide the overlay (loading screen)
 	On Error Goto 0	
 	
 End Sub
 
-' Solenoids / Coils
-SolCallback(0) = "Dead"
-SolCallback(1) = "bsTrough.solOut"
-SolCallback(2) = "FlippersEnabled"
-'SolCallback(3) = "AutoPlunger"
-SolCallback(4) = "bsCraterSaucer.solOut"
-SolCallback(5) = "resetDropsL"
-SolCallback(6) = "resetDropsR"
-
-Dim FlippersOn : FlippersOn = 0
-Sub FlippersEnabled(Enabled)
-	Debug.Print "flippers on coil " & Enabled
-	FlippersOn = Enabled
-	If not FlippersOn then LeftFlipper.RotateToStart : RightFlipper.RotateToStart
-End Sub
-
-Sub resetDropsL(Enabled) : Target001.IsDropped = 0 : Target002.IsDropped = 0 : Target003.IsDropped = 0 : Target004.IsDropped = 0 : End Sub
-Sub resetDropsR(Enabled)
-	Target005.IsDropped = 0 : Target006.IsDropped = 0 : Target007.IsDropped = 0 : Target008.IsDropped = 0
-	Target009.IsDropped = 0 : Target010.IsDropped = 0 : Target011.IsDropped = 0
-End Sub
-
+'****************************
+' Keyboard / Machine
+'****************************
 Sub Table1_KeyDown(ByVal keycode)
 
 	if Controller.GameRunning = 0 then Exit Sub 'exit because no display is available
@@ -185,10 +166,52 @@ Sub Table1_KeyUp(ByVal keycode)
 
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc
 End Sub
+'****************************
 
-'Example of manually setting switch handler. See AllSwitches for automatic
-Sub sw_plunger_lane_hit() : Controller.Switch 20, 1 :  End Sub   
-Sub sw_plunger_lane_unhit() : Controller.Switch 20, 0 :  End Sub
+'****************************
+' Solenoids / Coils / Callbacks
+'****************************
+
+SolCallback(0) = "Died"
+SolCallback(1) = "bsTrough.solOut"
+SolCallback(2) = "FlippersEnabled"
+'SolCallback(3) = "AutoPlunger"
+SolCallback(4) = "bsCraterSaucer.solOut"
+SolCallback(5) = "resetDropsL"
+SolCallback(6) = "resetDropsR"
+SolCallback(8) = "Lampshow1"
+
+Dim FlippersOn : FlippersOn = 0
+Sub FlippersEnabled(Enabled)
+	Debug.Print "flippers on coil " & Enabled
+	FlippersOn = Enabled
+	If not FlippersOn then LeftFlipper.RotateToStart : RightFlipper.RotateToStart
+End Sub
+
+Sub resetDropsL(Enabled) : Target001.IsDropped = 0 : Target002.IsDropped = 0 : Target003.IsDropped = 0 : Target004.IsDropped = 0 : End Sub
+Sub resetDropsR(Enabled)
+	Target005.IsDropped = 0 : Target006.IsDropped = 0 : Target007.IsDropped = 0 : Target008.IsDropped = 0
+	Target009.IsDropped = 0 : Target010.IsDropped = 0 : Target011.IsDropped = 0
+End Sub
+
+Sub Died(Enabled)
+	'on error resume next	
+	If not enabled then
+		MsgBox "Game window unavailable." : Err.Raise 5
+	End if
+End Sub
+
+'****************
+' LAMPSHOWS
+'****************
+Sub Lampshow1(Enabled)
+	if Enabled then 
+		LightSeq001.UpdateInterval = 4
+		LightSeq001.Play SeqRandom, 5, , 1000
+	Else 
+		LightSeq001.StopPlay
+	End If
+End Sub
 
 
 '*****GI Lights On
@@ -235,6 +258,7 @@ Sub LeftSlingShot_Timer
     End Select
     LStep = LStep + 1
 End Sub
+
 
 'Table Example scripts
 Dim EnableBallControl
@@ -353,44 +377,6 @@ End Sub
 Sub OnBallBallCollision(ball1, ball2, velocity)
 	PlaySound("fx_collide"), 0, Csng(velocity) ^2 / 2000, AudioPan(ball1), 0, Pitch(ball1), 0, 0, AudioFade(ball1)
 End Sub
-
-
-'************************************
-' What you need to add to your table
-'************************************
-
-' a timer called RollingTimer. With a fast interval, like 10
-' one collision sound, in this script is called fx_collide
-' as many sound files as max number of balls, with names ending with 0, 1, 2, 3, etc
-' for ex. as used in this script: fx_ballrolling0, fx_ballrolling1, fx_ballrolling2, fx_ballrolling3, etc
-
-
-'******************************************
-' Explanation of the rolling sound routine
-'******************************************
-
-' sounds are played based on the ball speed and position
-
-' the routine checks first for deleted balls and stops the rolling sound.
-
-' The For loop goes through all the balls on the table and checks for the ball speed and 
-' if the ball is on the table (height lower than 30) then then it plays the sound
-' otherwise the sound is stopped, like when the ball has stopped or is on a ramp or flying.
-
-' The sound is played using the VOL, AUDIOPAN, AUDIOFADE and PITCH functions, so the volume and pitch of the sound
-' will change according to the ball speed, and the AUDIOPAN & AUDIOFADE functions will change the stereo position
-' according to the position of the ball on the table.
-
-
-'**************************************
-' Explanation of the collision routine
-'**************************************
-
-' The collision is built in VP.
-' You only need to add a Sub OnBallBallCollision(ball1, ball2, velocity) and when two balls collide they 
-' will call this routine. What you add in the sub is up to you. As an example is a simple Playsound with volume and paning
-' depending of the speed of the collision.
-
 
 Sub Pins_Hit (idx)
 	PlaySound "pinhit_low", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 0, 0, AudioFade(ActiveBall)

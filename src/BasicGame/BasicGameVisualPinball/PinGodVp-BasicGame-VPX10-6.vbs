@@ -1,12 +1,15 @@
 Option Explicit
-
-On Error Resume Next ' Std Controller for DOF etc.
-	ExecuteGlobal GetTextFile("controller.vbs")
+On Error Resume Next
+	ExecuteGlobal GetTextFile("controller.vbs") ' Std Controller for DOF etc.
 	If Err Then MsgBox "You need the Controller.vbs file in order to run this table (installed with the VPX package in the scripts folder)"
 On Error Goto 0
 
+'*****************************
+' Controller scripts
+' PinGod.Vp.Controller. Requires modded Core Vbs for different switches csharp
+'*****************************
 LoadPinGoVpController 
-Sub LoadPinGoVpController ' PinGod.Vp.Controller. Requires modded Core Vbs for different switches csharp
+Sub LoadPinGoVpController
 	On Error Resume Next
 		If ScriptEngineMajorVersion<5 Then MsgBox "VB Script Engine 5.0 or higher required"
 		ExecuteGlobal GetTextFile("PinGod.vbs")
@@ -16,21 +19,29 @@ Sub LoadPinGoVpController ' PinGod.Vp.Controller. Requires modded Core Vbs for d
 	On Error Goto 0
 End Sub
 
-'Const BallSize = 25  'Ball radius
+'Release
+'Const IsDebug = False ' set false to load an export
+'Const GameDirectory = ".\PinGod.BasicGame.exe" 'exported game
 
-'Release builds
-'Const IsDebug = False
-'Const GameDirectory = "PinGod.BasicGame.exe"
-
-'Debug builds
+'Debug
 Const IsDebug = True
-Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\BasicGame\BasicGameGodot"
+Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\BasicGame\BasicGameGodot" ' Loads the godot pingod game project
 Const UseSolenoids = 1 ' Check for solenoid states?
-Const UsePdbLeds = 1
+Const UsePdbLeds = 1  ' use led (color)
 Const UseLamps = 0  ' Check for lamp states?
-
 Dim bsTrough, bsSaucer, plungerIM, swSaucer : swSaucer = 27
 
+'**********************
+' VP table display / controller events
+'**********************
+Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
+Sub Table1_Paused: Controller.Pause 1 : End Sub
+Sub Table1_UnPaused: Controller.Pause 0 : End Sub
+
+'**********************
+' VP init
+' Inits the controller then waits for the display to fully load into initial scene.
+'**********************
 Sub Table1_Init	
 	With Controller
 		.DisplayX			= 1920 - 512
@@ -53,20 +64,24 @@ Sub Table1_Init
 
 	If Err Then MsgBox Err.Description : Exit Sub
 	
-	'Wait for game display to be ready so the VPPlayer doesn't get stuck
-	'Using any old game object Timer, usually you will have LeftFlipper but change this to what you please
+	'Wait for game display to be ready for the trough. Using any old game object Timer, usually you will have LeftFlipper but change this to what you please
 	LeftFlipper.TimerInterval = 369
-	LeftFlipper.TimerEnabled = 1		
+	LeftFlipper.TimerEnabled = 1
 End Sub
-Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
-Sub Table1_UnPaused: Controller.Pause 0 : End Sub
+'Game ready checker from flipper timer
+Sub LeftFlipper_Timer
+	LeftFlipper.TimerEnabled = 0
+	if not Controller.GameRunning Then LeftFlipper.TimerEnabled = 1 : Exit Sub
+	InitGame
+End Sub
 
+'**********************
+' GAME / VP init
+' When the display is ready initialize VPM controller scripts and table objects
+'**********************
 Dim initialized : initialized = 0
 Sub InitGame
-
 	if initialized then exit sub ' prevent any chance of init twice if author decides to use LFlipper Timers
-
 	'init core vbs, vpm
 	vpmInit me
 	vpmMapLights AllLamps		'Auto lamps collection, lamp id in timerinterval
@@ -75,8 +90,7 @@ Sub InitGame
 	'Init timers for updates
 	pulsetimer.Enabled=1
 	PinMAMETimer.Enabled=1		
-
-	LoadingText.Visible = false
+	
 	On Error Resume Next
 	Set bsTrough = New cvpmTrough
 	bsTrough.Size = 4
@@ -111,17 +125,10 @@ Sub InitGame
 
 
 	If Err Then MsgBox Err.Description
-
 	initialized = 1
+	LoadingText.Visible = false ' Hide the overlay (loading screen)
 	On Error Goto 0	
 	
-End Sub
-
-'Game ready checker from flipper timer
-Sub LeftFlipper_Timer
-	LeftFlipper.TimerEnabled = 0
-	if not Controller.GameRunning Then LeftFlipper.TimerEnabled = 1 : Exit Sub
-	InitGame
 End Sub
 
 '****************************
@@ -188,13 +195,10 @@ SolCallback(34) = "Lampshow1"
 SolCallback(35) = "Lampshow2"
 
 Sub Died(Enabled)
-	on error resume next
-	if enabled then Err.Raise 5
-	if( Err.number = 5 ) then 
-		MsgBox "Game window unavailable."
-		Err.clear()
-	end if
-	on error goto 0
+	'on error resume next	
+	If not enabled then
+		MsgBox "Game window unavailable." : Err.Raise 5
+	End if
 End Sub
 
 'Do it like this as one on/off, will make it faster
@@ -223,12 +227,6 @@ Sub DisableLampShows(Enabled)
 	if Enabled then : LightSeq001.StopPlay : Debug.print "stopping lampshows"	
 End Sub
 ''****************************
-
-
-'Example of manually setting switch handler. See AllSwitches for automatic
-Sub sw_plunger_lane_hit() : Controller.Switch 20, 1 :  End Sub   
-Sub sw_plunger_lane_unhit() : Controller.Switch 20, 0 :  End Sub
-
 
 '*****GI Lights On
 dim xx
@@ -276,6 +274,9 @@ Sub LeftSlingShot_Timer
     End Select
     LStep = LStep + 1
 End Sub
+
+' PINGOD END
+'*********************************************
 
 'Table Example scripts
 Dim EnableBallControl

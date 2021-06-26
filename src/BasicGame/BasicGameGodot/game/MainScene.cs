@@ -85,13 +85,14 @@ public class MainScene : Node2D
 	public override void _Ready()
 	{
 		pauseLayer.Hide();
-		pinGod.LogInfo("main: ready");
+		pinGod.LogInfo("main: ready. sending coil 0 for VP game ready");
+		pinGod.SolenoidOn("died", 1);
 	}
 
-	/// <summary>
-	/// End game, reloads the original scene, removing anything added. This could be used as a reset from VP with F3.
-	/// </summary>
-	public async void OnGameEnded()
+    /// <summary>
+    /// End game, reloads the original scene, removing anything added. This could be used as a reset from VP with F3.
+    /// </summary>
+    public async void OnGameEnded()
 	{
 		//Resource is there but cannot be removed?
 		//if (_resourcePreLoader.HasResource(GAME_SCENE.BaseName()))

@@ -35,11 +35,6 @@ public abstract partial class PinGodGameBase : Node
     public bool InBonusMode = false;
     public bool IsMultiballRunning = false;
     public byte MaxPlayers = 4;
-    /// <summary>
-    /// Sends via implementation <see cref="OscService"/>
-    /// </summary>
-    public IPinballSendReceive PinballSender = new OscService();
-
     const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
     public byte Tiltwarnings { get; set; }
     public AudioManager AudioManager { get; protected set; }
@@ -303,8 +298,7 @@ public abstract partial class PinGodGameBase : Node
     {
         for (int i = 0; i < switchNames.Length; i++)
         {
-            var sw = Machine.Switches[switchNames[i]];
-            if (input.IsAction(sw.ToString()))
+            if(SwitchOn(switchNames[i], input))
             {
                 return true;
             }
@@ -348,6 +342,9 @@ public abstract partial class PinGodGameBase : Node
     /// <param name="saveData">save game on exit?</param>
     public virtual void Quit(bool saveData = true)
     {
+        //send game ended, died
+        SolenoidOn("died", 0);
+
         if (saveData)
         {
             GameData.Save(GameData);
@@ -355,9 +352,6 @@ public abstract partial class PinGodGameBase : Node
         }
 
         memMapping?.Dispose(); //dispose invokes stop as well
-        LogInfo("exiting pinball sender");
-        PinballSender.Stop(); //don't remove, game won't close from VP otherwise
-        LogInfo("exited pinball sender");
     }
 
     /// <summary>

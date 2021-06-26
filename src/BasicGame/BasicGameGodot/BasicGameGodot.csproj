@@ -14,7 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="export_presets.cfg" />
-    <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

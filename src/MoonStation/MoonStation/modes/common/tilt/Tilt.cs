@@ -46,9 +46,9 @@ public class Tilt : Control
 			if (!timer.IsStopped()) { timer.Stop(); }
 
 			//add a warning
-			PinGodGame.Tiltwarnings++;
+			pinGod.Tiltwarnings++;
 			//set tilted
-			if (PinGodGame.Tiltwarnings > _num_tilt_warnings)
+			if (pinGod.Tiltwarnings > _num_tilt_warnings)
 			{
 				pinGod.IsTilted = true;
 				pinGod.EnableFlippers(0);
@@ -87,7 +87,7 @@ public class Tilt : Control
 	void ShowWarning()
 	{
 		timer.Start(displayForSecs);
-		CallDeferred("setText", "Danger" + System.Environment.NewLine + $"Warnings {PinGodGame.Tiltwarnings}");
+		CallDeferred("setText", "Danger" + System.Environment.NewLine + $"Warnings {pinGod.Tiltwarnings}");
 		Visible = true;
 	}
 
