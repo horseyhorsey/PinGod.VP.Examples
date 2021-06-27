@@ -114,10 +114,16 @@ public abstract partial class PinGodGameBase : Node
         {
             LogInfo("quit request");
             SetGameResumed();
-            var ms = GetNode("/root/MainScene").GetTree();
-            ms.Paused = false;
-            ms.Quit(0);
-            //GetTree().Quit(0);
+            var ms = GetNode("/root/MainScene")?.GetTree();
+            if (ms != null)
+            {
+                ms.Paused = false;
+                ms.Quit(0);
+            }
+            else
+            {
+                GetTree().Quit(0);
+            }            
         }
 
         if (@event.IsActionPressed("toggle_border"))
