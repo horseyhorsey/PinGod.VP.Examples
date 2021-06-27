@@ -107,6 +107,45 @@ public abstract partial class PinGodGameBase : Node
         else LogInfo("pingodbase: exit tree");
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        //quits the game. ESC
+        if (@event.IsActionPressed("quit"))
+        {
+            LogInfo("quit request");
+            SetGameResumed();
+            var ms = GetNode("/root/MainScene").GetTree();
+            ms.Paused = false;
+            ms.Quit(0);
+            //GetTree().Quit(0);
+        }
+
+        if (@event.IsActionPressed("toggle_border"))
+        {
+            OS.WindowBorderless = !OS.WindowBorderless;
+            if (OS.WindowBorderless)
+            {
+                //todo: save settings because user has come out of borderless?
+                LogDebug("pingodbase: saving window settings");
+                GameData.Display.X = OS.WindowPosition.x;
+                GameData.Display.Y = OS.WindowPosition.y;
+                GameData.Display.Width = OS.WindowSize.x;
+                GameData.Display.Height = OS.WindowSize.y;
+            }
+        }
+
+        //Coin button. See PinGod.vbs for Standard switches
+        if (SwitchOn("coin", @event))
+        {
+            AudioManager.PlaySfx("credit");
+            AddCredits(1);
+        }
+    }
+
+    /// <summary>
+    /// Processes playback events...Processing is disabled if it isn't enabled and playback is finished
+    /// </summary>
+    /// <param name="delta"></param>
     public override void _Process(float delta)
     {
         if (_recordPlayback != RecordPlaybackOption.Playback)
@@ -842,7 +881,25 @@ public abstract partial class PinGodGameBase : Node
     }
     private void LoadSettingsAndData()
     {
-        GameData = GameData.Load();
+        GameData = GameData.Load();        
+        if(GameData.Display?.Width > 0)
+        {
+            if (!GameData.Display.NoWindow)
+            {
+                LogDebug("pingodbase: setting display settings");
+                OS.WindowPosition = new Vector2(GameData.Display.X, GameData.Display.Y);
+
+                if (GameData.Display.FullScreen)
+                {
+                    OS.WindowFullscreen = true;
+                }
+                else
+                {
+                    OS.WindowSize = new Vector2(GameData.Display.Width, GameData.Display.Height);                    
+                    OS.SetWindowAlwaysOnTop(GameData.Display.AlwaysOnTop);
+                }                
+            }
+        }
         GameSettings = GameSettings.Load();
     }
     private bool SolenoidExists(string name)

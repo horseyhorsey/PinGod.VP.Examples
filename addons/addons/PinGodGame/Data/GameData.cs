@@ -15,6 +15,7 @@ public class GameData
 	/// </summary>
 	[NotMapped]
 	const string GAME_DATA_FILE = "user://gamedata.save";
+
 	public int BallsPlayed { get; set; }
 	public int BallsStarted { get; set; }
 	public byte Credits { get; set; }
@@ -24,11 +25,11 @@ public class GameData
 	public List<HighScore> HighScores { get; set; } = new List<HighScore>();
 	public int Tilted { get; set; }
 	public uint TimePlayed { get; set; }
+	public Display Display { get; set; } = new Display();
 
+    #region Private Methods
 
-	#region Private Methods
-
-	public static GameData Load()
+    public static GameData Load()
 	{
 		var saveGame = new File();
 		var err = saveGame.Open(GAME_DATA_FILE, File.ModeFlags.Read);
@@ -59,6 +60,19 @@ public class GameData
 
 	#endregion
 }
+
+public class Display
+{
+    public float X { get; set; }
+	public float Y { get; set; }
+	public float Width { get; set; }
+	public float Height { get; set; }
+	public bool AlwaysOnTop { get; set; } = true;
+	public bool LowDpi { get; set; } = false;
+	public bool FullScreen { get; set; } = false;
+    public bool NoWindow { get; set; }
+}
+
 public class HighScore
 {
 	public string Name { get; set; }

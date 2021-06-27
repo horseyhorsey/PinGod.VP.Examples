@@ -66,23 +66,7 @@ public class PinGodGame : PinGodGameBase
 
 	public override void _Input(InputEvent @event)
 	{
-		//quits the game. ESC
-		if (@event.IsActionPressed("quit"))
-		{
-			LogInfo("quit request");
-			SetGameResumed();
-			var ms = GetNode("/root/MainScene").GetTree();
-			ms.Paused = false;
-			ms.Quit(0);
-			//GetTree().Quit(0);
-		}
-
-		//Coin button. See PinGod.vbs for Standard switches
-		if (SwitchOn("coin", @event))
-		{
-			AudioManager.PlaySfx("credit");
-			AddCredits(1);
-		}
+		base._Input(@event); // process window events
 	}
 
 	/// <summary>
