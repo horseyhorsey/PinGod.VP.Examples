@@ -5,7 +5,7 @@ public class SwitchOverlay : GridContainer
 {
 	private Switches _switches;
 
-	PinGodGame _pinGodGame;
+	PinGodGameBase pingod;
 
 	public override void _EnterTree()
 	{
@@ -17,7 +17,7 @@ public class SwitchOverlay : GridContainer
 			button.Connect("pressed", this, "OnPressed", new Godot.Collections.Array(new object[] { sw.Key}));
 		}
 
-		_pinGodGame = GetNode("/root/PinGodGame") as PinGodGame;
+		pingod = GetNode("/root/PinGodGame") as PinGodGameBase;
 	}
 
 	void OnPressed(string swName)
