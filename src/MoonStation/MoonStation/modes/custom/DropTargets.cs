@@ -17,7 +17,7 @@ public class DropTargets : Control
 
 		//load all voices to dict
 		voices = new Dictionary<string, AudioStream>();
-		var vDir = "res://assets/audio/voice/";
+		var vDir = "res://assets/audio/voice";
 		var chars = new string[] { "m", "o", "n", "s", "t", "a", "i" };
 		for (int i = 0; i < chars.Length; i++)
 		{
@@ -36,30 +36,30 @@ public class DropTargets : Control
 	}
 
 	public void ResetTargets(bool lastBall)
-    {
-        game.Multiplier = 1;		
-        ResetMoon();
-        ResetStation();
+	{
+		game.Multiplier = 1;		
+		ResetMoon();
+		ResetStation();
 		game.UpdateLamps();
 	}
 
-    private void ResetStation()
-    {
-        pinGod.SolenoidPulse("drops_r"); // reset station Drops
-        game.StationTargets = new byte[7] { 0, 0, 0, 0, 0, 0, 0 };
-    }
+	private void ResetStation()
+	{
+		pinGod.SolenoidPulse("drops_r"); // reset station Drops
+		game.StationTargets = new byte[7] { 0, 0, 0, 0, 0, 0, 0 };
+	}
 
-    private void ResetMoon()
-    {
-        game.MoonTargets = new byte[4] { 0, 0, 0, 0 };
-        pinGod.SolenoidPulse("drops_l"); // reset moon Drops
-    }
+	private void ResetMoon()
+	{
+		game.MoonTargets = new byte[4] { 0, 0, 0, 0 };
+		pinGod.SolenoidPulse("drops_l"); // reset moon Drops
+	}
 
-    /// <summary>
-    /// Each time Moon target is hit, run a check if all complete to increase multiplier
-    /// </summary>
-    /// <returns></returns>
-    private bool MoonCheck()
+	/// <summary>
+	/// Each time Moon target is hit, run a check if all complete to increase multiplier
+	/// </summary>
+	/// <returns></returns>
+	private bool MoonCheck()
 	{
 		pinGod.AddPoints(250* game.Multiplier);
 
