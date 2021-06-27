@@ -131,6 +131,11 @@ public abstract partial class PinGodGameBase : Node
                 GameData.Display.Y = OS.WindowPosition.y;
                 GameData.Display.Width = OS.WindowSize.x;
                 GameData.Display.Height = OS.WindowSize.y;
+                OS.WindowResizable = false;
+            }
+            else
+            {
+                OS.WindowResizable = true;
             }
         }
 
