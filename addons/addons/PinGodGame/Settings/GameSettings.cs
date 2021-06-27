@@ -22,6 +22,8 @@ public class GameSettings
     /// </summary>
     public float MusicVolume { get; set; } = 0;
 
+    public Display Display { get; set; } = new Display();
+
     /// <summary>
 	/// Loads game data from user directory. Creates a new save if doesn't exist
 	/// </summary>
@@ -29,7 +31,7 @@ public class GameSettings
     {
         var settingsSave = new File();
         var err = settingsSave.Open(GAME_SETTINGS_FILE, File.ModeFlags.Read);
-        PrintErr(err.ToString());
+        Print("settings loaded: " + err.ToString());
         GameSettings gS = new GameSettings();
         if (err != Error.FileNotFound)
         {
@@ -54,4 +56,16 @@ public class GameSettings
         saveGame.StoreLine(JsonConvert.SerializeObject(settings));
         saveGame.Close();
     }
+}
+
+public class Display
+{
+    public float X { get; set; }
+    public float Y { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+    public bool AlwaysOnTop { get; set; } = true;
+    public bool LowDpi { get; set; } = false;
+    public bool FullScreen { get; set; } = false;
+    public bool NoWindow { get; set; }
 }

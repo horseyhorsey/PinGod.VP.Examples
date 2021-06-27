@@ -24,8 +24,7 @@ public class GameData
 	public int GamesStarted { get; set; }
 	public List<HighScore> HighScores { get; set; } = new List<HighScore>();
 	public int Tilted { get; set; }
-	public uint TimePlayed { get; set; }
-	public Display Display { get; set; } = new Display();
+	public uint TimePlayed { get; set; }	
 
     #region Private Methods
 
@@ -59,18 +58,6 @@ public class GameData
 	}
 
 	#endregion
-}
-
-public class Display
-{
-    public float X { get; set; }
-	public float Y { get; set; }
-	public float Width { get; set; }
-	public float Height { get; set; }
-	public bool AlwaysOnTop { get; set; } = true;
-	public bool LowDpi { get; set; } = false;
-	public bool FullScreen { get; set; } = false;
-    public bool NoWindow { get; set; }
 }
 
 public class HighScore
