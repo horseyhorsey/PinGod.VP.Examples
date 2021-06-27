@@ -62,3 +62,5 @@ _lamps = {
 }
 _leds = {
 }
+_ball_search_coils = PoolStringArray( "crater_saucer" )
+_ball_search_stop_switches = PoolStringArray( "crater_saucer", "trough_1", "trough_2", "trough_3", "trough_4" )
