@@ -29,7 +29,7 @@ public class GameSettings
     {
         var settingsSave = new File();
         var err = settingsSave.Open(GAME_SETTINGS_FILE, File.ModeFlags.Read);
-        Print(err.ToString());
+        PrintErr(err.ToString());
         GameSettings gS = new GameSettings();
         if (err != Error.FileNotFound)
         {

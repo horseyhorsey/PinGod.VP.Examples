@@ -137,7 +137,7 @@ public class MemoryMap : IDisposable
                     {                        
                         var syncState = (GameSyncState)buffer[i];
                         var action = ProcessGameState(syncState);
-                        GD.Print("zero switched action, ", action);                        
+                        //GD.Print("zero switched action, ", action);                        
                     }
                 }
             }
