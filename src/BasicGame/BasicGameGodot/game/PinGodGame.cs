@@ -47,7 +47,7 @@ public class PinGodGame : PinGodGameBase
 	{
 		base._EnterTree(); //setup base for trough
 
-		LogLevel = _logging_level;
+		Logger.LogLevel = _logging_level;
 
 		//trough
 		_trough.TroughOptions = new TroughOptions(_trough_switches, _trough_solenoid, _plunger_lane_switch,

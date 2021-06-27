@@ -89,17 +89,11 @@ public class MainScene : Node2D
 		pinGod.SolenoidOn("died", 1);
 	}
 
-    /// <summary>
-    /// End game, reloads the original scene, removing anything added. This could be used as a reset from VP with F3.
-    /// </summary>
-    public async void OnGameEnded()
+	/// <summary>
+	/// End game, reloads the original scene, removing anything added. This could be used as a reset from VP with F3.
+	/// </summary>
+	public async void OnGameEnded()
 	{
-		//Resource is there but cannot be removed?
-		//if (_resourcePreLoader.HasResource(GAME_SCENE.BaseName()))
-		//{
-		//	Print("found");
-		//	_resourcePreLoader.RemoveResource(GAME_SCENE);
-		//}
 		await Task.Run(() =>
 		{
 			GetNode("Modes/Game").QueueFree();

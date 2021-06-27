@@ -5,6 +5,7 @@
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
 _logging_level = 2
+_playbackfile = "res://recordings/drain_3_balls.record"
 _coils = {
 "auto_plunger": 3,
 "died": 0,

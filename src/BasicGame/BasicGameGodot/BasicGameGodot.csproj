@@ -11,6 +11,7 @@
     <Folder Include="modes\common\multiball\" />
     <Folder Include="modes\common\score_entry\" />
     <Folder Include="modes\custom\" />
+    <Folder Include="recordings\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="export_presets.cfg" />
