@@ -514,9 +514,6 @@ public abstract partial class PinGodGameBase : Node
 		var audioMan = Load(AUDIO_MANAGER) as PackedScene;
 		AddChild(audioMan.Instance());
 		AudioManager = GetNode("AudioManager") as AudioManager;
-		//set to false, no music in this particular game
-		AudioManager.MusicEnabled = false;
-		AudioManager.Bgm = string.Empty;       
 		LogInfo("PinGod: audiomanager loaded.", AudioManager != null);
 	}
 
