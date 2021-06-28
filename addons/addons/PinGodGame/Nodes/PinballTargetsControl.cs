@@ -1,24 +1,31 @@
 using Godot;
 
 /// <summary>
-/// A base node for managing a set of targets. Handling switches, lamps, when completed
+/// A base node for managing a set of targets. Handling switches, lamps, when completed <para/>
+/// Create a class using this and a new scene to add switches and lamps in the Godot UI <para/>
+/// override <see cref="CheckTargetsCompleted(int)"/> , <see cref="TargetsCompleted"/> 
 /// </summary>
 public abstract class PinballTargetsControl : Control
 {
 	#region Exports
 	[Export] protected string[] _target_switches;
 	[Export] protected string[] _target_lamps;
-	[Export] protected bool _enable_logging = true;
+	[Export] protected bool _inverse_lamps;
 	#endregion
 
 	#region Fields
-	private bool[] _targetValues;
+	protected bool[] _targetValues;
 	protected PinGodGameBase pinGod;
-	#endregion
+    #endregion
 
-	#region Godot
+    #region Godot
 
-	public override void _Ready()
+    public override void _EnterTree()
+    {
+		pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;		
+	}
+
+    public override void _Ready()
 	{
 		if (_target_switches == null)
 		{
@@ -27,8 +34,7 @@ public abstract class PinballTargetsControl : Control
 		}
 		else
 		{
-			_targetValues = new bool[_target_switches.Length];
-			pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;
+			_targetValues = new bool[_target_switches.Length];			
 		}
 	}
 
@@ -39,10 +45,13 @@ public abstract class PinballTargetsControl : Control
 	#endregion
 
 	#region Public Methods
+	/// <summary>
+	/// Checks if all targets are completed
+	/// </summary>
+	/// <param name="index"></param>
+	/// <returns></returns>
 	public virtual bool CheckTargetsCompleted(int index)
 	{
-		_targetValues[index] = true;
-
 		for (int i = 0; i < _targetValues.Length; i++)
 		{
 			if (!_targetValues[i]) return false;
@@ -50,6 +59,22 @@ public abstract class PinballTargetsControl : Control
 
 		return true;
 	}
+
+	/// <summary>
+	/// Returns whether the target was set or not
+	/// </summary>
+	/// <param name="index"></param>
+	/// <returns></returns>
+	public virtual bool SetTargetComplete(int index)
+    {
+		if(!_targetValues[index])
+        {
+			_targetValues[index] = true;
+			return true;
+        }
+
+		return false;
+    }
 
 	/// <summary>
 	/// Processes the <see cref="_target_switches"/>. 
@@ -63,8 +88,9 @@ public abstract class PinballTargetsControl : Control
 			{
 				if (pinGod.SwitchOn(_target_switches[i], @event))
 				{
-					if (_enable_logging)
-						pinGod.LogDebug("target: activated: ", _target_switches[i]);
+					pinGod.LogDebug("target: activated: ", _target_switches[i]);
+
+					SetTargetComplete(i);
 
 					if (CheckTargetsCompleted(i))
 					{
@@ -94,13 +120,19 @@ public abstract class PinballTargetsControl : Control
 		}
 	}
 
+	/// <summary>
+	/// Updates the lamps with matched to the same length as the switches
+	/// </summary>
 	public virtual void UpdateLamps()
 	{
-		for (int i = 0; i < _target_switches.Length; i++)
-		{
-			if (_targetValues[i]) pinGod.SetLampState(_target_lamps[i], 1);
-			else pinGod.SetLampState(_target_lamps[i], 0);
-		}
+		if(_target_lamps?.Length > 0)
+        {
+			for (int i = 0; i < _target_switches?.Length; i++)
+			{
+				if (_targetValues[i]) pinGod.SetLampState(_target_lamps[i], _inverse_lamps ? (byte)0 : (byte)1);
+				else pinGod.SetLampState(_target_lamps[i], _inverse_lamps ? (byte)1 : (byte)0);
+			}
+		}		
 	} 
 	#endregion
 }
