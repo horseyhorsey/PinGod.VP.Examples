@@ -24,8 +24,10 @@ public class MainScene : Node2D
 		AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 		PauseMode = PauseModeEnum.Process;
 
-		//load the service menu scene and add to preloader
+		//load preloader
 		_resourcePreLoader = GetNode("ResourcePreloader") as ResourcePreloader;
+
+		//add the service menu scene to preloader
 		var sMenu = Load(SERVICE_MENU_SCENE) as PackedScene;
 		_resourcePreLoader.AddResource(SERVICE_MENU_SCENE.BaseName(), sMenu);
 

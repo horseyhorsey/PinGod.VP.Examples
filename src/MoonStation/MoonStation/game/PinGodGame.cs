@@ -8,9 +8,12 @@ public class PinGodGame : PinGodGameBase
 {	
 	const string COIN_SFX = "res://assets/audio/sfx/credit.wav";
 	const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
+	const string LAMP_MATRIX_SCENE = "res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn";
 
 	#region Exports
 	[Export] PinGodLogLevel _logging_level = PinGodLogLevel.Info;
+	[Export] bool _lamp_overlay_enabled = false;
+	[Export] bool _switch_overlay_enabled = false;
 	[Export] bool _record_game = false;
 	[Export] bool _playback_game = false;
 	[Export] string _playbackfile = null;
@@ -97,6 +100,9 @@ public class PinGodGame : PinGodGameBase
 
 		//set up recording / playback
 		SetUpRecordingsOrPlayback(_playback_game, _record_game, _playbackfile);
+
+		//remove the overlays if disabled
+		SetupDevOverlays();
 	}
 
 	/// <summary>
@@ -130,5 +136,28 @@ public class PinGodGame : PinGodGameBase
 		GameInPlay = false;
 		ResetTilt();
 		EnableFlippers(0);
+	}
+
+	/// <summary>
+	/// Sets up the DevOverlays Tree. Enables / Disable helper overlays for lamps and switches
+	/// </summary>
+	private void SetupDevOverlays()
+	{
+		var devOverlays = GetNode("DevOverlays");
+		if (!_lamp_overlay_enabled)
+		{
+			LogInfo("pingod: removing lamp overlay");
+			devOverlays.GetNode("LampMatrix").QueueFree();
+		}
+		else
+		{
+			_lampMatrixOverlay = devOverlays.GetNode("LampMatrix") as LampMatrix;
+		}
+
+		if (!_switch_overlay_enabled)
+		{
+			LogInfo("pingod: removing switch overlay");
+			devOverlays.GetNode("SwitchOverlay").QueueFree();
+		}
 	}
 }
