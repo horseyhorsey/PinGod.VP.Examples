@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.cs" type="Script" id=1]
+
+[node name="LampMatrix" type="GridContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2.0
+margin_top = 1.0
+margin_right = -2.0
+margin_bottom = 1.0
+columns = 8
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_lamp_size_pixels = 20

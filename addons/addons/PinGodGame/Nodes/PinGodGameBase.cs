@@ -69,6 +69,11 @@ public abstract partial class PinGodGameBase : Node
 	private uint gameLoadTimeMsec;
 	private uint gameStartTime;
 
+	/// <summary>
+	/// Update lamps overlay
+	/// </summary>
+	protected LampMatrix _lampMatrixOverlay = null;
+
 	public PinGodGameBase()
 	{
 		Players = new List<PinGodPlayer>();        
@@ -447,14 +452,18 @@ public abstract partial class PinGodGameBase : Node
 	public virtual void SetLampState(string name, byte state)
 	{
 		if (!LampExists(name)) return;
-		Machine.Lamps[name].State = state;
+		var lamp = Machine.Lamps[name];
+		if (_lampMatrixOverlay != null) { _lampMatrixOverlay.SetState(lamp.Num, state); }
+		lamp.State = state;
 	}
 
 	public virtual void SetLedState(string name, byte state, int color = 0)
 	{
 		if (!LedExists(name)) return;
-		Machine.Leds[name].State = state;
-		Machine.Leds[name].Colour = color > 0 ? color : Machine.Leds[name].Colour;
+		var led = Machine.Leds[name];
+		led.State = state;
+		led.Colour = color > 0 ? color : led.Colour;
+		if (_lampMatrixOverlay != null) { _lampMatrixOverlay.SetState(led.Num, state); }
 	}
 
 	/// <summary>
@@ -871,7 +880,7 @@ public abstract partial class PinGodGameBase : Node
 	{
 		if (!Machine.Lamps.ContainsKey(name))
 		{
-			LogError("ERROR:no lamp found for: ", name);
+			LogError($"ERROR:no lamp found for: {name}");
 			return false;
 		}
 
@@ -881,7 +890,7 @@ public abstract partial class PinGodGameBase : Node
 	{
 		if (!Machine.Leds.ContainsKey(name))
 		{
-			LogError("ERROR:no led found for: ", name);
+			LogError($"ERROR:no led found for: {name}");
 			return false;
 		}
 

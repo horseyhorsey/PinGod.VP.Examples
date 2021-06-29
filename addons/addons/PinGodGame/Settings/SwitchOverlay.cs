@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// SwitchOverlayGridContainer. Creates buttons from Machine.Switches and connects to button events to fire switches
+/// </summary>
 public class SwitchOverlay : GridContainer
 {
 	private Switches _switches;
@@ -15,6 +18,7 @@ public class SwitchOverlay : GridContainer
 			var button = new Button() { Text = sw.Key, Flat = true};
 			AddChild(button);
 			button.Connect("pressed", this, "OnPressed", new Godot.Collections.Array(new object[] { sw.Key}));
+			//TODO: button Released?
 		}
 
 		pingod = GetNode("/root/PinGodGame") as PinGodGameBase;
