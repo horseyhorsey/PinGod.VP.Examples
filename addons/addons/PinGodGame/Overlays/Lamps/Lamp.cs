@@ -4,6 +4,7 @@ using System;
 public class Lamp : ColorRect
 {
 	private AnimationPlayer _animPlayer;
+	private Label _label;
 
 	public int Number { get; set; }
 
@@ -14,7 +15,7 @@ public class Lamp : ColorRect
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		(GetNode("LampNumLabel") as Label).Text = Number.ToString();
+		_label = GetNode("LampNumLabel") as Label;		
 		_animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 	}
 
@@ -36,5 +37,11 @@ public class Lamp : ColorRect
 				_animPlayer.CurrentAnimation = "off";
 				break;
 		}
+	}
+
+	internal void SetLabel(string label)
+	{
+		_label.Text = $"{Number}\n{label}";
+		this.Update();
 	}
 }

@@ -191,9 +191,23 @@ public abstract partial class PinGodGameBase : Node
 		}        
 	}
 
-	#endregion
+    public override void _Ready()
+    {
+        base._Ready();
 
-	public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
+		//name the lamp matrix
+		if (_lampMatrixOverlay != null)
+		{
+			foreach (var item in Machine.Lamps)
+			{
+				_lampMatrixOverlay.SetLabel(item.Value.Num, item.Key);
+			}
+		}
+	}
+
+    #endregion
+
+    public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
 
 	public virtual long GetTopScorePoints => GameData?.HighScores?
 			.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
