@@ -6,7 +6,7 @@ using static Godot.GD;
 public class MainScene : Node2D
 {
 	const string GAME_SCENE = "res://modes/Game.tscn";
-	const string SERVICE_MENU_SCENE = "res://modes/common/service_menu/ServiceMenu.tscn";
+	const string SERVICE_MENU_SCENE = "res://modes/common/service_menu/ServiceMenu.tscn";		
 	private ResourcePreloader _resourcePreLoader;
 	private Control attractnode;
 	Mutex m = new Mutex();
@@ -17,15 +17,16 @@ public class MainScene : Node2D
 	{
 		//save a reference to connect signals
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-
 		pinGod.LogDebug("Splash timer msecs", OS.GetSplashTickMsec());
 
 		//try to catch anything unhandled here, not when ready
 		AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 		PauseMode = PauseModeEnum.Process;
 
-		//load the service menu scene and add to preloader
+		//load preloader
 		_resourcePreLoader = GetNode("ResourcePreloader") as ResourcePreloader;
+
+		//add the service menu scene to preloader
 		var sMenu = Load(SERVICE_MENU_SCENE) as PackedScene;
 		_resourcePreLoader.AddResource(SERVICE_MENU_SCENE.BaseName(), sMenu);
 

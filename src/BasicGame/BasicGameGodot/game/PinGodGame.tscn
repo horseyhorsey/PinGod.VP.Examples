@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/PinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
@@ -48,3 +50,17 @@ _leds = {
 _ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "mball_saucer" )
 _ball_search_stop_switches = PoolStringArray( "mball_saucer", "trough_1", "trough_2", "trough_3", "trough_4" )
+
+[node name="DevOverlays" type="CanvasLayer" parent="."]
+layer = 128
+__meta__ = {
+"_editor_description_": "Overlays to aid with developing."
+}
+
+[node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
