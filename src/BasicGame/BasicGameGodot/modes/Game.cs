@@ -3,7 +3,8 @@ using static Godot.GD;
 
 public class Game : Node2D
 {
-	const string MULTIBALL_SCENE = "res://modes/common/multiball/Multiball.tscn";
+	internal const string BALL_SAVE_SCENE = "res://modes/common/ballsave/BallSave.tscn";
+	internal const string MULTIBALL_SCENE = "res://modes/common/multiball/Multiball.tscn";
 
 	private bool _lastBall;
 	private Timer _tiltedTimeOut;
@@ -22,6 +23,7 @@ public class Game : Node2D
 
 		pinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
 		pinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
+		pinGod.Connect(nameof(PinGodGameBase.BallSaved), this, "OnBallSaved");
 		pinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
 		pinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
 		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
@@ -41,8 +43,7 @@ public class Game : Node2D
 	{
 		pinGod.LogInfo("game: _ready");
 		pinGod.BallInPlay = 1;
-		pinGod.StartNewBall();
-		pinGod.OnBallStarted(GetTree());
+		StartNewBall();
 	}
 
 	public void AddMultiballSceneToTree()
@@ -103,8 +104,7 @@ public class Game : Node2D
 		}
 		else
 		{
-			pinGod.StartNewBall();
-			pinGod.OnBallStarted(GetTree());
+			StartNewBall();
 			pinGod.UpdateLamps(GetTree());
 		}
 	}
@@ -139,6 +139,10 @@ public class Game : Node2D
 		}
 	}
 	/// <summary>
+	/// Signals to Mode groups OnBallSaved
+	/// </summary>
+	void OnBallSaved() => pinGod.OnBallSaved(GetTree());
+	/// <summary>
 	/// When score entry is finished set <see cref="PinGodGame.EndOfGame"/>
 	/// </summary>
 	void OnScoreEntryEnded()
@@ -148,8 +152,7 @@ public class Game : Node2D
 	void OnStartNewBall()
 	{
 		pinGod.LogInfo("game: starting ball after tilting");
-		pinGod.StartNewBall();
-		pinGod.OnBallStarted(GetTree());
+		StartNewBall();
 	}
 	void timeout()
 	{		
@@ -157,5 +160,14 @@ public class Game : Node2D
 		{
 			CallDeferred("OnStartNewBall");
 		}
+	}
+	/// <summary>
+	/// Starts new ball in PinGod and invokes OnBallStarted on all Mode groups
+	/// </summary>
+	private void StartNewBall()
+	{
+		pinGod.DisableAllLamps();
+		pinGod.StartNewBall();
+		pinGod.OnBallStarted(GetTree());
 	}
 }
