@@ -191,9 +191,9 @@ public abstract partial class PinGodGameBase : Node
 		}        
 	}
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 
 		//name the lamp matrix
 		if (_lampMatrixOverlay != null)
@@ -205,9 +205,9 @@ public abstract partial class PinGodGameBase : Node
 		}
 	}
 
-    #endregion
+	#endregion
 
-    public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
+	public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
 
 	public virtual long GetTopScorePoints => GameData?.HighScores?
 			.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
@@ -380,6 +380,13 @@ public abstract partial class PinGodGameBase : Node
 	public virtual void LogInfo(params object[] what) => Logger.LogInfo(what);
 	public virtual void LogWarning(string message = null, params object[] what) => Logger.LogWarning(message, what);
 	public virtual void OnBallDrained(SceneTree sceneTree, string group = "Mode", string method = "OnBallDrained") => sceneTree.CallGroup(group, method);
+	/// <summary>
+	/// Invokes OnBallSaved on all groups marked as Mode within the scene tree.
+	/// </summary>
+	/// <param name="sceneTree"></param>
+	/// <param name="group"></param>
+	/// <param name="method"></param>
+	public virtual void OnBallSaved(SceneTree sceneTree, string group = "Mode", string method = "OnBallSaved") => sceneTree.CallGroup(group, method);
 	/// <summary>
 	/// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
 	/// </summary>

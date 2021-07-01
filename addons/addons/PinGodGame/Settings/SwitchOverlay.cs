@@ -15,9 +15,10 @@ public class SwitchOverlay : GridContainer
 		_switches = Machine.Switches;
 		foreach (var sw in _switches)
 		{
-			var button = new Button() { Text = sw.Key, Flat = true};
+			var button = new Button() { Text = sw.Key };
 			AddChild(button);
-			button.Connect("pressed", this, "OnPressed", new Godot.Collections.Array(new object[] { sw.Key}));
+			button.Connect("button_down", this, "OnPressed", new Godot.Collections.Array(new object[] { sw.Key}));
+			button.Connect("button_up", this, "OnReleased", new Godot.Collections.Array(new object[] { sw.Key }));
 			//TODO: button Released?
 		}
 
@@ -28,5 +29,11 @@ public class SwitchOverlay : GridContainer
 	{
 		var sw = Machine.Switches[swName];
 		sw?.SetSwitch(true);
+	}
+
+	void OnReleased(string swName)
+	{
+		var sw = Machine.Switches[swName];
+		sw?.SetSwitch(false);
 	}
 }

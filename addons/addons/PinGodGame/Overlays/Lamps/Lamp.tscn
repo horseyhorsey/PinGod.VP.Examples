@@ -21,6 +21,18 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "off"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.415686, 0.0862745, 0.0862745, 1 ) ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "on"
@@ -40,31 +52,22 @@ tracks/0/keys = {
 [node name="Lamp" type="ColorRect"]
 margin_right = 40.0
 margin_bottom = 40.0
-color = Color( 0.498039, 0.0588235, 0.0588235, 1 )
+color = Color( 0.415686, 0.0862745, 0.0862745, 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LampNumLabel" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -7.0
-margin_right = 20.0
-margin_bottom = 7.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "1"
-align = 1
-valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "off"
 anims/blink = SubResource( 1 )
 anims/off = SubResource( 2 )
 anims/on = SubResource( 3 )

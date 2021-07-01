@@ -96,7 +96,7 @@ public class Trough : Node
 
 		//reset the ball search when leaving the switch
 		if (pinGod.SwitchOff(TroughOptions.PlungerLaneSw, @event))
-		{
+		{			
 			//start a ball saver if game in play
 			if (pinGod.GameInPlay && !pinGod.IsTilted && !pinGod.IsMultiballRunning)
 			{
