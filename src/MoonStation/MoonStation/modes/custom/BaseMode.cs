@@ -8,12 +8,14 @@ public class BaseMode : Control
     int medScore = 100;
     int minScore = 50;
     private PinGodGame pinGod;
-    //int massiveScore = 1000;
+	private PackedScene _ballSaveScene;
 
-    public override void _EnterTree()
+	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
+
+		_ballSaveScene = GD.Load<PackedScene>(Game.BALL_SAVE_SCENE);
 	}
 
 	/// <summary>
@@ -97,9 +99,37 @@ public class BaseMode : Control
         }
     }
 
-    public void UpdateLamps() { }
+	public void OnBallDrained() { }
+	public void OnBallSaved()
+	{
+		pinGod.LogDebug("base: ball_saved");
+		if (!pinGod.IsMultiballRunning)
+		{
+			pinGod.LogDebug("ballsave: ball_saved");
+			//add ball save scene to tree and remove after 2 secs;
+			CallDeferred(nameof(DisplayBallSaveScene), 2f);
+		}
+		else
+		{
+			pinGod.LogDebug("skipping save display in multiball");
+		}
+	}
 
-    private void StartMultiball()
+	public void UpdateLamps() { }
+
+
+	/// <summary>
+	/// Adds a ball save scene to the tree and removes
+	/// </summary>
+	/// <param name="time">removes the scene after the time</param>
+	private void DisplayBallSaveScene(float time = 2f)
+	{
+		var ballSaveScene = _ballSaveScene.Instance<BallSave>();
+		ballSaveScene.SetRemoveAfterTime(time);
+		AddChild(_ballSaveScene.Instance());
+	}
+
+	private void StartMultiball()
     {
 		if (!pinGod.IsMultiballRunning)
 		{
@@ -113,4 +143,5 @@ public class BaseMode : Control
 			pinGod.SolenoidPulse("mball_saucer");
 		}
 	}
+
 }
