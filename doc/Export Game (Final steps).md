@@ -23,3 +23,11 @@ This would be the final step but isn't necessary when developing / debugging gam
 
 - Running `godot --export "Windows Desktop"` will export the game to the `Exported` folder.
 - There's also a `.bat` in the project runs the command above
+
+## Changing Windows Icons
+
+- Make icon with all size in one file
+- Download RCEdit and add the path in `Editor Settings\RCedit`
+- Change icon in the `Project Settings/Application/Config`
+
+See https://docs.godotengine.org/en/3.2/getting_started/workflow/export/changing_application_icon_for_windows.html
