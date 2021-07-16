@@ -17,7 +17,7 @@ public class HighScores : Control
 	/// </summary>
 	public override void _Ready()
 	{		
-		var scores = string.Join("\n\r", pinGod.GameData.HighScores.Select(x => $"{x.Scores}    {x.Name}"));
+		var scores = string.Join("\n\r", pinGod.GameData.HighScores.Select(x => $"{x.Scores.ToScoreString()}    {x.Name}"));
 		Label.Text = scores;
 	}
 }
