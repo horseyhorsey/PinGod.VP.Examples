@@ -12,6 +12,7 @@ public class ScoreEntry : Control
 	string entry = "";
 	int PlayerCount;
 	int CurrentPlayer = 0;
+	[Export] int _nameMaxLength = 8;
 
 	private Label selectedCharLabel;
 	private Label selectedName;
@@ -140,7 +141,10 @@ public class ScoreEntry : Control
 				}
 				else
 				{
-					entry += (char)allowedChars[selectedIndex];
+					if(entry.Length < _nameMaxLength)
+                    {
+						entry += (char)allowedChars[selectedIndex];
+					}					
 				}
 			}
 

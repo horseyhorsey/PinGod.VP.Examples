@@ -12,6 +12,7 @@ public class ScoreEntry : Control
 	string entry = "";
 	int PlayerCount;
 	int CurrentPlayer = 0;
+	[Export] int _nameMaxLength = 8;
 
 	private Label selectedCharLabel;
 	private Label selectedName;
@@ -33,7 +34,7 @@ public class ScoreEntry : Control
 		selectedCharLabel = GetNode("CenterContainer/VBoxContainer/SelectedChar") as Label;
 		selectedName = GetNode("CenterContainer/VBoxContainer/Name") as Label;
 		selectedName.Text = entry;
-		playerLabel = GetNode("CenterContainer/VBoxContainer/Label") as Label;		
+		playerLabel = GetNode("CenterContainer/VBoxContainer/Label") as Label;
 	}
 
 	public void DisplayHighScore()
@@ -57,16 +58,16 @@ public class ScoreEntry : Control
 		pinGod.LogInfo("score_entry: quit score entry");
 		pinGod.EmitSignal("ScoreEntryEnded");
 	}
-	
+
 	private bool MoveNextPlayer()
 	{
-		if(CurrentPlayer > PlayerCount - 1)
+		if (CurrentPlayer > PlayerCount - 1)
 		{
 			return false;
 		}
 
 		//reset the entry player initials
-		entry = string.Empty;		
+		entry = string.Empty;
 		//get the player to check hi scores
 		_cPlayer = pinGod.Players[CurrentPlayer];
 
@@ -92,7 +93,7 @@ public class ScoreEntry : Control
 		else
 		{
 			CurrentPlayer++;
-		}		
+		}
 
 		return true;
 	}
@@ -140,7 +141,10 @@ public class ScoreEntry : Control
 				}
 				else
 				{
-					entry += (char)allowedChars[selectedIndex];
+					if(entry.Length < _nameMaxLength)
+                    {
+						entry += (char)allowedChars[selectedIndex];
+					}					
 				}
 			}
 
@@ -151,10 +155,10 @@ public class ScoreEntry : Control
 
 			selectedCharLabel.Text = ((char)allowedChars[selectedIndex]).ToString();
 			selectedName.Text = entry;
-		}		
+		}
 	}
 
-	int[] allowedChars;	
+	int[] allowedChars;
 	private void CharSelectionSetup()
 	{
 		var chars = new List<int>();
