@@ -48,7 +48,7 @@ public class PinStates : Dictionary<string, PinStateObject>
             {
                 arr[item.Num*2] = item.Num;
                 arr[item.Num*2+1] = item.State;
-            }                
+            }
         }
         return arr;
     }

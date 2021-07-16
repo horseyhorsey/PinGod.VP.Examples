@@ -1,9 +1,6 @@
-﻿public abstract partial class PinGodGameBase
+﻿public enum RecordPlaybackOption
 {
-    public enum RecordPlaybackOption
-    {
-        Off,
-        Playback,
-        Record
-    }
+    Off,
+    Playback,
+    Record
 }

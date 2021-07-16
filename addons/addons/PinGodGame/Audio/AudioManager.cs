@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class AudioManager : Node
 {    
-    public Dictionary<string, AudioStream> Music { get; private set; }
+	public Dictionary<string, AudioStream> Music { get; private set; }
 	public Dictionary<string, AudioStream> Sfx { get; private set; }
 	public AudioStreamPlayer MusicPlayer { get; private set; }
 	public AudioStreamPlayer SfxPlayer { get; private set; }
@@ -16,16 +16,16 @@ public class AudioManager : Node
 	public bool MusicEnabled { get; set; } = true;
 	public bool SfxEnabled { get; set; } = true;
 
-    public AudioManager()
-    {        
+	public AudioManager()
+	{        
 		Music = new Dictionary<string, AudioStream>();
 		Sfx = new Dictionary<string, AudioStream>();		
 	}
 
-    public override void _EnterTree()
+	public override void _EnterTree()
 	{
 		MusicPlayer = GetNode("MusicPlayer") as AudioStreamPlayer;
-		SfxPlayer = GetNode("SfxPlayer") as AudioStreamPlayer;
+		SfxPlayer = GetNode("SfxPlayer") as AudioStreamPlayer;		
 	}
 
 	/// <summary>
@@ -77,8 +77,9 @@ public class AudioManager : Node
 		{
 			Logger.LogDebug("playing music:",name);
 			CurrentMusic = name;
-			MusicPlayer.Stream = Music[name];
+			MusicPlayer.Stream = Music[name];			
 			MusicPlayer.Play(pos);
+			MusicPlayer.Playing = true;
 		}        
 	}
 
@@ -111,9 +112,9 @@ public class AudioManager : Node
 		return lastPos;
 	}
 
-    internal void PlayBgm(float pos = 0)
-    {
+	internal void PlayBgm(float pos = 0)
+	{
 		if (!string.IsNullOrWhiteSpace(Bgm))
 			PlayMusic(Bgm, pos);
-    }
+	}
 }

@@ -59,12 +59,18 @@ public class VideoPlayerPinball : VideoPlayer
 
 	}
 
-	#endregion
+    internal void SetLoopAndHold(bool loop)
+    {
+		_loop = loop;
+		if (!loop) _hold = true; else _hold = false;
+    }
 
-	/// <summary>
-	/// When visiblity
-	/// </summary>
-	void _visibility_changed()
+    #endregion
+
+    /// <summary>
+    /// When visiblity
+    /// </summary>
+    void _visibility_changed()
 	{
 		if (_pause_when_hidden)
 		{

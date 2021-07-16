@@ -5,7 +5,6 @@ using static Godot.GD;
 
 /// <summary>
 /// Game settings for the machine. Add anything you like here it be saved / loaded <para/>
-/// TODO: 
 /// </summary>
 public class GameSettings
 {

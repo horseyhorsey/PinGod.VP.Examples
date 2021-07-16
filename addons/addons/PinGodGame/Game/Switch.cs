@@ -15,7 +15,7 @@ public class Switch
     }
 
     /// <summary>
-    /// 
+    /// Sets a switch manually, pushes an InputEventAction to the queue
     /// </summary>
     /// <param name="Pressed"></param>
     /// <returns></returns>
