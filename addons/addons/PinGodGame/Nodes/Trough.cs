@@ -21,8 +21,9 @@ public class Trough : Node
 	private PinGodGameBase pinGod;
 	private Timer troughPulseTimer;
 	public TroughOptions TroughOptions { get; set; }
+    public int BallsLocked { get; internal set; }
 
-	private int _mballSaveSecondsRemaining;
+    private int _mballSaveSecondsRemaining;
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;
@@ -64,6 +65,7 @@ public class Trough : Node
 				}
 				else
 				{
+					pinGod.LogDebug("trough: ball_drained");
 					pinGod.EmitSignal(nameof(PinGodGameBase.BallDrained));
 				}
 			}
@@ -98,8 +100,9 @@ public class Trough : Node
 		if (pinGod.SwitchOff(TroughOptions.PlungerLaneSw, @event))
 		{			
 			//start a ball saver if game in play
-			if (pinGod.GameInPlay && !pinGod.IsTilted && !pinGod.IsMultiballRunning)
+			if (pinGod.GameInPlay && !pinGod.BallStarted && !pinGod.IsTilted && !pinGod.IsMultiballRunning)
 			{
+				pinGod.BallStarted = true;
 				var saveStarted = StartBallSaver(TroughOptions.BallSaveSeconds);
 				if (saveStarted)
 				{
@@ -107,7 +110,7 @@ public class Trough : Node
 					pinGod.EmitSignal(nameof(PinGodGameBase.BallSaveStarted));
 				}
 
-				pinGod.LogDebug($"trough: ball_save_started? {saveStarted}");
+				pinGod.LogDebug($"trough: ball_save_started {saveStarted}");
 			}
 		}
 	}
@@ -146,7 +149,7 @@ public class Trough : Node
 			return true;
 
 		var isFull = true;
-		for (int i = 0; i < TroughOptions.Switches.Length; i++)
+		for (int i = 0; i < TroughOptions.Switches.Length-BallsLocked; i++)
 		{
 			if (!pinGod.SwitchOn(TroughOptions.Switches[i]))
 			{
@@ -183,9 +186,12 @@ public class Trough : Node
 		TroughOptions.MballSaveSeconds = ballSaveTime;
 		TroughOptions.NumBallsToSave = numOfBalls;
 
+		_mballSaveSecondsRemaining = TroughOptions.MballSaveSeconds;
+		StartBallSaver(TroughOptions.MballSaveSeconds);
+
 		if (pulseTimerDelay > 0)
 			_startMballTrough(pulseTimerDelay);
-
+		
 		OnMultiballStarted();
 	}
 	void _startMballTrough(float delay) => troughPulseTimer.Start(delay);
@@ -216,10 +222,8 @@ public class Trough : Node
 		return false;
 	}
 	private void OnMultiballStarted()
-	{		
-		_mballSaveSecondsRemaining = TroughOptions.MballSaveSeconds;		
-		StartBallSaver(TroughOptions.MballSaveSeconds);
-		pinGod.LogInfo("trough: mball starting save for ", _mballSaveSecondsRemaining);
+	{				
+		pinGod.LogDebug("trough: mball starting save for ", _mballSaveSecondsRemaining);
 		CallDeferred("_startMballTrough", 1f);
 	}
 	/// <summary>

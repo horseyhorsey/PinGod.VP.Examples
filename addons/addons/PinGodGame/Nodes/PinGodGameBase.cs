@@ -50,6 +50,11 @@ public abstract partial class PinGodGameBase : Node
 	public bool GameInPlay { get; set; }
 	public GameSettings GameSettings { get; private set; }
 	public bool IsBallStarted { get; internal set; }
+
+	/// <summary>
+	/// Flag used for ball saving on the initial launch. If ball enters the shooterlane after a ball save then this is to stop the ballsave starting again
+	/// </summary>
+	public bool BallStarted { get; internal set; }
 	public bool IsTilted { get; set; }
 	public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Info;
 	public PinGodPlayer Player { get; private set; }
@@ -87,7 +92,7 @@ public abstract partial class PinGodGameBase : Node
 		LoadSettingsAndData();
 
 		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
-		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);        
+		//AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);        
 
 		//get trough from tree
 		_trough = GetNode("/root/Trough") as Trough;
@@ -298,6 +303,7 @@ public abstract partial class PinGodGameBase : Node
 		if (!GameInPlay) return false;
 
 		IsBallStarted = false;
+		BallStarted = false;
 		EnableFlippers(0);
 
 		if (Players.Count > 0)
@@ -352,6 +358,7 @@ public abstract partial class PinGodGameBase : Node
 		ResetTilt();
 		gameEndTime = OS.GetTicksMsec();
 		GameData.TimePlayed = gameEndTime - gameStartTime;
+		_trough.BallsLocked = 0;
 		this.EmitSignal(nameof(GameEnded));
 	}
 
@@ -387,6 +394,33 @@ public abstract partial class PinGodGameBase : Node
 	/// <param name="group"></param>
 	/// <param name="method"></param>
 	public virtual void OnBallSaved(SceneTree sceneTree, string group = "Mode", string method = "OnBallSaved") => sceneTree.CallGroup(group, method);
+	/// <summary>
+	/// Pulse coils in the SearchCoils when ball search times out
+	/// </summary>
+	public virtual void OnBallSearchTimeout()
+	{
+		if (BallSearchOptions.IsSearchEnabled)
+		{
+			if (BallSearchOptions?.SearchCoils?.Length > 0)
+			{
+				LogDebug("pingodbase: pulsing search coils");
+				for (int i = 0; i < BallSearchOptions?.SearchCoils.Length; i++)
+				{
+					SolenoidPulse(BallSearchOptions?.SearchCoils[i]);
+				}
+
+				BallSearchTimer.Stop();
+			}
+			else
+			{
+				BallSearchTimer.Stop();
+			}
+		}
+		else
+		{
+			BallSearchTimer.Stop();
+		}
+	}
 	/// <summary>
 	/// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
 	/// </summary>
@@ -700,6 +734,7 @@ public abstract partial class PinGodGameBase : Node
 		if (Player.ExtraBalls > 0)
 		{
 			Player.ExtraBalls--;
+			Player.ExtraBallsAwarded++;
 			LogInfo("base: player shoot again");
 		}
 		_trough.PulseTrough();
@@ -857,33 +892,6 @@ public abstract partial class PinGodGameBase : Node
 	}
 
 	/// <summary>
-	/// Pulse coils in the SearchCoils when ball search times out
-	/// </summary>
-	private void _OnBallSearchTimeout()
-	{
-		if (BallSearchOptions.IsSearchEnabled)
-		{
-			if (BallSearchOptions?.SearchCoils?.Length > 0)
-			{
-				LogDebug("pingodbase: pulsing search coils");
-				for (int i = 0; i < BallSearchOptions?.SearchCoils.Length; i++)
-				{
-					SolenoidPulse(BallSearchOptions?.SearchCoils[i]);
-				}
-
-				BallSearchTimer.Stop();
-			}
-			else
-			{
-				BallSearchTimer.Stop();
-			}
-		}
-		else
-		{
-			BallSearchTimer.Stop();
-		}
-	}
-	/// <summary>
 	/// Creates the recordings directory in the users folder
 	/// </summary>
 	/// <returns>The path to the recordings</returns>
@@ -948,7 +956,7 @@ public abstract partial class PinGodGameBase : Node
 	{
 		if (!Machine.Coils.ContainsKey(name))
 		{
-			LogError("ERROR:no solenoid found for: ", name);
+			LogError($"ERROR:no solenoid found for: {name}");
 			return false;
 		}
 
@@ -958,7 +966,7 @@ public abstract partial class PinGodGameBase : Node
 	{
 		if (!Machine.Switches.ContainsKey(name))
 		{
-			LogError("ERROR:no switch found for: ", name);
+			LogError($"ERROR:no switch found for: {name}");
 			return false;
 		}
 
