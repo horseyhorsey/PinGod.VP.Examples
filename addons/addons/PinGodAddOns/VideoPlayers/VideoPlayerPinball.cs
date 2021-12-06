@@ -1,9 +1,6 @@
 using Godot;
 using System;
 
-/// <summary>
-/// A label that blinks on a timer with optional methods for controlling the blink
-/// </summary>
 [Tool]
 public class VideoPlayerPinball : VideoPlayer
 {
@@ -59,18 +56,18 @@ public class VideoPlayerPinball : VideoPlayer
 
 	}
 
-    internal void SetLoopAndHold(bool loop)
-    {
+	internal void SetLoopAndHold(bool loop)
+	{
 		_loop = loop;
 		if (!loop) _hold = true; else _hold = false;
-    }
+	}
 
-    #endregion
+	#endregion
 
-    /// <summary>
-    /// When visiblity
-    /// </summary>
-    void _visibility_changed()
+	/// <summary>
+	/// When visiblity
+	/// </summary>
+	void _visibility_changed()
 	{
 		if (_pause_when_hidden)
 		{
