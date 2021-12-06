@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.218
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayboyGodot", "PlayboyGodot.csproj", "{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E6BE33C-3F33-4EAE-9CB2-D22EC15A631A}"
+	ProjectSection(SolutionItems) = preProject
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportDebug|x86 = ExportDebug|x86
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		ExportRelease|x86 = ExportRelease|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Debug|x86.ActiveCfg = Debug|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Debug|x86.Build.0 = Debug|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportDebug|x86.ActiveCfg = ExportDebug|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportDebug|x86.Build.0 = ExportDebug|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|x86.ActiveCfg = ExportRelease|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|x86.Build.0 = ExportRelease|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A03363C-50DE-4013-8EB0-80824FA3D78C}
+	EndGlobalSection
+EndGlobal

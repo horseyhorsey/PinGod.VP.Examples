@@ -1,0 +1,133 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://game/PinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_logging_level = 2
+_playbackfile = "user://recordings/132695309387590334.record"
+_coils = {
+"auto_plunger": 3,
+"died": 0,
+"drop_bank": 5,
+"flippers": 2,
+"saucer": 4,
+"trough": 1
+}
+_switches = {
+"bumper_1": 28,
+"bumper_2": 29,
+"bumper_3": 30,
+"coin1": 1,
+"coin2": 2,
+"coin3": 3,
+"down": 5,
+"drop_target_0": 36,
+"drop_target_1": 37,
+"drop_target_2": 38,
+"drop_target_3": 39,
+"drop_target_4": 40,
+"enter": 7,
+"exit": 4,
+"extra_ball": 46,
+"flipper_l": 11,
+"flipper_r": 9,
+"inlane_l": 22,
+"inlane_r": 23,
+"lane_0": 41,
+"lane_1": 42,
+"lane_2": 43,
+"lane_3": 44,
+"loop_r": 45,
+"outlane_l": 21,
+"outlane_r": 24,
+"plunger_lane": 20,
+"saucer": 27,
+"slam_tilt": 16,
+"sling_l": 25,
+"sling_r": 26,
+"start": 19,
+"target_key": 47,
+"target_l_0": 31,
+"target_l_1": 32,
+"target_l_2": 33,
+"target_l_3": 34,
+"target_l_4": 35,
+"tilt": 17,
+"trough_1": 81,
+"trough_2": 82,
+"trough_3": 83,
+"trough_4": 84,
+"up": 6
+}
+_lamps = {
+"arrow_r": 36,
+"arrow_special": 38,
+"arrow_xtra_ball": 37,
+"bonus_1": 7,
+"bonus_10": 16,
+"bonus_11": 17,
+"bonus_2": 8,
+"bonus_3": 9,
+"bonus_4": 10,
+"bonus_5": 11,
+"bonus_6": 12,
+"bonus_7": 13,
+"bonus_8": 14,
+"bonus_9": 15,
+"extra_ball": 28,
+"grot_0": 31,
+"grot_1": 32,
+"grot_2": 33,
+"grot_25k": 30,
+"grot_3": 34,
+"grot_4": 35,
+"key_0": 2,
+"key_1": 3,
+"key_2": 4,
+"key_3": 5,
+"key_4": 6,
+"left_25k": 21,
+"pm0": 23,
+"pm1": 24,
+"pm2": 25,
+"pm3": 26,
+"pm4": 27,
+"right_25k": 22,
+"shoot_again": 1,
+"special_key": 39,
+"special_r": 29,
+"x_2": 18,
+"x_3": 19,
+"x_5": 20
+}
+_leds = {
+}
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
+_ball_save_multiball_seconds = 12
+_ball_search_coils = PoolStringArray( "saucer" )
+_ball_search_stop_switches = PoolStringArray( "trough_1", "trough_2", "trough_3", "trough_4" )
+
+[node name="DevOverlays" type="CanvasLayer" parent="."]
+layer = 128
+__meta__ = {
+"_editor_description_": "Overlays to aid with developing."
+}
+
+[node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
+modulate = Color( 1, 1, 1, 0.658824 )
+margin_left = 539.255
+margin_top = 463.451
+margin_right = -28.7451
+margin_bottom = 62.4508
+_lamp_count = 48
+_lamp_size_pixels = Vector2( 85, 35 )
+
+[node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
+margin_left = 243.0
+margin_right = -40.0
+margin_bottom = -419.0
+columns = 6
