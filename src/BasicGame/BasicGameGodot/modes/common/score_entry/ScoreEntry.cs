@@ -142,7 +142,7 @@ public class ScoreEntry : Control
 				else
 				{
 					if(entry.Length < _nameMaxLength)
-                    {
+					{
 						entry += (char)allowedChars[selectedIndex];
 					}					
 				}

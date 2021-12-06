@@ -25,7 +25,7 @@ End Sub
 
 'Debug
 Const IsDebug = True
-Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\BasicGame\BasicGameGodot" ' Loads the godot pingod game project
+Const GameDirectory = "E:\Repositories\Pinball\PinGod\PinGod.VP.Examples\src\BasicGame\BasicGameGodot" ' Loads the godot pingod game project
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 1  ' use led (color)
 Const UseLamps = 0  ' Check for lamp states?

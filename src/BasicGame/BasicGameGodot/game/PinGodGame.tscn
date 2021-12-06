@@ -6,7 +6,7 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_logging_level = 2
+_logging_level = 0
 _playbackfile = "res://recordings/drain_3_balls.record"
 _coils = {
 "auto_plunger": 3,
@@ -19,7 +19,9 @@ _coils = {
 "trough": 1
 }
 _switches = {
-"coin": 2,
+"coin1": 1,
+"coin2": 2,
+"coin3": 3,
 "down": 5,
 "enter": 7,
 "exit": 4,

@@ -74,7 +74,6 @@ public class PinGodGame : PinGodGameBase
 	public override void _Input(InputEvent @event)
 	{
 		base._Input(@event); // process window events
-
 	}
 
 	/// <summary>
