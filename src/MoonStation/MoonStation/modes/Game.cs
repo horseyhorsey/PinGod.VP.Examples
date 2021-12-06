@@ -1,5 +1,4 @@
 using Godot;
-using static Godot.GD;
 
 public class Game : Node2D
 {
@@ -12,8 +11,8 @@ public class Game : Node2D
 	private PackedScene multiballPkd;
 	private PinGodGame pinGod;
 	private ScoreEntry scoreEntry;
-	#region Game Variables
 
+	#region Game Variables
 	public byte[] MoonTargets { get; internal set; }
 	public int Multiplier { get; internal set; }
 	public byte[] StationTargets { get; internal set; }
