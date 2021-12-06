@@ -101,7 +101,7 @@ public abstract partial class PinGodGameBase : Node
 
 		//create and add ball search timer
 		BallSearchTimer = new Timer() { Autostart = false, OneShot = false };
-		BallSearchTimer.Connect("timeout", this, "_OnBallSearchTimeout");
+		BallSearchTimer.Connect("timeout", this, "OnBallSearchTimeout");
 		this.AddChild(BallSearchTimer);
 
 		gameLoadTimeMsec = OS.GetTicksMsec();
@@ -156,11 +156,11 @@ public abstract partial class PinGodGameBase : Node
 		}
 
 		//Coin button. See PinGod.vbs for Standard switches
-		if (SwitchOn("coin", @event))
+		if (SwitchOn("coin1", @event) || SwitchOn("coin2", @event) || SwitchOn("coin3", @event))
 		{
 			AudioManager.PlaySfx("credit");
 			AddCredits(1);
-		}
+		}		
 	}
 
 	/// <summary>
@@ -172,7 +172,7 @@ public abstract partial class PinGodGameBase : Node
 		if (_recordPlayback != RecordPlaybackOption.Playback)
 		{
 			SetProcess(false);
-			LogInfo("pingodbase: process loop ended playback switches is not enabled");
+			LogInfo("pingodbase: process loop ended recording playback");
 			return;
 		}
 		else
@@ -799,8 +799,10 @@ public abstract partial class PinGodGameBase : Node
 		if (!SwitchExists(swName)) return false;
 		var sw = Machine.Switches[swName];
 		var result = sw.IsOn(inputEvent);
+
+		//do something with ball search if switch needs to
 		if (result && BallSearchOptions.IsSearchEnabled && GameInPlay)
-		{
+		{			
 			if (sw.BallSearch != BallSearchSignalOption.None)
 			{
 				switch (sw.BallSearch)
@@ -816,10 +818,9 @@ public abstract partial class PinGodGameBase : Node
 				}
 			}
 		}
-		if (result)
+		if (result) //record switch
 		{
 			LogDebug("swOn:" + swName);
-
 			if (_recordPlayback == RecordPlaybackOption.Record)
 			{
 				var switchTime = OS.GetTicksMsec() - gameLoadTimeMsec;
@@ -849,6 +850,13 @@ public abstract partial class PinGodGameBase : Node
 	/// <param name="sceneTree"></param>
 	public virtual void UpdateLamps(SceneTree sceneTree, string group = "Mode", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
 
+	/// <summary>
+	/// Adds custom machine items. Actions are created for switches if they don't exist
+	/// </summary>
+	/// <param name="coils"></param>
+	/// <param name="switches"></param>
+	/// <param name="lamps"></param>
+	/// <param name="leds"></param>
 	protected void AddCustomMachineItems(Godot.Collections.Dictionary<string, byte> coils, Godot.Collections.Dictionary<string, byte> switches, Godot.Collections.Dictionary<string, byte> lamps, Godot.Collections.Dictionary<string, byte> leds)
 	{
 		foreach (var coil in coils)
@@ -861,6 +869,12 @@ public abstract partial class PinGodGameBase : Node
 
 		foreach (var sw in switches)
 		{
+			//create an action for the switch if it doesn't exist.
+            if (!Godot.InputMap.HasAction("sw" + sw.Value))
+            {
+				Godot.InputMap.AddAction("sw"+sw.Value);
+            }
+
 			if (BallSearchOptions.StopSearchSwitches?.Any(x => x == sw.Key) ?? false)
 			{
 				Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Off));
