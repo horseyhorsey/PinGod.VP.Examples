@@ -12,9 +12,15 @@ public abstract class PinballSwitchLanesNode : Node
     /// </summary>
     [Export] string[] _lane_lamps = new string[0];
     /// <summary>
+    /// Leds to update
+    /// </summary>
+    [Export] string[] _led_lamps = new string[0];
+    /// <summary>
     /// Switches to handle lane events
     /// </summary>
     [Export] string[] _lane_switches = new string[0];
+
+    [Export] protected Color _led_color = Color.Color8(255, 255, 255);
     #endregion
 
     bool[] _lanesCompleted;
@@ -23,6 +29,16 @@ public abstract class PinballSwitchLanesNode : Node
     public override void _EnterTree()
     {
         pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;
+
+        if (_lane_switches == null)
+        {
+            pinGod.LogError("no rollover switches defined. removing mode");
+            this.QueueFree();
+        }
+        else
+        {
+            _lanesCompleted = new bool[_lane_switches.Length];
+        }
     }
 
     public override void _Input(InputEvent @event)
@@ -64,22 +80,6 @@ public abstract class PinballSwitchLanesNode : Node
     }
 
     /// <summary>
-    /// Sets up the <see cref="_lane_switches"/> with <see cref="_lanesCompleted"/>
-    /// </summary>
-    public override void _Ready()
-    {
-        if (_lane_switches == null)
-        {
-            pinGod.LogError("no rollover switches defined. removing mode");
-            this.QueueFree();
-        }
-        else
-        {
-            _lanesCompleted = new bool[_lane_switches.Length];
-        }
-    }
-
-    /// <summary>
     /// Checks <see cref="_lanesCompleted"/>
     /// </summary>
     /// <returns></returns>
@@ -97,6 +97,11 @@ public abstract class PinballSwitchLanesNode : Node
         return complete;
     }
 
+    /// <summary>
+    /// Returns true if the lane was completed after this lane was activated
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns></returns>
     public virtual bool LaneSwitchActivated(int i)
     {
         if (!_lanesCompleted[i])
@@ -142,15 +147,33 @@ public abstract class PinballSwitchLanesNode : Node
     {
         if (_lanesCompleted != null)
         {
-            for (int i = 0; i < _lanesCompleted.Length; i++)
+            if(_lane_lamps?.Length > 0)
             {
-                if (_lanesCompleted[i])
+                for (int i = 0; i < _lanesCompleted.Length; i++)
                 {
-                    pinGod.SetLampState(_lane_lamps[i], 1);
+                    if (_lanesCompleted[i])
+                    {
+                        pinGod.SetLampState(_lane_lamps[i], 1);
+                    }
+                    else
+                    {
+                        pinGod.SetLampState(_lane_lamps[i], 0);
+                    }
                 }
-                else
+            }
+
+            if (_led_lamps?.Length > 0)
+            {
+                for (int i = 0; i < _lanesCompleted.Length; i++)
                 {
-                    pinGod.SetLampState(_lane_lamps[i], 0);
+                    if (_lanesCompleted[i])
+                    {
+                        pinGod.SetLedState(_led_lamps[i], 1, _led_color);
+                    }
+                    else
+                    {
+                        pinGod.SetLedState(_led_lamps[i], 0, _led_color);
+                    }
                 }
             }
         }
