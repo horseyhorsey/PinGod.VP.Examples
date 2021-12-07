@@ -547,7 +547,7 @@ public abstract partial class PinGodGameBase : Node
 	{
 		if (!LedExists(name)) return;
 		var c = colour.HasValue ?
-			System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(colour.Value.r8, colour.Value.b8, colour.Value.g8))
+			System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(colour.Value.r8, colour.Value.g8, colour.Value.b8))
 			: Machine.Leds[name].Colour;
 		SetLedState(name, state, c);
 	}
