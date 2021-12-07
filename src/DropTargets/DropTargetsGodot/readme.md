@@ -77,7 +77,7 @@ Same as above but we add in `"dt_reset" : 5` into the `coils` collection
 ### Overriding PinballTargetsControl methods
 ---
 
-Some methods were overriden, including `UpdateLamps`, see the [DropTargetMode.cs](/modes/custom/DropTargetsMode.cs) in this repo.
+Some methods were overriden, including `UpdateLamps`, see the [DropTargetMode.cs](/src/DropTargets/DropTargetsGodot/modes/custom/DropTargetsMode.cs) in this repo.
 
 #### SetTargetComplete(int index)
 
