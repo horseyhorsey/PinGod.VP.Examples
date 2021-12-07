@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
+[ext_resource path="res://assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
+[ext_resource path="res://layers/Text/CreditsLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://modes/common/attract/Attract.cs" type="Script" id=4]
+[ext_resource path="res://modes/common/score_entry/HighScores.tscn" type="PackedScene" id=5]
+
+[node name="Attract" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.47451, 0.482353, 0.478431, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttractLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PushStart" type="CenterContainer" parent="AttractLayers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PushStart" type="Label" parent="AttractLayers/PushStart"]
+margin_left = 279.0
+margin_top = 235.0
+margin_right = 744.0
+margin_bottom = 364.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.854902, 0.0823529, 0.0823529, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+text = "PUSH START"
+align = 1
+valign = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_blinking = 0.5
+
+[node name="HighScores" parent="AttractLayers" instance=ExtResource( 5 )]
+visible = false
+
+[node name="StaticLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="StaticLayers" instance=ExtResource( 3 )]
+valign = 2
+
+[node name="AttractLayerChangeTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="AttractLayerChangeTimer" to="." method="_on_Timer_timeout"]
