@@ -10,6 +10,7 @@ public abstract class PinballTargetsControl : Control
 	#region Exports
 	[Export] protected string[] _target_switches;
 	[Export] protected string[] _target_lamps;
+	[Export] protected string[] _target_leds;
 	[Export] protected bool _inverse_lamps;
 	#endregion
 
@@ -22,11 +23,8 @@ public abstract class PinballTargetsControl : Control
 
     public override void _EnterTree()
     {
-		pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;		
-	}
+		pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;
 
-    public override void _Ready()
-	{
 		if (_target_switches == null)
 		{
 			GD.PushError("no target switches assigned. removing mode");
@@ -34,7 +32,9 @@ public abstract class PinballTargetsControl : Control
 		}
 		else
 		{
-			_targetValues = new bool[_target_switches.Length];			
+			pinGod.LogDebug("setting target values");
+			_targetValues = new bool[_target_switches.Length];
+			pinGod.LogDebug(_targetValues.Length);
 		}
 	}
 
@@ -132,7 +132,15 @@ public abstract class PinballTargetsControl : Control
 				if (_targetValues[i]) pinGod.SetLampState(_target_lamps[i], _inverse_lamps ? (byte)0 : (byte)1);
 				else pinGod.SetLampState(_target_lamps[i], _inverse_lamps ? (byte)1 : (byte)0);
 			}
-		}		
+		}
+		if (_target_leds?.Length > 0)
+		{
+			for (int i = 0; i < _target_leds?.Length; i++)
+			{
+				if (_targetValues[i]) pinGod.SetLedState(_target_leds[i], _inverse_lamps ? (byte)0 : (byte)1, 0);
+				else pinGod.SetLedState(_target_leds[i], _inverse_lamps ? (byte)1 : (byte)0, 0);
+			}
+		}
 	} 
 	#endregion
 }
