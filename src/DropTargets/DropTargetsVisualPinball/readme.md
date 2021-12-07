@@ -18,6 +18,7 @@
 		With dtBank
 		.InitDrop Array (Target1, Target2, Target3, Target4, Target5), array (30,31,32,33,34) ' map objects to switch numbers
 		.InitSnd "DropTarget", "fx_resetdrop"
+		.CreateEvents "dtBank"
 		End With
 ```		
 
@@ -28,4 +29,4 @@
 
 - Create 5 lamps and assign each the lamp number in the Lights `Timer Interval`
 - The interval should be disabled and is just used to store the number
-- Add the lamps in the the `AllLamps` collection
+- Add the lamps to the `AllLamps` collection

@@ -44,7 +44,7 @@ Same as above but we add in `"dt_reset" : 5` into the `coils` collection
 - Choose `User Interface` for the node
 - Rename the control in the `Scene` tree to `DropTargetsMode`
 - Click the `Attach Node Script` button, select language C# and the path should be auto set to where your scene is at `modes/custom/DropTargetsMode.cs`
-- This will create a new script file. Highly recommended to setup `VSCode` or `Visual Studio` for scripting
+- This will create a new script file. Highly recommended to setup `VSCode` or `Visual Studio` for scripting or any other edito that can do C# rather using godot script editor.
 
 
 ### Adjusting Script
@@ -77,7 +77,7 @@ Same as above but we add in `"dt_reset" : 5` into the `coils` collection
 ### Overriding PinballTargetsControl methods
 ---
 
-Some methods were overriden, including `UpdateLamps`, see the `DropTargetMode.cs` in this repo.
+Some methods were overriden, including `UpdateLamps`, see the [DropTargetMode.cs](/modes/custom/DropTargetsMode.cs) in this repo.
 
 #### SetTargetComplete(int index)
 
