@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.cs" type="Script" id=2]
+[ext_resource path="res://assets/fonts/KR_Large.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/img/kr-horse.png" type="Texture" id=4]
+
+[node name="Tilt" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="kr-horse" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0.192157 )
+margin_left = 556.186
+margin_top = 53.0011
+margin_right = 1338.19
+margin_bottom = 967.001
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlinkingLabel" type="Label" parent="CenterContainer"]
+margin_left = 772.0
+margin_top = 409.0
+margin_right = 1147.0
+margin_bottom = 671.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.741176, 0, 0, 1 )
+text = "TILT"
+align = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
