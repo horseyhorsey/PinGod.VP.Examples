@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://modes/BaseGameMode.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=2]
+[ext_resource path="res://assets/videos/death_leg.ogv" type="VideoStream" id=3]
+[ext_resource path="res://assets/videos/death_chrissy.ogv" type="VideoStream" id=4]
+[ext_resource path="res://assets/videos/death_boy.ogv" type="VideoStream" id=5]
+[ext_resource path="res://assets/videos/hoop_fist.ogv" type="VideoStream" id=6]
+[ext_resource path="res://assets/videos/hoop_arse.ogv" type="VideoStream" id=7]
+[ext_resource path="res://assets/videos/hoop_letit_go.ogv" type="VideoStream" id=8]
+[ext_resource path="res://assets/fonts/Jaws54.tres" type="DynamicFont" id=9]
+[ext_resource path="res://assets/videos/jaws_jump.ogv" type="VideoStream" id=10]
+
+[node name="BaseGameMode" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_deathScenes = [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ) ]
+_hoopScenes = [ ExtResource( 7 ), ExtResource( 6 ), ExtResource( 8 ) ]
+_kickbackScene = ExtResource( 10 )
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="."]
+pause_mode = 1
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_play_when_visible = true
+_hold = true
+_pause_when_hidden = true
+
+[node name="Label" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -129.0
+margin_top = -50.0
+margin_right = 129.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.301961, 0.741176, 0.227451, 1 )
+text = "BALL LOST"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ClearLayersTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="finished" from="VideoPlayerPinball" to="." method="_on_VideoPlayerPinball_finished"]
+[connection signal="timeout" from="ClearLayersTimer" to="." method="_on_ClearLayersTimer_timeout"]

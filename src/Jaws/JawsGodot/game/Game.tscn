@@ -1,0 +1,61 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://game/Game.cs" type="Script" id=1]
+[ext_resource path="res://modes/ScoreMode.tscn" type="PackedScene" id=2]
+[ext_resource path="res://modes/BarrelMultiball.tscn" type="PackedScene" id=3]
+[ext_resource path="res://modes/BarrelTargetsMode.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.tscn" type="PackedScene" id=5]
+[ext_resource path="res://modes/ScoreEntry.tscn" type="PackedScene" id=6]
+[ext_resource path="res://modes/JawsBonus.tscn" type="PackedScene" id=7]
+[ext_resource path="res://modes/Orbits.tscn" type="PackedScene" id=8]
+[ext_resource path="res://modes/MultiScoring.tscn" type="PackedScene" id=9]
+[ext_resource path="res://modes/OrcaMultiBall.tscn" type="PackedScene" id=10]
+[ext_resource path="res://modes/HurryUpMode.tscn" type="PackedScene" id=11]
+[ext_resource path="res://modes/BaseGameMode.tscn" type="PackedScene" id=12]
+[ext_resource path="res://modes/BruceMultiball.tscn" type="PackedScene" id=13]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScoreMode" parent="CanvasLayer" instance=ExtResource( 2 )]
+
+[node name="Orbits" parent="CanvasLayer" instance=ExtResource( 8 )]
+visible = false
+
+[node name="BarrelTargetsMode" parent="CanvasLayer" instance=ExtResource( 4 )]
+visible = false
+
+[node name="BaseGameMode" parent="CanvasLayer" instance=ExtResource( 12 )]
+visible = false
+
+[node name="OrcaMultiball" parent="CanvasLayer" groups=[
+"multiball",
+] instance=ExtResource( 10 )]
+
+[node name="BarrelMultiball" parent="CanvasLayer" groups=[
+"multiball",
+] instance=ExtResource( 3 )]
+visible = false
+
+[node name="HurryUpMode" parent="CanvasLayer" instance=ExtResource( 11 )]
+visible = false
+
+[node name="MultiScoring" parent="CanvasLayer" groups=[
+"multiball",
+] instance=ExtResource( 9 )]
+visible = false
+
+[node name="BruceMultiball" parent="CanvasLayer" groups=[
+"multiball",
+] instance=ExtResource( 13 )]
+
+[node name="Bonus" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
+
+[node name="Tilt" parent="CanvasLayer" instance=ExtResource( 5 )]
+visible = false
+
+[node name="ScoreEntry" parent="CanvasLayer" instance=ExtResource( 6 )]
+visible = false

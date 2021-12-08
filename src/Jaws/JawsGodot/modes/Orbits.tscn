@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://modes/Orbits.cs" type="Script" id=1]
+[ext_resource path="res://assets/videos/brody_slow_ahead.ogv" type="VideoStream" id=2]
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=3]
+[ext_resource path="res://assets/fonts/Jaws54.tres" type="DynamicFont" id=4]
+
+[node name="Orbits" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_videos = [ ExtResource( 2 ), null ]
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="."]
+pause_mode = 1
+visible = false
+margin_right = 568.0
+margin_bottom = 240.0
+stream = ExtResource( 2 )
+bus = "Video"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_play_when_visible = true
+_pause_when_hidden = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CenterContainer"]
+margin_left = 116.0
+margin_top = 68.0
+margin_right = 451.0
+margin_bottom = 171.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0.866667, 0, 0, 1 )
+text = "SLOW AHEAD
+LOOPS 1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="finished" from="VideoPlayerPinball" to="." method="_on_VideoPlayerPinball_finished"]

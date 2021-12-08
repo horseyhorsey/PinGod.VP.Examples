@@ -1,0 +1,167 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/JawsPinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_logging_level = 2
+_coils = {
+"auto_plunger": 3,
+"barrel_kicker": 17,
+"bruce_vuk": 7,
+"died": 0,
+"diverter": 4,
+"drop_0": 11,
+"drop_1": 12,
+"drop_2": 13,
+"drop_3": 14,
+"drop_4": 15,
+"drop_5": 16,
+"flash_barrel": 19,
+"flash_jaws": 20,
+"flash_lock": 24,
+"flash_orca_l": 21,
+"flash_orca_m": 22,
+"flash_orca_r": 23,
+"flash_scoop": 18,
+"flash_sling_l": 27,
+"flash_sling_r": 28,
+"flash_vuk": 25,
+"flash_wire": 26,
+"flippers": 2,
+"jaws_kicker": 6,
+"jaws_toy": 5,
+"kickback": 8,
+"orca_magnet": 10,
+"orca_toy": 9,
+"trough": 1
+}
+_switches = {
+"ball_shooter": 28,
+"barrel_kicker": 57,
+"barrel_target_0": 53,
+"barrel_target_1": 54,
+"barrel_target_2": 55,
+"barrel_target_3": 56,
+"bruce_vuk": 36,
+"bumper_0": 33,
+"bumper_1": 34,
+"bumper_2": 35,
+"coin1": 1,
+"coin2": 2,
+"coin3": 3,
+"down": 5,
+"drop_0": 48,
+"drop_1": 49,
+"drop_2": 50,
+"drop_3": 51,
+"drop_4": 52,
+"drop_5": 58,
+"enter": 7,
+"exit": 4,
+"flipper_l": 11,
+"flipper_r": 9,
+"inlane_l": 22,
+"inlane_r": 23,
+"jaws_kicker": 37,
+"jaws_target_left": 46,
+"jaws_target_right": 47,
+"jaws_vuk": 38,
+"kickback": 27,
+"lock_activate_0": 29,
+"lock_activate_1": 30,
+"lock_activate_2": 31,
+"orbit_inner_orca": 44,
+"orbit_l": 40,
+"orbit_m": 41,
+"orbit_orca": 43,
+"orbit_r": 42,
+"orca_magnet": 32,
+"orca_target": 45,
+"outlane_l": 21,
+"outlane_r": 24,
+"plunger_lane": 20,
+"scoop_left": 39,
+"slam_tilt": 16,
+"sling_l": 25,
+"sling_r": 26,
+"start": 19,
+"tilt": 17,
+"trough_1": 81,
+"trough_2": 82,
+"trough_3": 83,
+"trough_4": 84,
+"up": 6
+}
+_lamps = {
+"barrel_0": 13,
+"barrel_1": 14,
+"barrel_2": 15,
+"barrel_3": 16,
+"barrel_multiball": 17,
+"barrel_target_0": 3,
+"barrel_target_1": 4,
+"barrel_target_2": 5,
+"barrel_target_3": 6,
+"bruce_0": 18,
+"bruce_1": 19,
+"bruce_2": 20,
+"bruce_multiball": 21,
+"bumper_lamp": 37,
+"drop_0": 7,
+"drop_1": 8,
+"drop_2": 9,
+"drop_3": 10,
+"drop_4": 11,
+"drop_5": 12,
+"gi_0": 38,
+"gi_1": 39,
+"gi_2": 40,
+"jaws_l": 35,
+"jaws_r": 36,
+"jp_0": 31,
+"jp_1": 32,
+"jp_2": 33,
+"jp_3": 34,
+"kickback": 2,
+"lock_activate_0": 27,
+"lock_activate_1": 28,
+"lock_activate_2": 29,
+"orca_0": 22,
+"orca_1": 23,
+"orca_2": 24,
+"orca_3": 25,
+"orca_jackpot_bulb": 41,
+"orca_multiball": 26,
+"orca_target": 30,
+"quint_0": 42,
+"quint_1": 43,
+"quint_2": 44,
+"shark_lock_bulb": 45,
+"shoot_again": 1
+}
+_leds = {
+}
+_early_save_switches = PoolStringArray( "outlane_r" )
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
+_ball_search_coils = PoolStringArray( "bruce_vuk", "barrel_kicker", "jaws_kicker" )
+_ball_search_stop_switches = PoolStringArray( "bruce_vuk", "barrel_kicker", "jaws_kicker" )
+_ball_search_wait_time_secs = 12
+_ball_save_multiball_seconds = 12
+
+[node name="DevOverlays" type="CanvasLayer" parent="."]
+layer = 128
+__meta__ = {
+"_editor_description_": "Overlays to aid with developing."
+}
+
+[node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
