@@ -1,0 +1,33 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://modes/DeagleMode.cs" type="Script" id=1]
+[ext_resource path="res://assets/audio/sfx/TurboChairLadyShort.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/audio/sfx/GremlinsFX1.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/audio/sfx/deagle_jack.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/audio/music/spinnermotorsound.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/audio/sfx/gremlinNaaahhh.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/audio/voice/whatarethey.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/audio/voice/aaah they come.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/audio/voice/add4.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/audio/voice/theycomeforme.wav" type="AudioStream" id=10]
+
+[node name="DeagleMode" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_target_switches = PoolStringArray( "deagle0", "deagle1", "deagle2", "deagle3", "deagle4" )
+_target_lamps = PoolStringArray( "deagle0", "deagle1", "deagle2", "deagle3", "deagle4" )
+_streams = [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ), null ]
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -7.429
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

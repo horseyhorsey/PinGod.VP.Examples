@@ -6,7 +6,6 @@
 # PinGod - Godot
 # import files that are built, no need to be in source
 .import
-Exported
 *.import
 .mono
 
@@ -368,11 +367,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/src/BasicGame/Exported
-/src/MoonStation/MoonStationVisualPinball/vp-playfield.png
-/src/MoonStation/MoonStationVisualPinball/vp-plastics.png
-/src/RolloverLanes/RolloverLanesGodot/addons
-/src/SpinningDiscs/SpinningDiscsGodot/addons
-/src/BasicGame/BasicGameGodot/addons
-/src/Jaws/JawsGodot/addons
-/src/Gremlins/Gremlins/addons
