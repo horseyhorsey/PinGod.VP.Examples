@@ -1,21 +1,19 @@
 using Godot;
-using static Godot.GD;
 
-public class Game : Node2D
-{
-	internal const string BALL_SAVE_SCENE = "res://modes/common/ballsave/BallSave.tscn";
-	internal const string MULTIBALL_SCENE = "res://modes/common/multiball/Multiball.tscn";
+public class Game : PinGodGameNode
+{	
+	[Export] protected string MULTIBALL_SCENE = "res://addons/PinGodGame/Modes/multiball/Multiball.tscn";
 
 	private bool _lastBall;
 	private Timer _tiltedTimeOut;
 	private Bonus endOfBallBonus;
-	private PackedScene multiballPkd;
-	private PinGodGame pinGod;
+	private PackedScene multiballPkd;	
 	private ScoreEntry scoreEntry;
 
 	public override void _EnterTree()
 	{
-		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		base._EnterTree();
+
 		pinGod.LogInfo("game: enter tree");
 
 		//get packed scene to create an instance of when a Multiball gets activated
@@ -27,6 +25,7 @@ public class Game : Node2D
 		pinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
 		pinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
 		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
+		//pinGod.Connect(nameof(PinGodGameBase.PlayerAdded), this, "OnPlayerAdded");
 
 		scoreEntry = GetNode("Modes/ScoreEntry") as ScoreEntry;
 		endOfBallBonus = GetNode("Modes/Bonus") as Bonus;
@@ -55,6 +54,7 @@ public class Game : Node2D
 		//add to the tree
 		GetNode("Modes").AddChild(mball);
 	}
+
 	/// <summary>
 	/// Add a display at end of ball
 	/// </summary>
@@ -154,20 +154,21 @@ public class Game : Node2D
 		pinGod.LogInfo("game: starting ball after tilting");
 		StartNewBall();
 	}
-	void timeout()
-	{		
+    /// <summary>
+    /// Starts new ball in PinGod and invokes OnBallStarted on all Mode groups
+    /// </summary>
+    private void StartNewBall()
+    {
+        pinGod.DisableAllLamps();
+        pinGod.StartNewBall();
+        pinGod.OnBallStarted(GetTree());
+    }
+
+    void timeout()
+    {		
 		if (!_lastBall)
 		{
 			CallDeferred("OnStartNewBall");
 		}
-	}
-	/// <summary>
-	/// Starts new ball in PinGod and invokes OnBallStarted on all Mode groups
-	/// </summary>
-	private void StartNewBall()
-	{
-		pinGod.DisableAllLamps();
-		pinGod.StartNewBall();
-		pinGod.OnBallStarted(GetTree());
 	}
 }
