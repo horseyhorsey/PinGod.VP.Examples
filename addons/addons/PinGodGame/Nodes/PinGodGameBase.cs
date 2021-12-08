@@ -628,13 +628,8 @@ public abstract partial class PinGodGameBase : Node
 		else if (_recordPlayback == RecordPlaybackOption.Record)
 		{
 			var userDir = CreateRecordingsDirectory();
-			var file = DateTime.Now.ToFileTime() + ".record";
-			var recordDir = CreateRecordingsDirectory();
-			var final = recordDir + $"/{file}";
-			LogInfo("creating record file for write: ", final);
-
-			_recordFile = new File();
-			_recordFile.Open(final, File.ModeFlags.WriteRead);
+			_recordFile = new File();		
+			_recordFile.Open(playbackfile, File.ModeFlags.WriteRead);
 			LogDebug("pingodbase: game recording on");
 		}
 	}
