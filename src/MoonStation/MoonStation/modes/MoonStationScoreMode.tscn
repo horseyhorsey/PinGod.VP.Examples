@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://modes/common/score_mode/ScoreMode.cs" type="Script" id=1]
-[ext_resource path="res://assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
-[ext_resource path="res://assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://modes/MoonStationScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/img/moon-horsepin.svg" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]

@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://modes/Game.cs" type="Script" id=1]
-[ext_resource path="res://modes/common/score_mode/ScoreMode.tscn" type="PackedScene" id=2]
-[ext_resource path="res://modes/custom/Targets.tscn" type="PackedScene" id=3]
-[ext_resource path="res://modes/custom/Crater.tscn" type="PackedScene" id=4]
-[ext_resource path="res://modes/common/tilt/Tilt.tscn" type="PackedScene" id=5]
-[ext_resource path="res://modes/common/score_entry/ScoreEntry.tscn" type="PackedScene" id=6]
-[ext_resource path="res://modes/common/bonus/Bonus.tscn" type="PackedScene" id=7]
-[ext_resource path="res://modes/custom/BaseMode.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/Game.cs" type="Script" id=1]
+[ext_resource path="res://modes/MoonStationScoreMode.tscn" type="PackedScene" id=2]
+[ext_resource path="res://modes/Targets.tscn" type="PackedScene" id=3]
+[ext_resource path="res://modes/Crater.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/PinGodGame/Modes/score_entry/ScoreEntry.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/PinGodGame/Modes/bonus/Bonus.tscn" type="PackedScene" id=7]
+[ext_resource path="res://modes/BaseMode.tscn" type="PackedScene" id=8]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )

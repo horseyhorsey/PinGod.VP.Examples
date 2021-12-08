@@ -1,10 +1,28 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
-[ext_resource path="res://assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
-[ext_resource path="res://layers/Text/CreditsLayer.tscn" type="PackedScene" id=3]
-[ext_resource path="res://modes/common/attract/Attract.cs" type="Script" id=4]
-[ext_resource path="res://modes/common/score_entry/HighScores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://modes/MoonStationAttract.cs" type="Script" id=4]
+[ext_resource path="res://addons/PinGodGame/Modes/score_entry/HighScores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/img/moon-horsepin.svg" type="Texture" id=6]
+
+[sub_resource type="Animation" id=1]
+resource_name = "MoveMoon"
+length = 29.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("moon-station-logo:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 29 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -79.1959, 180.161 ), Vector2( 590.603, 185.817 ) ]
+}
 
 [node name="Attract" type="Control"]
 margin_right = 512.0
@@ -17,10 +35,16 @@ __meta__ = {
 [node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.564706, 0.564706, 0.564706, 1 )
+color = Color( 0.0627451, 0.0862745, 0.164706, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="moon-station-logo" type="Sprite" parent="."]
+modulate = Color( 1, 1, 0.921569, 1 )
+position = Vector2( 590.603, 185.817 )
+scale = Vector2( 1.25924, 1.25924 )
+texture = ExtResource( 6 )
 
 [node name="AttractLayers" type="Control" parent="."]
 anchor_right = 1.0
@@ -34,14 +58,15 @@ __meta__ = {
 }
 
 [node name="PushStart" type="Label" parent="AttractLayers/Push Start"]
-margin_left = 140.0
+margin_left = 115.0
 margin_top = 159.0
-margin_right = 372.0
+margin_right = 397.0
 margin_bottom = 224.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.854902, 0.0823529, 0.0823529, 1 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
-text = "PUSH START"
+text = "Moon station"
+align = 1
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -69,5 +94,9 @@ __meta__ = {
 [node name="AttractLayerChangeTimer" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "MoveMoon"
+anims/MoveMoon = SubResource( 1 )
 
 [connection signal="timeout" from="AttractLayerChangeTimer" to="." method="_on_Timer_timeout"]

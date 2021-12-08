@@ -1,6 +1,6 @@
 using Godot;
 
-public class ServiceMenu : Control
+public class MoonStationServiceMenu : Control
 {
 	string[] CurrentMenuItems = null;
 	string[] Items = new string[] { "music", "exit" };

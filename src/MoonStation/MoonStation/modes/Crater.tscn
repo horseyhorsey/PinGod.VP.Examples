@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://modes/custom/Crater.cs" type="Script" id=3]
+[ext_resource path="res://modes/Crater.cs" type="Script" id=3]
 [ext_resource path="res://assets/audio/sfx/craterhit-horsepin.wav" type="AudioStream" id=4]
 
 [sub_resource type="StreamTexture" id=1]

@@ -3,19 +3,20 @@ using static Godot.GD;
 
 public class BaseMode : Control
 {
+    private PackedScene _ballSaveScene;
+    [Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
+
     int bigScore = 250;
     private Game game;
     int medScore = 100;
     int minScore = 50;
     private PinGodGame pinGod;
-	private PackedScene _ballSaveScene;
-
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
 
-		_ballSaveScene = GD.Load<PackedScene>(Game.BALL_SAVE_SCENE);
+		_ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);
 	}
 
 	/// <summary>
@@ -90,6 +91,23 @@ public class BaseMode : Control
 		}
 	}
 
+    public void OnBallDrained() { }
+
+    public void OnBallSaved()
+    {
+        pinGod.LogDebug("base: ball_saved");
+        if (!pinGod.IsMultiballRunning)
+        {
+            pinGod.LogDebug("ballsave: ball_saved");
+            //add ball save scene to tree and remove after 2 secs;
+            CallDeferred(nameof(DisplayBallSaveScene), 2f);
+        }
+        else
+        {
+            pinGod.LogDebug("skipping save display in multiball");
+        }
+    }
+
     public void OnBallStarted()
     {
 		pinGod.LogInfo("game: ball started");
@@ -98,23 +116,6 @@ public class BaseMode : Control
             pinGod.AudioManager.PlayMusic(pinGod.AudioManager.Bgm);
         }
     }
-
-	public void OnBallDrained() { }
-	public void OnBallSaved()
-	{
-		pinGod.LogDebug("base: ball_saved");
-		if (!pinGod.IsMultiballRunning)
-		{
-			pinGod.LogDebug("ballsave: ball_saved");
-			//add ball save scene to tree and remove after 2 secs;
-			CallDeferred(nameof(DisplayBallSaveScene), 2f);
-		}
-		else
-		{
-			pinGod.LogDebug("skipping save display in multiball");
-		}
-	}
-
 	public void UpdateLamps() { }
 
 

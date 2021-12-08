@@ -2,8 +2,7 @@ using Godot;
 
 public class Game : Node2D
 {
-	internal const string BALL_SAVE_SCENE = "res://modes/common/ballsave/BallSave.tscn";
-	const string MULTIBALL_SCENE = "res://modes/common/multiball/Multiball.tscn";
+	[Export] protected string MULTIBALL_SCENE = "res://addons/PinGodGame/Modes/multiball/Multiball.tscn";
 
 	private bool _lastBall;
 	private Timer _tiltedTimeOut;
