@@ -21,11 +21,11 @@ End Sub
 
 'Release
 'Const IsDebug = False ' set false to load an export
-'Const GameDirectory = ".\PinGod.BasicGame.exe" 'exported game
+'Const GameDirectory = ".\PinGod.DropTargets.exe" 'exported game
 
 'Debug
 Const IsDebug = True
-Const GameDirectory = "E:\Repositories\Pinball\PinGod\PinGod.VP.Examples\src\DropTargets\DropTargetsGodot" ' Loads the godot pingod game project
+Const GameDirectory = "..\DropTargetsGodot" ' Loads the godot pingod game project
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 1  ' use led (color)
 Const UseLamps = 0  ' Check for lamp states?

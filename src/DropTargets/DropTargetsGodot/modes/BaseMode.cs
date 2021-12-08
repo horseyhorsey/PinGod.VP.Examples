@@ -6,12 +6,14 @@ public class BaseMode : Control
 	private Game game;
 	private PackedScene _ballSaveScene;
 
+	[Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
+
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
 
-		_ballSaveScene = GD.Load<PackedScene>(Game.BALL_SAVE_SCENE);
+		_ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);
 	}
 
 	/// <summary>

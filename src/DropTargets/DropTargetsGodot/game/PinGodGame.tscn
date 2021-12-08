@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://game/PinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://game/CustomPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/BasicGamePlayer.cs" type="Script" id=4]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )

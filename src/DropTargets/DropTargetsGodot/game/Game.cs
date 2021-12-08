@@ -1,21 +1,19 @@
 using Godot;
 using static Godot.GD;
 
-public class Game : Node2D
+public class Game : PinGodGameNode
 {
-	internal const string BALL_SAVE_SCENE = "res://modes/common/ballsave/BallSave.tscn";
-	internal const string MULTIBALL_SCENE = "res://modes/common/multiball/Multiball.tscn";
+	[Export] protected string MULTIBALL_SCENE = "res://addons/PinGodGame/Modes/multiball/Multiball.tscn";
 
 	private bool _lastBall;
 	private Timer _tiltedTimeOut;
 	private Bonus endOfBallBonus;
 	private PackedScene multiballPkd;
-	private PinGodGame pinGod;
 	private ScoreEntry scoreEntry;
 
 	public override void _EnterTree()
 	{
-		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		base._EnterTree();
 		pinGod.LogInfo("game: enter tree");
 
 		//get packed scene to create an instance of when a Multiball gets activated
