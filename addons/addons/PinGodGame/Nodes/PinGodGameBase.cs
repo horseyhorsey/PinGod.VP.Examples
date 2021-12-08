@@ -58,7 +58,7 @@ public abstract partial class PinGodGameBase : Node
 	public bool IsTilted { get; set; }
 	public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Info;
 	public PinGodPlayer Player { get; private set; }
-	public List<PinGodPlayer> Players { get; private set; }
+	public List<PinGodPlayer> Players { get; set; }
 	#endregion
 
 	internal Trough _trough;
@@ -262,7 +262,7 @@ public abstract partial class PinGodGameBase : Node
 	/// <param name="name"></param>
 	public virtual void CreatePlayer(string name)
 	{
-		Players.Add(new PlayerBasicGame() { Name = name, Points = 0 });
+		Players.Add(new PinGodPlayer() { Name = name, Points = 0 });
 	}
 
 	/// <summary>

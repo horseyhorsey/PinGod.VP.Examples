@@ -2,9 +2,9 @@ using Godot;
 
 public class Bumper : Node
 {
-	[Export] string _SwitchName;
-	[Export] string _CoilName;
-	[Export] AudioStream _AudioStream;	
+	[Export] string _SwitchName = string.Empty;
+	[Export] string _CoilName = string.Empty;
+	[Export] AudioStream _AudioStream = null;	
 	[Signal] delegate void BumperHit(string name);
 
 	private PinGodGameBase _pinGod;
