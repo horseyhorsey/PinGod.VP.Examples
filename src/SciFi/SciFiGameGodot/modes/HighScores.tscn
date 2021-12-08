@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Modes/score_entry/HighScores.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=4]
+[ext_resource path="res://assets/videos/cosmic_4.ogv" type="VideoStream" id=5]
+
+[node name="HighScores" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.184314, 0.156863, 0.309804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="."]
+pause_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 5 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_loop = true
+_play_when_visible = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 213.0
+margin_top = 201.0
+margin_right = 811.0
+margin_bottom = 399.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_right = 598.0
+margin_bottom = 129.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.266667, 0.788235, 0.211765, 1 )
+text = "sci-fi    SCORES"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 133.0
+margin_right = 598.0
+margin_bottom = 198.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.180392, 0.607843, 0, 1 )
+text = "SCORE"
+align = 3
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

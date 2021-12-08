@@ -1,0 +1,167 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://game/SciFiPinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_logging_level = 0
+_coils = {
+"bank3": 7,
+"bank4": 8,
+"bs_left": 4,
+"bs_right": 5,
+"bs_top_right": 6,
+"died": 0,
+"flippers": 2,
+"kickback": 3,
+"trough": 1
+}
+_switches = {
+"Scifi": 35,
+"bank3_1": 31,
+"bank3_2": 32,
+"bank3_3": 33,
+"bank4_1": 27,
+"bank4_2": 28,
+"bank4_3": 29,
+"bank4_4": 30,
+"bs_left": 46,
+"bs_right": 34,
+"bs_top_right": 51,
+"bumper_0": 40,
+"bumper_1": 41,
+"bumper_2": 42,
+"coin1": 1,
+"coin2": 2,
+"coin3": 3,
+"down": 5,
+"enter": 7,
+"exit": 4,
+"flipper_l": 11,
+"flipper_r": 9,
+"inlane_l": 22,
+"inlane_r": 23,
+"outlane_l": 21,
+"outlane_r": 24,
+"plunger_lane": 20,
+"sCifi": 36,
+"scIfi": 37,
+"sciFi": 38,
+"scifI": 39,
+"slam_tilt": 16,
+"sling_l": 25,
+"sling_r": 26,
+"spinner": 52,
+"star_left_1": 43,
+"star_left_2": 44,
+"star_left_3": 45,
+"star_middle": 47,
+"start": 19,
+"tilt": 17,
+"toplane_0": 48,
+"toplane_1": 49,
+"toplane_2": 50,
+"trough_1": 81,
+"trough_2": 82,
+"trough_3": 83,
+"trough_4": 84,
+"up": 6
+}
+_lamps = {
+"Scifi": 45,
+"alien_1": 23,
+"alien_10": 32,
+"alien_2": 24,
+"alien_20": 33,
+"alien_3": 25,
+"alien_4": 26,
+"alien_5": 27,
+"alien_6": 28,
+"alien_7": 29,
+"alien_8": 30,
+"alien_9": 31,
+"bank3_1": 42,
+"bank3_2": 43,
+"bank3_3": 44,
+"bank4_1": 38,
+"bank4_2": 39,
+"bank4_3": 40,
+"bank4_4": 41,
+"bonus_2x": 2,
+"bonus_3x": 3,
+"bonus_4x": 4,
+"bonus_5x": 5,
+"bonus_6x": 6,
+"bumper_0": 64,
+"bumper_1": 65,
+"bumper_2": 66,
+"defend_1": 12,
+"defend_10": 21,
+"defend_2": 13,
+"defend_20": 22,
+"defend_3": 14,
+"defend_4": 15,
+"defend_5": 16,
+"defend_6": 17,
+"defend_7": 18,
+"defend_8": 19,
+"defend_9": 20,
+"dock_50k": 36,
+"dock_extra_ball": 34,
+"dock_light": 37,
+"dock_special": 35,
+"inlane_l": 10,
+"inlane_r": 11,
+"jackpot_right": 52,
+"kickback": 7,
+"left_left": 58,
+"mode_alienbane": 70,
+"mode_armada": 68,
+"mode_invasion": 67,
+"mode_spawn": 69,
+"outlane_l": 8,
+"outlane_r": 9,
+"power_left": 57,
+"sCifi": 46,
+"scIfi": 47,
+"sciFi": 48,
+"scifI": 49,
+"ship_left": 53,
+"ship_middle": 59,
+"ship_right": 50,
+"shoot_again": 1,
+"star_left_1": 54,
+"star_left_2": 55,
+"star_left_3": 56,
+"star_middle": 60,
+"star_right": 51,
+"toplane_0": 61,
+"toplane_1": 62,
+"toplane_2": 63
+}
+_leds = {
+}
+_auto_plunge_solenoid = ""
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
+_ball_search_coils = PoolStringArray( "bs_left", "bs_right", "bs_top_right" )
+_ball_search_stop_switches = PoolStringArray( "plunger_lane" )
+_ball_save_multiball_seconds = 12
+_ball_search_wait_time_secs = 10
+
+[node name="DevOverlays" type="CanvasLayer" parent="."]
+layer = 128
+__meta__ = {
+"_editor_description_": "Overlays to aid with developing."
+}
+
+[node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
+columns = 6

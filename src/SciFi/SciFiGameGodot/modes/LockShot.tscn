@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://modes/LockShot.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=3]
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=4]
+
+[node name="LockShot" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="ViewLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackgroundColour" type="ColorRect" parent="ViewLayers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.478431, 0, 0.807843, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="ViewLayers"]
+pause_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+autoplay = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_play_when_visible = true
+_hold = true
+
+[node name="BlinkingLabel" type="Label" parent="ViewLayers"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -381.5
+margin_top = -328.5
+margin_right = 381.5
+margin_bottom = 328.5
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.25098, 0.92549, 0.0666667, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_as_outline = 190
+text = "COMPLETING BANKS
+
+
+
+LIGHTS POWER UP"
+align = 1
+valign = 1
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
