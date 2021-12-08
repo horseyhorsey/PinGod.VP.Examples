@@ -5,7 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Rug.Osc" Version="1.2.5" />    
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\videos\barrels\barrel_hook_me_up.ogv" />

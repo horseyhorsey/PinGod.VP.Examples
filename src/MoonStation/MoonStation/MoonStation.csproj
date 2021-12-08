@@ -8,7 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Rug.Osc" Version="1.2.5" />    
   </ItemGroup>
   <ItemGroup>
     <None Include="export_presets.cfg" />
