@@ -12,8 +12,6 @@
     <PackageReference Include="Rug.Osc" Version="1.2.5" />    
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="modes\common\multiball\" />
-    <Folder Include="modes\common\score_entry\" />
     <Folder Include="recordings\" />
     <Folder Include="scenes\" />
   </ItemGroup>

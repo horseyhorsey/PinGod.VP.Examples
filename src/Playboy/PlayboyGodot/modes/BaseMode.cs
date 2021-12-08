@@ -3,6 +3,8 @@ using System;
 
 public class BaseMode : Control
 {
+	[Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
+
 	private PinGodGame pinGod;
 	private Game game;
 	private PackedScene _playawardScene;

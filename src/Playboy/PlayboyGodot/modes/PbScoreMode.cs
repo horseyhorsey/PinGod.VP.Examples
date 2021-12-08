@@ -3,7 +3,7 @@ using Godot;
 /// <summary>
 /// Simple score display mode for 4 players with ball information. Used in the <see cref="Game"/> Scene
 /// </summary>
-public class ScoreMode : Control
+public class PbScoreMode : Control
 {
 	private PinGodGame pinGod;
 	#region Labels from Scene

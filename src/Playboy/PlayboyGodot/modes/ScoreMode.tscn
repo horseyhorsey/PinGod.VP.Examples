@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://modes/common/score_mode/ScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://modes/PbScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/pb_264.tres" type="DynamicFont" id=2]
-[ext_resource path="res://assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
-[ext_resource path="res://layers/Text/CreditsLayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/img/screenborder.png" type="Texture" id=5]
-[ext_resource path="res://assets/fonts/Bebas64.tres" type="DynamicFont" id=6]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=6]
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=7]
 [ext_resource path="res://assets/videos/Playboy_2.ogv" type="VideoStream" id=8]
 

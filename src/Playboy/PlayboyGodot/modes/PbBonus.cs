@@ -5,7 +5,7 @@ using System;
 /// 1000 * each bonus times for player
 /// Sends <see cref="PinGodGame.BonusEnded"/> signal on <see cref="_display_for_seconds"/> timeout
 /// </summary>
-public class Bonus : Control
+public class PbBonus : Control
 {
 	[Export] int _display_for_seconds = 5;
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://modes/custom/PlaymateTargets.cs" type="Script" id=1]
+[ext_resource path="res://modes/PlaymateTargets.cs" type="Script" id=1]
 [ext_resource path="res://assets/img/miss-complete.png" type="Texture" id=2]
 [ext_resource path="res://assets/img/pb_miss_march.png" type="Texture" id=3]
 

@@ -2,11 +2,11 @@ using Godot;
 
 public class Game : Node2D
 {
-	const string MULTIBALL_SCENE = "res://modes/common/multiball/Multiball.tscn";
+	[Export] protected string MULTIBALL_SCENE = "res://addons/PinGodGame/Modes/multiball/Multiball.tscn";
 
 	private bool _lastBall;
 	private Timer _tiltedTimeOut;
-	private Bonus endOfBallBonus;
+	private PbBonus endOfBallBonus;
 	private PackedScene multiballPkd;
 	private PinGodGame pinGod;
 	private ScoreEntry scoreEntry;
@@ -30,7 +30,7 @@ public class Game : Node2D
 		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
 
 		scoreEntry = GetNode("Modes/ScoreEntry") as ScoreEntry;
-		endOfBallBonus = GetNode("Modes/Bonus") as Bonus;
+		endOfBallBonus = GetNode("Modes/Bonus") as PbBonus;
 
 		_tiltedTimeOut = new Timer() { OneShot = true, WaitTime = 4, Autostart = false };
 		AddChild(_tiltedTimeOut);

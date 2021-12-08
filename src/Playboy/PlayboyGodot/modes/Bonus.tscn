@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/fonts/pb_72a.tres" type="DynamicFont" id=1]
-[ext_resource path="res://modes/common/bonus/Bonus.cs" type="Script" id=2]
+[ext_resource path="res://modes/PbBonus.cs" type="Script" id=2]
 [ext_resource path="res://assets/img/GirlRight.png" type="Texture" id=3]
 [ext_resource path="res://assets/img/GirlLeft.png" type="Texture" id=4]
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=5]
