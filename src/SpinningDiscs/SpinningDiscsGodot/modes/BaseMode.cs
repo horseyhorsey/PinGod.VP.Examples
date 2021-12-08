@@ -2,6 +2,8 @@ using Godot;
 
 public class BaseMode : Control
 {
+	[Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
+
 	private PinGodGame pinGod;
 	private Game game;
 	private PackedScene _ballSaveScene;
@@ -11,7 +13,7 @@ public class BaseMode : Control
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
 
-		_ballSaveScene = GD.Load<PackedScene>(Game.BALL_SAVE_SCENE);
+		_ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);
 	}
 
 	/// <summary>
