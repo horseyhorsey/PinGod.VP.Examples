@@ -1,0 +1,211 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://modes/BaseMode.cs" type="Script" id=1]
+[ext_resource path="res://assets/img/grem_puppet.png" type="Texture" id=2]
+[ext_resource path="res://assets/fonts/grem_64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/img/gizmo_pursuit.png" type="Texture" id=4]
+[ext_resource path="res://assets/img/spider.png" type="Texture" id=5]
+[ext_resource path="res://addons/PinGodGame/Nodes/Bumper.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/audio/sfx/Boing2.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/audio/sfx/Boing3.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/audio/sfx/Boing1.wav" type="AudioStream" id=9]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.12549, 0.117647, 0.117647, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+
+[node name="BaseMode" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_left = 39.2018
+margin_top = 227.729
+margin_right = 339.202
+margin_bottom = 476.729
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 295.0
+margin_bottom = 244.0
+custom_constants/separation = -6
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+margin_right = 290.0
+margin_bottom = 65.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.819608, 1, 0.109804, 1 )
+text = "HUNT"
+align = 1
+valign = 2
+
+[node name="image" type="TextureRect" parent="PanelContainer/VBoxContainer"]
+margin_top = 59.0
+margin_right = 290.0
+margin_bottom = 239.0
+rect_min_size = Vector2( 200, 180 )
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+margin_left = 39.2018
+margin_top = 598.919
+margin_right = 339.202
+margin_bottom = 847.919
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer2"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 295.0
+margin_bottom = 244.0
+custom_constants/separation = -6
+
+[node name="Label" type="Label" parent="PanelContainer2/VBoxContainer"]
+margin_right = 290.0
+margin_bottom = 65.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 0.109804, 0.713726, 1 )
+text = "pursuit"
+align = 1
+valign = 2
+
+[node name="image" type="TextureRect" parent="PanelContainer2/VBoxContainer"]
+margin_top = 59.0
+margin_right = 290.0
+margin_bottom = 239.0
+rect_min_size = Vector2( 200, 180 )
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer3" type="PanelContainer" parent="."]
+margin_left = 1581.28
+margin_top = 232.729
+margin_right = 1896.28
+margin_bottom = 481.729
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer3"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 310.0
+margin_bottom = 244.0
+custom_constants/separation = -6
+
+[node name="Label" type="Label" parent="PanelContainer3/VBoxContainer"]
+margin_right = 305.0
+margin_bottom = 65.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 0.964706, 0.109804, 1 )
+text = "MADNESS"
+align = 1
+valign = 2
+
+[node name="image" type="TextureRect" parent="PanelContainer3/VBoxContainer"]
+margin_top = 59.0
+margin_right = 305.0
+margin_bottom = 239.0
+rect_min_size = Vector2( 200, 180 )
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer4" type="PanelContainer" parent="."]
+margin_left = 1586.28
+margin_top = 598.919
+margin_right = 1887.28
+margin_bottom = 847.919
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer4"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 296.0
+margin_bottom = 244.0
+custom_constants/separation = -6
+
+[node name="Label" type="Label" parent="PanelContainer4/VBoxContainer"]
+margin_right = 291.0
+margin_bottom = 65.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.309804, 0.67451, 0.341176, 1 )
+text = "SPIDER"
+align = 1
+valign = 2
+
+[node name="image" type="TextureRect" parent="PanelContainer4/VBoxContainer"]
+margin_top = 59.0
+margin_right = 291.0
+margin_bottom = 239.0
+rect_min_size = Vector2( 200, 180 )
+texture = ExtResource( 5 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bumper0" parent="." instance=ExtResource( 6 )]
+_SwitchName = "bumper0"
+_CoilName = "flash_spid_l"
+_AudioStream = ExtResource( 9 )
+
+[node name="Bumper1" parent="." instance=ExtResource( 6 )]
+_SwitchName = "bumper1"
+_CoilName = "flash_spid_r"
+_AudioStream = ExtResource( 7 )
+
+[node name="Bumper2" parent="." instance=ExtResource( 6 )]
+_SwitchName = "bumper2"
+_CoilName = "gizmo_toy"
+_AudioStream = ExtResource( 8 )
+
+[connection signal="BumperHit" from="Bumper0" to="." method="_on_Bumper0_BumperHit"]
+[connection signal="BumperHit" from="Bumper1" to="." method="_on_Bumper1_BumperHit"]
+[connection signal="BumperHit" from="Bumper2" to="." method="_on_Bumper2_BumperHit"]

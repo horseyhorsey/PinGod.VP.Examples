@@ -8,10 +8,10 @@ public abstract class PinGodGameNode : Node
     /// <summary>
     /// A reference to PinGodGame node
     /// </summary>
-    public PinGodGameBase PinGod;
+    public PinGodGame pinGod;
 
     public override void _EnterTree()
     {
-        PinGod = GetNode("/root/PinGodGame") as PinGodGameBase;        
+        pinGod = GetNode("/root/PinGodGame") as PinGodGame;        
     }
 }

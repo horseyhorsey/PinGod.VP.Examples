@@ -1,0 +1,107 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=1]
+[ext_resource path="res://assets/videos/kr_wheel.ogv" type="VideoStream" id=2]
+[ext_resource path="res://scenes/TvPanel.cs" type="Script" id=3]
+[ext_resource path="res://assets/videos/kitt_corn.ogv" type="VideoStream" id=4]
+[ext_resource path="res://assets/videos/kitt_dash.ogv" type="VideoStream" id=5]
+[ext_resource path="res://assets/videos/karr_start.ogv" type="VideoStream" id=6]
+[ext_resource path="res://assets/videos/kitt_dark.ogv" type="VideoStream" id=7]
+[ext_resource path="res://assets/videos/kitt_bonnet.ogv" type="VideoStream" id=8]
+[ext_resource path="res://assets/videos/kitt_turboboost.ogv" type="VideoStream" id=9]
+[ext_resource path="res://assets/videos/karr_dash.ogv" type="VideoStream" id=10]
+[ext_resource path="res://assets/fonts/KR_42.tres" type="DynamicFont" id=11]
+[ext_resource path="res://assets/videos/truck_entry.ogv" type="VideoStream" id=12]
+[ext_resource path="res://assets/videos/truck_side.ogv" type="VideoStream" id=13]
+[ext_resource path="res://assets/videos/kr_pursuit_mode.ogv" type="VideoStream" id=14]
+[ext_resource path="res://assets/videos/kitt_intro_headon.ogv" type="VideoStream" id=15]
+[ext_resource path="res://assets/img/kr_panelrounded.tres" type="StyleBox" id=16]
+[ext_resource path="res://assets/videos/kitt_birds.ogv" type="VideoStream" id=17]
+[ext_resource path="res://assets/img/TvPanel.tres" type="StyleBox" id=18]
+[ext_resource path="res://assets/videos/kitt_jump.ogv" type="VideoStream" id=19]
+[ext_resource path="res://assets/videos/kitt_two_wheel.ogv" type="VideoStream" id=20]
+[ext_resource path="res://assets/videos/mikes_finger.ogv" type="VideoStream" id=21]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_streams = {
+"karr_dash": ExtResource( 10 ),
+"karr_start": ExtResource( 6 ),
+"kitt_birds": ExtResource( 17 ),
+"kitt_bonnet": ExtResource( 8 ),
+"kitt_corn": ExtResource( 4 ),
+"kitt_dark": ExtResource( 7 ),
+"kitt_dash": ExtResource( 5 ),
+"kitt_intro_headon": ExtResource( 15 ),
+"kitt_jump": ExtResource( 19 ),
+"kitt_turboboost": ExtResource( 9 ),
+"kitt_two_wheel": ExtResource( 20 ),
+"kr_pursuit_mode": ExtResource( 14 ),
+"mikes_finger": ExtResource( 21 ),
+"truck_entry": ExtResource( 12 ),
+"truck_side": ExtResource( 13 )
+}
+
+[node name="TvPanel" type="Panel" parent="."]
+margin_right = 866.0
+margin_bottom = 510.0
+custom_styles/panel = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="TvPanel"]
+pause_mode = 1
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 25.8115
+margin_top = 20.6533
+margin_right = -21.1885
+margin_bottom = -23.3467
+stream = ExtResource( 2 )
+autoplay = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_loop = true
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Panel" type="Panel" parent="."]
+margin_top = 579.0
+margin_right = 866.0
+margin_bottom = 760.0
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel/CenterContainer"]
+margin_left = 318.0
+margin_top = 35.0
+margin_right = 547.0
+margin_bottom = 145.0
+custom_fonts/font = ExtResource( 11 )
+custom_colors/font_color = Color( 0.909804, 0.121569, 0.121569, 1 )
+custom_constants/line_spacing = -18
+text = "KARR MODE
+TEST"
+align = 1
+valign = 1
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

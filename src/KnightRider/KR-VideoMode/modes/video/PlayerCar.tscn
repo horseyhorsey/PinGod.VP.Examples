@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://modes/video/PlayerCar.cs" type="Script" id=1]
+[ext_resource path="res://assets/img/kitt_car.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15.75, 34 )
+
+[node name="PlayerCar" type="KinematicBody2D"]
+position = Vector2( 200, 171 )
+scale = Vector2( 2, 2 )
+collision_mask = 2
+script = ExtResource( 1 )
+_speed = 280
+
+[node name="kitt_car" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )

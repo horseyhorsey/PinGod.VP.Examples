@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://modes/Dock.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=3]
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=4]
+[ext_resource path="res://assets/videos/cosmic_3.ogv" type="VideoStream" id=5]
+
+[node name="Dock" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KickerTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="ViewLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackgroundColour" type="ColorRect" parent="ViewLayers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.0901961, 0, 0.152941, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="ViewLayers"]
+pause_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 5 )
+autoplay = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_play_when_visible = true
+_loop = true
+
+[node name="BlinkingLabel" type="Label" parent="ViewLayers"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -152.0
+margin_top = 81.0
+margin_right = 152.0
+margin_bottom = 129.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0.690196, 0.25098, 1 )
+custom_colors/font_color_shadow = Color( 1, 0.941176, 0.941176, 1 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_as_outline = 190
+text = "DOCKED"
+align = 1
+valign = 1
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="timeout" from="KickerTimer" to="." method="_on_KickerTimer_timeout"]

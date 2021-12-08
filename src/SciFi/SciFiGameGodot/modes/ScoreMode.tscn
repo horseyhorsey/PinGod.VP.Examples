@@ -1,0 +1,163 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas256.tres" type="DynamicFont" id=6]
+[ext_resource path="res://layers/LogoLabel.tscn" type="PackedScene" id=7]
+
+[node name="ScoreMode" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackgroundColour" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.52549, 0.345098, 0.654902, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 483.0
+margin_top = 108.0
+margin_right = 797.0
+margin_bottom = 612.0
+
+[node name="LogoLabel" parent="CenterContainer/VBoxContainer" instance=ExtResource( 7 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 314.0
+margin_bottom = 243.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -5
+custom_constants/line_spacing = -15
+
+[node name="ScoreMain" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 247.0
+margin_right = 314.0
+margin_bottom = 504.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -5
+custom_constants/line_spacing = -15
+custom_constants/shadow_offset_y = 3
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP1" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 337.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP2" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 337.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP3" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -73.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP4" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 2.0
+margin_bottom = -82.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInfo" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 43.0
+margin_top = -65.0
+margin_right = 169.0
+custom_fonts/font = ExtResource( 3 )
+text = "Player: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BallInfo" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -189.0
+margin_top = -65.0
+custom_fonts/font = ExtResource( 3 )
+text = "BALL: "
+valign = 2
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="." instance=ExtResource( 4 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -682.5
+margin_right = 682.5
+
+[node name="pingod-logo" type="Sprite" parent="."]
+position = Vector2( 1222.21, 61.3868 )
+scale = Vector2( 0.210207, 0.210207 )
+texture = ExtResource( 5 )

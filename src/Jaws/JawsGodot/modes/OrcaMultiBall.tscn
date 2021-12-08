@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=1]
+[ext_resource path="res://modes/OrcaMultiBall.cs" type="Script" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://layers/SeaBG000.tscn" type="PackedScene" id=4]
+
+[node name="OrcaMultiball" type="Control" groups=[
+"Mode",
+]]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SeaBG000" parent="." instance=ExtResource( 4 )]
+margin_right = 568.0
+margin_bottom = 240.0
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="."]
+pause_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_pause_when_hidden = true
+_play_when_visible = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CenterContainer"]
+margin_left = 111.0
+margin_top = 58.0
+margin_right = 457.0
+margin_bottom = 181.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.133333, 0.796078, 0.831373, 1 )
+text = "ORCA RAMP
+OPEN"
+align = 1
+valign = 1
+
+[node name="HideTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="BallLockedTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="HideTimer" to="." method="_on_HideTimer_timeout"]
+[connection signal="timeout" from="BallLockedTimer" to="." method="_on_BallLockedTimer_timeout"]

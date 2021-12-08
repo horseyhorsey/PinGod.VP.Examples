@@ -1,0 +1,78 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
+[ext_resource path="res://assets/fonts/grem_256.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Modes/attract/Attract.cs" type="Script" id=4]
+[ext_resource path="res://addons/PinGodGame/Modes/score_entry/HighScores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/GremBackground.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/fonts/grem_128.tres" type="DynamicFont" id=7]
+
+[node name="Attract" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GremBackground" parent="." instance=ExtResource( 6 )]
+
+[node name="AttractLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PushStart" type="CenterContainer" parent="AttractLayers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PushStart" type="Label" parent="AttractLayers/PushStart"]
+margin_left = 144.0
+margin_top = 27.0
+margin_right = 1776.0
+margin_bottom = 1052.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0823529, 0.854902, 0.14902, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+text = "GREMLINS
+PUSH START
+
+"
+align = 1
+valign = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_blinking = 0.5
+
+[node name="HighScores" parent="AttractLayers" instance=ExtResource( 5 )]
+visible = false
+
+[node name="StaticLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="StaticLayers" instance=ExtResource( 3 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -960.0
+margin_top = -129.0
+margin_right = 960.0
+custom_fonts/font = ExtResource( 7 )
+valign = 2
+
+[node name="AttractLayerChangeTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="AttractLayerChangeTimer" to="." method="_on_Timer_timeout"]

@@ -1,0 +1,139 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://game/CustomPinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_logging_level = 3
+_playbackfile = "res://recordings/drain_3_balls.record"
+_coils = {
+"auto_plunger": 3,
+"deagle_disc": 11,
+"died": 0,
+"drops": 6,
+"flash_l": 12,
+"flash_l_lwr": 14,
+"flash_l_top": 15,
+"flash_r": 13,
+"flash_r_mid": 17,
+"flash_r_top": 16,
+"flash_spid_l": 18,
+"flash_spid_r": 19,
+"flippers": 2,
+"gizmo_toy": 9,
+"kickback": 10,
+"ramp_stop": 7,
+"scoop_l": 5,
+"scoop_r": 4,
+"spid_stop": 8,
+"trough": 1
+}
+_switches = {
+"bumper0": 27,
+"bumper1": 28,
+"bumper2": 29,
+"coin1": 1,
+"coin2": 2,
+"coin3": 3,
+"deagle0": 31,
+"deagle1": 32,
+"deagle2": 33,
+"deagle3": 34,
+"deagle4": 35,
+"down": 5,
+"drop0": 42,
+"drop1": 43,
+"drop2": 44,
+"enter": 7,
+"exit": 4,
+"flipper_l": 11,
+"flipper_r": 9,
+"gizmo_lane": 38,
+"inlane_l": 22,
+"inlane_r": 23,
+"lock_lane": 39,
+"orbit_l": 37,
+"outlane_l": 21,
+"outlane_r": 24,
+"plunger_lane": 20,
+"ramp_l": 30,
+"ramp_r": 36,
+"scoop_m": 41,
+"scoop_r": 40,
+"slam_tilt": 16,
+"sling_l": 25,
+"sling_r": 26,
+"spider_target": 46,
+"start": 19,
+"tilt": 17,
+"trough_1": 81,
+"trough_2": 82,
+"trough_3": 83,
+"trough_4": 84,
+"up": 6
+}
+_lamps = {
+"bulb_deagle": 41,
+"bulb_ready": 39,
+"bulb_skill": 40,
+"deagle0": 7,
+"deagle1": 8,
+"deagle2": 9,
+"deagle3": 10,
+"deagle4": 11,
+"extra_ball": 12,
+"gizmo_drops": 32,
+"gizmo_hunt": 21,
+"gizmo_purs": 22,
+"inlane_l": 4,
+"inlane_r": 5,
+"jackpot_deagle": 14,
+"kickback": 2,
+"mode_hunt": 35,
+"mode_madd": 38,
+"mode_purs": 36,
+"mode_spid": 37,
+"orbit_l_hunt": 28,
+"orbit_l_jack": 23,
+"orbit_l_purs": 29,
+"orbit_r_hunt": 25,
+"orbit_r_purs": 24,
+"outlane_l": 3,
+"outlane_r": 6,
+"ramp_l_hunt": 18,
+"ramp_l_purs": 17,
+"ramp_multiball": 26,
+"ramp_r_hunt": 19,
+"ramp_r_jackpot": 27,
+"ramp_r_purs": 20,
+"scoop_lock_m": 16,
+"scoop_lock_r": 15,
+"scoop_m_hunt": 31,
+"scoop_m_purs": 30,
+"shoot_again": 1,
+"smack0": 33,
+"smack1": 34,
+"start_btn": 42,
+"wizard_mode": 13
+}
+_leds = {
+}
+_ball_save_multiball_seconds = 12
+_ball_search_coils = PoolStringArray( "mball_saucer" )
+_ball_search_stop_switches = PoolStringArray( "mball_saucer", "trough_1", "trough_2", "trough_3", "trough_4" )
+
+[node name="DevOverlays" type="CanvasLayer" parent="."]
+layer = 128
+__meta__ = {
+"_editor_description_": "Overlays to aid with developing."
+}
+
+[node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]

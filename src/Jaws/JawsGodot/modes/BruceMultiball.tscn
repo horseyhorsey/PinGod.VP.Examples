@@ -1,0 +1,116 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://modes/BruceMultiball.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=2]
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=3]
+[ext_resource path="res://assets/img/Star_00.png" type="Texture" id=4]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=5]
+
+[node name="BruceMultiball" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LockTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="JawsTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SuspenseTimer" type="Timer" parent="."]
+wait_time = 2.2
+one_shot = true
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="."]
+pause_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_pause_when_hidden = true
+_play_when_visible = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlinkingLabel" type="Label" parent="CenterContainer"]
+margin_left = 159.0
+margin_top = 58.0
+margin_right = 409.0
+margin_bottom = 181.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0.721569, 0.0823529, 0.0823529, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+text = "super
+jackpot"
+align = 1
+valign = 1
+script = ExtResource( 3 )
+
+[node name="ClearJackpotLayersTimer" type="Timer" parent="CenterContainer"]
+wait_time = 2.0
+one_shot = true
+
+[node name="JawsChompTimer" type="Timer" parent="."]
+wait_time = 0.8
+
+[node name="Activator" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Activator"]
+margin_right = 568.0
+margin_bottom = 240.0
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Activator"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlinkingLabel" type="Label" parent="Activator/CenterContainer"]
+margin_left = 123.0
+margin_top = 58.0
+margin_right = 445.0
+margin_bottom = 181.0
+custom_fonts/font = ExtResource( 5 )
+text = "BRUCE
+ACTIVATOR"
+align = 1
+valign = 1
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RemoveActivatorTimer" type="Timer" parent="Activator"]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="LockTimer" to="." method="_on_LockTimer_timeout"]
+[connection signal="timeout" from="JawsTimer" to="." method="_on_JawsTimer_timeout"]
+[connection signal="timeout" from="SuspenseTimer" to="." method="_on_SuspenseTimer_timeout"]
+[connection signal="timeout" from="CenterContainer/ClearJackpotLayersTimer" to="." method="_on_ClearJackpotLayersTimer_timeout"]
+[connection signal="timeout" from="JawsChompTimer" to="." method="_on_JawsChompTimer_timeout"]
+[connection signal="timeout" from="Activator/RemoveActivatorTimer" to="." method="_on_RemoveActivatorTimer_timeout"]

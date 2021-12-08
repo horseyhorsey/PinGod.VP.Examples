@@ -1,0 +1,449 @@
+[gd_scene load_steps=29 format=2]
+
+[ext_resource path="res://modes/KrScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://scenes/DashLamp.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/videos/kitt_bonnet.ogv" type="VideoStream" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/videos/kitt_dark.ogv" type="VideoStream" id=6]
+[ext_resource path="res://assets/videos/kitt_dash.ogv" type="VideoStream" id=7]
+[ext_resource path="res://assets/img/dash_stylebox_texture.tres" type="StyleBox" id=8]
+[ext_resource path="res://scenes/Header.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/fonts/KR_42.tres" type="DynamicFont" id=10]
+[ext_resource path="res://assets/videos/kitt_jump.ogv" type="VideoStream" id=11]
+[ext_resource path="res://assets/fonts/Digital64.tres" type="DynamicFont" id=12]
+[ext_resource path="res://assets/videos/mikes_finger.ogv" type="VideoStream" id=13]
+[ext_resource path="res://assets/img/dash_1.jpg" type="Texture" id=14]
+[ext_resource path="res://assets/img/dash_7.jpg" type="Texture" id=15]
+[ext_resource path="res://assets/img/kr_panelrounded.tres" type="StyleBox" id=16]
+[ext_resource path="res://assets/videos/kitt_two_wheel.ogv" type="VideoStream" id=17]
+[ext_resource path="res://assets/fonts/digital-7.ttf" type="DynamicFontData" id=18]
+[ext_resource path="res://assets/videos/kitt_corn.ogv" type="VideoStream" id=19]
+[ext_resource path="res://scenes/TvPanel.tscn" type="PackedScene" id=20]
+[ext_resource path="res://assets/videos/karr_start.ogv" type="VideoStream" id=21]
+[ext_resource path="res://assets/videos/kitt_turboboost.ogv" type="VideoStream" id=22]
+[ext_resource path="res://assets/videos/karr_dash.ogv" type="VideoStream" id=23]
+[ext_resource path="res://assets/videos/truck_entry.ogv" type="VideoStream" id=24]
+[ext_resource path="res://assets/videos/truck_side.ogv" type="VideoStream" id=25]
+[ext_resource path="res://assets/videos/kr_pursuit_mode.ogv" type="VideoStream" id=26]
+[ext_resource path="res://assets/videos/kitt_intro_headon.ogv" type="VideoStream" id=27]
+[ext_resource path="res://assets/videos/kitt_birds.ogv" type="VideoStream" id=28]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+font_data = ExtResource( 18 )
+
+[node name="ScoreMode" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainPanel" type="Panel" parent="."]
+margin_top = 1.0
+margin_right = 1920.0
+margin_bottom = 1079.0
+custom_styles/panel = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dash_7" type="TextureRect" parent="."]
+margin_left = 1067.0
+margin_top = 160.0
+margin_right = 1890.0
+margin_bottom = 773.0
+texture = ExtResource( 15 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Header" parent="." instance=ExtResource( 9 )]
+
+[node name="Panel3" type="Panel" parent="."]
+margin_left = 11.1629
+margin_top = 669.561
+margin_right = 1011.16
+margin_bottom = 1060.56
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dash_1" type="TextureRect" parent="Panel3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 13.0
+margin_top = 11.0
+margin_right = 237.0
+margin_bottom = 77.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 14 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoresContainer" type="VBoxContainer" parent="."]
+margin_left = 11.0
+margin_top = 159.617
+margin_right = 1011.0
+margin_bottom = 659.617
+custom_constants/separation = -3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScorePanel1" type="Panel" parent="ScoresContainer"]
+margin_right = 1000.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 600, 100 )
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect3" type="ColorRect" parent="ScoresContainer/ScorePanel1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.937
+margin_top = 4.34961
+margin_right = -4.06299
+margin_bottom = -5.65039
+size_flags_stretch_ratio = 0.0
+color = Color( 0.12549, 0.00392157, 0.00392157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreMain" type="Label" parent="ScoresContainer/ScorePanel1"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -68.0
+margin_top = -69.0
+margin_right = -9.0
+margin_bottom = 39.5
+grow_horizontal = 0
+grow_vertical = 0
+custom_fonts/font = ExtResource( 12 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "1,000,000,000"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScorePanel2" type="Panel" parent="ScoresContainer"]
+margin_top = 97.0
+margin_right = 1000.0
+margin_bottom = 197.0
+rect_min_size = Vector2( 600, 100 )
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect3" type="ColorRect" parent="ScoresContainer/ScorePanel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.937
+margin_top = 4.34961
+margin_right = -4.06299
+margin_bottom = -5.65039
+size_flags_stretch_ratio = 0.0
+color = Color( 0.12549, 0.00392157, 0.00392157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreMain" type="Label" parent="ScoresContainer/ScorePanel2"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -68.0
+margin_top = -69.0
+margin_right = -9.0
+margin_bottom = 39.5
+grow_horizontal = 0
+grow_vertical = 0
+custom_fonts/font = ExtResource( 12 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "1,000,000,000"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScorePanel3" type="Panel" parent="ScoresContainer"]
+margin_top = 194.0
+margin_right = 1000.0
+margin_bottom = 294.0
+rect_min_size = Vector2( 600, 100 )
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect3" type="ColorRect" parent="ScoresContainer/ScorePanel3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.937
+margin_top = 4.34961
+margin_right = -4.06299
+margin_bottom = -5.65039
+size_flags_stretch_ratio = 0.0
+color = Color( 0.12549, 0.00392157, 0.00392157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreMain" type="Label" parent="ScoresContainer/ScorePanel3"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -68.0
+margin_top = -69.0
+margin_right = -9.0
+margin_bottom = 39.5
+grow_horizontal = 0
+grow_vertical = 0
+custom_fonts/font = ExtResource( 12 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "1,000,000,000"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScorePanel4" type="Panel" parent="ScoresContainer"]
+margin_top = 291.0
+margin_right = 1000.0
+margin_bottom = 391.0
+rect_min_size = Vector2( 600, 100 )
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect3" type="ColorRect" parent="ScoresContainer/ScorePanel4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.937
+margin_top = 4.34961
+margin_right = -4.06299
+margin_bottom = -5.65039
+size_flags_stretch_ratio = 0.0
+color = Color( 0.12549, 0.00392157, 0.00392157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreMain" type="Label" parent="ScoresContainer/ScorePanel4"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -68.0
+margin_top = -69.0
+margin_right = -9.0
+margin_bottom = 39.5
+grow_horizontal = 0
+grow_vertical = 0
+custom_fonts/font = ExtResource( 12 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "1,000,000,000"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KittPanel" type="Panel" parent="."]
+margin_left = 11.0
+margin_top = 550.617
+margin_right = 1011.0
+margin_bottom = 670.617
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="KittPanel"]
+margin_left = 9.0
+margin_top = 21.0
+margin_right = 972.0
+margin_bottom = 96.0
+custom_constants/separation = 22
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="KittPanel/HBoxContainer"]
+margin_top = 5.0
+margin_right = 98.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 10 )
+text = "KITT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DashLamp" parent="KittPanel/HBoxContainer" instance=ExtResource( 2 )]
+margin_left = 120.0
+margin_right = 210.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 90, 75 )
+_text = "DONE"
+
+[node name="Label2" type="Label" parent="KittPanel/HBoxContainer"]
+margin_left = 232.0
+margin_top = 5.0
+margin_right = 338.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 10 )
+text = "KARR"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DashLamp2" parent="KittPanel/HBoxContainer" instance=ExtResource( 2 )]
+margin_left = 360.0
+margin_right = 450.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 90, 75 )
+_colour = Color( 0.945098, 1, 0, 1 )
+_text = "DONE"
+
+[node name="Label3" type="Label" parent="KittPanel/HBoxContainer"]
+margin_left = 472.0
+margin_top = 5.0
+margin_right = 604.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 10 )
+text = "TRUCK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DashLamp3" parent="KittPanel/HBoxContainer" instance=ExtResource( 2 )]
+margin_left = 626.0
+margin_right = 716.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 90, 75 )
+_colour = Color( 1, 0.164706, 0, 1 )
+_text = "DONE"
+
+[node name="Label4" type="Label" parent="KittPanel/HBoxContainer"]
+margin_left = 738.0
+margin_top = 5.0
+margin_right = 851.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 10 )
+text = "VIDEO"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DashLamp4" parent="KittPanel/HBoxContainer" instance=ExtResource( 2 )]
+margin_left = 873.0
+margin_right = 963.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 90, 75 )
+_colour = Color( 0.0196078, 0.619608, 0.027451, 1 )
+_text = "ON"
+
+[node name="Credits" parent="." instance=ExtResource( 4 )]
+margin_left = 72.0259
+margin_top = -360.061
+margin_right = -1644.97
+margin_bottom = -324.061
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+align = 0
+
+[node name="TvPanel" parent="." instance=ExtResource( 20 )]
+margin_left = 1041.33
+margin_top = 159.617
+margin_right = -878.67
+margin_bottom = -920.383
+_streams = {
+"karr_dash": ExtResource( 23 ),
+"karr_start": ExtResource( 21 ),
+"kitt_birds": ExtResource( 28 ),
+"kitt_bonnet": ExtResource( 3 ),
+"kitt_corn": ExtResource( 19 ),
+"kitt_dark": ExtResource( 6 ),
+"kitt_dash": ExtResource( 7 ),
+"kitt_intro_headon": ExtResource( 27 ),
+"kitt_jump": ExtResource( 11 ),
+"kitt_turboboost": ExtResource( 22 ),
+"kitt_two_wheel": ExtResource( 17 ),
+"kr_pursuit_mode": ExtResource( 26 ),
+"mikes_finger": ExtResource( 13 ),
+"truck_entry": ExtResource( 24 ),
+"truck_side": ExtResource( 25 )
+}
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 1044.0
+margin_top = 932.0
+margin_right = 1911.0
+margin_bottom = 1058.0
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInfo" type="Label" parent="Panel"]
+anchor_left = 0.027
+anchor_top = 0.375
+anchor_right = 0.027
+anchor_bottom = 0.532
+margin_top = -34.5
+margin_right = 404.0
+margin_bottom = 34.5
+custom_fonts/font = ExtResource( 12 )
+custom_colors/font_color = Color( 0.0352941, 0.72549, 0.0745098, 1 )
+text = "Player: "
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BallInfo" type="Label" parent="Panel"]
+anchor_left = 1.0
+anchor_top = 0.375
+anchor_right = 1.0
+anchor_bottom = 0.532
+margin_left = -141.0
+margin_top = -34.5
+margin_right = -22.0
+margin_bottom = 34.5
+grow_horizontal = 0
+grow_vertical = 0
+custom_fonts/font = ExtResource( 12 )
+custom_colors/font_color = Color( 0.0352941, 0.72549, 0.0745098, 1 )
+text = "BALL: "
+__meta__ = {
+"_edit_use_anchors_": false
+}

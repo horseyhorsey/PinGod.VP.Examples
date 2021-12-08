@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://modes/BarrelMultiball.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/Timers/BallStackPinball.cs" type="Script" id=2]
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=3]
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=4]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=5]
+
+[node name="BarrelMultiball" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="."]
+pause_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_pause_when_hidden = true
+_play_when_visible = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlinkingLabel" type="Label" parent="CenterContainer"]
+margin_left = 284.0
+margin_top = 90.0
+margin_right = 284.0
+margin_bottom = 150.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0.721569, 0.0823529, 0.0823529, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+align = 1
+valign = 1
+script = ExtResource( 4 )
+
+[node name="ClearLayersTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="BallStackPinball" type="Timer" parent="."]
+one_shot = true
+script = ExtResource( 2 )
+_switch = "barrel_kicker"
+_coil = "barrel_kicker"
+
+[connection signal="timeout" from="ClearLayersTimer" to="." method="_on_ClearLayersTimer_timeout"]
+[connection signal="SwitchActive" from="BallStackPinball" to="." method="_on_BallStackPinball_SwitchActive"]
+[connection signal="SwitchInActive" from="BallStackPinball" to="." method="_on_BallStackPinball_SwitchInActive"]
+[connection signal="timeout" from="BallStackPinball" to="." method="_on_BallStackPinball_timeout"]

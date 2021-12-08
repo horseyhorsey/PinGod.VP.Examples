@@ -1,0 +1,32 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://game/Game.cs" type="Script" id=1]
+[ext_resource path="res://modes/ScoreMode.tscn" type="PackedScene" id=2]
+[ext_resource path="res://modes/BaseMode.tscn" type="PackedScene" id=3]
+[ext_resource path="res://modes/DeagleMode.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.tscn" type="PackedScene" id=5]
+[ext_resource path="res://modes/ScoreEntry.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/PinGodGame/Modes/bonus/Bonus.tscn" type="PackedScene" id=7]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Modes" type="CanvasLayer" parent="."]
+
+[node name="ScoreMode" parent="Modes" instance=ExtResource( 2 )]
+
+[node name="BaseMode" parent="Modes" instance=ExtResource( 3 )]
+
+[node name="DeagleMode" parent="Modes" groups=[
+"Mode",
+] instance=ExtResource( 4 )]
+
+[node name="Bonus" parent="Modes" instance=ExtResource( 7 )]
+visible = false
+_display_for_seconds = 2
+
+[node name="Tilt" parent="Modes" instance=ExtResource( 5 )]
+visible = false
+
+[node name="ScoreEntry" parent="Modes" instance=ExtResource( 6 )]
+visible = false

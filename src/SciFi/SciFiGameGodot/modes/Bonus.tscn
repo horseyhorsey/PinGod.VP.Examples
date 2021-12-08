@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=1]
+[ext_resource path="res://modes/SciFiBonus.cs" type="Script" id=2]
+[ext_resource path="res://assets/img/bg.jpg" type="Texture" id=3]
+
+[node name="Bonus" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bg" type="Sprite" parent="."]
+position = Vector2( 645.985, 363.935 )
+scale = Vector2( 0.666472, 0.667764 )
+texture = ExtResource( 3 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 399.0
+margin_top = 229.0
+margin_right = 880.0
+margin_bottom = 490.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.239216, 0.768627, 0.105882, 1 )
+text = "END OF BALL
+BONUS"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -13,10 +13,10 @@ config_version=4
 config/name="BasicGameGodot"
 config/description="Example game running Godot projects with Visual Pinball"
 run/main_scene="res://game/MainScene.tscn"
-boot_splash/image="res://assets/img/pingod-logo.png"
+boot_splash/image="res://addons/PinGodGame/assets/img/pingod-logo.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
-config/icon="res://assets/img/pingod-logo.png"
-config/windows_native_icon="res://assets/img/pingod.ico"
+config/icon="res://addons/PinGodGame/assets/img/pingod-logo.png"
+config/windows_native_icon="res://addons/PinGodGame/assets/img/pingod.ico"
 
 [autoload]
 

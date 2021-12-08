@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Modes/attract/Attract.cs" type="Script" id=4]
+[ext_resource path="res://addons/PinGodGame/Modes/score_entry/HighScores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/img/alien_face.svg" type="Texture" id=6]
+[ext_resource path="res://layers/LogoLabel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=8]
+[ext_resource path="res://assets/videos/cosmic_1.ogv" type="VideoStream" id=9]
+
+[node name="Attract" type="Control"]
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_scene_change_secs = 2
+
+[node name="AttractLayers" type="CanvasLayer" parent="."]
+
+[node name="Push Start" type="Control" parent="AttractLayers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="AttractLayers/Push Start"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.184314, 0.156863, 0.309804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayerPinball" type="VideoPlayer" parent="AttractLayers/Push Start"]
+pause_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 9 )
+autoplay = true
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_play_when_visible = true
+_loop = true
+
+[node name="alien_face" type="Sprite" parent="AttractLayers/Push Start"]
+position = Vector2( 147.204, 151.415 )
+scale = Vector2( 0.26169, 0.26169 )
+texture = ExtResource( 6 )
+
+[node name="PushStart" type="Label" parent="AttractLayers/Push Start"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -232.5
+margin_top = -169.0
+margin_right = 232.5
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.0823529, 0.6, 0.854902, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+text = "PUSH START"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_blinking = 0.5
+
+[node name="LogoLabel" parent="AttractLayers/Push Start" instance=ExtResource( 7 )]
+anchor_left = 1.0
+anchor_bottom = 0.0
+margin_left = -239.0
+margin_top = 25.0
+margin_right = 0.0
+margin_bottom = 118.0
+
+[node name="HighScores" parent="AttractLayers" instance=ExtResource( 5 )]
+visible = false
+
+[node name="StaticLayers" type="CanvasLayer" parent="."]
+
+[node name="Credits" parent="StaticLayers" instance=ExtResource( 3 )]
+
+[node name="AttractLayerChangeTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="AttractLayerChangeTimer" to="." method="_on_Timer_timeout"]

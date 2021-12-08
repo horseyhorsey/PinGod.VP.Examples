@@ -1,0 +1,211 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://modes/GremScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://assets/fonts/grem_64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
+[ext_resource path="res://scenes/VideoPlayerScene.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/GremBackground.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/img/blobs.png" type="Texture" id=8]
+[ext_resource path="res://assets/img/gremlins-5262752c1bfd9.png" type="Texture" id=9]
+[ext_resource path="res://assets/fonts/grem_shadow_64.tres" type="DynamicFont" id=11]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0117647, 0.156863, 0.054902, 1 )
+border_width_left = 3
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[node name="ScoreMode" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GremBackground" parent="." instance=ExtResource( 7 )]
+
+[node name="blobs" type="TextureRect" parent="."]
+modulate = Color( 0, 1, 0.25098, 0.270588 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="VideoPlayerPinball" parent="CenterContainer" instance=ExtResource( 6 )]
+margin_left = 360.0
+margin_top = 220.0
+margin_right = 1560.0
+margin_bottom = 860.0
+rect_min_size = Vector2( 1200, 640 )
+rect_scale = Vector2( 1, 1 )
+
+[node name="pingod-logo" type="Sprite" parent="."]
+visible = false
+position = Vector2( 519.583, 292.553 )
+texture = ExtResource( 5 )
+
+[node name="ScoreP1" type="Panel" parent="."]
+margin_left = 22.4492
+margin_top = 869.67
+margin_right = 462.449
+margin_bottom = 996.67
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP1" type="Label" parent="ScoreP1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 3 )
+text = "5,000,000"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP2" type="Panel" parent="."]
+margin_left = 492.041
+margin_top = 869.67
+margin_right = 932.041
+margin_bottom = 996.67
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP2" type="Label" parent="ScoreP2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 3 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP3" type="Panel" parent="."]
+margin_left = 969.356
+margin_top = 869.67
+margin_right = 1409.36
+margin_bottom = 996.67
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP3" type="Label" parent="ScoreP3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 3 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP4" type="Panel" parent="."]
+margin_left = 1449.36
+margin_top = 869.67
+margin_right = 1889.36
+margin_bottom = 996.67
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP4" type="Label" parent="ScoreP4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 3 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInfo" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -65.0
+margin_right = 306.0
+custom_fonts/font = ExtResource( 3 )
+text = "Player: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BallInfo" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -248.0
+margin_top = -65.0
+custom_fonts/font = ExtResource( 3 )
+text = "BALL: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="." instance=ExtResource( 4 )]
+custom_fonts/font = ExtResource( 3 )
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -387.301
+margin_top = -72.4472
+margin_right = 412.699
+margin_bottom = 255.553
+custom_constants/separation = -73
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="gremlins-5262752c1bfd9" type="TextureRect" parent="HBoxContainer"]
+margin_right = 800.0
+margin_bottom = 310.0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_top = 237.0
+margin_right = 800.0
+margin_bottom = 328.0
+custom_fonts/font = ExtResource( 11 )
+custom_colors/font_color = Color( 0.854902, 0.882353, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = -9
+custom_constants/shadow_offset_y = 2
+custom_constants/shadow_as_outline = 900
+text = "MEGA MADNESS"

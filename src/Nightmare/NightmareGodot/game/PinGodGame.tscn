@@ -1,0 +1,162 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://game/CustomPinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_logging_level = 2
+_playbackfile = "user://recordings/midnight_ramps.record"
+_coils = {
+"auto_plunger": 3,
+"died": 0,
+"flasher_left": 10,
+"flasher_left_mid": 12,
+"flasher_right": 11,
+"flasher_right_mid": 15,
+"flasher_top_left": 14,
+"flasher_top_right": 13,
+"flippers": 2,
+"saucer_left": 4,
+"saucer_top": 5,
+"saucer_top_left_tunnel": 7,
+"saucer_top_right": 6,
+"saucer_top_right_tunnel": 8,
+"trough": 1
+}
+_switches = {
+"Die": 28,
+"Rip": 48,
+"bumper_1": 33,
+"bumper_2": 34,
+"bumper_3": 35,
+"coin1": 1,
+"coin2": 2,
+"coin3": 3,
+"dIe": 29,
+"diE": 30,
+"down": 5,
+"enter": 7,
+"exit": 4,
+"flipper_l": 11,
+"flipper_r": 9,
+"inlane_l": 22,
+"inlane_r": 23,
+"orbit_l": 44,
+"orbit_r": 45,
+"outlane_l": 21,
+"outlane_r": 24,
+"plunger_lane": 20,
+"rIp": 49,
+"ramp_l": 46,
+"ramp_r": 47,
+"riP": 50,
+"saucer_left": 27,
+"saucer_right": 31,
+"saucer_top_right": 32,
+"slam_tilt": 16,
+"sling_l": 25,
+"sling_r": 26,
+"start": 19,
+"start_gate": 51,
+"target_l_1": 39,
+"target_l_2": 40,
+"target_l_3": 41,
+"target_l_4": 42,
+"target_l_5": 43,
+"target_r_1": 36,
+"target_r_2": 37,
+"target_r_3": 38,
+"tilt": 17,
+"trough_1": 81,
+"trough_2": 82,
+"trough_3": 83,
+"trough_4": 84,
+"up": 6
+}
+_lamps = {
+"Die": 51,
+"Rip": 21,
+"arrow_right": 36,
+"coffin_0": 16,
+"coffin_1": 17,
+"coffin_2": 18,
+"coffin_3": 19,
+"coffin_4": 20,
+"cross_0": 9,
+"cross_1": 10,
+"cross_2": 11,
+"cross_3": 12,
+"cross_4": 13,
+"dIe": 52,
+"diE": 53,
+"double_score": 29,
+"grave_0": 54,
+"grave_1": 55,
+"grave_2": 56,
+"grave_3": 57,
+"grave_4": 58,
+"grave_5": 59,
+"grave_6": 60,
+"grave_7": 61,
+"grave_8": 62,
+"lock_left": 14,
+"lock_orbit": 30,
+"num_l_ix": 25,
+"num_l_viii": 24,
+"num_l_x": 26,
+"num_l_xi": 27,
+"num_l_xii": 28,
+"num_r_ix": 32,
+"num_r_viii": 31,
+"num_r_x": 33,
+"num_r_xi": 34,
+"num_r_xii": 35,
+"one_right": 37,
+"panic": 2,
+"rIp": 22,
+"riP": 23,
+"shoot_again": 1,
+"spin_left": 15,
+"target_l_1": 38,
+"target_l_2": 39,
+"target_l_3": 40,
+"target_l_4": 41,
+"target_l_5": 42,
+"target_r_1": 43,
+"target_r_2": 44,
+"target_r_3": 45,
+"top_init": 49,
+"top_jackpot": 50,
+"top_score_b": 46,
+"top_super": 48,
+"top_xtraball": 47,
+"x10": 7,
+"x2": 3,
+"x4": 4,
+"x6": 5,
+"x8": 6,
+"xb_right": 8
+}
+_leds = {
+}
+
+_ball_save_multiball_seconds = 12
+_ball_search_coils = PoolStringArray( "saucer_top", "saucer_top_right", "saucer_left" )
+_ball_search_stop_switches = PoolStringArray( "saucer_top", "saucer_top_right", "saucer_left" )
+_ball_search_wait_time_secs = 10
+
+[node name="DevOverlays" type="CanvasLayer" parent="."]
+layer = 128
+__meta__ = {
+"_editor_description_": "Overlays to aid with developing."
+}
+
+[node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]

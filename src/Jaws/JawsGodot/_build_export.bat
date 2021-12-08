@@ -1,0 +1,1 @@
+godot --export "Windows Desktop"

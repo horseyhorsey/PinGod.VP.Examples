@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Modes/ballsave/BallSave.cs" type="Script" id=2]
+[ext_resource path="res://assets/fonts/KR_Large.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/img/kr-horse.png" type="Texture" id=4]
+
+[node name="BallSave" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlinkingLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -461.046
+margin_top = 10.3647
+margin_right = 487.954
+margin_bottom = 272.365
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "BALL SAVED"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="kr-horse" type="TextureRect" parent="."]
+margin_left = 795.364
+margin_top = 127.365
+margin_right = 1157.36
+margin_bottom = 550.365
+texture = ExtResource( 4 )
+expand = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
