@@ -1,15 +1,10 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://modes/common/service_menu/ServiceMenu.cs" type="Script" id=1]
-[ext_resource path="res://assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://modes/MoonStationServiceMenu.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
 
-[node name="ServiceMenu" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="ServiceMenu" type="Node"]
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_left = 0.5
@@ -25,17 +20,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -141.0
-margin_top = -32.5
-margin_right = 141.0
-margin_bottom = 32.5
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CenterContainer"]
+margin_left = 115.0
+margin_top = 159.0
+margin_right = 397.0
+margin_bottom = 224.0
 custom_fonts/font = ExtResource( 2 )
 text = "SERVICE MENU"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
