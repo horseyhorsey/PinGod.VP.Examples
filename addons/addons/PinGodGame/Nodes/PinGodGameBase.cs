@@ -221,7 +221,7 @@ public abstract partial class PinGodGameBase : Node
 	/// Adds bonus to the current player
 	/// </summary>
 	/// <param name="points"></param>
-	public virtual void AddBonus(int points)
+	public virtual void AddBonus(long points)
 	{
 		if (Player != null)
 		{
@@ -244,7 +244,7 @@ public abstract partial class PinGodGameBase : Node
 	/// </summary>
 	/// <param name="points"></param>
 	/// <param name="emitUpdateSignal">Sends a <see cref="ScoresUpdated"/> signal if set. See <see cref="ScoreMode"/> for use</param>
-	public virtual void AddPoints(int points, bool emitUpdateSignal = true)
+	public virtual void AddPoints(long points, bool emitUpdateSignal = true)
 	{
 		if (Player != null)
 		{
@@ -266,9 +266,8 @@ public abstract partial class PinGodGameBase : Node
 	}
 
 	/// <summary>
-	/// Disables all <see cref="Lamps"/> and <see cref="Leds"/>
+	/// Disables all <see cref="Lamps"/>
 	/// </summary>
-	/// <param name="sendUpdate">Runs <see cref="UpdateLampStates"/> and <see cref="UpdateLedStates"/></param>
 	public virtual void DisableAllLamps()
 	{
 		if (Machine.Lamps?.Count > 0)
@@ -278,6 +277,13 @@ public abstract partial class PinGodGameBase : Node
 				lamp.Value.State = 0;
 			}
 		}
+	}
+
+	/// <summary>
+	/// Disables all <see cref="Leds"/>
+	/// </summary>
+	public virtual void DisableAllLeds()
+    {
 		if (Machine.Leds?.Count > 0)
 		{
 			foreach (var led in Machine.Leds)
@@ -386,6 +392,12 @@ public abstract partial class PinGodGameBase : Node
 	public virtual void LogError(string message = null, params object[] what) => Logger.LogError(message, what);
 	public virtual void LogInfo(params object[] what) => Logger.LogInfo(what);
 	public virtual void LogWarning(string message = null, params object[] what) => Logger.LogWarning(message, what);
+	/// <summary>
+	/// Invokes OnBallDrained on all groups marked as Mode within the scene tree.
+	/// </summary>
+	/// <param name="sceneTree"></param>
+	/// <param name="group"></param>
+	/// <param name="method"></param>
 	public virtual void OnBallDrained(SceneTree sceneTree, string group = "Mode", string method = "OnBallDrained") => sceneTree.CallGroup(group, method);
 	/// <summary>
 	/// Invokes OnBallSaved on all groups marked as Mode within the scene tree.
@@ -628,13 +640,8 @@ public abstract partial class PinGodGameBase : Node
 		else if (_recordPlayback == RecordPlaybackOption.Record)
 		{
 			var userDir = CreateRecordingsDirectory();
-			var file = DateTime.Now.ToFileTime() + ".record";
-			var recordDir = CreateRecordingsDirectory();
-			var final = recordDir + $"/{file}";
-			LogInfo("creating record file for write: ", final);
-
-			_recordFile = new File();
-			_recordFile.Open(final, File.ModeFlags.WriteRead);
+			_recordFile = new File();		
+			_recordFile.Open(playbackfile, File.ModeFlags.WriteRead);
 			LogDebug("pingodbase: game recording on");
 		}
 	}

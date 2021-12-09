@@ -1,30 +1,51 @@
 using Godot;
-using static Godot.GD;
 
-public class ServiceMenu : CanvasLayer
+public class ServiceMenu : Node
 {
-	private PinGodGame pinGodGame;
+	/// <summary>
+	/// The default label in the scene, assigned on scene Ready
+	/// </summary>
+    protected Label menuNameLabel;
 
-	public override void _EnterTree()
+    protected PinGodGame pinGod;
+    public override void _EnterTree()
 	{
-		pinGodGame = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 	}
 
-	public override void _Input(InputEvent @event)
-	{		
-		if (pinGodGame.SwitchOn("enter", @event))
-		{	
-		}
-		if (pinGodGame.SwitchOn("up", @event))
-		{
-		}
-		if (pinGodGame.SwitchOn("down", @event))
-		{
-		}
-		if (pinGodGame.SwitchOn("exit", @event))
-		{
-			pinGodGame.EmitSignal("ServiceMenuExit");
-			this.QueueFree();			
-		}
+    public override void _Input(InputEvent @event)
+    {
+        if (pinGod.SwitchOn("enter", @event)) { OnEnter(); }
+        if (pinGod.SwitchOn("up", @event)) { OnUp(); }
+        if (pinGod.SwitchOn("down", @event)) { OnDown(); }
+        if (pinGod.SwitchOn("exit", @event)) { OnExit(); }
+    }
+
+    public override void _Ready()
+    {
+		menuNameLabel = GetNode("Label") as Label;
 	}
+	/// <summary>
+	/// Fired with Down switch.
+	/// </summary>
+	public virtual void OnDown() { }
+
+	/// <summary>
+	/// Fired with Enter switch.
+	/// </summary>
+	public virtual void OnEnter() { }
+
+	/// <summary>
+	/// Fired with Exit switch. Emits "ServiceMenuExit" and removes from the scene
+	/// </summary>
+	public virtual void OnExit() 
+	{
+		pinGod.EmitSignal("ServiceMenuExit");
+		this.QueueFree();
+	}
+
+	/// <summary>
+	/// Fired with Up switch.
+	/// </summary>
+	public virtual void OnUp() { }
 }
