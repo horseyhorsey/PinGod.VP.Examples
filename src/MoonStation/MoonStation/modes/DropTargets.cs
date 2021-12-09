@@ -2,12 +2,16 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using static Godot.GD;
+using static MoonStation.GameGlobals;
 
+/// <summary>
+/// Both drop target banks increase the multiplier
+/// </summary>
 public class DropTargets : Control
 {
 	private AudioStreamPlayer voicePlayer;
 	private Dictionary<string, AudioStream> voices;
-	private PinGodGame pinGod;
+	private MoonStationPinGodGame pinGod;
 	private Game game;
 
 	public override void _EnterTree()
@@ -24,7 +28,7 @@ public class DropTargets : Control
 			voices.Add(chars[i], Load(vDir + $"/{chars[i]}.wav") as AudioStream);
 		}
 
-		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode<MoonStationPinGodGame>("/root/PinGodGame");
 		pinGod.Connect("BallEnded", this, "ResetTargets");
 
 		game = GetNode("/root/MainScene/Modes/Game") as Game;
@@ -32,12 +36,13 @@ public class DropTargets : Control
 
 	public override void _Ready()
 	{
+		pinGod.LogDebug("drop targets scene _Ready, resetting targets");
 		ResetTargets(false);
 	}
 
 	public void ResetTargets(bool lastBall)
 	{
-		game.Multiplier = 1;		
+		pinGod.Multiplier = 1;		
 		ResetMoon();
 		ResetStation();
 		game.UpdateLamps();
@@ -61,12 +66,12 @@ public class DropTargets : Control
 	/// <returns></returns>
 	private bool MoonCheck()
 	{
-		pinGod.AddPoints(250* game.Multiplier);
+		pinGod.AddPoints(SMALL_SCORE);
 
 		if (!game.MoonTargets.Any(x => x == 0))
 		{
 			pinGod.LogInfo("Moon drops completed. PF multiplier added");
-			game.Multiplier++;
+			pinGod.Multiplier++;
 			game.UpdateLamps();
 			ResetMoon();
 			return true;
@@ -80,12 +85,12 @@ public class DropTargets : Control
 	/// <returns></returns>
 	private bool StationCheck()
 	{
-		pinGod.AddPoints(250 * game.Multiplier);
+		pinGod.AddPoints(SMALL_SCORE);
 
 		if (!game.StationTargets.Any(x => x == 0))
 		{
 			pinGod.LogInfo("Station drops completed. PF multiplier added");
-			game.Multiplier++;
+			pinGod.Multiplier++;
 			game.UpdateLamps();
 			ResetStation();
 			return true;
