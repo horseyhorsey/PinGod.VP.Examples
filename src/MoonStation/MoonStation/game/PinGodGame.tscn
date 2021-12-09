@@ -1,14 +1,15 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://game/CustomPinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://game/MoonStationPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
 _logging_level = 2
+_playbackfile = "res://recordings/drain_3_balls"
 _coils = {
-"auto_plunge": 3,
+"auto_plunger": 3,
 "crater_saucer": 4,
 "died": 0,
 "disable_shows": 7,
@@ -67,6 +68,8 @@ _lamps = {
 }
 _leds = {
 }
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
 _ball_search_coils = PoolStringArray( "crater_saucer" )
 _ball_search_stop_switches = PoolStringArray( "crater_saucer", "trough_1", "trough_2", "trough_3", "trough_4" )
 
