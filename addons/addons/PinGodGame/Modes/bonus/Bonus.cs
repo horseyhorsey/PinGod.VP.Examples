@@ -6,21 +6,19 @@ using Godot;
 /// </summary>
 public class Bonus : Control
 {
-	[Export] protected int _display_for_seconds = 5;
-
-	protected Label label;
+    [Export] protected string _defaultText = "END OF BALL\nBONUS";
+    [Export] protected int _display_for_seconds = 5;
+    protected Label label;
 	protected PinGodGame pinGod;
 	protected Timer timer;
+
 	/// <summary>
-	/// Awards the current player bonus and gets timer ref
+	/// Sets up scene
 	/// </summary>
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-		if (pinGod.Player != null)
-		{
-			pinGod.Player.Points += pinGod.Player.Bonus;
-		}
+		//get nodes from this scene tree
 		timer = GetNode("Timer") as Timer;
 		label = GetNode("Label") as Label;
 	}
@@ -32,41 +30,53 @@ public class Bonus : Control
 	}
 
 	/// <summary>
-	/// Starts display for the amount of seconds set
+	/// Stops the timer and emits the BonusEnded signal when complete
 	/// </summary>
-	public virtual void StartBonusDisplay()
+	public virtual void OnTimedOut()
+    {
+        pinGod.LogDebug("bonus: BonusEnded");
+        timer.Stop();
+        this.Visible = false;
+        pinGod.EmitSignal("BonusEnded");
+    }
+
+    /// <summary>
+    /// Creates bonus text to display with players bonus
+    /// </summary>
+    /// <returns></returns>
+    public virtual string SetBonusText(string text = "")
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            text = _defaultText;
+        }
+
+		//use extension method to create formatted score eg: "1,000,000"
+		text += "\n" + pinGod.Player?.Bonus.ToScoreString();
+
+		return text;
+    }
+
+    /// <summary>
+    /// Starts display for the amount of seconds set
+    /// </summary>
+    public virtual void StartBonusDisplay()
 	{
 		label.Text = SetBonusText();
 		pinGod.LogDebug("bonus: set label text to:", label.Text);
 		timer.Start(_display_for_seconds);
 		Visible = true;
-	}
 
-	public virtual void OnTimedOut()
-    {
-		pinGod.LogDebug("bonus: BonusEnded");
-		timer.Stop();
-		this.Visible = false;
-		pinGod.EmitSignal("BonusEnded");
+		if (pinGod.Player != null)
+		{
+			pinGod.AddPoints(pinGod.Player.Bonus);
+		}
 	}
-
 	/// <summary>
 	/// Bonus has times out. Hide the display and send <see cref="PinGodGame.BonusEnded"/>
 	/// </summary>
 	private void _on_Timer_timeout()
 	{
 		OnTimedOut();		
-	}
-
-	/// <summary>
-	/// Generate a simple bonus amount string
-	/// </summary>
-	/// <returns></returns>
-	public virtual string SetBonusText()
-	{
-		var txt = "END OF BALL" + System.Environment.NewLine;
-		txt += "BONUS" + System.Environment.NewLine;
-		txt += pinGod.Player?.Bonus.ToString("N0");
-		return txt;
 	}
 }
