@@ -1,6 +1,5 @@
 #if TOOLS
 using Godot;
-using System;
 
 [Tool]
 public class PinGodAddOns : EditorPlugin
@@ -13,13 +12,13 @@ public class PinGodAddOns : EditorPlugin
 	public override void _EnterTree()
 	{
 		var script = GD.Load<Script>(ROOT_DIR+"Labels/BlinkingLabel.cs");
-		AddCustomType("BlinkingLabel", "Label", script, null);
+		AddCustomType(nameof(BlinkingLabel), nameof(Label), script, null);
 
 		script = GD.Load<Script>(ROOT_DIR + "VideoPlayers/VideoPlayerPinball.cs");
-		AddCustomType("VideoPlayerPinball", "VideoPlayer", script, null);
+		AddCustomType(nameof(VideoPlayerPinball), nameof(VideoPlayer), script, null);
 
 		script = GD.Load<Script>(ROOT_DIR + "Timers/BallStackPinball.cs");
-		AddCustomType("BallStackPinball", "Timer", script, null);
+		AddCustomType(nameof(BallStackPinball), nameof(Timer), script, null);
 	}
 
 	/// <summary>
@@ -27,9 +26,9 @@ public class PinGodAddOns : EditorPlugin
 	/// </summary>
 	public override void _ExitTree()
 	{
-		RemoveCustomType("BlinkingLabel");
-		RemoveCustomType("BallStackPinball");
-		RemoveCustomType("VideoPlayerPinball");
+		RemoveCustomType(nameof(BlinkingLabel));
+		RemoveCustomType(nameof(BallStackPinball));
+		RemoveCustomType(nameof(VideoPlayerPinball));
 	}
 }
 #endif
