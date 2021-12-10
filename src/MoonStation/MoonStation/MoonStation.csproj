@@ -11,9 +11,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="export_presets.cfg" />
+    <None Include="readme.md" />
+    <None Include="_build_export.bat" />
+    <None Include="_create_addons_link.bat" />
+    <None Include="_run_godot_editor.bat" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <!--<ProjectReference Include="..\..\..\..\PinGod.VP.Examples\addons\PinGodAddOns.csproj" />-->
   </ItemGroup>
 </Project>
