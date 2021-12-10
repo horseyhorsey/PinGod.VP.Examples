@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://game/Game.cs" type="Script" id=1]
-[ext_resource path="res://modes/MoonStationScoreMode.tscn" type="PackedScene" id=2]
+[ext_resource path="res://modes/MsScoreMode.tscn" type="PackedScene" id=2]
 [ext_resource path="res://modes/Targets.tscn" type="PackedScene" id=3]
 [ext_resource path="res://modes/Crater.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/PinGodGame/Modes/score_entry/ScoreEntry.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/PinGodGame/Modes/bonus/Bonus.tscn" type="PackedScene" id=7]
+[ext_resource path="res://modes/Bonus.tscn" type="PackedScene" id=7]
 [ext_resource path="res://modes/BaseMode.tscn" type="PackedScene" id=8]
 
 [node name="Game" type="Node2D"]
@@ -25,7 +25,6 @@ visible = false
 
 [node name="Bonus" parent="Modes" instance=ExtResource( 7 )]
 visible = false
-_display_for_seconds = 2
 
 [node name="Tilt" parent="Modes" instance=ExtResource( 5 )]
 visible = false

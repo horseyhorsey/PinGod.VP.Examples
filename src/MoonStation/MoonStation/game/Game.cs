@@ -8,18 +8,17 @@ public class Game : Node2D
 	private Timer _tiltedTimeOut;
 	private Bonus endOfBallBonus;
 	private PackedScene multiballPkd;
-	private PinGodGame pinGod;
+	private MsPinGodGame pinGod;
 	private ScoreEntry scoreEntry;
 
-	#region Game Variables
-	public byte[] MoonTargets { get; internal set; }
-	public int Multiplier { get; internal set; }
+	#region Moon Station Game Specific
+	public byte[] MoonTargets { get; internal set; }	
 	public byte[] StationTargets { get; internal set; }
 	#endregion
 
 	public override void _EnterTree()
 	{
-		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode<MsPinGodGame>("/root/PinGodGame");
 		pinGod.LogInfo("game: enter tree");
 
 		//get packed scene to create an instance of when a Multiball gets activated
@@ -48,6 +47,7 @@ public class Game : Node2D
 		pinGod.BallInPlay = 1;
 		StartNewBall();
 	}
+
 	public void AddMultiballSceneToTree()
 	{
 		//create an mball instance from the packed scene
@@ -57,6 +57,7 @@ public class Game : Node2D
 		//add to the tree
 		GetNode("Modes").AddChild(mball);
 	}
+
 	/// <summary>
 	/// Add a display at end of ball
 	/// </summary>
@@ -71,7 +72,10 @@ public class Game : Node2D
 		{
 			pinGod.InBonusMode = true;
 			pinGod.LogInfo("game: adding bonus scene for player: " + pinGod.CurrentPlayerIndex);
-			endOfBallBonus.StartBonusDisplay();
+
+			//using CallDeferred here. When in Visual pinball the screen would disappear after adding a moon image.
+			//so it could be the more heavier the scene is you will need to CallDeferred. You won't notice this until playing with simulator.
+			endOfBallBonus.CallDeferred("StartBonusDisplay");
 			return;
 		}
 		else if (pinGod.IsTilted && lastBall)
@@ -95,6 +99,7 @@ public class Game : Node2D
 			}
 		}
 	}
+
 	public void OnBonusEnded()
 	{
 		pinGod.LogInfo("game: bonus ended, starting new ball");
@@ -110,18 +115,19 @@ public class Game : Node2D
 			pinGod.UpdateLamps(GetTree());
 		}
 	}
+
 	public void UpdateLamps()
 	{
-		if (Multiplier > 1)
+		if (pinGod.Multiplier > 1)
 		{
 			pinGod.SetLampState("multiplier_2", 2);
 
-			if (Multiplier > 2)
+			if (pinGod.Multiplier > 2)
 			{
 				pinGod.SetLampState("multiplier_2", 1);
 				pinGod.SetLampState("multiplier_3", 2);
 			}
-			if (Multiplier > 3)
+			if (pinGod.Multiplier > 3)
 			{
 				pinGod.SetLampState("multiplier_2", 1);
 				pinGod.SetLampState("multiplier_3", 1);
@@ -135,11 +141,7 @@ public class Game : Node2D
 			pinGod.SetLampState("multiplier_4", 0);
 		}
 	}
-	private void AddPoints(int points)
-	{
-		pinGod.AddPoints(points);
-		pinGod.AddBonus(25);
-	}
+
 	/// <summary>
 	/// Sets <see cref="PinGodGameBase.IsMultiballRunning"/> to false and Any node that is in the multiball group is removed from tree
 	/// </summary>
@@ -150,6 +152,7 @@ public class Game : Node2D
 		pinGod.IsMultiballRunning = false;
 		pinGod.SolenoidOn("lampshow_1", 1);
 	}
+
 	void OnBallDrained()
 	{
 		if (_tiltedTimeOut.IsStopped())
@@ -167,9 +170,10 @@ public class Game : Node2D
 		}
 	}
 	/// <summary>
-	/// Signals to Mode groups OnBallSaved
+	/// Sends OnBallSaved to all scenes in the Mode group
 	/// </summary>
 	void OnBallSaved() => pinGod.OnBallSaved(GetTree());
+
 	/// <summary>
 	/// When score entry is finished set <see cref="PinGodGame.EndOfGame"/>
 	/// </summary>
@@ -177,26 +181,34 @@ public class Game : Node2D
 	{
 		pinGod.EndOfGame();
 	}
+
 	void OnStartNewBall()
 	{        
 		pinGod.LogInfo("game: starting ball after tilting");
 		pinGod.SolenoidOn("lampshow_1", 0);
 		StartNewBall();
 	}
-	void timeout()
-	{		
+
+    /// <summary>
+    /// Starts new ball in PinGod and invokes OnBallStarted on all Mode groups
+    /// </summary>
+    private void StartNewBall()
+    {
+        //disable lamps, we're not using led in this game
+        pinGod.DisableAllLamps();
+
+        //start the ball
+        pinGod.StartNewBall();
+
+        //let all scenes that are in the Mode group that the ball has started
+        pinGod.OnBallStarted(GetTree());
+    }
+
+    void timeout()
+    {		
 		if (!_lastBall)
 		{
 			CallDeferred("OnStartNewBall");
 		}
-	}
-	/// <summary>
-	/// Starts new ball in PinGod and invokes OnBallStarted on all Mode groups
-	/// </summary>
-	private void StartNewBall()
-	{
-		pinGod.DisableAllLamps();
-		pinGod.StartNewBall();
-		pinGod.OnBallStarted(GetTree());
 	}
 }

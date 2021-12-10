@@ -1,90 +1,96 @@
 using Godot;
+using MoonStation.game;
 
-public class MoonStationServiceMenu : Control
+public class MoonStationServiceMenu : ServiceMenu
 {
 	string[] CurrentMenuItems = null;
-	string[] Items = new string[] { "music", "exit" };
-	string[] MusicOptions = new string[] { "off", "dnb", "techno" };
-	private Label menuNameLabel;
+	string[] Items = new string[] { "music"};
+	string[] MusicOptions = new string[] { "off", "dnb", "techno" };	
 	int selectedIndex = 0;
 
 	bool inMusicMenu = false;
-	private PinGodGame pinGod;
+    private MsPinGodGame msGame;
 
-	public override void _Ready()
+    public override void _Ready()
 	{
-		menuNameLabel = GetNode("Label") as Label;
-
+		menuNameLabel = GetNode("CenterContainer/Label") as Label;
 		CurrentMenuItems = Items;
 		menuNameLabel.Text = Items[0];
+
+		msGame = pinGod as MsPinGodGame;
 	}
 
-	public override void _EnterTree()
-	{
-		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+    public override void OnDown()
+    {
+		base.OnDown();
+
+		selectedIndex--;
+		if (selectedIndex < 0)
+		{
+			selectedIndex = CurrentMenuItems.Length - 1;
+		}
+
+		UpdateText();
 	}
 
-	public override void _Input(InputEvent @event)
-	{		
-		if (pinGod.SwitchOn("enter", @event))
-		{
-			var menu = CurrentMenuItems[selectedIndex];
-			pinGod.LogDebug("selected menu", menu);
+    public override void OnUp()
+    {
+		base.OnUp();
 
-			if (inMusicMenu)
+		selectedIndex++;
+		if (selectedIndex > CurrentMenuItems.Length - 1)
+		{
+			selectedIndex = 0;
+		}
+
+		UpdateText();
+	}
+
+    public override void OnExit()
+    {
+		if (!inMusicMenu)
+		{
+			base.OnExit();
+			return;
+		}
+        else
+        {
+
+        }
+
+		CurrentMenuItems = Items;
+		selectedIndex = 0;
+		inMusicMenu = false;
+		UpdateText();
+    }
+
+    public override void OnEnter()
+    {
+		base.OnEnter();
+
+		var menu = CurrentMenuItems[selectedIndex];
+		pinGod.LogDebug("selected menu", menu);		
+		if (inMusicMenu)
+		{
+			switch (menu)
 			{
-				switch (menu)
-				{
-					case "off":
-						pinGod.AudioManager.MusicEnabled = false;
-						break;
-					case "dnb":
-					case "techno":
-						pinGod.AudioManager.MusicEnabled = true;
-						pinGod.AudioManager.Bgm = menu;
-						pinGod.LogDebug("selected music", pinGod.AudioManager.Bgm);
-						break;
-					default:
-						break;
-				}
-			}
-			else if (menu == "music")
-			{
-				inMusicMenu = true;
-				selectedIndex = 0;
-				CurrentMenuItems = MusicOptions;
-				UpdateText();
+				case "off":
+					msGame.SetMusicOff();
+					break;
+                case "dnb":
+                case "techno":
+					msGame.SetMusicOn(menu);                    
+                    break;
+                default:
+					break;
 			}
 		}
-		if (pinGod.SwitchOn("up", @event))
+		else if (menu == "music")
 		{
-			selectedIndex++;
-			if (selectedIndex > CurrentMenuItems.Length - 1)
-			{
-				selectedIndex = 0;
-			}
-
+			inMusicMenu = true;
+			selectedIndex = 0;
+			CurrentMenuItems = MusicOptions;
 			UpdateText();
-		}
-		if (pinGod.SwitchOn("down", @event))
-		{
-			selectedIndex--;
-			if (selectedIndex < 0)
-			{
-				selectedIndex = CurrentMenuItems.Length - 1;
-			}
-
-			UpdateText();
-		}
-		if (pinGod.SwitchOn("exit", @event))
-		{
-			if (!inMusicMenu)
-			{
-				pinGod.EmitSignal("ServiceMenuExit");
-				this.QueueFree();				
-			}
-			CurrentMenuItems = Items;
-			inMusicMenu = false;
 		}
 	}
 

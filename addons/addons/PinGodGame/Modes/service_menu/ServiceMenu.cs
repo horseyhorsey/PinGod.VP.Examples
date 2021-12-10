@@ -28,18 +28,19 @@ public class ServiceMenu : Node
 	/// <summary>
 	/// Fired with Down switch.
 	/// </summary>
-	public virtual void OnDown() { }
+	public virtual void OnDown() { pinGod.PlaySfx("enter"); }
 
 	/// <summary>
 	/// Fired with Enter switch.
 	/// </summary>
-	public virtual void OnEnter() { }
+	public virtual void OnEnter() { pinGod.PlaySfx("enter"); }
 
 	/// <summary>
 	/// Fired with Exit switch. Emits "ServiceMenuExit" and removes from the scene
 	/// </summary>
 	public virtual void OnExit() 
 	{
+		pinGod.PlaySfx("exit");
 		pinGod.EmitSignal("ServiceMenuExit");
 		this.QueueFree();
 	}
@@ -47,5 +48,5 @@ public class ServiceMenu : Node
 	/// <summary>
 	/// Fired with Up switch.
 	/// </summary>
-	public virtual void OnUp() { }
+	public virtual void OnUp() { pinGod.PlaySfx("enter"); }
 }

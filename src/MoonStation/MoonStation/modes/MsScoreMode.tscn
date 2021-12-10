@@ -1,0 +1,177 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas18.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/img/moon-horsepin.svg" type="Texture" id=2]
+[ext_resource path="res://assets/img/star.svg" type="Texture" id=3]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=4]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=5]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas32.tres" type="DynamicFont" id=6]
+[ext_resource path="res://modes/MsScoreMode.cs" type="Script" id=7]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=8]
+
+[sub_resource type="Animation" id=1]
+resource_name = "MoveMoon"
+length = 29.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("moon-station-logo:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 29 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -79.1959, 180.161 ), Vector2( 590.603, 185.817 ) ]
+}
+
+[node name="ScoreMode" type="Control" groups=[
+"Mode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackgroundColour" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.00392157, 0.00392157, 0.137255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="moon-station-logo" type="Sprite" parent="."]
+modulate = Color( 1, 1, 0.921569, 1 )
+position = Vector2( 590.603, 185.817 )
+scale = Vector2( 1.25924, 1.25924 )
+texture = ExtResource( 2 )
+
+[node name="ScoreMain" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 5 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInfo" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -123.0
+margin_top = -33.0
+custom_fonts/font = ExtResource( 6 )
+text = "Player: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BallInfo" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 13.0
+margin_top = -33.0
+margin_right = 59.0
+custom_fonts/font = ExtResource( 6 )
+text = "BALL: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "MoveMoon"
+anims/MoveMoon = SubResource( 1 )
+
+[node name="ScoreP1" type="Label" parent="."]
+anchor_top = 0.761
+anchor_bottom = 1.0
+margin_top = -65.0
+margin_right = 25.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP2" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 0.761
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -25.0
+margin_top = -65.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP3" type="Label" parent="."]
+anchor_top = 0.886
+anchor_bottom = 0.902
+margin_top = -65.0
+margin_right = 25.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP4" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 0.886
+anchor_right = 1.0
+anchor_bottom = 0.902
+margin_left = -25.0
+margin_top = -65.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="star" type="Sprite" parent="."]
+position = Vector2( 253.172, 26.2937 )
+scale = Vector2( 0.143766, 0.143766 )
+texture = ExtResource( 3 )
+
+[node name="ValueLabel" type="Label" parent="."]
+margin_left = 222.155
+margin_top = 14.9808
+margin_right = 284.155
+margin_bottom = 47.9808
+custom_fonts/font = ExtResource( 6 )
+text = "1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 223.6
+margin_top = 47.7684
+margin_right = 285.6
+margin_bottom = 66.7684
+custom_fonts/font = ExtResource( 1 )
+text = "MULTIPLIER"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="." instance=ExtResource( 8 )]
+margin_top = -33.0

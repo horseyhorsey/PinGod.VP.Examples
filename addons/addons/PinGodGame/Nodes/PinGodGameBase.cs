@@ -46,9 +46,9 @@ public abstract partial class PinGodGameBase : Node
 	public BallSearchOptions BallSearchOptions { get; set; }
 	public Timer BallSearchTimer { get; set; }
 	public byte CurrentPlayerIndex { get; set; }
-	public GameData GameData { get; private set; }
+	public GameData GameData { get; internal set; }
 	public bool GameInPlay { get; set; }
-	public GameSettings GameSettings { get; private set; }
+	public GameSettings GameSettings { get; internal set; }
 	public bool IsBallStarted { get; internal set; }
 
 	/// <summary>
@@ -89,7 +89,9 @@ public abstract partial class PinGodGameBase : Node
 	{
 		LogInfo("pingod:enter tree");
 
-		LoadSettingsAndData();
+		LoadDataFile();
+		LoadSettingsFile();
+		SetUpWindow();
 
 		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
 		//AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);        
@@ -459,7 +461,7 @@ public abstract partial class PinGodGameBase : Node
 	}
 
 	/// <summary>
-	/// Quits the game, cleans up
+	/// Quits the game, saves data / settings and cleans up
 	/// </summary>
 	/// <param name="saveData">save game on exit?</param>
 	public virtual void Quit(bool saveData = true)
@@ -469,8 +471,8 @@ public abstract partial class PinGodGameBase : Node
 
 		if (saveData)
 		{
-			GameData.Save(GameData);
-			GameSettings.Save(GameSettings);
+			SaveGameData();
+			SaveGameSettings();
 		}
 
 		memMapping?.Dispose(); //dispose invokes stop as well
@@ -484,6 +486,10 @@ public abstract partial class PinGodGameBase : Node
 		Tiltwarnings = 0;
 		IsTilted = false;
 	}
+
+	public virtual void SaveGameData() => GameData.Save(GameData);
+
+	public virtual void SaveGameSettings() => GameSettings.Save(GameSettings);
 
 	public virtual void SaveRecording()
 	{
@@ -946,11 +952,26 @@ public abstract partial class PinGodGameBase : Node
 
 		return true;
 	}
-	private void LoadSettingsAndData()
-	{
-		GameData = GameData.Load();
-		GameSettings = GameSettings.Load();
 
+	[Obsolete("override the other methods for loading data, settings and setting up window")]
+	/// <summary>
+	/// Runs <see cref="LoadSettingsFile"/>, <see cref="LoadDataFile"/>, <see cref="SetUpWindow"/>
+	/// </summary>
+	public virtual void LoadSettingsAndData()
+	{
+		LoadSettingsFile();
+		LoadDataFile();
+		SetUpWindow();
+    }
+
+	public virtual void LoadSettingsFile() => GameSettings = GameSettings.Load();
+	public virtual void LoadDataFile() => GameData = GameData.Load();
+
+	/// <summary>
+	/// Sets up the window size and position from saved machine settings. See <see cref="Godot.OS"/>
+	/// </summary>
+	public virtual void SetUpWindow()
+    {
 		if (!Engine.EditorHint)
 		{
 			if (GameSettings.Display?.Width > 0)
@@ -971,9 +992,10 @@ public abstract partial class PinGodGameBase : Node
 					}
 				}
 			}
-		}        
-	}
-	private bool SolenoidExists(string name)
+		}		
+    }
+
+    private bool SolenoidExists(string name)
 	{
 		if (!Machine.Coils.ContainsKey(name))
 		{

@@ -6,7 +6,9 @@ using Godot.Collections;
 /// </summary>
 public class PinGodGame : PinGodGameBase
 {	
-	[Export] protected string COIN_SFX = "res://addons/PinGodGame/assets/audio/sfx/credit.wav";
+	[Export] protected string COIN_SFX = "res://addons/PinGodGame/assets/audio/sfx/credit.wav";		
+	[Export] protected string TILT_SFX = "res://addons/PinGodGame/assets/audio/sfx/tilt.wav";
+	[Export] protected string WARN_SFX = "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav";
 
 	#region Exports
 	[Export] PinGodLogLevel _logging_level = PinGodLogLevel.Info;
@@ -119,6 +121,11 @@ public class PinGodGame : PinGodGameBase
 	{
 		////adds the default credit sound
 		AudioManager.AddSfx(COIN_SFX, "credit");
+		AudioManager.AddSfx(TILT_SFX, "tilt");
+		AudioManager.AddSfx(WARN_SFX, "warning");
+
+		AudioManager.AddSfx("res://addons/PinGodGame/assets/audio/sfx/beep.wav", "enter");
+		AudioManager.AddSfx("res://addons/PinGodGame/assets/audio/sfx/beep_long.wav", "exit");
 
 		////add music for the game. Ogg to autoloop
 		////AudioManager.AddMusic("res://assets/audio/music/mymusic.ogg", "mymusic");

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using static MoonStation.GameGlobals;
 
 public class MoonLander : Node2D
 {
@@ -82,7 +83,7 @@ public class MoonLander : Node2D
 			scoreLabel.Text = $"CRATER LANDING\r\nSCORES\r\n{value * 1000}";
 			scoreLabel.Visible = true;
 
-			pinGod.AddPoints(value * 1000);
+			pinGod.AddPoints(value * EXTRA_LARGE_SCORE);
 
 			pinGod.LogDebug("flag value ", value);
 			ship.QueueFree();
