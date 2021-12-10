@@ -1,23 +1,29 @@
 using Godot;
+using MoonStation.game;
 
 public class MoonStationServiceMenu : ServiceMenu
 {
 	string[] CurrentMenuItems = null;
-	string[] Items = new string[] { "music", "exit" };
+	string[] Items = new string[] { "music"};
 	string[] MusicOptions = new string[] { "off", "dnb", "techno" };	
 	int selectedIndex = 0;
 
 	bool inMusicMenu = false;
+    private MsPinGodGame msGame;
 
-	public override void _Ready()
+    public override void _Ready()
 	{
 		menuNameLabel = GetNode("CenterContainer/Label") as Label;
 		CurrentMenuItems = Items;
 		menuNameLabel.Text = Items[0];
+
+		msGame = pinGod as MsPinGodGame;
 	}
 
     public override void OnDown()
     {
+		base.OnDown();
+
 		selectedIndex--;
 		if (selectedIndex < 0)
 		{
@@ -29,6 +35,8 @@ public class MoonStationServiceMenu : ServiceMenu
 
     public override void OnUp()
     {
+		base.OnUp();
+
 		selectedIndex++;
 		if (selectedIndex > CurrentMenuItems.Length - 1)
 		{
@@ -45,29 +53,35 @@ public class MoonStationServiceMenu : ServiceMenu
 			base.OnExit();
 			return;
 		}
+        else
+        {
+
+        }
+
 		CurrentMenuItems = Items;
-		inMusicMenu = false;		
+		selectedIndex = 0;
+		inMusicMenu = false;
+		UpdateText();
     }
 
     public override void OnEnter()
     {
-		var menu = CurrentMenuItems[selectedIndex];
-		pinGod.LogDebug("selected menu", menu);
+		base.OnEnter();
 
+		var menu = CurrentMenuItems[selectedIndex];
+		pinGod.LogDebug("selected menu", menu);		
 		if (inMusicMenu)
 		{
 			switch (menu)
 			{
 				case "off":
-					pinGod.AudioManager.MusicEnabled = false;
+					msGame.SetMusicOff();
 					break;
-				case "dnb":
-				case "techno":
-					pinGod.AudioManager.MusicEnabled = true;
-					pinGod.AudioManager.Bgm = menu;
-					pinGod.LogDebug("selected music", pinGod.AudioManager.Bgm);
-					break;
-				default:
+                case "dnb":
+                case "techno":
+					msGame.SetMusicOn(menu);                    
+                    break;
+                default:
 					break;
 			}
 		}

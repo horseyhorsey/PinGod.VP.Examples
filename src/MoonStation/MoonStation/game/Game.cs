@@ -8,7 +8,7 @@ public class Game : Node2D
 	private Timer _tiltedTimeOut;
 	private Bonus endOfBallBonus;
 	private PackedScene multiballPkd;
-	private MoonStationPinGodGame pinGod;
+	private MsPinGodGame pinGod;
 	private ScoreEntry scoreEntry;
 
 	#region Moon Station Game Specific
@@ -18,7 +18,7 @@ public class Game : Node2D
 
 	public override void _EnterTree()
 	{
-		pinGod = GetNode<MoonStationPinGodGame>("/root/PinGodGame");
+		pinGod = GetNode<MsPinGodGame>("/root/PinGodGame");
 		pinGod.LogInfo("game: enter tree");
 
 		//get packed scene to create an instance of when a Multiball gets activated

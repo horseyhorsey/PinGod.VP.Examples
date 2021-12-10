@@ -12,11 +12,11 @@ public class BaseMode : Control
 	[Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
 
 	private PackedScene _ballSaveScene;        
-	private Game game;    
-    private MoonStationPinGodGame pinGod;
+	private Game game;
+    private MsPinGodGame pinGod;
 	public override void _EnterTree()
 	{
-		pinGod = GetNode("/root/PinGodGame") as MoonStationPinGodGame;
+		pinGod = GetNode("/root/PinGodGame") as MsPinGodGame;
 		game = GetParent().GetParent() as Game;
 
 		_ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);

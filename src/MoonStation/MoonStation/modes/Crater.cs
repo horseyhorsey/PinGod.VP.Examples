@@ -44,16 +44,16 @@ public class Crater : Control
 	/// <param name="event"></param>
 	public override void _Input(InputEvent @event)
 	{
-		if (pinGod.GameInPlay)
+		if (pinGod.GameInPlay && !pinGod.IsTilted)
 		{
 			if (pinGod.SwitchOn(SAUCER_COIL_SWITCH, @event))
 			{
-				//make this crater scene visible
-				Visible = true;
-
 				//create an instance of the moon lander scene and add to tree
 				moonLanderInstance = _moonLanderScene.Instance();
 				AddChild(moonLanderInstance);
+
+				//make this crater scene visible
+				Visible = true;
 
 				//play a lamp show and start time out
 				pinGod.SolenoidOn(LAMP_SHOW, 1);

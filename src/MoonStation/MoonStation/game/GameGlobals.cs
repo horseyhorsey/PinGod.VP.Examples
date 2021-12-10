@@ -1,5 +1,8 @@
 ﻿namespace MoonStation
 {
+    /// <summary>
+    /// Store variables that don't change for the game to use
+    /// </summary>
     public class GameGlobals
     {
         public const int EXTRA_LARGE_SCORE = 1000;

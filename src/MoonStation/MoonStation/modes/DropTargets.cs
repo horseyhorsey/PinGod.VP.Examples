@@ -11,7 +11,7 @@ public class DropTargets : Control
 {
 	private AudioStreamPlayer voicePlayer;
 	private Dictionary<string, AudioStream> voices;
-	private MoonStationPinGodGame pinGod;
+	private MsPinGodGame pinGod;
 	private Game game;
 
 	public override void _EnterTree()
@@ -28,7 +28,7 @@ public class DropTargets : Control
 			voices.Add(chars[i], Load(vDir + $"/{chars[i]}.wav") as AudioStream);
 		}
 
-		pinGod = GetNode<MoonStationPinGodGame>("/root/PinGodGame");
+		pinGod = GetNode<MsPinGodGame>("/root/PinGodGame");
 		pinGod.Connect("BallEnded", this, "ResetTargets");
 
 		game = GetNode("/root/MainScene/Modes/Game") as Game;
