@@ -6,8 +6,7 @@ using static Godot.GD;
 /// </summary>
 public class Crater : Control
 {
-    const string LAMP_SHOW = "lampshow_1";
-
+   const string LAMP_SHOW = "lampshow_1";
 	/// <summary>
 	/// Time to wait before kicking ball when mode over
 	/// </summary>
@@ -19,15 +18,18 @@ public class Crater : Control
     private PackedScene _moonLanderScene;
     private Node moonLanderInstance;
     private PinGodGame pinGod;
+
 	/// <summary>
 	/// The crater saucer
 	/// </summary>
     private BallStackPinball saucer;
+
     public AudioStreamPlayer AudioStream { get; private set; }	
 
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+
 		saucer = GetNode<BallStackPinball>("CraterSaucer");
 
 		//get the instance of the player
