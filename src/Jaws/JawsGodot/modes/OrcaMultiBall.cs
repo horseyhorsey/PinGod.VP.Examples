@@ -43,7 +43,7 @@ public class OrcaMultiBall : Control
 			OrcaMagnetHit();
 		}
 
-		if (!game.IsMultiballScoringStarted && CanSkipScene)
+		if (!game.IsMultiballScoringStarted && CanSkipScene && !game.IsHurryUpRunning())
 		{
 			if (pinGod.SwitchOn("orca_magnet"))
 			{

@@ -43,8 +43,8 @@ public class JawsPinGodGame : PinGodGame
 		AudioManager.AddMusic("res://assets/audio/music/end_music_final.ogg", "end_music_final");
 	}
 
-    internal void EnableJawsToy(bool v)
+    internal void EnableJawsToy(bool enable)
     {
-		LogWarning("todo: enable jaws toy");
+		SolenoidOn("jaws_toy", (byte)(enable ? 1 : 0));
     }
 }

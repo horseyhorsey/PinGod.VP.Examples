@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/JawsPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
@@ -147,10 +147,10 @@ _leds = {
 _early_save_switches = PoolStringArray( "outlane_r" )
 _ball_save_lamp = "shoot_again"
 _ball_save_led = ""
+_ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "bruce_vuk", "barrel_kicker", "jaws_kicker" )
 _ball_search_stop_switches = PoolStringArray( "bruce_vuk", "barrel_kicker", "jaws_kicker" )
 _ball_search_wait_time_secs = 12
-_ball_save_multiball_seconds = 12
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
 layer = 128

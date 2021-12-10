@@ -408,11 +408,11 @@ public class Game : Node2D
     /// Starts new ball in PinGod and invokes OnBallStarted on all Mode groups
     /// </summary>
     private void StartNewBall()
-    {
-        pinGod.DisableAllLamps();
+    {		
+		pinGod.DisableAllLamps();
         pinGod.StartNewBall();
-        pinGod.OnBallStarted(GetTree());
-    }
+        pinGod.OnBallStarted(GetTree());		
+	}
 
     void timeout()
     {

@@ -96,6 +96,8 @@ public class BaseGameMode : Control
 		Game.DisableBarrelTargets();
 		Game.UpdateLamps();
 		Game.CallDeferred("UpdateProgress");
+
+		Game.PlayMusicForMode();
 	}
 
 

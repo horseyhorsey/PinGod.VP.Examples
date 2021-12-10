@@ -17,7 +17,11 @@
     <None Include="assets\videos\barrels\brody_barrel_2.ogv" />
     <None Include="assets\videos\barrels\quint_3_barrels.ogv" />
     <None Include="export_presets.cfg" />
+    <None Include="project.godot" />
     <None Include="readme.md" />
+    <None Include="_build_export.bat" />
+    <None Include="_create_addons_link.bat" />
+    <None Include="_run_godot_editor.bat" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

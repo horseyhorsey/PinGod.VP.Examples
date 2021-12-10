@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="JawsGodot"
-config/description="Example game running Godot projects with Visual Pinball"
+config/description="RomPins Jaws in Visual Pinball"
 run/main_scene="res://game/MainScene.tscn"
 config/icon="res://addons/PinGodGame/assets/img/pingod-logo.png"
 config/windows_native_icon="res://addons/PinGodGame/assets/img/pingod.ico"

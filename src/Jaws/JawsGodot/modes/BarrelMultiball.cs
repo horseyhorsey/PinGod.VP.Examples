@@ -21,6 +21,7 @@ public class BarrelMultiball : Control
 	public VideoPlayerPinball VideoPlayer { get; private set; }
 	public Dictionary<string, VideoStreamTheora> VideoStreams { get; private set; } 
 	#endregion
+
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as JawsPinGodGame;
@@ -265,13 +266,13 @@ public class BarrelMultiball : Control
 				switch (game.currentPlayer.BarrelStage)
 				{
 					case 1:
-						_ballStackPinball.Start(3.3f);
+						_ballStackPinball.Start(3.3f); //kick the ball after 3.3 secs
 						_label.Text = "\n\r\n\rBARREL MULTIBALL\r\nROUND 1";
 						CallDeferred("PlayScene", "brody_barrel_1");
 						break;
 
 					case 2:
-						_ballStackPinball.Start(6.2f);
+						_ballStackPinball.Start(6.2f); //kick the ball after 6.2 secs unless skipped
 						_label.Text = "\n\r\n\rBARREL MULTIBALL\r\nROUND 2";
 						CallDeferred("PlayScene", "brody_barrel_2");
 						break;
