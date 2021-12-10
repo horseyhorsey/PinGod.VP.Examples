@@ -25,7 +25,7 @@ End Sub
 
 'Debug builds
 Const IsDebug = True
-Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\MoonStation\MoonStation" ' Loads the godot pingod game project
+Const GameDirectory = "..\MoonStation" ' Loads the godot pingod game project
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 0  ' use led (color)
 Const UseLamps = 1  ' Check for lamp states?
@@ -103,8 +103,8 @@ Sub InitGame
 	bsTrough.Reset	
 
 	Set bsCraterSaucer = New cvpmSaucer
-	bsCraterSaucer.InitKicker Kicker001, swSaucer, 165, 10, 0
-	bsCraterSaucer.CreateEvents "bsCraterSaucer", Kicker001
+	bsCraterSaucer.InitKicker Kicker_Crater, swSaucer, 165, 10, 0
+	bsCraterSaucer.CreateEvents "bsCraterSaucer", Kicker_Crater
 	bsCraterSaucer.InitSounds "sp76-kick-enter", "", "sp76-kick-exit"
 
     'Tilt 
