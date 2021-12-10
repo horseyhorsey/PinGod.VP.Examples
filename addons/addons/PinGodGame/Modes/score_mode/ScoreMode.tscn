@@ -6,7 +6,7 @@
 [ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
 
-[node name="ScoreMode" type="Control" groups=[
+[node name="ScoreMode" type="Node" groups=[
 "Mode",
 ]]
 anchor_right = 1.0
