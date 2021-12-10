@@ -59,26 +59,6 @@ public class BaseMode : Control
 		{
 			pinGod.AddPoints(50);
 		}
-		if (pinGod.SwitchOn("mball_saucer", @event))
-		{
-			pinGod.AddPoints(150);
-			StartMultiball();
-		}
-	}
-
-	private void StartMultiball()
-	{
-		if (!pinGod.IsMultiballRunning)
-		{
-			pinGod.IsMultiballRunning = true;
-			pinGod.SolenoidPulse("mball_saucer");
-			game?.CallDeferred("AddMultiballSceneToTree");            
-		}
-		else
-		{
-			//already in multiball
-			pinGod.SolenoidPulse("mball_saucer");
-		}
 	}
 
 	public void OnBallDrained() { }
@@ -109,4 +89,30 @@ public class BaseMode : Control
 		ballSaveScene.SetRemoveAfterTime(time);
 		AddChild(_ballSaveScene.Instance());
 	}
+
+	    /// <summary>
+    /// Saucer "kicker" active.
+    /// </summary>
+    private void OnBallStackPinball_SwitchActive()
+    {
+        if (!pinGod.IsTilted && pinGod.GameInPlay)
+        {
+            pinGod.AddPoints(150);
+
+            if (!pinGod.IsMultiballRunning)
+            {
+                //enable multiball and start timer on default timeout (see BaseMode scene, BallStackPinball)
+                pinGod.IsMultiballRunning = true;
+                _ballStackSaucer.Start();
+
+                game?.CallDeferred("AddMultiballSceneToTree");
+                return;
+            }
+        }
+
+        //no multiball running or game not in play
+        _ballStackSaucer.Start(1f);
+    }
+
+    private void OnBallStackPinball_timeout() => _ballStackSaucer.SolenoidPulse();
 }
