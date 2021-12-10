@@ -2,9 +2,9 @@ using Godot;
 using System.Collections.Generic;
 
 /// <summary>
-/// Adds all Canvas Items in the "AttractLayers". These cycle on a timer and can be cycled with Flipper actions
+/// A basic attract mode that can start a game and cycle scenes with flippers. Add scenes into the "AttractLayers" in scene tree
 /// </summary>
-public class Attract : Control
+public class Attract : Node
 {
 	/// <summary>
 	/// The amount of time to change a scene
@@ -52,8 +52,8 @@ public class Attract : Control
 		{
 			var started = pinGod.StartGame();
 			if (started)
-			{
-				pinGod.LogInfo("attract: game started");
+			{				
+				OnGameStartedFromAttract();
 			}
 			pinGod.LogInfo("attract: starting game. started?", started);
 		}
@@ -68,10 +68,15 @@ public class Attract : Control
 		}
 	}
 
-	/// <summary>
-	/// Switches the scenes visibility on a timer. Plays lamp seq in VP
-	/// </summary>
-	private void _on_Timer_timeout()
+    public virtual void OnGameStartedFromAttract() 
+	{
+		pinGod.LogInfo("attract: game started");
+	}
+
+    /// <summary>
+    /// Switches the scenes visibility on a timer. Plays lamp seq in VP
+    /// </summary>
+    private void _on_Timer_timeout()
 	{
 		CallDeferred(nameof(ChangeLayer), true);
 	}
