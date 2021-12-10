@@ -65,7 +65,7 @@ public class Game : PinGodGameNode
 		{
 			pinGod.InBonusMode = true;
 			pinGod.LogInfo("game: adding bonus scene for player: " + pinGod.CurrentPlayerIndex);
-			endOfBallBonus.StartBonusDisplay();
+			endOfBallBonus.CallDeferred("StartBonusDisplay");
 			return;
 		}
 		else if (pinGod.IsTilted && lastBall)

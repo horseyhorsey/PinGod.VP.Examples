@@ -41,9 +41,10 @@ public class DieLaneMode : PinballSwitchLanesNode
 		if (result)
 		{
 			ResetLanesCompleted();
-			AdvanceMultiplier();
-			pinGod.PlaySfx("snd_inlane"); //todo: remix
+			AdvanceMultiplier();			
 		}
+
+		pinGod.PlaySfx("snd_inlane"); //todo: remix
 		return result;
 	}
 

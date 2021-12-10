@@ -1,4 +1,4 @@
-﻿public class CustomPinGodGame : PinGodGame
+﻿public class NightmarePinGodGame : PinGodGame
 {
 	/// <summary>
 	/// override to create our own player type for this game
@@ -7,6 +7,7 @@
 	public override void CreatePlayer(string name)
     {
         Players.Add(new NightmarePlayer() { Name = name, Points = 0 });
+		PlaySfx("snd_start");
     }
 
 	public override void AddAudioStreams()
@@ -34,5 +35,22 @@
 		AudioManager.AddMusic("res://assets/audio/music/mus_bonusmultiply.ogg", "mus_bonusmultiply");
 		AudioManager.AddMusic("res://assets/audio/music/mus_advancecrossstack.ogg", "mus_advancecrossstack");
 		AudioManager.SetBgm("mus_main");
-	}
+
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_bumper.wav", "snd_bumper");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_down.wav", "snd_down");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_drain.wav", "snd_drain");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_inlane.wav", "snd_inlane");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_return_lanes.wav", "snd_return_lanes");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_kicker.wav", "snd_kicker");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_lowsquirk.wav", "snd_lowsquirk");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_organ.wav", "snd_organ");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_ough.wav", "snd_ough");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_slingshot.wav", "snd_slingshot");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_squirk.wav", "snd_squirk");
+		AudioManager.AddSfx("res://assets/audio/sfx/snd_start.wav", "snd_start");
+
+
+	}	
+
+	
 }

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/PinGodGame/Game/PauseLayer.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/PinGodGame/Modes/attract/Attract.tscn" type="PackedScene" id=2]
+[ext_resource path="res://modes/common/attract/Attract.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Modes/ballsave/BallSave.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/Game/MainScene.cs" type="Script" id=5]
 

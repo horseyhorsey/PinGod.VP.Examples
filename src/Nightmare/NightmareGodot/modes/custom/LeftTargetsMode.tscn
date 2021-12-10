@@ -26,10 +26,10 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="CenterContainer"]
-margin_left = 129.0
-margin_top = 64.0
-margin_right = 319.0
-margin_bottom = 159.0
+margin_left = 88.0
+margin_top = 45.0
+margin_right = 360.0
+margin_bottom = 178.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.792157, 0.0666667, 0.0666667, 1 )
 text = "LEFT TARGETS

@@ -7,7 +7,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="addons\PinGodGame\Logging\" />
     <Folder Include="layers\" />
     <Folder Include="modes\common\attract\" />
     <Folder Include="modes\common\score_mode\" />

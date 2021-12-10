@@ -4,11 +4,14 @@ public class MysteryScoop : Control
 {
 	#region Fields
 	private float _musicTime;
-	string[] _mysteryChoices = new string[] {"100k", "Hold Bonus", "1 Million", "3 Million", "10 Million",
+	string[] _mysteryChoices = new string[] {"100k", "Hold Bonus", "1 Million", "3 Million", "10 Million", "Hold Bonus",
 								"Return Lanes Lit", "Extra Ball", "Catch Up", "Jackpot" };
 
 	private BallStackPinball ballStack;
     private Game game;
+    private Label mysteryLabel;
+    private Timer timer;
+	float totalSecondsInMystery = 7.5f;
 
     /// <summary>
     /// Used for tunnel
@@ -18,14 +21,19 @@ public class MysteryScoop : Control
 	private AudioStreamPlayer kickersound;
 	private PinGodGame pingod;
 	private NightmarePlayer player;
-	#endregion
+    private int _selectedAward;
+    #endregion
 
-	public override void _EnterTree()
+    public override void _EnterTree()
 	{
 		pingod = GetNode("/root/PinGodGame") as PinGodGame;
 		kickersound = GetNode("KickerSound") as AudioStreamPlayer;
 		ballStack = GetNode("BallStackPinball") as BallStackPinball;
 		game = GetParent().GetParent() as Game;
+		mysteryLabel = GetNode<Label>("CenterContainer/Label");
+		timer = GetNode<Timer>("Timer");
+
+		totalSecondsInMystery = 7.5f;
 	}	
 	/// <summary>
 	/// Locks balls and mystery awards. Increases jackpots
@@ -64,16 +72,10 @@ public class MysteryScoop : Control
 			//todo: add mode?
 			player.MysterySpinLit = false;
 			player.SpinTimesPlayed++;
-			//title : Mystery spin
 
-			//todo: spin for 6.5, 4.5 in remix, show awarded for 1.5
-
-			//todo: timer for showing choices
-			var randomindex = GetRandomAward();
-			var awardTitle = _mysteryChoices[randomindex];			
-			var delay = AwardMystery(randomindex);
-			pingod.LogInfo("mystery awarded, kick delay: ", awardTitle, " - ", delay);
-			ballStack.Start(delay);
+			mysteryLabel.Text = "Mystery spin";
+			pingod.PlayMusic("mus_spinbonus");
+			timer.Start();
 		}
 		else
 		{			
@@ -111,38 +113,45 @@ public class MysteryScoop : Control
 			case 0: //100k		
 				pingod.AddPoints(NightmareConstants.LARGE_SCORE * 4);
 				pingod.PlayMusic("mus_100k");
+				mysteryLabel.Text = $"100K";
 				return 1.0f;
 			case 1:
+			case 5:
 				player.BonusHeld = true;
+				mysteryLabel.Text = $"BONUS HELD";
 				return 1.5f;
 			case 2:
 				pingod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
 				pingod.PlayMusic("mus_spinmillion");
+				mysteryLabel.Text = $"1\nMILLION";
 				return 2.5f;
 			case 3:
 				pingod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE*3);
 				pingod.PlayMusic("mus_spinmillion");
+				mysteryLabel.Text = $"3\nMILLION";
 				return 2.5f;
 			case 4:
 				pingod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE * 10);
 				pingod.PlayMusic("mus_spinmillion");
+				mysteryLabel.Text = $"10\nMILLION";
 				return 2.5f;
-			case 5:
+			case 6:
 				player.LanePanicLit = true;
 				player.LaneExtraBallLit = true;
 				return 2.5f;
-			case 6:
+			case 7:
 				player.ExtraBalls++;
 				pingod.PlayMusic("mus_extraball");
 				return 4.5f;
-			case 7:
+			case 8:
 				var doubleScore = player.Points * 2;
 				pingod.AddPoints((int)doubleScore);
-				//todo: double score display
+				mysteryLabel.Text = $"CATCH UP!\n{doubleScore}";
 				return 2.5f;
-			case 8:
+			case 9: //jackpot
 				pingod.PlayMusic("mus_jackpot");
 				pingod.AddPoints(player.JackpotValue);
+				mysteryLabel.Text = $"JACKPOT!\n{player.JackpotValue}";
 				return 2.0f;
 			default:
 				return 1.0f;
@@ -185,4 +194,21 @@ public class MysteryScoop : Control
 		if (player.LaneExtraBallLit) pingod.SetLampState("xb_right", 1);
 		else pingod.SetLampState("xb_right", 0);
 	}
+
+	private void Timer_timeout()
+    {
+		totalSecondsInMystery -= 1.5f;
+
+		if(totalSecondsInMystery <= 0)
+        {
+			var delay = AwardMystery(_selectedAward);
+			pingod.LogInfo("mystery awarded, kick delay: ", mysteryLabel.Text, " - ", delay);
+			ballStack.Start(delay);
+		}
+        else
+        {
+			_selectedAward = GetRandomAward();
+			mysteryLabel.Text = _mysteryChoices[_selectedAward];
+		}
+    }
 }

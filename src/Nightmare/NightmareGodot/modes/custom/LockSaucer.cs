@@ -84,7 +84,7 @@ public class LockSaucer : Control
 	}
 	private void _on_BallStackPinball_timeout()
 	{
-		pingod.SolenoidPulse(ballStack._coil);
+		ballStack.SolenoidPulse();
 		pingod.PlaySfx("snd_kicker");
 		if (player.SuperJackpotLit)
 		{

@@ -2,12 +2,10 @@ using Godot;
 
 public class BaseGameMode : Node
 {
-	/// <summary>
-	/// Set the roman numeral lamps in the UI or <see cref="BaseGameMode.TSCN"/>
-	/// </summary>
-	[Export] string[] _roman_lamps = null;
 
-	uint _rampComboDelay = 4000;
+	[Export] string[] _roman_lamps;
+
+	uint _rampComboDelay = 5000;
 
 	#region Fields
 	private Game game;
@@ -20,6 +18,10 @@ public class BaseGameMode : Node
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
+
+		//this array only works when initialized here???
+		_roman_lamps = new string[] { "num_r_viii", "num_l_viii", "num_r_ix", "num_l_ix", "num_r_x", "num_l_x", "num_r_xi", "num_l_xi", "num_r_xii", "num_l_xii" };
+		//pinGod.LogDebug("roman lamps ", _roman_lamps.Length);
 	}
 	public override void _Input(InputEvent @event)
 	{
@@ -50,15 +52,16 @@ public class BaseGameMode : Node
 			pinGod.SolenoidPulse("flasher_left");
 		}
 		if (pinGod.SwitchOn("inlane_r", @event))
-		{
-			ScoreInlanes();
+		{			
 			if (player.LaneExtraBallLit)
 			{
 				player.ExtraBallLit = true;
 				player.LaneExtraBallLit = false;
 				pinGod.PlaySfx("snd_down");
-				//todo: COLLECT EXTRA BALL
-			}            
+			}
+
+			ScoreInlanes();
+			pinGod.SolenoidPulse("flasher_right");
 		}
 		if (pinGod.SwitchOn("outlane_r", @event))
 		{
@@ -66,11 +69,15 @@ public class BaseGameMode : Node
 		}
 		if (pinGod.SwitchOn("sling_l", @event))
 		{
-			pinGod.AddPoints(50);
+			pinGod.AddPoints(150);
+			pinGod.SolenoidPulse("flasher_left");
+			pinGod.PlaySfx("snd_slingshot");
 		}
 		if (pinGod.SwitchOn("sling_r", @event))
 		{
-			pinGod.AddPoints(50);
+			pinGod.AddPoints(150);
+			pinGod.SolenoidPulse("flasher_right");
+			pinGod.PlaySfx("snd_slingshot");
 		}
 		if (pinGod.SwitchOn("bumper_1", @event))
 		{
@@ -356,7 +363,7 @@ public class BaseGameMode : Node
 		pinGod.PlaySfx("sd_inlane"); //todo: remix sound
 	}
 
-	private void UpdateLamps()
+	public void UpdateLamps()
 	{
 		if (player.RunForLifeOn) pinGod.SetLampState("arrow_right", 2);
 		else pinGod.SetLampState("arrow_right", 0);
@@ -392,7 +399,7 @@ public class BaseGameMode : Node
 	}
 
 	private void UpdateRomanLamps()
-	{
+	{		
 		if (_roman_lamps?.Length > 0)
 		{
 			var val = player.RomanValue;

@@ -2,11 +2,6 @@
 
 [ext_resource path="res://modes/custom/BaseGameMode.cs" type="Script" id=1]
 
-[node name="BaseGameMode" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="BaseGameMode" type="Node"]
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 _roman_lamps = PoolStringArray( "num_r_viii", "num_l_viii", "num_r_ix", "num_l_ix", "num_r_x", "num_l_x", "num_r_xi", "num_l_xi", "num_r_xii", "num_l_xii" )
