@@ -2,17 +2,32 @@ using Godot;
 using System;
 
 /// <summary>
-/// Kicker / Saucer node based on timer and process switch action
+/// Kicker / Saucer node based on timer and to process switch actions.
 /// </summary>
 [Tool]
 public class BallStackPinball : Timer
 {
+    /// <summary>
+    /// Coil name
+    /// </summary>
+    [Export] public string _coil = null;
 
-	[Export] string _switch = null;
-	[Export] public string _coil = null;
-	[Signal] public delegate void SwitchActive();
-	[Signal] public delegate void SwitchInActive();
-	private PinGodGameBase pingod;
+    /// <summary>
+    /// Switch name to listen for active/inactive
+    /// </summary>
+    [Export] string _switch = null;
+
+    private PinGodGameBase pingod;
+
+    /// <summary>
+    /// Fired when switch is on
+    /// </summary>
+    [Signal] public delegate void SwitchActive();
+
+    /// <summary>
+    /// Fired when switch is off
+    /// </summary>
+    [Signal] public delegate void SwitchInActive();
 
 	#region Public Methods
 	/// <summary>
@@ -23,12 +38,32 @@ public class BallStackPinball : Timer
 		if (!Engine.EditorHint)
 		{
 			pingod = GetNode("/root/PinGodGame") as PinGodGameBase;
-			// Code to execute when in game.		
+			// Code to execute when in game.
 		}
 	}
 
-	public override void _Ready()
-	{
+    /// <summary>
+    /// Stops the timer
+    /// </summary>
+    public override void _ExitTree()
+    {
+        Stop();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (pingod.SwitchOn(_switch, @event))
+        {
+            EmitSignal(nameof(SwitchActive));
+        }
+        if (pingod.SwitchOff(_switch, @event))
+        {
+            EmitSignal(nameof(SwitchInActive));
+        }
+    }
+
+    public override void _Ready()
+    {
 		if (!Engine.EditorHint)
 		{
 			// Code to execute when in game.
@@ -39,25 +74,10 @@ public class BallStackPinball : Timer
 			}
 		}
 	}
-	public override void _Input(InputEvent @event)
-	{
-		if(pingod.SwitchOn(_switch, @event))
-        {
-			EmitSignal(nameof(SwitchActive));
-		}
-		if (pingod.SwitchOff(_switch, @event))
-		{
-			EmitSignal(nameof(SwitchInActive));
-		}
-	}
+    public void SolenoidPulse()
+    {
+		pingod.SolenoidPulse(_coil);
+    }
 
-	/// <summary>
-	/// Stops the timer
-	/// </summary>
-	public override void _ExitTree()
-	{
-		Stop();
-	}
-
-	#endregion
+    #endregion
 }

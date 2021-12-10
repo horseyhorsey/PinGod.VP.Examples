@@ -22,7 +22,7 @@
 ### Logging.
 ---
 
-Saved logs can be found at `%AppData%\Godot\app_userdata\MoonStation`.
+Saved logs can be found at `%AppData%\Godot\app_userdata\MoonStation` or run `_open_appdata_dir.bat`
 
 ### Building Release (Export)
 ---

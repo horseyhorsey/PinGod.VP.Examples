@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://addons/PinGodAddOns/Timers/BallStackPinball.cs" type="Script" id=1]
 [ext_resource path="res://modes/Crater.cs" type="Script" id=3]
 [ext_resource path="res://assets/audio/sfx/craterhit-horsepin.wav" type="AudioStream" id=4]
 
@@ -31,3 +32,12 @@ texture = SubResource( 1 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 volume_db = -5.42
+
+[node name="CraterSaucer" type="Timer" parent="."]
+one_shot = true
+script = ExtResource( 1 )
+_switch = "crater_saucer"
+_coil = "crater_saucer"
+
+[connection signal="SwitchActive" from="CraterSaucer" to="." method="OnCraterSaucerSwitchActive"]
+[connection signal="timeout" from="CraterSaucer" to="." method="OnCraterSaucer_timeout"]

@@ -9,7 +9,7 @@ public class MainScene : Node2D
 	[Export] protected string _service_menu_scene_path = "res://addons/PinGodGame/Modes/service_menu/ServiceMenu.tscn";
 	
 	private ResourcePreloader _resourcePreLoader;
-	private Control attractnode;
+	private Node attractnode;
 	Mutex m = new Mutex();
 	private Control pauseLayer;
 	public bool InServiceMenu { get; private set; }
@@ -34,7 +34,7 @@ public class MainScene : Node2D
         pinGod.Connect("ServiceMenuExit", this, "OnServiceMenuExit");
 
         //attract mod already in the tree, get the instance so we can free it when game started
-        attractnode = GetNode("Modes/Attract") as Control;
+        attractnode = GetNode("Modes/Attract");
         //show a pause menu when pause enabled.
         pauseLayer = GetNode("CanvasLayer/PauseControl") as Control;
     }

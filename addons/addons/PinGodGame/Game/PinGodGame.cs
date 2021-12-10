@@ -106,7 +106,7 @@ public class PinGodGame : PinGodGameBase
 	}
 
 	/// <summary>
-	/// Use to add your own player based on the selected class sctipt
+	/// Use to add your own player based on the selected class script
 	/// </summary>
 	/// <param name="name"></param>
 	public override void CreatePlayer(string name)
