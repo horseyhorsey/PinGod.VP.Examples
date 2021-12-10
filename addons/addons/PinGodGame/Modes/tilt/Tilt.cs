@@ -54,7 +54,7 @@ public class Tilt : Control
 				pinGod.IsTilted = true;
 				pinGod.EnableFlippers(0);
 				trough.DisableBallSave();
-
+				pinGod.PlaySfx("tilt");
 				Visible = true;
 				pinGod.LogInfo("game tilted");
 				//stop the timer for showing tilt information
@@ -73,6 +73,7 @@ public class Tilt : Control
 			timer.Stop();
 			pinGod.LogInfo("slam_tilt");
 			setText("SLAM TILT");
+			pinGod.PlaySfx("tilt");
 			pinGod.IsTilted = true;			
 			pinGod.EnableFlippers(0);
 			Visible = true;
@@ -88,6 +89,7 @@ public class Tilt : Control
 	void ShowWarning()
 	{
 		timer.Start(displayForSecs);
+		pinGod.PlaySfx("warning");
 		CallDeferred("setText", "Danger" + System.Environment.NewLine + $"Warnings {pinGod.Tiltwarnings}");
 		Visible = true;
 	}
