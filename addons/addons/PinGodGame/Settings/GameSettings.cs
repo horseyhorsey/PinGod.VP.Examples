@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using static Godot.GD;
 
 /// <summary>
-/// Game settings for the machine. Add anything you like here it be saved / loaded <para/>
+/// Default game settings for the machine / game. <para/>
+/// %AppData%\Godot\app_userdata
 /// </summary>
 public class GameSettings
 {
@@ -14,19 +15,46 @@ public class GameSettings
     [NotMapped]
     const string GAME_SETTINGS_FILE = "user://settings.save";
     public byte BallsPerGame { get; set; } = 3;
-    public byte MaxHiScoresCount { get; set; } = 5;
+    public DisplaySettings Display { get; set; } = new DisplaySettings();
     public float MasterVolume { get; set; } = 0;
+    public byte MaxHiScoresCount { get; set; } = 5;
     /// <summary>
     /// Decibel volume. minus values
     /// </summary>
     public float MusicVolume { get; set; } = 0;
 
-    public Display Display { get; set; } = new Display();
+    /// <summary>
+    /// De-serializes settings from json if Type is <see cref="GameSettings"/>
+    /// </summary>
+    public static T DeserializeSettings<T>(string gameSettingsJson) where T : GameSettings => JsonConvert.DeserializeObject<T>(gameSettingsJson);
 
     /// <summary>
-	/// Loads game data from user directory. Creates a new save if doesn't exist
+	/// Loads game settings file from the user directory. Creates a new save file if there isn't one available
 	/// </summary>
-	public static GameSettings Load()
+	public static T Load<T>() where T : GameSettings
+    {
+        var settingsSave = new File();
+        var err = settingsSave.Open(GAME_SETTINGS_FILE, File.ModeFlags.Read);        
+        T gS = default(T);
+        if (err != Error.FileNotFound)
+        {
+            gS = DeserializeSettings<T>(settingsSave.GetLine());
+            settingsSave.Close();
+            Print("settings loaded from file");
+        }
+        else
+        {
+            Save(gS);
+            Print("new settings created");
+        }
+
+        return gS;
+    }
+
+    /// <summary>
+	/// Loads game settings file from the user directory. Creates a new save file if there isn't one available
+	/// </summary>
+    public static GameSettings Load()
     {
         var settingsSave = new File();
         var err = settingsSave.Open(GAME_SETTINGS_FILE, File.ModeFlags.Read);
@@ -35,7 +63,7 @@ public class GameSettings
         if (err != Error.FileNotFound)
         {
             gS = JsonConvert.DeserializeObject<GameSettings>(settingsSave.GetLine());
-            settingsSave.Close();            
+            settingsSave.Close();
         }
         else
         {
@@ -46,7 +74,18 @@ public class GameSettings
     }
 
     /// <summary>
-    /// Saves the <see cref="GameData"/>
+    /// Saves generic <see cref="GameSettings"/>
+    /// </summary>
+    public static void Save<T>(T settings) where T : GameSettings
+    {
+        var saveGame = new File();
+        saveGame.Open(GAME_SETTINGS_FILE, File.ModeFlags.Write);
+        saveGame.StoreLine(JsonConvert.SerializeObject(settings));
+        saveGame.Close();
+    }
+
+    /// <summary>
+    /// Saves <see cref="GameSettings"/>
     /// </summary>
     public static void Save(GameSettings settings)
     {
@@ -55,16 +94,4 @@ public class GameSettings
         saveGame.StoreLine(JsonConvert.SerializeObject(settings));
         saveGame.Close();
     }
-}
-
-public class Display
-{
-    public float X { get; set; }
-    public float Y { get; set; }
-    public float Width { get; set; }
-    public float Height { get; set; }
-    public bool AlwaysOnTop { get; set; } = true;
-    public bool LowDpi { get; set; } = false;
-    public bool FullScreen { get; set; } = false;
-    public bool NoWindow { get; set; }
 }
