@@ -7,11 +7,11 @@ using static Godot.GD;
 public class Crater : Control
 {
     const string LAMP_SHOW = "lampshow_1";
+
 	/// <summary>
-	/// This name is the same for the switch and the coil
+	/// Time to wait before kicking ball when mode over
 	/// </summary>
-    const string SAUCER_COIL_SWITCH = "crater_saucer";
-    const float TIME_OUT = 5.0f;
+    const float TIME_OUT = 3.0f;
 
     /// <summary>
     /// Video mode scene
@@ -19,17 +19,16 @@ public class Crater : Control
     private PackedScene _moonLanderScene;
     private Node moonLanderInstance;
     private PinGodGame pinGod;
-    private Timer saucerTimer;
+	/// <summary>
+	/// The crater saucer
+	/// </summary>
+    private BallStackPinball saucer;
     public AudioStreamPlayer AudioStream { get; private set; }	
 
 	public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-
-		//init the timer for saucer and connect it's timed out signal
-		saucerTimer = new Timer() { OneShot = true, Autostart = false };
-		AddChild(saucerTimer);
-		saucerTimer.Connect("timeout", this, "_timeout");		
+		saucer = GetNode<BallStackPinball>("CraterSaucer");
 
 		//get the instance of the player
 		AudioStream = GetNode("AudioStreamPlayer") as AudioStreamPlayer;
@@ -38,47 +37,44 @@ public class Crater : Control
 		_moonLanderScene = Load("moonstation_lander/MoonLander.tscn") as PackedScene;
 	}
 
-	/// <summary>
-	/// Crater saucer. Start timer and exit when finished.
-	/// </summary>
-	/// <param name="event"></param>
-	public override void _Input(InputEvent @event)
-	{
+	public void OnCraterSaucerSwitchActive()
+    {
 		if (pinGod.GameInPlay && !pinGod.IsTilted)
 		{
-			if (pinGod.SwitchOn(SAUCER_COIL_SWITCH, @event))
-			{
-				//create an instance of the moon lander scene and add to tree
-				moonLanderInstance = _moonLanderScene.Instance();
-				AddChild(moonLanderInstance);
+			//create an instance of the moon lander scene and add to tree
+			moonLanderInstance = _moonLanderScene.Instance();
+			AddChild(moonLanderInstance);
 
-				//make this crater scene visible
-				Visible = true;
+			//make this crater scene visible
+			Visible = true;
 
-				//play a lamp show and start time out
-				pinGod.SolenoidOn(LAMP_SHOW, 1);
-				saucerTimer.Start(TIME_OUT);
+			//play a lamp show and start time out
+			pinGod.SolenoidOn(LAMP_SHOW, 1);
+			saucer.Start(TIME_OUT);
 
-				//show the scene and play the audio
-				this.Show();
-				AudioStream?.Play();
-			}
+			//show the scene and play the audio
+			this.Show();
+			AudioStream?.Play();
 		}
 		else
 		{
-			pinGod.SolenoidPulse(SAUCER_COIL_SWITCH);
+			saucer.Start(1f); //kick the ball with time from the ballstack
 		}
 	}
 
-	private void _timeout()
-	{
+	/// <summary>
+	/// Timeout from saucer. Removes the video mode and kicks the ball
+	/// </summary>
+	private void OnCraterSaucer_timeout()
+    {
 		pinGod.LogDebug("crater timed out, freeing video mode");
 		moonLanderInstance.QueueFree();
 		RemoveChild(moonLanderInstance);
-		
+
 		//kick out the ball and turn off the lampshow
-		pinGod.SolenoidPulse(SAUCER_COIL_SWITCH);
+		saucer.SolenoidPulse();
 		pinGod.SolenoidOn(LAMP_SHOW, 0);
+
 		Hide();
 	}
 }
