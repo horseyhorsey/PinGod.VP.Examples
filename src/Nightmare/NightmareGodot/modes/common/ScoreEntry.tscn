@@ -1,0 +1,66 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas45.tres" type="DynamicFont" id=1]
+[ext_resource path="res://addons/PinGodGame/Modes/score_entry/ScoreEntry.cs" type="Script" id=2]
+[ext_resource path="res://layers/BgChurch.tscn" type="PackedScene" id=3]
+
+[node name="ScoreEntry" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BgChurch" parent="." instance=ExtResource( 3 )]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 138.0
+margin_top = 18.0
+margin_right = 310.0
+margin_bottom = 205.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_right = 172.0
+margin_bottom = 95.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.905882, 0.0862745, 0.0862745, 1 )
+text = "PLAYER XX 
+ENTER NAME"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectedChar" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 95.0
+margin_right = 172.0
+margin_bottom = 141.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.905882, 0.0862745, 0.0862745, 1 )
+text = "A"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 141.0
+margin_right = 172.0
+margin_bottom = 187.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.905882, 0.0862745, 0.0862745, 1 )
+text = "A"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

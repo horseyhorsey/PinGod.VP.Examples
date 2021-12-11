@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.cs" type="Script" id=1]
-[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas100.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
 [ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
-[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas45.tres" type="DynamicFont" id=6]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas28.tres" type="DynamicFont" id=6]
 [ext_resource path="res://layers/BgChurch.tscn" type="PackedScene" id=7]
 
 [node name="ScoreMode" type="Control" groups=[
@@ -16,21 +17,35 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_ballInfoLabel = NodePath("BallInfo")
+_playerInfoLabel = NodePath("PlayerInfo")
+_scoreLabel = NodePath("ScoreMain")
+_scoreLabelP1 = NodePath("ScoreP1")
+_scoreLabelP2 = NodePath("ScoreP2")
+_scoreLabelP3 = NodePath("ScoreP3")
+_scoreLabelP4 = NodePath("ScoreP4")
 
 [node name="BgChurch" parent="." instance=ExtResource( 7 )]
 
 [node name="pingod-logo" type="Sprite" parent="."]
-position = Vector2( 220.835, 100.053 )
-scale = Vector2( 0.192229, 0.192229 )
+modulate = Color( 1, 1, 1, 0.0705882 )
+position = Vector2( 334.18, 36.0598 )
+scale = Vector2( 0.127158, 0.127158 )
 texture = ExtResource( 5 )
 
 [node name="ScoreMain" type="Label" parent="."]
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 0.5
-margin_top = -64.5
-margin_bottom = 64.5
+margin_left = -20.0
+margin_top = -50.0
+margin_right = 20.0
+margin_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
 custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 0.0862745, 0.321569, 1 )
 text = "0"
 align = 1
 valign = 1
@@ -39,18 +54,29 @@ __meta__ = {
 }
 
 [node name="ScoreP1" type="Label" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 6 )
+anchor_right = 0.033
+anchor_bottom = 0.033
+margin_left = 10.0
+margin_top = 14.0
+margin_right = 13.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.623529, 0.0784314, 0.301961, 1 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ScoreP2" type="Label" parent="."]
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 6 )
+margin_left = -7.0
+margin_top = 14.0
+margin_right = -10.0
+margin_bottom = 46.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.623529, 0.0784314, 0.301961, 1 )
 text = "0"
 align = 2
 __meta__ = {
@@ -58,10 +84,14 @@ __meta__ = {
 }
 
 [node name="ScoreP3" type="Label" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = -49.0
-custom_fonts/font = ExtResource( 6 )
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = 37.0
+margin_right = 18.0
+margin_bottom = 23.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.623529, 0.0784314, 0.301961, 1 )
 text = "0"
 valign = 2
 __meta__ = {
@@ -69,10 +99,17 @@ __meta__ = {
 }
 
 [node name="ScoreP4" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = -49.0
-custom_fonts/font = ExtResource( 6 )
+anchor_bottom = 0.5
+margin_left = -18.0
+margin_top = 37.0
+margin_right = -10.0
+margin_bottom = 23.0
+grow_horizontal = 0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.623529, 0.0784314, 0.301961, 1 )
 text = "0"
 align = 2
 valign = 2
@@ -83,11 +120,13 @@ __meta__ = {
 [node name="PlayerInfo" type="Label" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -39.0
-margin_right = 118.0
+margin_left = 26.0
+margin_top = -27.0
+margin_right = 85.0
 custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.686275, 0.764706, 0.00392157, 1 )
 text = "Player: "
-valign = 2
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -97,14 +136,25 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -99.0
-margin_top = -39.0
+margin_left = -59.0
+margin_top = -27.0
+margin_right = -25.0
+grow_horizontal = 0
 custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.686275, 0.764706, 0.00392157, 1 )
 text = "BALL: "
-valign = 2
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Credits" parent="." instance=ExtResource( 4 )]
-margin_top = -39.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -42.5
+margin_top = -23.0
+margin_right = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.686275, 0.764706, 0.00392157, 1 )

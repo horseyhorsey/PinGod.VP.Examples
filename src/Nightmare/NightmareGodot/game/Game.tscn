@@ -5,8 +5,8 @@
 [ext_resource path="res://modes/custom/BaseGameMode.tscn" type="PackedScene" id=3]
 [ext_resource path="res://modes/custom/LeftTargetsMode.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/PinGodGame/Modes/score_entry/ScoreEntry.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/PinGodGame/Modes/bonus/Bonus.tscn" type="PackedScene" id=7]
+[ext_resource path="res://modes/common/ScoreEntry.tscn" type="PackedScene" id=6]
+[ext_resource path="res://modes/common/Bonus.tscn" type="PackedScene" id=7]
 [ext_resource path="res://modes/custom/RightTargetsMode.tscn" type="PackedScene" id=8]
 [ext_resource path="res://modes/custom/Graveyard.tscn" type="PackedScene" id=9]
 [ext_resource path="res://modes/custom/DieLaneMode.tscn" type="PackedScene" id=10]
@@ -31,16 +31,20 @@ script = ExtResource( 1 )
 _roman_lamps = PoolStringArray(  )
 
 [node name="LeftTargetsMode" parent="Modes" instance=ExtResource( 4 )]
+visible = false
 
 [node name="RightTargetsMode" parent="Modes" instance=ExtResource( 8 )]
+visible = false
 
 [node name="LockTopSaucer" parent="Modes" instance=ExtResource( 13 )]
 
 [node name="LockSaucer" parent="Modes" instance=ExtResource( 11 )]
 
 [node name="MysteryScoop" parent="Modes" instance=ExtResource( 12 )]
+visible = false
 
 [node name="Graveyard" parent="Modes" instance=ExtResource( 9 )]
+visible = false
 
 [node name="Bonus" parent="Modes" instance=ExtResource( 7 )]
 visible = false
