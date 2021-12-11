@@ -2,18 +2,18 @@ using Godot;
 
 public class BaseMode : Control
 {
-	private PinGodGame pinGod;
-	private Game game;
-	private PackedScene _ballSaveScene;
-
-	[Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
-
-	public override void _EnterTree()
+    private PackedScene _ballSaveScene;
+    private BallStackPinball _ballStackSaucer;
+    [Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
+    private Game game;
+    private PinGodGame pinGod;
+    public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
 
 		_ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);
+		_ballStackSaucer = GetNode<BallStackPinball>(nameof(BallStackPinball));
 	}
 
 	/// <summary>
