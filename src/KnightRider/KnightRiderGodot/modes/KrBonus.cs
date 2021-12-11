@@ -9,13 +9,14 @@ public class KrBonus : Bonus
 		base.StartBonusDisplay();
 		pinGod.DisableAllLamps();
 		pinGod.PlayMusic("kr_theme_end");
-		pinGod.PlayTvScene("kitt_birds", "END OF BALL\nBONUS", _display_for_seconds, loop: false);		
+		var kr = pinGod as KrPinGodGame;
+		kr.PlayTvScene("kitt_birds", "END OF BALL\nBONUS", _display_for_seconds, loop: false);		
 	}
 
     public override void OnTimedOut()
     {
 		pinGod.StopMusic();
-		GetNode<VideoPlayerPinball>("VideoPlayerPinball")?.Stop();
+		//GetNode<VideoPlayerPinball>("VideoPlayerPinball")?.Stop();
 		base.OnTimedOut();
 	}
 }
