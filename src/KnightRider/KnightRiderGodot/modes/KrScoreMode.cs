@@ -22,25 +22,6 @@ public class KrScoreMode : ScoreMode
 		base._EnterTree();
 	}
 
-    public override void _Ready()
-    {
-		base._Ready();
-		//currentScoreLabel = this.GetNode("ScoreMain") as Label; //not used
-		playerInfoLabel = this.GetNode("Panel/PlayerInfo") as Label;
-		ballInfolabel = this.GetNode("Panel/BallInfo") as Label;
-		//GetPlayerScoreLabels();
-		CallDeferred(nameof(OnScoresUpdated));
-	}
-
-    public override void GetPlayerScoreLabels()
-    {
-		for (int i = 0; i < ScoreLabels.Length; i++)
-		{
-			ScoreLabels[i] = this.GetNode($"ScoresContainer/ScorePanel{i+1}/ScoreMain") as Label;
-			ScoreLabels[i].Text = string.Empty;
-		}
-	}
-
     void UpdateLamps()
 	{
 		var p = pinGod.Player as KnightRiderPlayer;

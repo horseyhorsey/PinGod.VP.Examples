@@ -41,6 +41,13 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_single_player_p1_visible = true
+_ballInfoLabel = NodePath("Panel/BallInfo")
+_playerInfoLabel = NodePath("Panel/PlayerInfo")
+_scoreLabelP1 = NodePath("ScoresContainer/ScorePanel1/ScoreMain")
+_scoreLabelP2 = NodePath("ScoresContainer/ScorePanel2/ScoreMain")
+_scoreLabelP3 = NodePath("ScoresContainer/ScorePanel3/ScoreMain")
+_scoreLabelP4 = NodePath("ScoresContainer/ScorePanel4/ScoreMain")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

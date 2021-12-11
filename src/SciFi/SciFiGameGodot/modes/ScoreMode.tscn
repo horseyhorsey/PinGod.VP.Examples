@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://modes/SciFiScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=3]
 [ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
@@ -17,6 +17,13 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_ballInfoLabel = NodePath("BallInfo")
+_playerInfoLabel = NodePath("PlayerInfo")
+_scoreLabel = NodePath("CenterContainer/VBoxContainer/ScoreMain")
+_scoreLabelP1 = NodePath("ScoreP1")
+_scoreLabelP2 = NodePath("ScoreP2")
+_scoreLabelP3 = NodePath("ScoreP3")
+_scoreLabelP4 = NodePath("ScoreP4")
 
 [node name="BackgroundColour" type="ColorRect" parent="."]
 visible = false

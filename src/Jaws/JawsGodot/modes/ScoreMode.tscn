@@ -3,7 +3,7 @@
 [ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/Jaws20.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/fonts/Jaws54.tres" type="DynamicFont" id=3]
-[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://layers/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
 [ext_resource path="res://modes/GameProgress.tscn" type="PackedScene" id=6]
 [ext_resource path="res://layers/SeaBG000.tscn" type="PackedScene" id=7]
@@ -16,6 +16,13 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_ballInfoLabel = NodePath("BallInfo")
+_playerInfoLabel = NodePath("PlayerInfo")
+_scoreLabel = NodePath("ScoreMain")
+_scoreLabelP1 = NodePath("ScoreP1")
+_scoreLabelP2 = NodePath("ScoreP2")
+_scoreLabelP3 = NodePath("ScoreP3")
+_scoreLabelP4 = NodePath("ScoreP4")
 
 [node name="SeaBG000" parent="." instance=ExtResource( 7 )]
 margin_right = 568.0

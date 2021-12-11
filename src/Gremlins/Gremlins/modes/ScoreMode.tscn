@@ -26,6 +26,13 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_single_player_p1_visible = true
+_ballInfoLabel = NodePath("BallInfo")
+_playerInfoLabel = NodePath("PlayerInfo")
+_scoreLabelP1 = NodePath("ScoreP1/ScoreP1")
+_scoreLabelP2 = NodePath("ScoreP2/ScoreP2")
+_scoreLabelP3 = NodePath("ScoreP3/ScoreP3")
+_scoreLabelP4 = NodePath("ScoreP4/ScoreP4")
 
 [node name="GremBackground" parent="." instance=ExtResource( 7 )]
 

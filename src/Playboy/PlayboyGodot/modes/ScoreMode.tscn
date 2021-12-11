@@ -18,6 +18,13 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_ballInfoLabel = NodePath("GameInfo/BallInfo")
+_playerInfoLabel = NodePath("GameInfo/PlayerInfo")
+_scoreLabel = NodePath("CenterContainer/ScoreMain")
+_scoreLabelP1 = NodePath("Scores/ScoreP1")
+_scoreLabelP2 = NodePath("Scores/ScoreP2")
+_scoreLabelP3 = NodePath("Scores/ScoreP3")
+_scoreLabelP4 = NodePath("Scores/ScoreP4")
 
 [node name="VideoPlayerPinball" type="VideoPlayer" parent="."]
 pause_mode = 1
@@ -28,9 +35,9 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_play_when_visible = true
 _pause_when_hidden = true
 _loop = true
+_play_when_visible = true
 
 [node name="BackgroundColour" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -70,8 +77,6 @@ __meta__ = {
 }
 
 [node name="ScoreMain" type="Label" parent="CenterContainer"]
-anchor_top = -0.109434
-anchor_bottom = -0.109434
 margin_left = 587.0
 margin_right = 692.0
 margin_bottom = 265.0
