@@ -36,34 +36,38 @@ public abstract partial class PinGodGameBase : Node
 	public bool IsMultiballRunning = false;
 	public byte MaxPlayers = 4;
 	const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
-	public byte Tiltwarnings { get; set; }
-	public AudioManager AudioManager { get; protected set; }
-	public byte BallInPlay { get; set; }
-	/// <summary>
-	/// Is ball save active
-	/// </summary>
-	public bool BallSaveActive { get; internal set; }
-	public BallSearchOptions BallSearchOptions { get; set; }
-	public Timer BallSearchTimer { get; set; }
-	public byte CurrentPlayerIndex { get; set; }
-	public GameData GameData { get; internal set; }
-	public bool GameInPlay { get; set; }
-	public GameSettings GameSettings { get; internal set; }
-	public bool IsBallStarted { get; internal set; }
+    public AudioManager AudioManager { get; protected set; }
+    public byte BallInPlay { get; set; }
+    /// <summary>
+    /// Is ball save active
+    /// </summary>
+    public bool BallSaveActive { get; internal set; }
+    public BallSearchOptions BallSearchOptions { get; set; }
+    public Timer BallSearchTimer { get; set; }
+    /// <summary>
+    /// Flag used for ball saving on the initial launch. If ball enters the shooterlane after a ball save then this is to stop the ballsave starting again
+    /// </summary>
+    public bool BallStarted { get; internal set; }
+    public byte CurrentPlayerIndex { get; set; }
+    public GameData GameData { get; internal set; }
+    public bool GameInPlay { get; set; }
+    public GameSettings GameSettings { get; internal set; }
+    public bool IsBallStarted { get; internal set; }
+    public bool IsTilted { get; set; }
+    public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Info;
+    public PinGodPlayer Player { get; private set; }
+    public List<PinGodPlayer> Players { get; set; }
+    public byte Tiltwarnings { get; set; }
+    #endregion
 
-	/// <summary>
-	/// Flag used for ball saving on the initial launch. If ball enters the shooterlane after a ball save then this is to stop the ballsave starting again
-	/// </summary>
-	public bool BallStarted { get; internal set; }
-	public bool IsTilted { get; set; }
-	public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Info;
-	public PinGodPlayer Player { get; private set; }
-	public List<PinGodPlayer> Players { get; set; }
-	#endregion
+    internal Trough _trough;
+    /// <summary>
+    /// Update lamps overlay
+    /// </summary>
+    protected LampMatrix _lampMatrixOverlay = null;
 
-	internal Trough _trough;
-	protected MemoryMap memMapping;
-	private Queue<PlaybackEvent> _playbackQueue;
+    protected MemoryMap memMapping;
+    private Queue<PlaybackEvent> _playbackQueue;
 	/// <summary>
 	/// recording actions to file using godot
 	/// </summary>
@@ -73,12 +77,6 @@ public abstract partial class PinGodGameBase : Node
 	private uint gameEndTime;
 	private uint gameLoadTimeMsec;
 	private uint gameStartTime;
-
-	/// <summary>
-	/// Update lamps overlay
-	/// </summary>
-	protected LampMatrix _lampMatrixOverlay = null;
-
 	public PinGodGameBase()
 	{
 		Players = new List<PinGodPlayer>();        
@@ -89,6 +87,7 @@ public abstract partial class PinGodGameBase : Node
 	{
 		LogInfo("pingod:enter tree");
 
+		CmdArgs = GetCommandLineArgs();
 		LoadDataFile();
 		LoadSettingsFile();
 		SetUpWindow();
@@ -109,109 +108,137 @@ public abstract partial class PinGodGameBase : Node
 		gameLoadTimeMsec = OS.GetTicksMsec();
 	}
 
-	public override void _ExitTree()
-	{        
-		if (_recordPlayback == RecordPlaybackOption.Record)
-		{
-			LogInfo("pingodbase: exit tree, saving recordings");
-			SaveRecording();
-		}
-		else LogInfo("pingodbase: exit tree");
-	}
+    public override void _ExitTree()
+    {
+        if (_recordPlayback == RecordPlaybackOption.Record)
+        {
+            LogInfo("pingodbase: exit tree, saving recordings");
+            SaveRecording();
+        }
+        else LogInfo("pingodbase: exit tree");
+    }
 
-	public override void _Input(InputEvent @event)
-	{
-		//quits the game. ESC
-		if (@event.IsActionPressed("quit"))
-		{
-			LogInfo("quit request");
-			SetGameResumed();
-			var ms = GetNode("/root/MainScene")?.GetTree();
-			if (ms != null)
-			{
-				ms.Paused = false;
-				ms.Quit(0);
-			}
-			else
-			{
-				GetTree().Quit(0);
-			}            
-		}
+    public override void _Input(InputEvent @event)
+    {
+        //quits the game. ESC
+        if (@event.IsActionPressed("quit"))
+        {
+            LogInfo("quit request");
+            SetGameResumed();
+            var ms = GetNode("/root/MainScene")?.GetTree();
+            if (ms != null)
+            {
+                ms.Paused = false;
+                ms.Quit(0);
+            }
+            else
+            {
+                GetTree().Quit(0);
+            }
+        }
 
-		if (@event.IsActionPressed("toggle_border"))
-		{
-			OS.WindowBorderless = !OS.WindowBorderless;
-			if (OS.WindowBorderless)
-			{
-				//todo: save settings because user has come out of borderless?
-				LogDebug("pingodbase: saving window settings");
-				GameSettings.Display.X = OS.WindowPosition.x;
-				GameSettings.Display.Y = OS.WindowPosition.y;
-				GameSettings.Display.Width = OS.WindowSize.x;
-				GameSettings.Display.Height = OS.WindowSize.y;
-				OS.WindowResizable = false;
-			}
-			else
-			{
-				OS.WindowResizable = true;
-			}
-		}
+        if (@event.IsActionPressed("toggle_border"))
+        {
+            OS.WindowBorderless = !OS.WindowBorderless;
+            if (OS.WindowBorderless)
+            {
+                //todo: save settings because user has come out of borderless?
+                LogDebug("pingodbase: saving window settings");
+                GameSettings.Display.X = OS.WindowPosition.x;
+                GameSettings.Display.Y = OS.WindowPosition.y;
+                GameSettings.Display.Width = OS.WindowSize.x;
+                GameSettings.Display.Height = OS.WindowSize.y;
+                OS.WindowResizable = false;
+            }
+            else
+            {
+                OS.WindowResizable = true;
+            }
+        }
 
-		//Coin button. See PinGod.vbs for Standard switches
-		if (SwitchOn("coin1", @event) || SwitchOn("coin2", @event) || SwitchOn("coin3", @event))
-		{
-			AudioManager.PlaySfx("credit");
-			AddCredits(1);
-		}		
-	}
+        //Coin button. See PinGod.vbs for Standard switches
+        if (SwitchOn("coin1", @event) || SwitchOn("coin2", @event) || SwitchOn("coin3", @event))
+        {
+            AudioManager.PlaySfx("credit");
+            AddCredits(1);
+        }
+    }
+
+    /// <summary>
+    /// Processes playback events...Processing is disabled if it isn't enabled and playback is finished
+    /// </summary>
+    /// <param name="delta"></param>
+    public override void _Process(float delta)
+    {
+        if (_recordPlayback != RecordPlaybackOption.Playback)
+        {
+            SetProcess(false);
+            LogInfo("pingodbase: process loop ended recording playback");
+            return;
+        }
+        else
+        {
+            if (_playbackQueue?.Count <= 0)
+            {
+                LogInfo("pingodbase: playback events ended");
+                _recordPlayback = RecordPlaybackOption.Off;
+                return;
+            }
+
+            var time = OS.GetTicksMsec() - gameLoadTimeMsec;
+            var nextEvt = _playbackQueue.Peek().Time;
+            if (nextEvt <= time)
+            {
+                var pEvent = _playbackQueue.Dequeue();
+                var ev = new InputEventAction() { Action = pEvent.EvtName, Pressed = pEvent.State };
+                Input.ParseInputEvent(ev);
+                LogDebug("pingodbase: playback evt ", pEvent.EvtName);
+            }
+        }
+    }
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+        //name the lamp matrix
+        if (_lampMatrixOverlay != null)
+        {
+            foreach (var item in Machine.Lamps)
+            {
+                _lampMatrixOverlay.SetLabel(item.Value.Num, item.Key);
+            }
+        }
+    }
 
 	/// <summary>
-	/// Processes playback events...Processing is disabled if it isn't enabled and playback is finished
+	/// Parses user command lines args in the --key=value format
 	/// </summary>
-	/// <param name="delta"></param>
-	public override void _Process(float delta)
-	{
-		if (_recordPlayback != RecordPlaybackOption.Playback)
-		{
-			SetProcess(false);
-			LogInfo("pingodbase: process loop ended recording playback");
-			return;
-		}
-		else
-		{
-			if (_playbackQueue?.Count <= 0)
-			{
-				LogInfo("pingodbase: playback events ended");
-				_recordPlayback = RecordPlaybackOption.Off;
-				return;
+	/// <returns></returns>
+    private Dictionary<string, string> GetCommandLineArgs()
+    {
+		var cmd = OS.GetCmdlineArgs();
+		LogInfo("cmd line available: ", cmd?.Length);
+		Dictionary<string, string> _args = new Dictionary<string, string>();
+		_args.Add("base_path", OS.GetExecutablePath());
+        foreach (var arg in cmd)
+        {
+            if (arg.Contains("="))
+            {
+				var keyValue = arg.Split("=");
+				if(keyValue.Length == 2)
+                {
+					var key = keyValue[0].LStrip("--");
+					if (!_args.ContainsKey(key))
+					{
+						_args.Add(key, keyValue[1]);
+					}
+				}				
 			}
+        }
 
-			var time = OS.GetTicksMsec() - gameLoadTimeMsec;
-			var nextEvt = _playbackQueue.Peek().Time;
-			if(nextEvt <= time)
-			{
-				var pEvent = _playbackQueue.Dequeue();
-				var ev = new InputEventAction() { Action = pEvent.EvtName, Pressed = pEvent.State };
-				Input.ParseInputEvent(ev);
-				LogDebug("pingodbase: playback evt ", pEvent.EvtName);
-			}
-		}        
+		return _args;
 	}
-
-	public override void _Ready()
-	{
-		base._Ready();
-
-		//name the lamp matrix
-		if (_lampMatrixOverlay != null)
-		{
-			foreach (var item in Machine.Lamps)
-			{
-				_lampMatrixOverlay.SetLabel(item.Value.Num, item.Key);
-			}
-		}
-	}
-
 	#endregion
 
 	public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
@@ -219,11 +246,13 @@ public abstract partial class PinGodGameBase : Node
 	public virtual long GetTopScorePoints => GameData?.HighScores?
 			.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
 
-	/// <summary>
-	/// Adds bonus to the current player
-	/// </summary>
-	/// <param name="points"></param>
-	public virtual void AddBonus(long points)
+    public Dictionary<string, string> CmdArgs { get; private set; }
+
+    /// <summary>
+    /// Adds bonus to the current player
+    /// </summary>
+    /// <param name="points"></param>
+    public virtual void AddBonus(long points)
 	{
 		if (Player != null)
 		{
@@ -390,8 +419,23 @@ public abstract partial class PinGodGameBase : Node
 
 		return false;
 	}
-	public virtual void LogDebug(params object[] what) => Logger.LogDebug(what);
-	public virtual void LogError(string message = null, params object[] what) => Logger.LogError(message, what);
+    public virtual void LoadDataFile() => GameData = GameData.Load();
+
+    [Obsolete("override the other methods for loading data, settings and setting up window")]
+    /// <summary>
+    /// Runs <see cref="LoadSettingsFile"/>, <see cref="LoadDataFile"/>, <see cref="SetUpWindow"/>
+    /// </summary>
+    public virtual void LoadSettingsAndData()
+    {
+        LoadSettingsFile();
+        LoadDataFile();
+        SetUpWindow();
+    }
+
+    public virtual void LoadSettingsFile() => GameSettings = GameSettings.Load();
+
+    public virtual void LogDebug(params object[] what) => Logger.LogDebug(what);
+    public virtual void LogError(string message = null, params object[] what) => Logger.LogError(message, what);
 	public virtual void LogInfo(params object[] what) => Logger.LogInfo(what);
 	public virtual void LogWarning(string message = null, params object[] what) => Logger.LogWarning(message, what);
 	/// <summary>
@@ -652,8 +696,36 @@ public abstract partial class PinGodGameBase : Node
 		}
 	}
 
-	public virtual void SolenoidOn(string name, byte state)
-	{
+    /// <summary>
+    /// Sets up the window size and position from saved machine settings. See <see cref="Godot.OS"/>
+    /// </summary>
+    public virtual void SetUpWindow()
+    {
+        if (!Engine.EditorHint)
+        {
+            if (GameSettings.Display?.Width > 0)
+            {
+                if (!GameSettings.Display.NoWindow)
+                {
+                    LogDebug("pingodbase: setting display settings");
+                    OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
+
+                    if (GameSettings.Display.FullScreen)
+                    {
+                        OS.WindowFullscreen = true;
+                    }
+                    else
+                    {
+                        OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);
+                        OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
+                    }
+                }
+            }
+        }
+    }
+
+    public virtual void SolenoidOn(string name, byte state)
+    {
 		if (!SolenoidExists(name)) return;
 		Machine.Coils[name].State = state;
 	}
@@ -952,49 +1024,6 @@ public abstract partial class PinGodGameBase : Node
 
 		return true;
 	}
-
-	[Obsolete("override the other methods for loading data, settings and setting up window")]
-	/// <summary>
-	/// Runs <see cref="LoadSettingsFile"/>, <see cref="LoadDataFile"/>, <see cref="SetUpWindow"/>
-	/// </summary>
-	public virtual void LoadSettingsAndData()
-	{
-		LoadSettingsFile();
-		LoadDataFile();
-		SetUpWindow();
-    }
-
-	public virtual void LoadSettingsFile() => GameSettings = GameSettings.Load();
-	public virtual void LoadDataFile() => GameData = GameData.Load();
-
-	/// <summary>
-	/// Sets up the window size and position from saved machine settings. See <see cref="Godot.OS"/>
-	/// </summary>
-	public virtual void SetUpWindow()
-    {
-		if (!Engine.EditorHint)
-		{
-			if (GameSettings.Display?.Width > 0)
-			{
-				if (!GameSettings.Display.NoWindow)
-				{
-					LogDebug("pingodbase: setting display settings");
-					OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
-
-					if (GameSettings.Display.FullScreen)
-					{
-						OS.WindowFullscreen = true;
-					}
-					else
-					{
-						OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);
-						OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
-					}
-				}
-			}
-		}		
-    }
-
     private bool SolenoidExists(string name)
 	{
 		if (!Machine.Coils.ContainsKey(name))
