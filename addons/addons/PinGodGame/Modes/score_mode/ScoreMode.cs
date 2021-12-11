@@ -5,11 +5,26 @@ using Godot;
 /// </summary>
 public class ScoreMode : Node
 {
+    /// <summary>
+    /// Show Player ones ScoreP1 label if set to true. Normally in a pinball the scorep1 would not display with main score unless multi-player
+    /// </summary>
+    [Export] bool _single_player_p1_visible = false;
+
+    #region Node paths to select in scene
+    [Export] NodePath _ballInfoLabel;
+    [Export] NodePath _playerInfoLabel;
+    [Export] NodePath _scoreLabel;
+    [Export] NodePath _scoreLabelP1;
+    [Export] NodePath _scoreLabelP2;
+    [Export] NodePath _scoreLabelP3;
+    [Export] NodePath _scoreLabelP4; 
+    #endregion
+
     protected PinGodGame pinGod;
 
     #region Labels from Scene
     protected Label ballInfolabel;
-    protected Label currentScoreLabel;
+    protected Label scoreLabel;
     protected Label playerInfoLabel;
     protected Label[] ScoreLabels = new Label[4];
     #endregion
@@ -39,25 +54,28 @@ public class ScoreMode : Node
     }
 
     /// <summary>
-    /// Assigns the default labels in the scene, override if you have different
+    /// Assigns the given node paths to Labels. Ball, Player, Main Score
     /// </summary>
     public virtual void GetBallPlayerInfoLabels()
     {
-        currentScoreLabel = this.GetNode("ScoreMain") as Label;
-        playerInfoLabel = this.GetNode("PlayerInfo") as Label;
-        ballInfolabel = this.GetNode("BallInfo") as Label;
+        ballInfolabel = _ballInfoLabel == null ? null : GetNode<Label>(_ballInfoLabel);
+        playerInfoLabel = _playerInfoLabel == null ? null : GetNode<Label>(_playerInfoLabel);
+        scoreLabel = _scoreLabel == null ? null : GetNode<Label>(_scoreLabel);
     }
 
     /// <summary>
-    /// Assigns the player score labels
+    /// Assigns the player score labels and resets the initial text of the label. 
     /// </summary>
     public virtual void GetPlayerScoreLabels()
     {
-        for (int i = 0; i < ScoreLabels.Length; i++)
-        {
-            ScoreLabels[i] = this.GetNode($"ScoreP{i + 1}") as Label;
-            ScoreLabels[i].Text = string.Empty;
-        }
+        ScoreLabels[0] = _scoreLabelP1 != null ? GetNode<Label>(_scoreLabelP1) : null;
+        if (ScoreLabels[0] != null) ScoreLabels[0].Text = string.Empty;
+        ScoreLabels[1] = _scoreLabelP2 != null ? GetNode<Label>(_scoreLabelP2) : null;
+        if (ScoreLabels[1] != null) ScoreLabels[1].Text = string.Empty;
+        ScoreLabels[2] = _scoreLabelP3 != null ? GetNode<Label>(_scoreLabelP3) : null;
+        if (ScoreLabels[2] != null) ScoreLabels[2].Text = string.Empty;
+        ScoreLabels[3] = _scoreLabelP4 != null ? GetNode<Label>(_scoreLabelP4) : null;
+        if (ScoreLabels[3] != null) ScoreLabels[3].Text = string.Empty;
     }
 
     /// <summary>
@@ -68,37 +86,39 @@ public class ScoreMode : Node
         if (pinGod.Players?.Count > 0)
         {
             //main score display if "ScoreMain" available
-            if (currentScoreLabel != null)
+            if (scoreLabel != null)
             {
                 if (pinGod.Player.Points > -1)
                 {
-                    currentScoreLabel.Text = pinGod.Player.Points.ToScoreString();
+                    scoreLabel.Text = pinGod.Player.Points.ToScoreString();
                 }
                 else
                 {
-                    currentScoreLabel.Text = null;
+                    scoreLabel.Text = null;
                 }
             }
 
-            if (pinGod.Players.Count > 1)
+            int i = 0;
+            foreach (var player in pinGod.Players)
             {
-                int i = 0;
-                foreach (var player in pinGod.Players)
+                if (pinGod.Players.Count == 1 && i == 0 && !_single_player_p1_visible)
                 {
-                    var lbl = ScoreLabels[i];
-                    if (lbl != null)
-                    {
-                        if (player.Points > -1)
-                        {
-                            lbl.Text = player.Points.ToScoreString();
-                        }
-                        else
-                        {
-                            lbl.Text = null;
-                        }
-                    }
                     i++;
+                    continue;
                 }
+                var lbl = ScoreLabels[i];
+                if (lbl != null)
+                {
+                    if (player.Points > -1)
+                    {
+                        lbl.Text = player.Points.ToScoreString();
+                    }
+                    else
+                    {
+                        lbl.Text = null;
+                    }
+                }
+                i++;
             }
 
             //update current player and ball
@@ -115,8 +135,8 @@ public class ScoreMode : Node
         else
         {
             //give default in case we have no players and ball
-            if (currentScoreLabel != null)
-                currentScoreLabel.Text = ((long)369000).ToScoreString();
+            if (scoreLabel != null)
+                scoreLabel.Text = ((long)369000).ToScoreString();
             if (ballInfolabel != null)
                 ballInfolabel.Text = $"BALL: 369";
             if (playerInfoLabel != null)

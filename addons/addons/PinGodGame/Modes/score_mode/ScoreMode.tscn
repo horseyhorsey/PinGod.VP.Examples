@@ -9,12 +9,17 @@
 [node name="ScoreMode" type="Node" groups=[
 "Mode",
 ]]
-anchor_right = 1.0
-anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_ballInfoLabel = NodePath("BallInfo")
+_playerInfoLabel = NodePath("PlayerInfo")
+_scoreLabel = NodePath("CenterContainer/ScoreMain")
+_scoreLabelP1 = NodePath("ScoreP1")
+_scoreLabelP2 = NodePath("ScoreP2")
+_scoreLabelP3 = NodePath("ScoreP3")
+_scoreLabelP4 = NodePath("ScoreP4")
 
 [node name="BackgroundColour" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -30,12 +35,18 @@ __meta__ = {
 position = Vector2( 519.583, 292.553 )
 texture = ExtResource( 5 )
 
-[node name="ScoreMain" type="Label" parent="."]
-anchor_top = 0.5
+[node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = -64.5
-margin_bottom = 64.5
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreMain" type="Label" parent="CenterContainer"]
+margin_left = 486.0
+margin_top = 235.0
+margin_right = 537.0
+margin_bottom = 364.0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 1
@@ -45,8 +56,11 @@ __meta__ = {
 }
 
 [node name="ScoreP1" type="Label" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_top = 0.545
+anchor_bottom = 0.545
+margin_top = 4.23785
+margin_right = 51.0
+margin_bottom = 129.038
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 __meta__ = {
@@ -54,8 +68,13 @@ __meta__ = {
 }
 
 [node name="ScoreP2" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 0.545
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.545
+margin_left = -51.0
+margin_bottom = 129.0
+grow_horizontal = 0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 2
@@ -64,21 +83,27 @@ __meta__ = {
 }
 
 [node name="ScoreP3" type="Label" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_top = 0.757
+anchor_bottom = 0.757
+margin_right = 51.0
+margin_bottom = 31.0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
+align = 2
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ScoreP4" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 0.757
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.757
+margin_bottom = 31.0
+grow_horizontal = 0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
-align = 2
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
