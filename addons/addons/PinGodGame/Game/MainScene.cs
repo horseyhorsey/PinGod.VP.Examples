@@ -144,19 +144,22 @@ public class MainScene : Node2D
 		{
 			m.Lock();
 			string name = resourcePath.BaseName();
-			Resource res = null;
-			if (!_resourcePreLoader.HasResource(name))
-			{
-				pinGod.LogWarning("loading mode scene resource for ", name);
-				res = Load(resourcePath);
-				_resourcePreLoader.AddResource(name, res);
-			}
-			else
-			{
-				pinGod.LogWarning("scene resource already exists for ", name);
-				res = _resourcePreLoader.GetResource(name);
-			}
-			CallDeferred("_loaded", res);
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+				Resource res = null;
+				if (!_resourcePreLoader.HasResource(name))
+				{
+					pinGod.LogDebug("loading mode scene resource for ", name);
+					res = Load(resourcePath);
+					_resourcePreLoader.AddResource(name, res);
+				}
+				else
+				{
+					pinGod.LogWarning("scene resource already exists for ", name);
+					res = _resourcePreLoader.GetResource(name);
+				}
+				CallDeferred("_loaded", res);
+			}			
 			m.Unlock();
 		});
 	}
