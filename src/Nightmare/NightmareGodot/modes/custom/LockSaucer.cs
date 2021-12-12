@@ -6,34 +6,34 @@ using Godot;
 public class LockSaucer : Control
 {
 	private BallStackPinball ballStack;
-	private PinGodGame pingod;
+	private PinGodGame pinGod;
     private Game game;
     private NightmarePlayer player;
 
 	public override void _EnterTree()
 	{
 		ballStack = GetNode("BallStackPinball") as BallStackPinball;
-		pingod = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
 	}
 	private void _on_BallStackPinball_SwitchActive()
 	{
-		pingod.LogInfo("lock saucer active");
-		pingod.SolenoidPulse("flasher_top_left");
+		pinGod.LogInfo("lock saucer active");
+		pinGod.SolenoidPulse("flasher_top_left");
 
 		if (player.ScoreBonusLit)
 		{
 			var bonus = player.Bonus;
-			pingod.AddPoints((int)bonus);
+			pinGod.AddPoints((int)bonus);
 			//todo: show scoring bonus
-			pingod.LogInfo("scoring bonus");
+			pinGod.LogInfo("scoring bonus");
 		}
 		if (player.SuperJackpotLit)
 		{
 			player.SuperJackpotLit = false;
 			var superTotal = player.JackpotValue * 2;
-			pingod.LogInfo("awarding super jackpot, ", superTotal);
-			pingod.AddPoints(superTotal);
+			pinGod.LogInfo("awarding super jackpot, ", superTotal);
+			pinGod.AddPoints(superTotal);
 
 			//todo: add superjackpot layers
 			player.JackpotValue = 5000000;
@@ -53,7 +53,7 @@ public class LockSaucer : Control
 		if (player.BallsLocked < 3 && !player.BallLockEnabled)
 		{
 			player.BallsLocked++;
-			pingod.LogInfo("adding ball to lock,", player.BallsLocked);
+			pinGod.LogInfo("adding ball to lock,", player.BallsLocked);
 			switch (player.BallsLocked)
 			{
 				case 1:
@@ -70,7 +70,7 @@ public class LockSaucer : Control
 
 		if (player.ExtraBallLit)
 		{
-			pingod.LogInfo("awarding extra ball");
+			pinGod.LogInfo("awarding extra ball");
 			player.ExtraBallLit = false;
 		}
 
@@ -85,7 +85,7 @@ public class LockSaucer : Control
 	private void _on_BallStackPinball_timeout()
 	{
 		ballStack.SolenoidPulse();
-		pingod.PlaySfx("snd_kicker");
+		pinGod.PlaySfx("snd_kicker");
 		if (player.SuperJackpotLit)
 		{
 			//todo: disable super jackpot after a timer 4 seconds
@@ -110,7 +110,7 @@ public class LockSaucer : Control
 	}
 	private void OnBallStarted()
 	{
-		player = game.GetPlayer();
+		player = ((NightmarePinGodGame)pinGod).GetPlayer();
 		player.BallLockEnabled = false;
 		player.RightLock = false;
 		player.LeftLock = false;
@@ -122,23 +122,23 @@ public class LockSaucer : Control
 	/// </summary>
 	private void UpdateLamps()
 	{
-		if (player.ScoreBonusLit) pingod.SetLampState("top_score_b", 2);
-		else pingod.SetLampState("top_score_b", 0);
+		if (player.ScoreBonusLit) pinGod.SetLampState("top_score_b", 2);
+		else pinGod.SetLampState("top_score_b", 0);
 
-		if (player.SuperJackpotLit) pingod.SetLampState("top_super", 2);
-		else pingod.SetLampState("top_super", 0);
+		if (player.SuperJackpotLit) pinGod.SetLampState("top_super", 2);
+		else pinGod.SetLampState("top_super", 0);
 
-		if (player.JackpotLit) pingod.SetLampState("top_jackpot", 2);
-		else pingod.SetLampState("top_jackpot", 0);
+		if (player.JackpotLit) pinGod.SetLampState("top_jackpot", 2);
+		else pinGod.SetLampState("top_jackpot", 0);
 
-		if (player.ExtraBallLit) pingod.SetLampState("top_xtraball", 2);
-		else pingod.SetLampState("top_xtraball", 0);
+		if (player.ExtraBallLit) pinGod.SetLampState("top_xtraball", 2);
+		else pinGod.SetLampState("top_xtraball", 0);
 
 		if (player.BallsLocked == 1)
-			pingod.SetLampState("top_init", 0);
+			pinGod.SetLampState("top_init", 0);
 		else if (player.BallsLocked == 2)
-			pingod.SetLampState("top_init", 1);
+			pinGod.SetLampState("top_init", 1);
 		else if (player.BallsLocked == 3)
-			pingod.SetLampState("top_init", 0);
+			pinGod.SetLampState("top_init", 0);
 	}
 }

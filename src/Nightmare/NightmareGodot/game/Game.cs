@@ -7,15 +7,19 @@ public class Game : PinGodGameNode
 	private bool _lastBall;	
 	private Timer _tiltedTimeOut;
 	private Bonus endOfBallBonus;
-	private PackedScene multiballPkd;
+    private Node2D displayMsgContainer;
+    private PackedScene multiballPkd;
 	private ScoreEntry scoreEntry;
+    private Control scoreNode;
 
-	#region Nightmare property add on
-	private PackedScene _midnightModePacked;
+    #region Nightmare property add on
+    private PackedScene _midnightModePacked;
 	public float MusicPauseTime { get; set; }
-
 	public bool RemixSoundsMode { get; internal set; }	
-	public Timer resumeBgmTimer { get; private set; } 
+	public Timer resumeBgmTimer { get; private set; }
+
+    private Timer displayTimer;
+    private Label nightmareMsg;
 	#endregion
 
 	public override void _EnterTree()
@@ -35,13 +39,19 @@ public class Game : PinGodGameNode
 		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
 
 		scoreEntry = GetNode("Modes/ScoreEntry") as ScoreEntry;
-		endOfBallBonus = GetNode("Modes/Bonus") as Bonus;		
+		endOfBallBonus = GetNode("Modes/Bonus") as Bonus;
 
 		_tiltedTimeOut = new Timer() { OneShot = true, WaitTime = 4, Autostart = false };
 		AddChild(_tiltedTimeOut);
 		_tiltedTimeOut.Connect("timeout", this, "timeout");
 
-		resumeBgmTimer = GetNode("ResumeMusicTimer") as Timer;
+		resumeBgmTimer = GetNode<Timer>("ResumeMusicTimer");
+
+		displayTimer = GetNode<Timer>("DisplayMessageTimer");
+		displayTimer.Connect("timeout", this, "OnDisplayTimeout");
+		displayMsgContainer = GetNode("Modes/Node2D") as Node2D;
+		nightmareMsg = GetNode<Label>("Modes/Node2D/NightmareMessage");
+		displayMsgContainer.Visible = false;
 	}
 	public override void _Ready()
 	{
@@ -105,14 +115,39 @@ public class Game : PinGodGameNode
 			pinGod.UpdateLamps(GetTree());
 		}
 	}
+
+	public void OnDisplayMessage(string message, float time = 1.5f)
+    {
+		displayTimer.Stop();
+		displayTimer.Start(time);
+		displayMsgContainer.Visible = true;
+		nightmareMsg.Text = message;		
+
+		pinGod.LogInfo("display message");
+    }
+
+	void OnDisplayTimeout()
+    {
+		displayMsgContainer.Visible = false;
+	}
+
 	/// <summary>
 	/// Stops the music, saves the time ...plays new music sound and resumes after
 	/// </summary>
 	/// <param name="music"></param>
-	/// <param name="resumeDelay"></param>
+	/// <param name="resumeDelay"></param>	
 	internal void PlayThenResumeMusic(string music, float resumeDelay)
 	{
-		MusicPauseTime = pinGod.StopMusic();
+		resumeBgmTimer.Stop();
+
+		//only save the pause time if main music playing
+		if (pinGod.AudioManager.CurrentMusic == "mus_main")
+        {
+			MusicPauseTime = pinGod.StopMusic();
+			pinGod.LogDebug("main music paused at ", MusicPauseTime);
+		}			
+		else pinGod.StopMusic();
+
 		pinGod.PlayMusic(music);
 		resumeBgmTimer.Start(resumeDelay);
 	}
@@ -122,10 +157,10 @@ public class Game : PinGodGameNode
 	}
 	private void _on_ResumeMusicTimer_timeout()
 	{
-		//var p = pinGod.Getn();
-		//if (p.IsRemixMode) pinGod.PlayMusic("mus_remix", MusicPauseTime);
-		//else pinGod.PlayMusic("mus_main", MusicPauseTime);
-	}
+		var p = pinGod.Player as NightmarePlayer;
+        if (p.IsRemixMode) pinGod.PlayMusic("mus_remix", MusicPauseTime);
+        else pinGod.PlayMusic("mus_main", MusicPauseTime);
+    }
 	void AddMultiballSceneToTree()
 	{
 		//create an mball instance from the packed scene
@@ -138,7 +173,6 @@ public class Game : PinGodGameNode
 	private void AddPoints(int points)
 	{
 		pinGod.AddPoints(points);
-		pinGod.AddBonus(25);
 	}
 	/// <summary>
 	/// Sets <see cref="PinGodGameBase.IsMultiballRunning"/> to false and Any node that is in the multiball group is removed from tree
@@ -184,7 +218,5 @@ public class Game : PinGodGameNode
 		{
 			CallDeferred("OnStartNewBall");
 		}
-	}
-
-	public NightmarePlayer GetPlayer() => pinGod.Player as NightmarePlayer;
+	}	
 }

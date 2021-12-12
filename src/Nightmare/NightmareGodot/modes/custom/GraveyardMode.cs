@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// RIP targets
+/// </summary>
 public class GraveyardMode : PinballTargetsControl
 {
     private Game game;
@@ -11,10 +14,6 @@ public class GraveyardMode : PinballTargetsControl
 	}
 	public override bool CheckTargetsCompleted(int index)
 	{
-		pinGod.PlaySfx("snd_ough");
-		pinGod.AddPoints(NightmareConstants.MED_SCORE);
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
-
 		var result = base.CheckTargetsCompleted(index);
 		if (!result)
 			UpdateLamps();
@@ -26,7 +25,7 @@ public class GraveyardMode : PinballTargetsControl
     /// </summary>
     public void OnBallStarted()
     {
-        player = game.GetPlayer();
+        player = ((NightmarePinGodGame)pinGod).GetPlayer();
         ResetTargets();
     }
 
@@ -49,10 +48,18 @@ public class GraveyardMode : PinballTargetsControl
 		pinGod.LogInfo("grave: mystery lit and graveyard advanced");
 	}
 
-	/// <summary>
-	/// Updates targets lamps and graveyard lamps center play-field
-	/// </summary>
-	public override void UpdateLamps()
+    public override bool SetTargetComplete(int index)
+	{
+		pinGod.PlaySfx("snd_ough");
+		pinGod.AddPoints(NightmareConstants.MED_SCORE);
+		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
+		return base.SetTargetComplete(index);
+    }
+
+    /// <summary>
+    /// Updates targets lamps and graveyard lamps center play-field
+    /// </summary>
+    public override void UpdateLamps()
 	{
 		base.UpdateLamps();
 

@@ -1,5 +1,8 @@
-﻿public class NightmarePinGodGame : PinGodGame
-{
+﻿using Godot;
+
+public class NightmarePinGodGame : PinGodGame
+{	
+
 	/// <summary>
 	/// override to create our own player type for this game
 	/// </summary>
@@ -9,6 +12,8 @@
         Players.Add(new NightmarePlayer() { Name = name, Points = 0 });
 		PlaySfx("snd_start");
     }
+
+	public NightmarePlayer GetPlayer() => Player as NightmarePlayer;
 
 	public override void AddAudioStreams()
     {
@@ -23,6 +28,7 @@
 		AudioManager.AddMusic("res://assets/audio/music/mus_main.ogg", "mus_main");
 		AudioManager.AddMusic("res://assets/audio/music/mus_leftramp.ogg", "mus_leftramp");
 		AudioManager.AddMusic("res://assets/audio/music/mus_rampmillion.ogg", "mus_rampmillion");
+		AudioManager.AddMusic("res://assets/audio/music/mus_midnight.ogg", "mus_midnight");
 		AudioManager.AddMusic("res://assets/audio/music/mus_extrahour.ogg", "mus_extrahour");
 		AudioManager.AddMusic("res://assets/audio/music/mus_rightramp.ogg", "mus_rightramp");
 		AudioManager.AddMusic("res://assets/audio/music/mus_rightloop.ogg", "mus_rightloop");
@@ -34,6 +40,7 @@
 		AudioManager.AddMusic("res://assets/audio/music/mus_raisingjackpot.ogg", "mus_raisingjackpot");
 		AudioManager.AddMusic("res://assets/audio/music/mus_bonusmultiply.ogg", "mus_bonusmultiply");
 		AudioManager.AddMusic("res://assets/audio/music/mus_advancecrossstack.ogg", "mus_advancecrossstack");
+		AudioManager.AddMusic("res://assets/audio/music/mus_ingame00.ogg", "mus_ingame00"); //todo: add to plunger lane switch
 		AudioManager.SetBgm("mus_main");
 
 		AudioManager.AddSfx("res://assets/audio/sfx/snd_bumper.wav", "snd_bumper");

@@ -5,7 +5,7 @@ public class MidnightMode : Control
 {
 	[Export] float _mode_time_out = 30f;
 
-	private PinGodGame pingod;
+	private PinGodGame pinGod;
 	private string[] switches;
 	private long _midnightScore = 0;
     private Game game;
@@ -16,24 +16,25 @@ public class MidnightMode : Control
 
 	public override void _EnterTree()
 	{
-		pingod = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		switches = new string[] { "orbit_r", "ramp_l", "ramp_r" };		
 		Label = GetNode("Label") as Label;
-		pingod.LogInfo("midnight started");
+		pinGod.LogInfo("midnight started");
 		game = GetParent().GetParent() as Game;
 		_timeLeft = _mode_time_out;
 	}
 
 	public override void _Ready()
 	{
-		player = game.GetPlayer();
+		player = ((NightmarePinGodGame)pinGod).GetPlayer();
 		player.MidnightRunning = true;
 		player.MidnightTimesPlayed++;
+		pinGod.PlayMusic("mus_midnight");
 	}
 
 	public override void _Input(InputEvent @event)
 	{
-		if (pingod.IsSwitch(switches, @event))
+		if (pinGod.IsSwitch(switches, @event))
 		{
 			AwardMidnight();
 		}
@@ -43,6 +44,7 @@ public class MidnightMode : Control
 	{
 		player.MidnightRunning = false;
 		player.RomanValue = 0;
+		pinGod.PlayMusic("mus_main");
 	}
 
 	private void _on_Timer_timeout()
@@ -60,7 +62,7 @@ public class MidnightMode : Control
 
 	public void OnBallDrained()
 	{
-		pingod.LogInfo("midnight: ball drained");
+		pinGod.LogInfo("midnight: ball drained");
 		this.QueueFree();
 	}
 
@@ -68,7 +70,7 @@ public class MidnightMode : Control
 	{
 		var score = NightmareConstants.EXTRA_LARGE_SCORE * 5;
 		_midnightScore += score;
-		pingod.AddPoints(score);
+		pinGod.AddPoints(score);
 
         if (!player.HurryUpRunning)
         {

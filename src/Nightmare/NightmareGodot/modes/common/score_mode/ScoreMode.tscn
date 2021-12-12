@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas28.tres" type="DynamicFont" id=6]
-[ext_resource path="res://layers/BgChurch.tscn" type="PackedScene" id=7]
 
 [node name="ScoreMode" type="Control" groups=[
 "Mode",
@@ -24,8 +23,6 @@ _scoreLabelP1 = NodePath("ScoreP1")
 _scoreLabelP2 = NodePath("ScoreP2")
 _scoreLabelP3 = NodePath("ScoreP3")
 _scoreLabelP4 = NodePath("ScoreP4")
-
-[node name="BgChurch" parent="." instance=ExtResource( 7 )]
 
 [node name="pingod-logo" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.0705882 )

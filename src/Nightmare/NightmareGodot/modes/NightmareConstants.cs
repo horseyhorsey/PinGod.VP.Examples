@@ -4,6 +4,8 @@
     public const int MED_SCORE = 10000;
     public const int LARGE_SCORE = 25000;
     public const int EXTRA_LARGE_SCORE = 1000000;
+    public const int SCORE_50K  = 50000;
+    public const int SCORE_100K = 100000;
 
-    public const string EXTRABALL = "COLLECT EXTRA BALL";
+    public const string EXTRABALL = "COLLECT EXTRA BALL";    
 }

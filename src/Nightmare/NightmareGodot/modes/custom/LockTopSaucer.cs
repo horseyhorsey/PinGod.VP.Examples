@@ -9,18 +9,18 @@ public class LockTopSaucer : Control
 	private NightmarePlayer _player;
 	private BallStackPinball ballStack;    
 	private Game game;
-	private PinGodGame pingod;
+	private PinGodGame pinGod;
 
 	public override void _EnterTree()
 	{
 		ballStack = GetNode("BallStackPinball") as BallStackPinball;
-		pingod = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		game = GetParent().GetParent() as Game;
 	}
 	private void _on_BallStackPinball_SwitchActive()
 	{
-		pingod.AddPoints(NightmareConstants.MED_SCORE);
-		pingod.AddBonus(NightmareConstants.SMALL_SCORE);
+		pinGod.AddPoints(NightmareConstants.MED_SCORE);
+		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 
 		var music = "";
 		var p = _player;
@@ -64,7 +64,7 @@ public class LockTopSaucer : Control
 				}
 			}
 			
-			pingod.UpdateLamps(game.GetTree());
+			pinGod.UpdateLamps(game.GetTree());
 		}		
 	}
 	private void _on_BallStackPinball_SwitchInActive()
@@ -76,11 +76,11 @@ public class LockTopSaucer : Control
 		//destroying ball should create a ball in shooter lane in the simulator
 		if (destroy_ball)
 		{
-			pingod.SolenoidPulse("saucer_top_right_tunnel");
+			pinGod.SolenoidPulse("saucer_top_right_tunnel");
 		}
 		else
 		{
-			pingod.SolenoidPulse(ballStack._coil);
+			pinGod.SolenoidPulse(ballStack._coil);
 		}
 	}
 	private void AdvanceAndAwardCrossStack()
@@ -92,7 +92,7 @@ public class LockTopSaucer : Control
 			if (_player.RomanValue < 10)
 			{
 				_player.RomanValue+=2;
-				pingod.AddBonus(NightmareConstants.SMALL_SCORE / 2 * 2);
+				pinGod.AddBonus(NightmareConstants.SMALL_SCORE / 2 * 2);
 			}
 			crossStack[0] = 1;
 			msg += "advanced roman";
@@ -101,7 +101,7 @@ public class LockTopSaucer : Control
 		else if (crossStack[1] == 2)
 		{
 			var bonus = _player.Bonus;
-			pingod.AddBonus((int)bonus);
+			pinGod.AddBonus((int)bonus);
 			crossStack[1] = 1;
 			msg += "awarded bonus to player: " + bonus;
 			//todo: score bonus countdown
@@ -120,16 +120,16 @@ public class LockTopSaucer : Control
 		}
 		else if (crossStack[4] == 2)
 		{
-			pingod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
+			pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
 			crossStack[4] = 1;
 			msg += "1 million";
 		}
 
-		pingod.LogInfo(msg);
+		pinGod.LogInfo(msg);
 	}
 	private void OnBallStarted()
 	{
-		_player = game.GetPlayer();
+		_player = ((NightmarePinGodGame)pinGod).GetPlayer();
 		_player.BallsLocked = 0;
 		_player.BallLockEnabled = false;
 	}
