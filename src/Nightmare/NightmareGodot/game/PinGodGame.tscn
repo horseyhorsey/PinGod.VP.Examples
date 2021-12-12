@@ -1,13 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://game/NightmarePinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Game/MachineConfig.cs" type="Script" id=5]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
 _logging_level = 2
 _playbackfile = "user://recordings/midnight_ramps.record"
+
+[node name="MachineConfig" type="Node" parent="."]
+script = ExtResource( 5 )
 _coils = {
 "auto_plunger": 3,
 "died": 0,
@@ -141,11 +146,10 @@ _lamps = {
 }
 _leds = {
 }
-_ball_save_lamp = "shoot_again"
-_ball_save_led = ""
-_ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "saucer_top", "saucer_top_right", "saucer_left" )
 _ball_search_stop_switches = PoolStringArray( "saucer_top", "saucer_top_right", "saucer_left" )
+
+[node name="Trough" parent="." instance=ExtResource( 4 )]
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
 layer = 128
