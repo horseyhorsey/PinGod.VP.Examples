@@ -3,21 +3,12 @@ using Godot;
 public class RightTargetsMode : PinballTargetsControl
 {
 	private Game game;
-	private Label _label;
-	private Timer _clearLayerTimer;
 	private NightmarePlayer player;
 	public override void _EnterTree()
 	{
 		base._EnterTree();
 		//get game to resume music
 		game = GetParent().GetParent() as Game;
-
-		//create timer to clear layer, hide
-		_clearLayerTimer = new Timer() { Autostart = false, OneShot = true };
-		_clearLayerTimer.Connect("timeout", this, "Clear");
-		AddChild(_clearLayerTimer);		
-
-		_label = GetNode("CenterContainer/Label") as Label;
 
 		//hide this mode, still process the switches
 		Clear();
@@ -65,7 +56,7 @@ public class RightTargetsMode : PinballTargetsControl
 		}
 		else Logger.LogWarning("No player found");
 
-		DisplayText($"CROSS ADVANCED\n{player?.CrossValue ?? 1}", 2f);
+		game.OnDisplayMessage($"CROSS ADVANCED\n{player?.CrossValue ?? 1}", 2f);
 	}
 
 	/// <summary>
@@ -75,9 +66,6 @@ public class RightTargetsMode : PinballTargetsControl
 	/// <returns></returns>
 	public override bool CheckTargetsCompleted(int index)
 	{
-		pinGod.AddPoints(NightmareConstants.MED_SCORE);
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
-		pinGod.PlaySfx("snd_ough");
 		var completed = base.CheckTargetsCompleted(index);
 		if (!completed)
 			UpdateLamps();
@@ -91,8 +79,7 @@ public class RightTargetsMode : PinballTargetsControl
 	/// </summary>
 	public void OnBallStarted()
 	{
-		player = game.GetPlayer();
-		player.CrossValue = 0;
+		player = ((NightmarePinGodGame)pinGod).GetPlayer();		
 		ResetTargets();
 		UpdateLamps();
 	}
@@ -122,10 +109,11 @@ public class RightTargetsMode : PinballTargetsControl
 		}
 	}
 
-	private void DisplayText(string text, float delay = 0)
-	{
-		_label.Text = text;
-		this.Visible = true;
-		_clearLayerTimer.Start(delay);
-	}
+    public override bool SetTargetComplete(int index)
+    {
+		pinGod.AddPoints(NightmareConstants.MED_SCORE);
+		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
+		pinGod.PlaySfx("snd_ough");
+		return base.SetTargetComplete(index);
+    }
 }

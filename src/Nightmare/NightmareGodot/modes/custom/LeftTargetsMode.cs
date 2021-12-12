@@ -4,7 +4,6 @@ public class LeftTargetsMode : PinballTargetsControl
 {
 	private Game game;
 	private NightmarePlayer player;
-	private Label _label;
 	private Timer _clearLayerTimer;
 
 	public override void _EnterTree()
@@ -17,8 +16,6 @@ public class LeftTargetsMode : PinballTargetsControl
 		_clearLayerTimer = new Timer() { Autostart = false, OneShot = true };
 		_clearLayerTimer.Connect("timeout", this, "Clear");
 		AddChild(_clearLayerTimer);
-
-		_label = GetNode("CenterContainer/Label") as Label;
 
 		//hide this mode, still process the switches
 		Clear();
@@ -46,7 +43,7 @@ public class LeftTargetsMode : PinballTargetsControl
 
 	public void OnBallStarted()
 	{
-		player = game.GetPlayer();
+		player = ((NightmarePinGodGame)pinGod).GetPlayer();
 		player.LeftTargetsCompleted = 0;
 		player.SaucerBonus = false;
 		player.ExtraBallLit = false;
@@ -63,20 +60,19 @@ public class LeftTargetsMode : PinballTargetsControl
 		switch (player.LeftTargetsCompleted)
 		{
 			case 1:
-				player.SaucerBonus = true;
+				player.ScoreBonusLit = true;
 				DisplayText("SCORE BONUS\nLIT", 2f);
-				Logger.LogInfo("lTargets: saucer bonus lit");
 				break;
 			case 2:
 				player.ExtraBallLit = true;
 				DisplayText("EXTRA BALL\nLIT", 2f);
-				Logger.LogInfo("lTargets: extra ball lit");
 				break;
-			default:
+			case 3:
 				player.SuperJackpotLit = true;
 				player.LeftTargetsCompleted = 0;
 				DisplayText("SUPER JACKPOT\nLIT", 2f);
-				Logger.LogInfo("lTargets: super jackpot lit");
+				break;
+			default:				
 				break;
 		}
 
@@ -99,7 +95,6 @@ public class LeftTargetsMode : PinballTargetsControl
 
 	private void DisplayText(string text, float delay = 0)
 	{
-		_label.Text = text;
 		this.Visible = true;
 		_clearLayerTimer.Start(delay);
 	}

@@ -3,6 +3,8 @@ using Godot;
 public class BaseGameMode : Node
 {
 
+	//todo: bonus count down. if starts at 58000, the it will take the 1000s off, then do the 10Ks
+
 	[Export] string[] _roman_lamps;
 
 	uint _rampComboDelay = 5000;
@@ -56,6 +58,7 @@ public class BaseGameMode : Node
 			if (player.LaneExtraBallLit)
 			{
 				player.ExtraBallLit = true;
+				game.OnDisplayMessage("COLLECT EXTRA\nBALL");
 				player.LaneExtraBallLit = false;
 				pinGod.PlaySfx("snd_down");
 			}
@@ -110,10 +113,7 @@ public class BaseGameMode : Node
 						//run for your life
 						if (game != null)
 						{
-							_musicTime = pinGod.StopMusic();
-							pinGod.PlayMusic("mus_rightorbitcombo");
-							game.MusicPauseTime = _musicTime;
-							game.resumeBgmTimer.Start(2.9f);
+							game.PlayThenResumeMusic("mus_rightorbitcombo", 2.9f);
 						}
 					}
 				}
@@ -150,7 +150,7 @@ public class BaseGameMode : Node
 		if (player.RomanValue < 10)
 		{
 			player.RomanValue++;
-			pinGod.AddBonus(NightmareConstants.SMALL_SCORE / 2);
+			pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 			UpdateRomanLamps();
 		}
 	}
@@ -200,7 +200,7 @@ public class BaseGameMode : Node
 		pinGod.LogInfo("base_mode: ball started");
 		//pinGod.AudioManager.PlayBgm();
 
-		player = game.GetPlayer();        
+		player = ((NightmarePinGodGame)pinGod).GetPlayer();        
 		pinGod.PlayMusic("mus_ballready");
 		pinGod.AddBonus(500);
 
@@ -223,7 +223,7 @@ public class BaseGameMode : Node
 
 	private void ProcessRampLeft(InputEvent @event)
 	{
-		if (game.GetPlayer().MidnightRunning) return;
+		if (player.MidnightRunning) return;
 
 		var rampRChanged = pinGod.GetLastSwitchChangedTime("ramp_r");
 		if (pinGod.SwitchOn("ramp_l", @event))
@@ -241,15 +241,18 @@ public class BaseGameMode : Node
 			if (rampRChanged <= _rampComboDelay)
 			{
 				Logger.LogInfo("bgm: r/l ramp combo. " + rampRChanged);
-				pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
+				pinGod.AddPoints(NightmareConstants.SCORE_100K);
 				music = "mus_rampmillion";
 				delay = 1.8f;
+			}
+            else
+            {
+				pinGod.AddPoints(NightmareConstants.SCORE_50K);
 			}
 			//advance roman numerals?
 			var romanVal = player.RomanValue;
 			if (romanVal % 2 == 1)
 			{
-				pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
 				AdvanceRoman();
 				Logger.LogInfo("bgm: l/ramp roman to midnight " + player.RomanValue);
 				delay = 1.2f;
@@ -271,10 +274,7 @@ public class BaseGameMode : Node
 			{
 				if (game != null)
 				{
-					_musicTime = pinGod.StopMusic();
-					pinGod.PlayMusic(music);
-					game.MusicPauseTime = _musicTime;
-					game.resumeBgmTimer.Start(delay);
+					game.PlayThenResumeMusic(music, delay);
 				}
 				else GD.PushWarning("no game found left ramp");
 			}
@@ -307,16 +307,19 @@ public class BaseGameMode : Node
 			if (rampLChanged <= _rampComboDelay)
 			{				
 				player.ScoreBonusLit = true;
-				pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
+				pinGod.AddPoints(NightmareConstants.SCORE_100K);
 				music = "mus_rampmillion"; delay = 1.8f;
 				Logger.LogInfo("bgm: r/l ramp combo. " + rampLChanged);
+			}
+            else
+            {
+				pinGod.AddPoints(NightmareConstants.SCORE_50K);
 			}
 
 			//advancing roman numerals?
 			var romanVal = player.RomanValue;
 			if (romanVal % 2 == 0)
-			{				
-				pinGod.AddPoints(NightmareConstants.MED_SCORE*10);				
+			{										
 				AdvanceRoman();
 				Logger.LogInfo("bgm: r ramp roman to midnight " + player.RomanValue);
 				if (music != "mus_leftramp") music = "mus_rightramp";
@@ -331,10 +334,7 @@ public class BaseGameMode : Node
 			{
 				if (game != null)
 				{
-					_musicTime = pinGod.StopMusic();
-					pinGod.PlayMusic(music);
-					game.MusicPauseTime = _musicTime;
-					game.resumeBgmTimer.Start(delay);
+					game.PlayThenResumeMusic(music, delay);
 				}
 				else GD.PushWarning("no game found left ramp");
 			}
@@ -349,8 +349,7 @@ public class BaseGameMode : Node
 	private void ScoreForRamps()
 	{
 		player.JackpotValue += 8000;
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
-		pinGod.AddPoints(NightmareConstants.LARGE_SCORE * 2, false); //display will be updated after this, set false less work
+		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);		
 		Logger.LogInfo($"bgm: ramp jackpot added value. {player.JackpotValue}");
 	}
 
@@ -374,20 +373,27 @@ public class BaseGameMode : Node
 			pinGod.SetLampState("coffin_1", 1);
 			pinGod.SetLampState("coffin_2", 1);
 			pinGod.SetLampState("coffin_3", 1);
-			pinGod.SetLampState("coffin_4", 2);
+			pinGod.SetLampState("coffin_4", 1);
 		}
 		else if (player.CoffinStack[3])
 		{
 			pinGod.SetLampState("coffin_1", 1);
 			pinGod.SetLampState("coffin_2", 1);
-			pinGod.SetLampState("coffin_3", 2);
+			pinGod.SetLampState("coffin_3", 1);
+			pinGod.SetLampState("coffin_4", 2);
 		}
 		else if (player.CoffinStack[2])
 		{
 			pinGod.SetLampState("coffin_1", 1);
-			pinGod.SetLampState("coffin_2", 2);
+			pinGod.SetLampState("coffin_2", 1);
+			pinGod.SetLampState("coffin_3", 2);
 		}
 		else if (player.CoffinStack[1])
+		{
+			pinGod.SetLampState("coffin_1", 1);
+			pinGod.SetLampState("coffin_2", 2);
+		}
+		else if (!player.CoffinStack[1])
 		{
 			pinGod.SetLampState("coffin_1", 2);
 		}

@@ -437,7 +437,7 @@ Sub RightSlingShot_Slingshot
     sling1.TransZ = -20
     RStep = 0
     RightSlingShot.TimerEnabled = 1
-	vpmTimer.PulseSw 52
+	vpmTimer.PulseSw 26
 End Sub
 
 Sub RightSlingShot_Timer
@@ -455,7 +455,7 @@ Sub LeftSlingShot_Slingshot
     sling2.TransZ = -20
     LStep = 0
     LeftSlingShot.TimerEnabled = 1	
-	vpmTimer.PulseSw 51
+	vpmTimer.PulseSw 25
 End Sub
 
 Sub LeftSlingShot_Timer

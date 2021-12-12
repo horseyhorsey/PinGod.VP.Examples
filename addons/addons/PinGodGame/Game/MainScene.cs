@@ -121,9 +121,6 @@ public class MainScene : Node2D
 	/// </summary>
 	public void StartGame()
 	{
-		//remove the attract mode
-		attractnode.QueueFree();
-
 		//load the game scene mode and add to Modes tree		
 		LoadSceneMode(_game_scene_path);
 	}
@@ -161,6 +158,9 @@ public class MainScene : Node2D
 				CallDeferred("_loaded", res);
 			}			
 			m.Unlock();
+
+			//remove the attract mode
+			attractnode.QueueFree();
 		});
 	}
 
