@@ -2,30 +2,53 @@ using Godot;
 using System.Collections.Generic;
 
 public class AudioManager : Node
-{    
+{
+	/// <summary>
+	/// Background music key
+	/// </summary>
+	[Export] public string Bgm { get; set; }
+
+	[Export] public bool MusicEnabled { get; set; } = true;
+
+	[Export] public bool SfxEnabled { get; set; } = true;
+
+
+	[Export] public Dictionary<string, string> SfxAssets{ get; private set; } = new Dictionary<string, string>() {
+		{ "credit" , "res://addons/PinGodGame/assets/audio/sfx/credit.wav"},
+		{ "tilt" , "res://addons/PinGodGame/assets/audio/sfx/tilt.wav"},
+		{ "warning" , "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"}
+	};
+
+	[Export] public Dictionary<string, string> MusicAssets { get; private set; }
+
 	public Dictionary<string, AudioStream> Music { get; private set; }
 	public Dictionary<string, AudioStream> Sfx { get; private set; }
 	public AudioStreamPlayer MusicPlayer { get; private set; }
 	public AudioStreamPlayer SfxPlayer { get; private set; }
-
-	/// <summary>
-	/// Background music key
-	/// </summary>
-	public string Bgm { get; set; }
+	
 	public string CurrentMusic { get; private set; }
-	public bool MusicEnabled { get; set; } = true;
-	public bool SfxEnabled { get; set; } = true;
-
-	public AudioManager()
-	{        
-		Music = new Dictionary<string, AudioStream>();
-		Sfx = new Dictionary<string, AudioStream>();		
-	}
 
 	public override void _EnterTree()
 	{
-		MusicPlayer = GetNode("MusicPlayer") as AudioStreamPlayer;
-		SfxPlayer = GetNode("SfxPlayer") as AudioStreamPlayer;		
+        if (!Engine.EditorHint)
+        {
+			MusicPlayer = GetNode("MusicPlayer") as AudioStreamPlayer;
+			SfxPlayer = GetNode("SfxPlayer") as AudioStreamPlayer;
+
+			Music = new Dictionary<string, AudioStream>();
+			Sfx = new Dictionary<string, AudioStream>();
+
+			Logger.LogDebug(SfxAssets.Count, " assets");
+			foreach (var sfx in SfxAssets)
+            {
+				AddSfx(sfx.Value, sfx.Key);
+            }
+
+			foreach (var music in MusicAssets)
+			{
+				AddMusic(music.Value, music.Key);
+			}
+		}		
 	}
 
 	/// <summary>
@@ -54,7 +77,7 @@ public class AudioManager : Node
 	/// <param name="key"></param>
 	public void AddSfx(string resource, string key)
 	{
-		if (!Music.ContainsKey(key))
+		if (!Sfx.ContainsKey(key))
 		{
 			var stream = GD.Load(resource) as AudioStream;
 			if (stream != null)

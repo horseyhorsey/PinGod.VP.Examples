@@ -106,6 +106,8 @@ public abstract partial class PinGodGameBase : Node
 		this.AddChild(BallSearchTimer);
 
 		gameLoadTimeMsec = OS.GetTicksMsec();
+
+		AudioManager = GetNode<AudioManager>("AudioManager");
 	}
 
     public override void _ExitTree()
@@ -631,18 +633,6 @@ public abstract partial class PinGodGameBase : Node
 		var c = System.Drawing.Color.FromArgb(r, g, b);
 		var ole = System.Drawing.ColorTranslator.ToOle(c);
 		SetLedState(name, state, ole);
-	}
-
-	/// <summary>
-	/// Sets up the AudioManager to play standard music and Sfx
-	/// </summary>
-	public virtual void Setup()
-	{
-		//create and get ref to the audiomanager scene
-		var audioMan = Load(AUDIO_MANAGER) as PackedScene;
-		AddChild(audioMan.Instance());
-		AudioManager = GetNode("AudioManager") as AudioManager;
-		LogInfo("PinGod: audiomanager loaded.", AudioManager != null);
 	}
 
 	/// <summary>

@@ -10,10 +10,6 @@ public class PinGodGame : PinGodGameBase
 	[Export] bool _read_machine_states = true;
 	[Export] int _write_machine_states_delay = 10;
 
-	[Export] protected string COIN_SFX = "res://addons/PinGodGame/assets/audio/sfx/credit.wav";		
-	[Export] protected string TILT_SFX = "res://addons/PinGodGame/assets/audio/sfx/tilt.wav";
-	[Export] protected string WARN_SFX = "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav";
-
 	#region Exports
 	[Export] PinGodLogLevel _logging_level = PinGodLogLevel.Info;
 	[Export] bool _lamp_overlay_enabled = false;
@@ -34,6 +30,7 @@ public class PinGodGame : PinGodGameBase
 		Logger.LogLevel = _logging_level;
 
 		LogDebug("PinGod: entering tree. Setup");
+
 		Setup();
 	}
 
@@ -54,13 +51,8 @@ public class PinGodGame : PinGodGameBase
 	/// <summary>
 	/// Sets up machine items from the collections, starts memory mapping
 	/// </summary>
-	public override void Setup()
+	public void Setup()
 	{
-		base.Setup();
-
-		//load audio streams, music / sfx / vox
-		AddAudioStreams();
-
 		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
 
 		//setup and run writing memory states for other application to access
@@ -85,23 +77,6 @@ public class PinGodGame : PinGodGameBase
 	public override void CreatePlayer(string name)
 	{
 		base.CreatePlayer(name);
-	}
-
-	/// <summary>
-	/// Adds coin SFX under credit. Use to add custom sounds and music to the <see cref="this.AudioManager"/>
-	/// </summary>
-	public virtual void AddAudioStreams()
-	{
-		////adds the default credit sound
-		AudioManager.AddSfx(COIN_SFX, "credit");
-		AudioManager.AddSfx(TILT_SFX, "tilt");
-		AudioManager.AddSfx(WARN_SFX, "warning");
-
-		AudioManager.AddSfx("res://addons/PinGodGame/assets/audio/sfx/beep.wav", "enter");
-		AudioManager.AddSfx("res://addons/PinGodGame/assets/audio/sfx/beep_long.wav", "exit");
-
-		////add music for the game. Ogg to autoloop
-		////AudioManager.AddMusic("res://assets/audio/music/mymusic.ogg", "mymusic");
 	}
 
 	/// <summary>

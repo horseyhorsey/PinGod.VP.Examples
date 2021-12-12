@@ -1,14 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/NightmarePinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/Game/MachineConfig.cs" type="Script" id=5]
+[ext_resource path="res://addons/PinGodGame/Audio/AudioManager.tscn" type="PackedScene" id=6]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_logging_level = 2
+_logging_level = 0
 _playbackfile = "user://recordings/midnight_ramps.record"
 
 [node name="MachineConfig" type="Node" parent="."]
@@ -150,6 +151,45 @@ _ball_search_coils = PoolStringArray( "saucer_top", "saucer_top_right", "saucer_
 _ball_search_stop_switches = PoolStringArray( "saucer_top", "saucer_top_right", "saucer_left" )
 
 [node name="Trough" parent="." instance=ExtResource( 4 )]
+
+[node name="AudioManager" parent="." instance=ExtResource( 6 )]
+SfxAssets = {
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
+"snd_bumper": "res://assets/audio/sfx/snd_bumper.wav",
+"snd_down": "res://assets/audio/sfx/snd_down.wav",
+"snd_drain": "res://assets/audio/sfx/snd_drain.wav",
+"snd_inlane": "res://assets/audio/sfx/snd_inlane.wav",
+"snd_kicker": "res://assets/audio/sfx/snd_kicker.wav",
+"snd_lowsquirk": "res://assets/audio/sfx/snd_lowsquirk.wav",
+"snd_organ": "res://assets/audio/sfx/snd_organ.wav",
+"snd_ough": "res://assets/audio/sfx/snd_ough.wav",
+"snd_return_lanes": "res://assets/audio/sfx/snd_return_lanes.wav",
+"snd_slingshot": "res://assets/audio/sfx/snd_slingshot.wav",
+"snd_squirk": "res://assets/audio/sfx/snd_squirk.wav",
+"snd_start": "res://assets/audio/sfx/snd_start.wav",
+"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
+"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+}
+MusicAssets = {
+"mus_100k": "res://assets/audio/music/mus_100k.ogg",
+"mus_advancecrossstack": "res://assets/audio/music/mus_advancecrossstack.ogg",
+"mus_alltriangles": "res://assets/audio/music/mus_alltriangles.ogg",
+"mus_ballready": "res://assets/audio/music/mus_ballready.ogg",
+"mus_bonusmultiply": "res://assets/audio/music/mus_bonusmultiply.ogg",
+"mus_extraball": "res://assets/audio/music/mus_extraball.ogg",
+"mus_extrahour": "res://assets/audio/music/mus_extrahour.ogg",
+"mus_ingame00": "res://assets/audio/music/mus_ingame00.ogg",
+"mus_jackpot": "res://assets/audio/music/mus_jackpot.ogg",
+"mus_leftramp": "res://assets/audio/music/mus_leftramp.ogg",
+"mus_main": "res://assets/audio/music/mus_main.ogg",
+"mus_midnight": "res://assets/audio/music/mus_midnight.ogg",
+"mus_raisingjackpot": "res://assets/audio/music/mus_raisingjackpot.ogg",
+"mus_rampmillion": "res://assets/audio/music/mus_rampmillion.ogg",
+"mus_rightloop": "res://assets/audio/music/mus_rightloop.ogg",
+"mus_rightorbitcombo": "res://assets/audio/music/mus_rightorbitcombo.ogg",
+"mus_rightramp": "res://assets/audio/music/mus_rightramp.ogg",
+"mus_spinmillion": "res://assets/audio/music/mus_spinmillion.ogg"
+}
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
 layer = 128
