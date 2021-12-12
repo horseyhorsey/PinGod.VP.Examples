@@ -21,10 +21,10 @@ End Sub
 
 'Release
 'Const IsDebug = False ' set false to load an export
-'Const GameDirectory = ".\PinGod.BasicGame.exe" 'exported game
+'Const GameDirectory = ".\PinGod.Playboy.exe" 'exported game
 'Debug
 Const IsDebug = True
-Const GameDirectory = "C:\Users\funky\source\repos\PinGod\PinGod.VP.Examples\src\Playboy\PlayboyGodot" ' Loads the godot pingod game project
+Const GameDirectory = "..\PlayboyGodot" ' Loads the godot pingod game project
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 0  ' use led (color)
 Const UseLamps = 1  ' Check for lamp states?
@@ -94,7 +94,7 @@ Sub InitGame
 	'init core vbs, vpm
 	vpmInit me
 	vpmMapLights AllLamps		'Auto lamps collection, lamp id in timerinterval
-	vpmCreateEvents AllSwitches 'Auto Switches collection from the swNum in timerInterval
+	'vpmCreateEvents AllSwitches 'Auto Switches collection from the swNum in timerInterval
 
 	'Init timers for updates
 	pulsetimer.Enabled=1
@@ -178,12 +178,12 @@ Sub Table1_KeyDown(ByVal keycode)
 
 	If keycode = LeftFlipperKey and FlippersOn Then
 		LeftFlipper.RotateToEnd
-		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		PlaySound SoundFX("FlipperUp",DOFFlippers), 0, .67, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
 		RightFlipper.RotateToEnd
-		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		PlaySound SoundFX("FlipperUp",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
 	End If
 
 	If vpmKeyDown(keycode) Then Exit Sub  ' This will handle machine switches and flippers etc
@@ -201,12 +201,12 @@ Sub Table1_KeyUp(ByVal keycode)
 
 	If keycode = LeftFlipperKey and FlippersOn Then
 		LeftFlipper.RotateToStart
-		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		PlaySound SoundFX("FlipperDown",DOFFlippers), 0, 1, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
 		RightFlipper.RotateToStart
-		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		PlaySound SoundFX("FlipperDown",DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
 	End If
 
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc
@@ -453,9 +453,9 @@ End Sub
 
 Sub RandomSoundFlipper()
 	Select Case Int(Rnd*3)+1
-		Case 1 : PlaySound "flip_hit_1", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
-		Case 2 : PlaySound "flip_hit_2", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
-		Case 3 : PlaySound "flip_hit_3", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
+		Case 1 : PlaySound "FlipperCollide", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
+		Case 2 : PlaySound "FlipperCollide", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
+		Case 3 : PlaySound "FlipperCollide", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
 	End Select
 End Sub
 

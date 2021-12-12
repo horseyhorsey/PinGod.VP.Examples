@@ -10,9 +10,7 @@
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
 _logging_level = 2
-_playbackfile = "user://recordings/132695309387590334.record"
-_write_machine_states = false
-_read_machine_states = false
+_playbackfile = "res://recordings/test.record"
 
 [node name="MachineConfig" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -113,13 +111,12 @@ _lamps = {
 }
 _leds = {
 }
-_ball_save_lamp = "shoot_again"
-_ball_save_led = ""
-_ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "saucer" )
 _ball_search_stop_switches = PoolStringArray( "trough_1", "trough_2", "trough_3", "trough_4" )
 
 [node name="Trough" parent="." instance=ExtResource( 4 )]
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
 
 [node name="AudioManager" parent="." instance=ExtResource( 6 )]
 SfxAssets = {
@@ -128,8 +125,8 @@ SfxAssets = {
 "warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
 }
 MusicAssets = {
-"cook_loop_1": "res://assets/audio/music/cook_loop_1.ogg",
-"cook_loop_2": "res://assets/audio/music/cook_loop_2.ogg"
+"cook_loop_1": "res://assets/audio/music/cook_loop1.ogg",
+"cook_loop_2": "res://assets/audio/music/cook_loop2.ogg"
 }
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
