@@ -10,7 +10,7 @@
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
 _logging_level = 0
-_playbackfile = "user://recordings/midnight_ramps.record"
+_playbackfile = "res://recordings/right_targets.record"
 
 [node name="MachineConfig" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -151,6 +151,8 @@ _ball_search_coils = PoolStringArray( "saucer_top", "saucer_top_right", "saucer_
 _ball_search_stop_switches = PoolStringArray( "saucer_top", "saucer_top_right", "saucer_left" )
 
 [node name="Trough" parent="." instance=ExtResource( 4 )]
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
 
 [node name="AudioManager" parent="." instance=ExtResource( 6 )]
 SfxAssets = {
@@ -178,6 +180,7 @@ MusicAssets = {
 "mus_bonusmultiply": "res://assets/audio/music/mus_bonusmultiply.ogg",
 "mus_extraball": "res://assets/audio/music/mus_extraball.ogg",
 "mus_extrahour": "res://assets/audio/music/mus_extrahour.ogg",
+"mus_graveyardletter": "res://assets/audio/music/mus_graveyardletter.ogg",
 "mus_ingame00": "res://assets/audio/music/mus_ingame00.ogg",
 "mus_jackpot": "res://assets/audio/music/mus_jackpot.ogg",
 "mus_leftramp": "res://assets/audio/music/mus_leftramp.ogg",

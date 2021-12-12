@@ -1,7 +1,5 @@
-using Godot;
-
 /// <summary>
-/// RIP targets
+/// RIP targets advance graveyard letters. Opens spin scoop
 /// </summary>
 public class GraveyardMode : PinballTargetsControl
 {
@@ -76,10 +74,18 @@ public class GraveyardMode : PinballTargetsControl
 	/// </summary>
 	void AdvanceGraveyard()
 	{
-		player.GraveYardValue++;
+		player.GraveYardValue++;		
 
-		if (player.GraveYardValue == 9) player.GraveYardValue = 0;
-
-		pinGod.LogInfo("grave: value", player.GraveYardValue);
+		if (player.GraveYardValue == 9)
+		{
+			//todo: something awarded at 9?
+			player.GraveYardValue = 0;
+			pinGod.LogDebug("graveyard value reset to 0");
+		}
+        else
+        {
+			game.OnDisplayMessage($"GRAVEYARD ADVANCED\nLEVEL {player.GraveYardValue}");
+			pinGod.LogDebug("grave: value", player.GraveYardValue);
+		}		
 	}
 }

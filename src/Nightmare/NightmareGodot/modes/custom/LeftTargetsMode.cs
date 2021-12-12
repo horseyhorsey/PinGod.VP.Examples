@@ -4,18 +4,13 @@ public class LeftTargetsMode : PinballTargetsControl
 {
 	private Game game;
 	private NightmarePlayer player;
-	private Timer _clearLayerTimer;
 
 	public override void _EnterTree()
 	{
 		base._EnterTree();
+
 		//get game to resume music
 		game = GetParent().GetParent() as Game;
-
-		//create timer to clear layer, hide
-		_clearLayerTimer = new Timer() { Autostart = false, OneShot = true };
-		_clearLayerTimer.Connect("timeout", this, "Clear");
-		AddChild(_clearLayerTimer);
 
 		//hide this mode, still process the switches
 		Clear();
@@ -54,27 +49,28 @@ public class LeftTargetsMode : PinballTargetsControl
 	public override void TargetsCompleted(bool reset = true)
 	{
 		base.TargetsCompleted(reset);
-		_clearLayerTimer.Stop();
 
 		player.LeftTargetsCompleted++;
 		switch (player.LeftTargetsCompleted)
 		{
 			case 1:
 				player.ScoreBonusLit = true;
-				DisplayText("SCORE BONUS\nLIT", 2f);
+				game.OnDisplayMessage("SCORE BONUS\nIS LIT", 2f);
 				break;
 			case 2:
 				player.ExtraBallLit = true;
-				DisplayText("EXTRA BALL\nLIT", 2f);
+				game.OnDisplayMessage("EXTRA BALL\nIS LIT", 2f);
 				break;
 			case 3:
 				player.SuperJackpotLit = true;
 				player.LeftTargetsCompleted = 0;
-				DisplayText("SUPER JACKPOT\nLIT", 2f);
+				game.OnDisplayMessage("SUPER JACKPOT\nIS LIT", 2f);
 				break;
 			default:				
 				break;
 		}
+
+		pinGod.LogDebug("left targets completed ", player.LeftTargetsCompleted);
 
 		if (game != null)
 		{
@@ -91,11 +87,5 @@ public class LeftTargetsMode : PinballTargetsControl
 	public override void UpdateLamps()
 	{
 		base.UpdateLamps();
-	}
-
-	private void DisplayText(string text, float delay = 0)
-	{
-		this.Visible = true;
-		_clearLayerTimer.Start(delay);
 	}
 }
