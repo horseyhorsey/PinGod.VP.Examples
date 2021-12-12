@@ -123,27 +123,4 @@ public class KrPinGodGame : PinGodGame
 		LogInfo($"jackpot {score}");
 		return score;
 	}
-
-    public override void AddAudioStreams()
-    {
-        base.AddAudioStreams();
-		AudioManager.AddSfx("res://assets/audio/voice/devon/DEVONwelcomeaboard.wav", "dev_welcome");
-		AudioManager.AddSfx("res://assets/audio/sfx/KRfx08.wav", "krfx08");
-		AudioManager.AddSfx("res://assets/audio/sfx/gun02.wav", "gun02");
-		AudioManager.AddSfx("res://assets/audio/sfx/gun03.wav", "Gun03");
-		AudioManager.AddSfx("res://assets/audio/voice/mike/Micheal07.wav", "get_out");
-		AudioManager.AddSfx("res://assets/audio/sfx/explosion01.wav", "explosion");
-		AudioManager.AddSfx("res://assets/audio/voice/mike/MichealLaughs.wav", "mike_laughs");
-		AudioManager.AddSfx("res://assets/audio/voice/devon/DEVONhighscore.wav", "DEVONhighscore");
-		AudioManager.AddSfx("res://assets/audio/voice/kitt/KITT08.wav", "KITT08");
-		AudioManager.AddSfx("res://assets/audio/voice/kitt/micheal.wav", "micheal");
-
-		//add music for the game. Ogg to autoloop
-		AudioManager.AddMusic("res://assets/audio/music/KRsuspense.ogg", "KRsuspense");
-		AudioManager.AddMusic("res://assets/audio/music/kr_gameplay.ogg", "kr_gameplay");
-		AudioManager.AddMusic("res://assets/audio/music/KRthemeEnd.ogg", "kr_theme_end");
-		AudioManager.AddMusic("res://assets/audio/music/KRtheme.ogg", "KRtheme");
-		AudioManager.AddMusic("res://assets/audio/music/KR TVintro.ogg", "KRTVintro");
-		AudioManager.AddMusic("res://assets/audio/music/BoogieHiScore.ogg", "boogie");
-	}
 }
