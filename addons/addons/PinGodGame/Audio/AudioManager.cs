@@ -19,7 +19,7 @@ public class AudioManager : Node
 		{ "warning" , "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"}
 	};
 
-	[Export] public Dictionary<string, string> MusicAssets { get; private set; }
+	[Export] public Dictionary<string, string> MusicAssets { get; private set; } = new Dictionary<string, string>();
 
 	public Dictionary<string, AudioStream> Music { get; private set; }
 	public Dictionary<string, AudioStream> Sfx { get; private set; }
@@ -38,7 +38,6 @@ public class AudioManager : Node
 			Music = new Dictionary<string, AudioStream>();
 			Sfx = new Dictionary<string, AudioStream>();
 
-			Logger.LogDebug(SfxAssets.Count, " assets");
 			foreach (var sfx in SfxAssets)
             {
 				AddSfx(sfx.Value, sfx.Key);
