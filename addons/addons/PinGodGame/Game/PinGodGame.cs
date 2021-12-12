@@ -22,15 +22,6 @@ public class PinGodGame : PinGodGameBase
 	[Export] bool _playback_game = false;
 	[Export] string _playbackfile = null;
 
-	[Export] Dictionary<string, byte> _coils = new Dictionary<string, byte>();
-	[Export] Dictionary<string, byte> _switches = new Dictionary<string, byte>();
-	[Export] Dictionary<string, byte> _lamps = new Dictionary<string, byte>();
-	[Export] Dictionary<string, byte> _leds = new Dictionary<string, byte>();
-
-	[Export] public bool _ball_search_enabled = true;
-	[Export] public string[] _ball_search_coils;
-	[Export] public string[] _ball_search_stop_switches;
-	[Export] private int _ball_search_wait_time_secs = 10;
 	#endregion	
 
 	/// <summary>
@@ -41,9 +32,6 @@ public class PinGodGame : PinGodGameBase
 		base._EnterTree(); //setup base for trough
 
 		Logger.LogLevel = _logging_level;
-
-		//ball search options
-		BallSearchOptions = new BallSearchOptions(_ball_search_coils, _ball_search_stop_switches, _ball_search_wait_time_secs, _ball_search_enabled);
 
 		LogDebug("PinGod: entering tree. Setup");
 		Setup();
@@ -72,9 +60,6 @@ public class PinGodGame : PinGodGameBase
 
 		//load audio streams, music / sfx / vox
 		AddAudioStreams();
-
-		//add custom coils and switches for this game which can be set in the PinGodGame.tscn scene UI or file
-		AddCustomMachineItems(_coils, _switches, _lamps, _leds);
 
 		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
 

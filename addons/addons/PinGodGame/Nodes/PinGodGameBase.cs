@@ -201,6 +201,8 @@ public abstract partial class PinGodGameBase : Node
     {
         base._Ready();
 
+		BallSearchOptions = GetNode<MachineConfig>("MachineConfig")?.BallSearchOptions;
+
         //name the lamp matrix
         if (_lampMatrixOverlay != null)
         {
@@ -934,62 +936,6 @@ public abstract partial class PinGodGameBase : Node
 	/// </summary>
 	/// <param name="sceneTree"></param>
 	public virtual void UpdateLamps(SceneTree sceneTree, string group = "Mode", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
-
-	/// <summary>
-	/// Adds custom machine items. Actions are created for switches if they don't exist
-	/// </summary>
-	/// <param name="coils"></param>
-	/// <param name="switches"></param>
-	/// <param name="lamps"></param>
-	/// <param name="leds"></param>
-	protected void AddCustomMachineItems(Godot.Collections.Dictionary<string, byte> coils, Godot.Collections.Dictionary<string, byte> switches, Godot.Collections.Dictionary<string, byte> lamps, Godot.Collections.Dictionary<string, byte> leds)
-	{
-		foreach (var coil in coils.Keys)
-		{
-			Machine.Coils.Add(coil, new PinStateObject(coils[coil]));
-		}
-		var itemAddResult = string.Join(", ", coils.Keys);
-		LogDebug($"pingod: added coils {itemAddResult}");
-		coils.Clear();
-
-		foreach (var sw in switches.Keys)
-		{
-			//create an action for the switch if it doesn't exist.
-			var swVal = switches[sw];
-            if (!Godot.InputMap.HasAction("sw" + swVal))
-            {
-				Godot.InputMap.AddAction("sw"+ swVal);
-            }
-
-			if (BallSearchOptions.StopSearchSwitches?.Any(x => x == sw) ?? false)
-			{
-				Machine.Switches.Add(sw, new Switch(swVal, BallSearchSignalOption.Off));
-			}
-			else
-			{
-				Machine.Switches.Add(sw, new Switch(swVal, BallSearchSignalOption.Reset));
-			}
-		}
-
-		itemAddResult = string.Join(", ", switches.Keys);
-		//LogDebug($"pingod: added switches {itemAddResult}");
-		switches.Clear();
-
-		foreach (var lamp in lamps.Keys)
-		{
-			Machine.Lamps.Add(lamp, new PinStateObject(lamps[lamp]));
-		}
-		//itemAddResult = string.Join(", ", lamps.Keys);
-		//LogDebug($"pingod: added lamps {itemAddResult}");
-		lamps.Clear();
-
-		foreach (var led in leds.Keys)
-		{
-			Machine.Leds.Add(led, new PinStateObject(leds[led]));
-		}
-		//LogDebug($"pingod: added leds {string.Join(", ", leds.Keys)}");
-		leds.Clear();
-	}
 
 	/// <summary>
 	/// Creates the recordings directory in the users folder
