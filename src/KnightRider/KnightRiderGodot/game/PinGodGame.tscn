@@ -3,6 +3,7 @@
 [ext_resource path="res://game/KrPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
@@ -151,3 +152,5 @@ margin_bottom = -37.182
 _lamp_size_pixels = Vector2( 75, 50 )
 
 [node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
+
+[node name="Trough" parent="." instance=ExtResource( 4 )]

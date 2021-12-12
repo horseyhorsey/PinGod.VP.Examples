@@ -96,7 +96,7 @@ public abstract partial class PinGodGameBase : Node
 		//AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);        
 
 		//get trough from tree
-		_trough = GetNode("/root/Trough") as Trough;
+		_trough = GetNode("Trough") as Trough;
 		if (_trough == null)
 			LogWarning("trough not found");
 

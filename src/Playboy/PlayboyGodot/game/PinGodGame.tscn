@@ -3,11 +3,14 @@
 [ext_resource path="res://game/PbPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
 _logging_level = 2
 _playbackfile = "user://recordings/132695309387590334.record"
+_write_machine_states = false
+_read_machine_states = false
 _coils = {
 "auto_plunger": 3,
 "died": 0,
@@ -131,3 +134,5 @@ margin_left = 243.0
 margin_right = -40.0
 margin_bottom = -419.0
 columns = 6
+
+[node name="Trough" parent="." instance=ExtResource( 4 )]

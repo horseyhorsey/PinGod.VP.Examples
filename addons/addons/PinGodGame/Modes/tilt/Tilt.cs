@@ -23,7 +23,7 @@ public class Tilt : Control
 		Visible = false;
 
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-		trough = GetNode("/root/Trough") as Trough;
+		trough = pinGod.GetNode("Trough") as Trough;
 		//text layer to display warnings and tilted
 		blinkingLayer = GetNode("CenterContainer/BlinkingLabel") as BlinkingLabel;
 		blinkingLayer.Text = "";

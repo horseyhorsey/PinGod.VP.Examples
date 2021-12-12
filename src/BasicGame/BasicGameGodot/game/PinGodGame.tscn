@@ -3,6 +3,7 @@
 [ext_resource path="res://game/CustomPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
@@ -61,6 +62,8 @@ layer = 128
 __meta__ = {
 "_editor_description_": "Overlays to aid with developing."
 }
+
+[node name="Trough" parent="." instance=ExtResource( 4 )]
 
 [node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
 margin_left = 0.0

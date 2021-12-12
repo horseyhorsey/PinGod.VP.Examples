@@ -21,7 +21,6 @@ config/windows_native_icon="res://addons/PinGodGame/assets/img/pingod.ico"
 [autoload]
 
 PinGodGame="*res://game/PinGodGame.tscn"
-Trough="*res://addons/PinGodGame/Nodes/Trough.tscn"
 
 [display]
 
