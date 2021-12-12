@@ -23,7 +23,7 @@ public class GameData
 	public int GamesStarted { get; set; }
 	public List<HighScore> HighScores { get; set; } = new List<HighScore>();
 	public int Tilted { get; set; }
-	public uint TimePlayed { get; set; }
+	public ulong TimePlayed { get; set; }
 
 	/// <summary>
 	/// De-serializes gamedata from json if Type is <see cref="GameData"/>

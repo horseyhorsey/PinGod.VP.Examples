@@ -74,9 +74,9 @@ public abstract partial class PinGodGameBase : Node
 	private File _recordFile;
 
 	private RecordPlaybackOption _recordPlayback;
-	private uint gameEndTime;
-	private uint gameLoadTimeMsec;
-	private uint gameStartTime;
+	private ulong gameEndTime;
+	private ulong gameLoadTimeMsec;
+	private ulong gameStartTime;
 	public PinGodGameBase()
 	{
 		Players = new List<PinGodPlayer>();        
@@ -211,37 +211,37 @@ public abstract partial class PinGodGameBase : Node
         }
     }
 
-	/// <summary>
-	/// Parses user command lines args in the --key=value format
-	/// </summary>
-	/// <returns></returns>
+    /// <summary>
+    /// Parses user command lines args in the --key=value format
+    /// </summary>
+    /// <returns></returns>
     private Dictionary<string, string> GetCommandLineArgs()
     {
-		var cmd = OS.GetCmdlineArgs();
-		LogInfo("cmd line available: ", cmd?.Length);
-		Dictionary<string, string> _args = new Dictionary<string, string>();
-		_args.Add("base_path", OS.GetExecutablePath());
+        var cmd = OS.GetCmdlineArgs();
+        LogInfo("cmd line available: ", cmd?.Length);
+        Dictionary<string, string> _args = new Dictionary<string, string>();
+        _args.Add("base_path", OS.GetExecutablePath());
         foreach (var arg in cmd)
         {
             if (arg.Contains("="))
             {
-				var keyValue = arg.Split("=");
-				if(keyValue.Length == 2)
+                var keyValue = arg.Split("=");
+                if (keyValue.Length == 2)
                 {
-					var key = keyValue[0].LStrip("--");
-					if (!_args.ContainsKey(key))
-					{
-						_args.Add(key, keyValue[1]);
-					}
-				}				
-			}
+                    var key = keyValue[0].LStrip("--");
+                    if (!_args.ContainsKey(key))
+                    {
+                        _args.Add(key, keyValue[1]);
+                    }
+                }
+            }
         }
 
-		return _args;
-	}
-	#endregion
+        return _args;
+    }
+    #endregion
 
-	public virtual uint GetElapsedGameTime => gameEndTime - gameStartTime;
+    public virtual ulong GetElapsedGameTime => gameEndTime - gameStartTime;
 
 	public virtual long GetTopScorePoints => GameData?.HighScores?
 			.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
@@ -689,11 +689,11 @@ public abstract partial class PinGodGameBase : Node
 		}
 		else if (_recordPlayback == RecordPlaybackOption.Record)
 		{
-			var userDir = CreateRecordingsDirectory();
-			_recordFile = new File();		
-			_recordFile.Open(playbackfile, File.ModeFlags.WriteRead);
-			LogDebug("pingodbase: game recording on");
-		}
+            var userDir = CreateRecordingsDirectory();
+            _recordFile = new File();
+            _recordFile.Open(playbackfile, File.ModeFlags.WriteRead);
+            LogDebug("pingodbase: game recording on");
+        }
 	}
 
     /// <summary>
@@ -944,49 +944,50 @@ public abstract partial class PinGodGameBase : Node
 	/// <param name="leds"></param>
 	protected void AddCustomMachineItems(Godot.Collections.Dictionary<string, byte> coils, Godot.Collections.Dictionary<string, byte> switches, Godot.Collections.Dictionary<string, byte> lamps, Godot.Collections.Dictionary<string, byte> leds)
 	{
-		foreach (var coil in coils)
+		foreach (var coil in coils.Keys)
 		{
-			Machine.Coils.Add(coil.Key, new PinStateObject(coil.Value));
+			Machine.Coils.Add(coil, new PinStateObject(coils[coil]));
 		}
 		var itemAddResult = string.Join(", ", coils.Keys);
 		LogDebug($"pingod: added coils {itemAddResult}");
 		coils.Clear();
 
-		foreach (var sw in switches)
+		foreach (var sw in switches.Keys)
 		{
 			//create an action for the switch if it doesn't exist.
-            if (!Godot.InputMap.HasAction("sw" + sw.Value))
+			var swVal = switches[sw];
+            if (!Godot.InputMap.HasAction("sw" + swVal))
             {
-				Godot.InputMap.AddAction("sw"+sw.Value);
+				Godot.InputMap.AddAction("sw"+ swVal);
             }
 
-			if (BallSearchOptions.StopSearchSwitches?.Any(x => x == sw.Key) ?? false)
+			if (BallSearchOptions.StopSearchSwitches?.Any(x => x == sw) ?? false)
 			{
-				Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Off));
+				Machine.Switches.Add(sw, new Switch(swVal, BallSearchSignalOption.Off));
 			}
 			else
 			{
-				Machine.Switches.Add(sw.Key, new Switch(sw.Value, BallSearchSignalOption.Reset));
+				Machine.Switches.Add(sw, new Switch(swVal, BallSearchSignalOption.Reset));
 			}
 		}
 
 		itemAddResult = string.Join(", ", switches.Keys);
-		LogDebug($"pingod: added switches {itemAddResult}");
+		//LogDebug($"pingod: added switches {itemAddResult}");
 		switches.Clear();
 
-		foreach (var lamp in lamps)
+		foreach (var lamp in lamps.Keys)
 		{
-			Machine.Lamps.Add(lamp.Key, new PinStateObject(lamp.Value));
+			Machine.Lamps.Add(lamp, new PinStateObject(lamps[lamp]));
 		}
-		itemAddResult = string.Join(", ", lamps.Keys);
-		LogDebug($"pingod: added lamps {itemAddResult}");
+		//itemAddResult = string.Join(", ", lamps.Keys);
+		//LogDebug($"pingod: added lamps {itemAddResult}");
 		lamps.Clear();
 
-		foreach (var led in leds)
+		foreach (var led in leds.Keys)
 		{
-			Machine.Leds.Add(led.Key, new PinStateObject(led.Value));
+			Machine.Leds.Add(led, new PinStateObject(leds[led]));
 		}
-		LogDebug($"pingod: added leds {string.Join(", ", leds.Keys)}");
+		//LogDebug($"pingod: added leds {string.Join(", ", leds.Keys)}");
 		leds.Clear();
 	}
 
