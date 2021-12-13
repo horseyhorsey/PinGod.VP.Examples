@@ -29,6 +29,8 @@ public class MidnightMode : Control
 		player = ((NightmarePinGodGame)pinGod).GetPlayer();
 		player.MidnightRunning = true;
 		player.MidnightTimesPlayed++;
+
+		game.bgmMusicPlayer.StreamPaused = true;
 		pinGod.PlayMusic("mus_midnight");
 	}
 
@@ -44,7 +46,7 @@ public class MidnightMode : Control
 	{
 		player.MidnightRunning = false;
 		player.RomanValue = 0;
-		pinGod.PlayMusic("mus_main");
+		game.bgmMusicPlayer.StreamPaused = false;
 	}
 
 	private void _on_Timer_timeout()
