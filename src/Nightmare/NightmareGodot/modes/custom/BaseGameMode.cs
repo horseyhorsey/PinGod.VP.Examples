@@ -27,7 +27,7 @@ public class BaseGameMode : Node
 	}
 	public override void _Input(InputEvent @event)
 	{
-		if (!pinGod.GameInPlay) return;
+		if (!pinGod.GameInPlay || !pinGod.IsBallStarted) return;
 		if (pinGod.IsTilted) return; //game is tilted, don't process other switches when tilted
 
 		if (pinGod.SwitchOn("start", @event))
@@ -114,6 +114,7 @@ public class BaseGameMode : Node
 						if (game != null)
 						{
 							game.PlayThenResumeMusic("mus_rightorbitcombo", 2.9f);
+							game.OnDisplayMessage("RUN FOR\nYOUR LIFE\n" + NightmareConstants.EXTRA_LARGE_SCORE.ToScoreString());
 						}
 					}
 				}
@@ -132,12 +133,13 @@ public class BaseGameMode : Node
 
 		if (pinGod.SwitchOn("orbit_l", @event))
 		{
-			pinGod.AddPoints(NightmareConstants.MED_SCORE * 10);
+			pinGod.AddPoints(NightmareConstants.MED_SCORE * 10); //100K
 			pinGod.PlaySfx("snd_lowsquirk");
 
-			if(orbRTime < 2000)
+			if(orbRTime < 2000 && orbRTime > 0)
 			{
 				player.RunForLifeOn = true;
+				game.OnDisplayMessage("RUN FOR\nYOUR LIFE");
 				UpdateLamps();
 			}
 		}
@@ -154,11 +156,13 @@ public class BaseGameMode : Node
 			UpdateRomanLamps();
 		}
 	}
+
 	/// <summary>
 	/// Awards the blinking coffin 
 	/// </summary>
 	private void AwardCoffin()
 	{
+		player.CoffinValue++;
 		if (player.CoffinValue <= 4)
 		{
 			var points = 0;
@@ -179,11 +183,10 @@ public class BaseGameMode : Node
 				player.CoffinStack[2] = true;
 			}
 
+			game.OnDisplayMessage("COFFIN AWARD\n" + points.ToScoreString());
 			pinGod.AddPoints(points);
 			pinGod.LogInfo("basemode: awarded coffin stack: ", player.CoffinValue, " ", points);
-		}
-
-		player.CoffinValue++;
+		}		
 	}
 
 	private void OnBallDrained()
@@ -200,12 +203,13 @@ public class BaseGameMode : Node
 		pinGod.LogInfo("base_mode: ball started");
 		//pinGod.AudioManager.PlayBgm();
 
-		player = ((NightmarePinGodGame)pinGod).GetPlayer();        
-		pinGod.PlayMusic("mus_ballready");
+		player = ((NightmarePinGodGame)pinGod).GetPlayer();        		
 		pinGod.AddBonus(500);
 
 		player.CrossStack = new byte[5] { 2, 0, 0, 0, 0 };
 		player.CoffinStack = new bool[5];
+
+		pinGod.PlayMusic("mus_ingame00");
 
 		UpdateLamps();
 	}
