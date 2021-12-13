@@ -1,16 +1,18 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://addons/PinGodGame/Audio/AudioManager.cs" type="Script" id=1]
 
 [node name="AudioManager" type="Node"]
 script = ExtResource( 1 )
 SfxAssets = {
-"credit" : "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
-"tilt" : "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
-"warning" : "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
+"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
+"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
 }
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 bus = "Music"
 
 [node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="finished" from="MusicPlayer" to="." method="MusicPlayer_finished"]

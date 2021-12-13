@@ -1,6 +1,10 @@
 using Godot;
 using System.Collections.Generic;
 
+/// <summary>
+/// Helper class for audio. <para/>
+/// note: if you want the finished signal on audio to work when the file is an ogg, the loop must be unchecked then reimported from the import tab
+/// </summary>
 public class AudioManager : Node
 {
 	/// <summary>
@@ -8,26 +12,22 @@ public class AudioManager : Node
 	/// </summary>
 	[Export] public string Bgm { get; set; }
 
-	[Export] public bool MusicEnabled { get; set; } = true;
+    public string CurrentMusic { get; private set; }
+    public Dictionary<string, AudioStream> Music { get; private set; }
+    [Export] public Dictionary<string, string> MusicAssets { get; private set; } = new Dictionary<string, string>();
+    [Export] public bool MusicEnabled { get; set; } = true;
 
-	[Export] public bool SfxEnabled { get; set; } = true;
+    public AudioStreamPlayer MusicPlayer { get; private set; }
+    public Dictionary<string, AudioStream> Sfx { get; private set; }
+    [Export]
+    public Dictionary<string, string> SfxAssets { get; private set; } = new Dictionary<string, string>() {
+        { "credit" , "res://addons/PinGodGame/assets/audio/sfx/credit.wav"},
+        { "tilt" , "res://addons/PinGodGame/assets/audio/sfx/tilt.wav"},
+        { "warning" , "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"}
+    };
 
-
-	[Export] public Dictionary<string, string> SfxAssets{ get; private set; } = new Dictionary<string, string>() {
-		{ "credit" , "res://addons/PinGodGame/assets/audio/sfx/credit.wav"},
-		{ "tilt" , "res://addons/PinGodGame/assets/audio/sfx/tilt.wav"},
-		{ "warning" , "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"}
-	};
-
-	[Export] public Dictionary<string, string> MusicAssets { get; private set; } = new Dictionary<string, string>();
-
-	public Dictionary<string, AudioStream> Music { get; private set; }
-	public Dictionary<string, AudioStream> Sfx { get; private set; }
-	public AudioStreamPlayer MusicPlayer { get; private set; }
-	public AudioStreamPlayer SfxPlayer { get; private set; }
-	
-	public string CurrentMusic { get; private set; }
-
+    [Export] public bool SfxEnabled { get; set; } = true;
+    public AudioStreamPlayer SfxPlayer { get; private set; }
 	public override void _EnterTree()
 	{
         if (!Engine.EditorHint)
@@ -88,6 +88,11 @@ public class AudioManager : Node
 		}
 	}
 
+	public void MusicPlayer_finished()
+	{
+		Logger.LogDebug($"{MusicPlayer.Stream?.ResourceName} - music player finished");
+	}
+
 	public void PauseMusic(bool paused) => MusicPlayer.StreamPaused = paused;
 
 	public void PlayMusic(string name, float pos = 0f)
@@ -134,8 +139,10 @@ public class AudioManager : Node
 		return lastPos;
 	}
 
-	internal void PlayBgm(float pos = 0)
-	{
+    internal AudioStream GetCurrentMusic() => MusicPlayer.Stream;
+
+    internal void PlayBgm(float pos = 0)
+    {
 		if (!string.IsNullOrWhiteSpace(Bgm))
 			PlayMusic(Bgm, pos);
 	}
