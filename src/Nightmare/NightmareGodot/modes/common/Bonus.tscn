@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas45.tres" type="DynamicFont" id=1]
-[ext_resource path="res://addons/PinGodGame/Modes/bonus/Bonus.cs" type="Script" id=2]
+[ext_resource path="res://modes/common/NmBonus.cs" type="Script" id=2]
 [ext_resource path="res://layers/BgChurch.tscn" type="PackedScene" id=3]
 
 [node name="Bonus" type="Control"]
@@ -23,10 +23,9 @@ margin_left = -120.0
 margin_top = -66.5
 margin_right = 120.0
 margin_bottom = 66.5
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.952941, 0.0392157, 0.0392157, 1 )
-text = "END OF BALL
-BONUS"
+custom_fonts/font = ExtResource( 1 )
+text = "SCORE BONUS"
 align = 1
 __meta__ = {
 "_edit_lock_": true,
