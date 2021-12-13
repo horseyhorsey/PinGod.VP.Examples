@@ -19,8 +19,8 @@ public class LockTopSaucer : Control
 	}
 	private void _on_BallStackPinball_SwitchActive()
 	{
-		pinGod.AddPoints(NightmareConstants.MED_SCORE);
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
+		//pinGod.AddPoints(NightmareConstants.MED_SCORE);
+		//pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 
 		var music = "";
 		var p = _player;
@@ -93,10 +93,11 @@ public class LockTopSaucer : Control
 			{
 				_player.RomanValue+=2;
 				pinGod.AddBonus(NightmareConstants.SMALL_SCORE / 2 * 2);
+				game.OnDisplayMessage("MIDNIGHT GETS\nCLOSER");
 			}
 			crossStack[0] = 1;
 			msg += "advanced roman";
-			//todo: seq: extra_hour
+			//todo: seq: extra_hour			
 		}
 		else if (crossStack[1] == 2)
 		{
@@ -124,7 +125,7 @@ public class LockTopSaucer : Control
 			crossStack[4] = 1;
 			msg += "1 million";
 		}
-
+		
 		pinGod.LogInfo(msg);
 	}
 	private void OnBallStarted()
