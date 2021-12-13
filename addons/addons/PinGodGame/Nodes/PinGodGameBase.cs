@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static Godot.GD;
 
-public abstract partial class PinGodGameBase : Node
+public abstract class PinGodGameBase : Node
 {
 	#region Signals
 	[Signal] public delegate void BallDrained();
@@ -37,6 +36,9 @@ public abstract partial class PinGodGameBase : Node
 	public byte MaxPlayers = 4;
 	const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
     public AudioManager AudioManager { get; protected set; }
+
+    private MainScene mainScene;
+
     public byte BallInPlay { get; set; }
     /// <summary>
     /// Is ball save active
@@ -108,6 +110,8 @@ public abstract partial class PinGodGameBase : Node
 		gameLoadTimeMsec = OS.GetTicksMsec();
 
 		AudioManager = GetNode<AudioManager>("AudioManager");
+
+		mainScene = GetNode<MainScene>("/root/MainScene");
 	}
 
     public override void _ExitTree()
@@ -126,12 +130,16 @@ public abstract partial class PinGodGameBase : Node
         if (@event.IsActionPressed("quit"))
         {
             LogInfo("quit request");
-            SetGameResumed();
-            var ms = GetNode("/root/MainScene")?.GetTree();
-            if (ms != null)
+            SetGameResumed();            
+            if (mainScene != null)
             {
-                ms.Paused = false;
-                ms.Quit(0);
+                try
+                {
+                    var tree = mainScene?.GetTree();
+                    tree.Paused = false;
+                    tree.Quit(0);
+                }
+                catch (Exception ex) { LogWarning("main scene disposed. " + ex.Message); }
             }
             else
             {
