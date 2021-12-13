@@ -56,7 +56,7 @@ public class BallStackPinball : Timer
         {
             EmitSignal(nameof(SwitchActive));
         }
-        if (pingod.SwitchOff(_switch, @event))
+        else if (pingod.SwitchOff(_switch, @event))
         {
             EmitSignal(nameof(SwitchInActive));
         }

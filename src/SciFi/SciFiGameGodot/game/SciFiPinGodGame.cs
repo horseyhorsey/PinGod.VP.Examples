@@ -9,40 +9,6 @@
         Players.Add(new SciFiPlayer() { Name = name, Points = 0 });
     }
 
-    public override void AddAudioStreams()
-    {
-        base.AddAudioStreams();
-
-		AudioManager.AddSfx("res://assets/audio/sfx/alien spinner.wav", "spinner");
-		AudioManager.AddSfx("res://assets/audio/sfx/ball drain.wav", "drain");
-		AudioManager.AddSfx("res://assets/audio/sfx/ball eject.wav", "eject");
-		AudioManager.AddSfx("res://assets/audio/sfx/bonus advance.wav", "bonus_advance");
-		AudioManager.AddSfx("res://assets/audio/sfx/bonus counter.wav", "bonus_counter");
-		AudioManager.AddSfx("res://assets/audio/sfx/bonus.wav", "bonus");
-		AudioManager.AddSfx("res://assets/audio/sfx/bumper shootout 1.wav", "bumper_1");
-		AudioManager.AddSfx("res://assets/audio/sfx/bumper shootout 2.wav", "bumper_2");
-		AudioManager.AddSfx("res://assets/audio/sfx/bumper shootout 3.wav", "bumper_3");
-		AudioManager.AddSfx("res://assets/audio/sfx/dock lit.wav", "dock_lit");
-		AudioManager.AddSfx("res://assets/audio/sfx/game over.wav", "game_over");
-		AudioManager.AddSfx("res://assets/audio/sfx/lanerollover.wav", "lanerollover");
-		AudioManager.AddSfx("res://assets/audio/sfx/multiplier award.wav", "multiplier_award");
-		AudioManager.AddSfx("res://assets/audio/sfx/powerup.wav", "powerup");
-		AudioManager.AddSfx("res://assets/audio/sfx/rocket slings.wav", "rocket_slings");
-		AudioManager.AddSfx("res://assets/audio/sfx/rubber hit.wav", "rubber_hit");
-		AudioManager.AddSfx("res://assets/audio/sfx/scifi hit.wav", "scifi_hit");
-		AudioManager.AddSfx("res://assets/audio/sfx/star trigger rollover.wav", "star_trigger_rollover");
-		AudioManager.AddSfx("res://assets/audio/sfx/target.wav", "target");
-		AudioManager.AddSfx("res://assets/audio/sfx/tilt warning.wav", "tilt_warning");
-
-		//add music for the game. Ogg to autoloop
-		AudioManager.AddMusic("res://assets/audio/music/normal.ogg", "normal");
-		AudioManager.AddMusic("res://assets/audio/music/spawn.ogg", "spawn");
-		AudioManager.AddMusic("res://assets/audio/music/invasion.ogg", "invasion");
-		AudioManager.AddMusic("res://assets/audio/music/armada.ogg", "armada");
-		AudioManager.AddMusic("res://assets/audio/music/alienbane.ogg", "alienbane");
-		AudioManager.AddMusic("res://assets/audio/music/multiball.ogg", "multiball");
-	}
-
 	/// <summary>
 	/// When the player gets a power up in Alien Bane
 	/// </summary>

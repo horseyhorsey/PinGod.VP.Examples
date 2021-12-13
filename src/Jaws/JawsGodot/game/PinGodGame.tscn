@@ -3,10 +3,16 @@
 [ext_resource path="res://game/JawsPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Game/MachineConfig.cs" type="Script" id=5]
+[ext_resource path="res://addons/PinGodGame/Audio/AudioManager.tscn" type="PackedScene" id=6]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
 _logging_level = 2
+
+[node name="MachineConfig" type="Node" parent="."]
+script = ExtResource( 5 )
 _coils = {
 "auto_plunger": 3,
 "barrel_kicker": 17,
@@ -144,13 +150,37 @@ _lamps = {
 }
 _leds = {
 }
-_early_save_switches = PoolStringArray( "outlane_r" )
-_ball_save_lamp = "shoot_again"
-_ball_save_led = ""
+
 _ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "bruce_vuk", "barrel_kicker", "jaws_kicker" )
 _ball_search_stop_switches = PoolStringArray( "bruce_vuk", "barrel_kicker", "jaws_kicker" )
-_ball_search_wait_time_secs = 12
+
+[node name="Trough" parent="." instance=ExtResource( 4 )]
+
+[node name="AudioManager" parent="." instance=ExtResource( 6 )]
+SfxAssets = {
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
+"barrel_target": "res://assets/audio/sfx/barrel_target.wav",
+"shark_hit_fx": "res://assets/audio/sfx/shark_hit_fx.wav",
+"short_fx_03": "res://assets/audio/sfx/short_fx_03.wav",
+"bell": "res://assets/audio/sfx/bell.wav",
+"brody_super_cheer": "res://assets/audio/voice/brody_super_cheer.wav",
+"shoot": "res://assets/audio/voice/shoot.wav",
+"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
+"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+}
+MusicAssets = {
+"bgmmusic": "res://assets/audio/music/orca_leaves_port.ogg",
+"barrel_start": "res://assets/audio/music/barrel_start.ogg",
+"barrels_loop": "res://assets/audio/music/barrels_loop.ogg",
+"dundun_1": "res://assets/audio/music/dundun_1.ogg",
+"dundun_2": "res://assets/audio/music/dundun_2.ogg",
+"orca_mball": "res://assets/audio/music/orca_mball.ogg",
+"complete": "res://assets/audio/music/complete.ogg",
+"suspense_loop": "res://assets/audio/music/suspense_loop.ogg",
+"music_suspense_end": "res://assets/audio/music/music_suspense_end.ogg",
+"end_music_final": "res://assets/audio/music/end_music_final.ogg",
+}
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
 layer = 128

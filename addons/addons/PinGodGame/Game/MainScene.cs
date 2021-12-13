@@ -160,7 +160,7 @@ public class MainScene : Node2D
 			m.Unlock();
 
 			//remove the attract mode
-			attractnode.QueueFree();
+			attractnode.CallDeferred("queue_free");
 		});
 	}
 

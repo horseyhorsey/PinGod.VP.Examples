@@ -10,6 +10,17 @@ using static Godot.GD;
 /// </summary>
 public class Trough : Node
 {
+	[Export] public string[] _trough_switches = { "trough_1", "trough_2", "trough_3", "trough_4" };
+	[Export] public string[] _early_save_switches = { "outlane_l", "outlane_r" };
+	[Export] public string _trough_solenoid = "trough";
+	[Export] public string _auto_plunge_solenoid = "auto_plunger";
+	[Export] public string _plunger_lane_switch = "plunger_lane";
+	[Export] public string _ball_save_lamp = "";
+	[Export] public string _ball_save_led = "shoot_again";
+	[Export] public byte _ball_save_seconds = 8;
+	[Export] public byte _ball_save_multiball_seconds = 8;
+	[Export] public byte _number_of_balls_to_save = 1;
+
 	/// <summary>
 	/// Use this to turn off trough checking, outside VP
 	/// </summary>
@@ -30,6 +41,10 @@ public class Trough : Node
 		ballSaverTimer = GetNode("BallSaverTimer") as Timer;
 		troughPulseTimer = GetNode("TroughPulseTimer") as Timer;
 		pinGod.LogInfo("trough:_enter tree");
+
+		//trough options
+		TroughOptions = new TroughOptions(_trough_switches, _trough_solenoid, _plunger_lane_switch,
+			_auto_plunge_solenoid, _early_save_switches, _ball_save_seconds, _ball_save_multiball_seconds, _ball_save_lamp, _ball_save_led, _number_of_balls_to_save);
 	}
 	/// <summary>
 	/// Listen for actions. Mainly from trough switches and plunger lanes.

@@ -34,7 +34,7 @@ public class Bonus : Control
 	/// </summary>
 	public virtual void OnTimedOut()
     {
-        pinGod.LogDebug("bonus: BonusEnded");
+        pinGod.LogInfo("bonus: BonusEnded");
         timer.Stop();
         this.Visible = false;
         pinGod.EmitSignal("BonusEnded");
