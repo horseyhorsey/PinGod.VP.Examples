@@ -51,7 +51,6 @@ public class MysteryScoop : Control
 			if (!player.LeftLock)
 			{
 				player.LeftLock = true;
-				//todo: shoot the ball
 				destroyBall = true;
 				if (player.LeftLock && player.RightLock)
 				{
@@ -68,14 +67,14 @@ public class MysteryScoop : Control
 		}
 		else if (player.MysterySpinLit)
 		{
-			//todo: add mode?
 			player.MysterySpinLit = false;
 			player.SpinTimesPlayed++;
 
-			game.OnDisplayMessage("Mystery spin");
-			pinGod.PlayMusic("mus_spinbonus");
-			timer.Start();
-		}
+			game.OnDisplayMessage("Mystery spin", 6.5f);
+			game.PlayThenResumeMusic("mus_spinbonus", 8f);
+
+            timer.Start(6.5f);
+        }
 		else
 		{			
 			player.JackpotValue += NightmareConstants.LARGE_SCORE;
@@ -96,6 +95,7 @@ public class MysteryScoop : Control
 	/// </summary>
 	private void _on_BallStackPinball_timeout()
 	{
+		pinGod.LogDebug("mystery scoop timed out");
 		if(!destroyBall) pinGod.SolenoidPulse("saucer_left");
 		else pinGod.SolenoidPulse("saucer_top_left_tunnel");
 	}
@@ -106,55 +106,71 @@ public class MysteryScoop : Control
 	/// <returns></returns>
 	float AwardMystery(int index)
 	{
-		player.LanesLit = true;
+		player.LanesLit = true;		
+		var delay = 0f;
 		switch (index)
 		{
 			case 0: //100k		
 				pinGod.AddPoints(NightmareConstants.LARGE_SCORE * 4);
-				pinGod.PlayMusic("mus_100k");
 				awardText = $"100K";
-				return 1.0f;
+				delay = 1.0f;
+				game.PlayThenResumeMusic("mus_100k", delay);
+				break;
 			case 1:
 			case 5:
 				player.BonusHeld = true;
 				awardText = $"BONUS HELD";
-				return 1.5f;
+				delay = 1.5f;
+				break;
 			case 2:
 				pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
-				pinGod.PlayMusic("mus_spinmillion");
 				awardText = $"1\nMILLION";
-				return 2.5f;
+				delay = 2.5f;
+				game.PlayThenResumeMusic("mus_spinmillion", delay);
+				break;
 			case 3:
 				pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE*3);
-				pinGod.PlayMusic("mus_spinmillion");
 				awardText = $"3\nMILLION";
-				return 2.5f;
+				delay = 2.5f;
+				game.PlayThenResumeMusic("mus_spinmillion", delay);
+				break;
 			case 4:
 				pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE * 10);
-				pinGod.PlayMusic("mus_spinmillion");
 				awardText = $"10\nMILLION";
-				return 2.5f;
+				delay = 2.5f;
+				game.PlayThenResumeMusic("mus_spinmillion", delay);
+				break;
 			case 6:
 				player.LanePanicLit = true;
 				player.LaneExtraBallLit = true;
-				return 2.5f;
+				delay = 2.5f;
+				break;
 			case 7:
 				player.ExtraBalls++;
-				pinGod.PlayMusic("mus_extraball");
-				return 4.5f;
+				delay = 4.5f;
+				game.PlayThenResumeMusic("mus_extraball", delay);
+				break;
 			case 8:
 				var doubleScore = player.Points * 2;
 				pinGod.AddPoints((int)doubleScore);
 				awardText = $"CATCH UP!\n{doubleScore}";
-				return 2.5f;
-			case 9: //jackpot
-				pinGod.PlayMusic("mus_jackpot");
+				delay = 2.5f;
+				break;
+			case 9: //jackpot				
 				pinGod.AddPoints(player.JackpotValue);
 				awardText = $"JACKPOT!\n{player.JackpotValue}";
-				return 2.0f;
+				delay = 2.0f;
+				game.PlayThenResumeMusic("mus_jackpot", delay);
+				break;
 			default:
-				return 1.0f;
-		}		
+				delay = 1.0f;
+				awardText = "DEFAULT";
+				break;
+		}
+
+		pinGod.LogInfo("awarding mysetery spin: " + awardText, " delay", delay);
+		game.OnDisplayMessage($"MYSTERY\n{awardText}", delay);
+		return delay;
 	}
 	/// <summary>
 	/// Gets a random index from the choices
@@ -196,18 +212,11 @@ public class MysteryScoop : Control
 
 	private void Timer_timeout()
     {
-		totalSecondsInMystery -= 1.5f;
+		_selectedAward = GetRandomAward();
+		awardText = _mysteryChoices[_selectedAward];
+		var delay = AwardMystery(_selectedAward);
 
-		if(totalSecondsInMystery <= 0)
-        {
-			var delay = AwardMystery(_selectedAward);
-			game.OnDisplayMessage(awardText);			
-			ballStack.Start(delay);
-		}
-        else
-        {
-			_selectedAward = GetRandomAward();
-			awardText = _mysteryChoices[_selectedAward];
-		}
-    }
+		pinGod.LogDebug("delay for mystery " + timer);
+		ballStack.Start(delay);
+	}
 }
