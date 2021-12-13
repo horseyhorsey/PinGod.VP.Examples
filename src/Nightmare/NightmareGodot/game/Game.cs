@@ -20,9 +20,10 @@ public class Game : PinGodGameNode
 
     private Timer displayTimer;
     private Label nightmareMsg;
-	#endregion
+    public AudioStreamPlayer bgmMusicPlayer;
+    #endregion
 
-	public override void _EnterTree()
+    public override void _EnterTree()
 	{
 		base._EnterTree();
 		pinGod.LogInfo("game: enter tree");
@@ -52,23 +53,34 @@ public class Game : PinGodGameNode
 		displayMsgContainer = GetNode("Modes/Node2D") as Node2D;
 		nightmareMsg = GetNode<Label>("Modes/Node2D/NightmareMessage");
 		displayMsgContainer.Visible = false;
+
+		bgmMusicPlayer = GetNode<AudioStreamPlayer>("BgmMusicPlayer");
+		bgmMusicPlayer.StreamPaused = true;
 	}
 	public override void _Ready()
-	{
-		pinGod.DisableAllLamps();
-		pinGod.LogInfo("game: _ready");		
-		pinGod.BallInPlay = 1;
-		pinGod.StartNewBall();		
-		pinGod.OnBallStarted(GetTree());
-	}
-	/// <summary>
-	/// Add a display at end of ball
-	/// </summary>
-	public void OnBallEnded(bool lastBall)
+    {
+        pinGod.DisableAllLamps();
+        pinGod.LogInfo("game: _ready");
+        pinGod.BallInPlay = 1;
+
+        StartOfBallMusic();
+
+    }
+
+    private void StartOfBallMusic()
+    {
+        pinGod.PlayMusic("mus_ballready");
+        GetNode<Timer>("StartBallTimer").Start();
+    }
+
+    /// <summary>
+    /// Add a display at end of ball
+    /// </summary>
+    public void OnBallEnded(bool lastBall)
 	{
 		pinGod.LogInfo("game: ball ended", pinGod.BallInPlay, "last ball:" + lastBall);
 		_lastBall = lastBall;
-
+		pinGod.PlaySfx("snd_drain");
 		EndMultiball();
 
 		if (!pinGod.IsTilted)
@@ -110,9 +122,7 @@ public class Game : PinGodGameNode
 		}
 		else
 		{
-			pinGod.StartNewBall();
-			pinGod.OnBallStarted(GetTree());
-			pinGod.UpdateLamps(GetTree());
+			StartOfBallMusic();
 		}
 	}
 
@@ -123,12 +133,19 @@ public class Game : PinGodGameNode
 		displayMsgContainer.Visible = true;
 		nightmareMsg.Text = message;		
 
-		pinGod.LogInfo("display message");
+		pinGod.LogInfo("display message: " + message);
     }
 
 	void OnDisplayTimeout()
     {
 		displayMsgContainer.Visible = false;
+	}
+
+	public void _on_StartBallTimer_timeout()
+    {		
+		pinGod.StartNewBall();
+		pinGod.OnBallStarted(GetTree());
+		pinGod.UpdateLamps(GetTree());
 	}
 
 	/// <summary>
@@ -138,17 +155,12 @@ public class Game : PinGodGameNode
 	/// <param name="resumeDelay"></param>	
 	internal void PlayThenResumeMusic(string music, float resumeDelay)
 	{
-		resumeBgmTimer.Stop();
+		bgmMusicPlayer.StreamPaused = true;
 
-		//only save the pause time if main music playing
-		if (pinGod.AudioManager.CurrentMusic == "mus_main")
-        {
-			MusicPauseTime = pinGod.StopMusic();
-			pinGod.LogDebug("main music paused at ", MusicPauseTime);
-		}			
-		else pinGod.StopMusic();
+		if (!resumeBgmTimer.IsStopped())
+			resumeBgmTimer.Stop();		
 
-		pinGod.PlayMusic(music);
+		pinGod.PlayMusic(music);		
 		resumeBgmTimer.Start(resumeDelay);
 	}
 	internal void StartMidnight()
@@ -157,10 +169,10 @@ public class Game : PinGodGameNode
 	}
 	private void _on_ResumeMusicTimer_timeout()
 	{
-		var p = pinGod.Player as NightmarePlayer;
-        if (p.IsRemixMode) pinGod.PlayMusic("mus_remix", MusicPauseTime);
-        else pinGod.PlayMusic("mus_main", MusicPauseTime);
-    }
+		resumeBgmTimer.Stop();
+		pinGod.StopMusic();
+		bgmMusicPlayer.StreamPaused = false;
+	}
 	void AddMultiballSceneToTree()
 	{
 		//create an mball instance from the packed scene

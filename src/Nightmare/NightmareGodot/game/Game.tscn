@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://game/Game.cs" type="Script" id=1]
 [ext_resource path="res://modes/common/score_mode/ScoreMode.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://modes/custom/LockTopSaucer.tscn" type="PackedScene" id=13]
 [ext_resource path="res://layers/BgChurch.tscn" type="PackedScene" id=14]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas45.tres" type="DynamicFont" id=15]
+[ext_resource path="res://assets/audio/music/mus_main.ogg" type="AudioStream" id=16]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -88,5 +89,14 @@ one_shot = true
 wait_time = 1.5
 one_shot = true
 
+[node name="BgmMusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 16 )
+autoplay = true
+
+[node name="StartBallTimer" type="Timer" parent="."]
+wait_time = 2.6
+one_shot = true
+
 [connection signal="timeout" from="ResumeMusicTimer" to="." method="_on_ResumeMusicTimer_timeout"]
 [connection signal="timeout" from="DisplayMessageTimer" to="." method="_on_ResumeMusicTimer_timeout"]
+[connection signal="timeout" from="StartBallTimer" to="." method="_on_StartBallTimer_timeout"]
