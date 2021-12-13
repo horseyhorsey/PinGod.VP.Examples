@@ -59,6 +59,10 @@ public class DieLaneMode : PinballSwitchLanesNode
 		var complete = base.LaneSwitchActivated(i);
 		if (complete)
 		{
+			pinGod.PlaySfx("snd_inlane"); //todo: remix and completed sound?			
+		}
+        else
+        {
 			pinGod.PlaySfx("snd_inlane"); //todo: remix			
 		}
 
