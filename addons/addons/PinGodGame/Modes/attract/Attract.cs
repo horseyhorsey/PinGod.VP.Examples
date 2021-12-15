@@ -85,7 +85,7 @@ public class Attract : Node
 	/// Changes the attract layer. Cycles the AttractLayers in the scene
 	/// </summary>
 	/// <param name="forward"></param>
-	private void ChangeLayer(bool forward = false)
+	public virtual void ChangeLayer(bool forward = false)
 	{
 		if (Scenes?.Count < 1) return;
 
