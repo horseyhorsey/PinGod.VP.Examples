@@ -9,8 +9,8 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_logging_level = 2
-_playbackfile = "res://recordings/midnight_start_hurry_up.record"
+_logging_level = 3
+_playbackfile = "res://recordings/advance_cross.record"
 
 [node name="MachineConfig" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -24,13 +24,13 @@ _coils = {
 "flasher_top_left": 14,
 "flasher_top_right": 13,
 "flippers": 2,
-"lampshow_mystery": 16,
 "saucer_left": 4,
 "saucer_top": 5,
 "saucer_top_left_tunnel": 7,
 "saucer_top_right": 6,
 "saucer_top_right_tunnel": 8,
-"trough": 1
+"trough": 1,
+"vpcoil": 16
 }
 _switches = {
 "Die": 28,
@@ -170,6 +170,7 @@ MusicAssets = {
 "mus_hurryupcollected": "res://assets/audio/music/mus_hurryupcollected.ogg",
 "mus_ingame00": "res://assets/audio/music/mus_ingame00.ogg",
 "mus_jackpot": "res://assets/audio/music/mus_jackpot.ogg",
+"mus_jackpot1": "res://assets/audio/music/mus_jackpot.ogg",
 "mus_leftramp": "res://assets/audio/music/mus_leftramp.ogg",
 "mus_main": "res://assets/audio/music/mus_main.ogg",
 "mus_midnight": "res://assets/audio/music/mus_midnight.ogg",

@@ -86,6 +86,7 @@ public class GraveyardMode : PinballTargetsControl
         {
 			game.OnDisplayMessage($"GRAVEYARD ADVANCED\nLEVEL {player.GraveYardValue}");
 			pinGod.LogDebug("grave: value", player.GraveYardValue);
+			pinGod.SolenoidOn("vpcoil", 7); //lampshow vp
 		}		
 	}
 }

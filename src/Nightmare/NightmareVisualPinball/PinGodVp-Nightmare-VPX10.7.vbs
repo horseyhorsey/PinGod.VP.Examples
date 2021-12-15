@@ -192,9 +192,101 @@ SolCallback(12) = "SolLeftMidFlash"
 SolCallback(13) = "SolTopRightFlash"
 SolCallback(14) = "SolTopLeftFlash"
 SolCallback(15) = "SolRightFlashMid"
-SolCallback(16) = "LampsMysterySpin"
+
+' set up a coil number. This sends a byte rather than a bool so we can act on 0-255 values from game rather than just 0-1
+SpecialSol = 16
+SolCallback(SpecialSol) = "SpecialSolCallback"
 'SolCallback(15) = "SolslingL"
 'SolCallback(16) = "SolslingR"
+
+'**********************************************************************
+' SPECIAL SOL CALLBACK
+'**********************************************************************
+
+Sub SpecialSolCallback(num)
+
+	Select Case num
+		Case 0 : DisableAllLampSequencers
+		Case 1 : BlinkFastShow
+		Case 2 : MysterySpinShow
+		Case 3 : RampMillionShow
+		Case 4 : RunForLifeShow
+		Case 5 : LampshowToName1
+		Case 6 : LampshowToName2
+		Case 7 : LampshowToName3
+		Case 8 : FlashfastShow
+	End Select
+
+End Sub
+
+'**********************************************************************
+'                LAMPSHOWS
+'**********************************************************************
+
+Sub DisableAllLampSequencers
+	LightSeq001.StopPlay : LightSeqGI.StopPlay : LightSeqFlash.StopPlay
+End Sub
+
+Sub MysterySpinShow
+	LightSeq001.StopPlay
+	LightSeq001.UpdateInterval = 3
+	LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
+	LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
+	LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
+	LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
+	LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
+	LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
+	LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
+	LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
+End Sub
+
+Sub BlinkFastShow
+	LightSeq001.StopPlay
+	LightSeq001.UpdateInterval = 50
+	LightSeq001.Play SeqBlinking,0,10,50' total ms: 1200
+End Sub
+
+Sub RampMillionShow
+	LightSeq001.StopPlay
+	LightSeq001.UpdateInterval = 50
+	LightSeq001.Play SeqBlinking,0,10,50' total ms: 1200
+End Sub
+
+Sub RunForLifeShow
+	LightSeq001.StopPlay : LightSeqGI.StopPlay
+	LightSeq001.UpdateInterval = 50 : LightSeqGI.UpdateInterval = 50
+	LightSeq001.Play SeqBlinking,0,10,50
+    LightSeqGI.Play SeqMiddleOutHorizOn,50,1,0' total ms: 3000
+    LightSeqFlash.Play SeqMiddleOutHorizOn,25,3,10' total ms: 3000
+End Sub
+
+Sub LampshowToName1
+	LightSeq001.UpdateInterval = 10
+	LightSeqGI.Play SeqBlinking,0,2,250' total ms: 635,0,1,0' total ms: 27
+	LightSeq001.Play SeqMiddleInVertOn,0,2,0' total ms: 1500
+	LightSeq001.Play SeqMiddleOutVertOff,0,2,0' total ms: 1500
+End Sub
+
+Sub LampshowToName2
+	LightSeq001.UpdateInterval = 10
+	LightSeq001.Play SeqStripe2VertOn,0,1,50' total ms: 1050
+	LightSeqGI.Play SeqStripe2VertOff,0,1,50' total ms: 1050
+End Sub
+
+Sub LampshowToName3
+	LightSeqFlash.UpdateInterval = 2
+	LightSeqFlash.Play SeqClockRightOff,1,1,1' total ms: 723
+	LightSeq001.UpdateInterval = 2
+	LightSeq001.Play SeqRadarLeftOff,1,1,1' total ms: 363
+End sub
+
+Sub FlashFastShow
+	LightSeq001.UpdateInterval = 2
+	LightSeq001.Play SeqBlinking,5,5,1' total ms: 137
+	LightSeqFlash.UpdateInterval = 1
+	LightSeqFlash.Play SeqBlinking,2,5,1' total ms: 137
+End Sub
+
 
 Sub Died(Enabled)
 	'on error resume next	
@@ -285,17 +377,6 @@ Sub Solsaucer_topright_tunnel(Enabled)
 	End If
 End Sub
 
-'#############
-' SWITCHES FROM MANAGER
-'##############
-' shooterGate hit 
-'Sub sw14_Hit():vpmTimer.PulseSw 14:End Sub 'TODO: DG
-
-'Sounds
-Dim snds_LSling,snds_RSling,snds_flips, flipperVol, snds_bumpers
-Dim snds_AutoPlunge,snds_Drain,snds_BallRelease, snds_Scoop, snds_VUK
-Dim snds_Saucer, snds_Kicker, snds_DropTargets,snds_DropTargetReset, snds_Targets
-
 'Table Pyhsics Enabled - Table physics are directly loaded into the tables variable
 Dim tbl_enabled
 
@@ -307,12 +388,6 @@ Dim flp_enabled, flp_strength, flp_friction, flp_mass, flp_elastic, flp_elasticF
 ' ADD ALL LAMPS TO A COLLECTION CALLED AllLamps
 ' In the Lamps TimerInterval box enter the lamp number from the machine.yaml
 '******************************
-
-Dim slider, xx
-slider = (18 - Table1.nightday)/2
-for each xx in GILow: xx.intensity = xx.intensity + slider: next
-'for each xx in GIMid: xx.intensity = xx.intensity + slider: next
-'for each xx in GITop: xx.intensity = xx.intensity + slider: next
 
 Dim GIon
 vpmMapLights AllLamps
@@ -460,27 +535,6 @@ Sub LeftSlingShot_Timer
     LStep = LStep + 1
 End Sub
 
-'**********************************************************************
-'              LAMPSHOWS
-'**********************************************************************
-
-Sub LampsMysterySpin(Enabled)
-
-	If Enabled Then
-		LightSeq001.UpdateInterval = 3
-		LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
-		LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
-		LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
-		LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
-		LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
-		LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
-		LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
-		LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
-	Else
-		LightSeq001.StopPlay
-	End If
-
-End Sub
 
 '*********************************************************************
 '                 Positional Sound Playback Functions

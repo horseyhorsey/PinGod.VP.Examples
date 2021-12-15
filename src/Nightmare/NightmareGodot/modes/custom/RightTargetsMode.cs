@@ -32,29 +32,31 @@ public class RightTargetsMode : PinballTargetsControl
 		if (player != null)
 		{
 			player.CrossValue++;
-			pinGod.LogDebug("advancing cross value to ", player.CrossValue);
+			pinGod.LogInfo("advancing cross value to ", player.CrossValue);
 			if (player.CrossValue < 6)
 			{
 				var currentCross = player.CrossStack[player.CrossValue - 1];
 				if (currentCross == 0)
 				{
 					player.CrossStack[player.CrossValue - 1] = 2;
-					pinGod.AddBonus(NightmareConstants.SMALL_SCORE / 2);
+					pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 				}
 
 				//get game stop music and resume
 				if (game != null)
 				{
 					game.PlayThenResumeMusic("mus_advancecrossstack", 2.0f);
+
+					pinGod.SolenoidOn("vpcoil", 5); // lampshow vp
 					//run UpdateLamps in groups marked as Mode
 					pinGod.UpdateLamps(game?.GetTree());
 				}
-				else GD.PushWarning("no game object found to use timer and resume music");
+				else pinGod.LogWarning("no game object found to use timer and resume music");
 
 				pinGod.LogInfo("Targets: advance cross value", player.CrossValue);				
 			}
 		}
-		else Logger.LogWarning("No player found");
+		else pinGod.LogWarning("No player found");
 
 		game.OnDisplayMessage($"CROSS ADVANCED\n{player?.CrossValue ?? 1}", 2f);
 	}

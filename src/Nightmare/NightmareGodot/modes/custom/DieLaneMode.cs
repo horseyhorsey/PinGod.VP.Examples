@@ -141,6 +141,7 @@ public class DieLaneMode : PinballSwitchLanesNode
 					}
 
 					game.OnDisplayMessage(msg, 2.6f);
+					pinGod.SolenoidOn("vpcoil", 6); //lampshow vp
 					if (game != null) game.PlayThenResumeMusic("mus_bonusmultiply", 2.6f);
 
 					UpdateLamps();

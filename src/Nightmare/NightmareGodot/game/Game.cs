@@ -133,7 +133,7 @@ public class Game : PinGodGameNode
         displayMsgContainer.Visible = true;
         nightmareMsg.Text = message;
 
-        pinGod.LogInfo("display message: " + message);
+        pinGod.LogDebug("display message: " + message);
     }
 
     /// <summary>
@@ -160,10 +160,8 @@ public class Game : PinGodGameNode
     {
         if (((NightmarePlayer)pinGod.Player).MidnightRunning) { resumeBgmTimer.Stop(); return; }
 
-        PauseBgm();
-
-        if (!resumeBgmTimer.IsStopped())
-            resumeBgmTimer.Stop();
+        resumeBgmTimer.Stop();
+        PauseBgm();        
 
         pinGod.PlayMusic(music);
         resumeBgmTimer.Start(resumeDelay);
@@ -176,7 +174,6 @@ public class Game : PinGodGameNode
 
     private void _on_ResumeMusicTimer_timeout()
     {
-        resumeBgmTimer.Stop();
         if (!_player.MidnightRunning)
         {
             pinGod.StopMusic();
@@ -273,6 +270,7 @@ public class Game : PinGodGameNode
     void OnDisplayTimeout()
     {
         displayMsgContainer.Visible = false;
+        pinGod.SolenoidOn("vpcoil", 255); //send value to reset other "on" coils
     }
 
     /// <summary>

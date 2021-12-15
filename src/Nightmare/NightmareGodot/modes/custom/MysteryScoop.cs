@@ -71,12 +71,14 @@ public class MysteryScoop : Control
 
 				game.OnDisplayMessage("Mystery spin", 6.5f);
 				game.PlayThenResumeMusic("mus_spinbonus", 8f);
-				pinGod.SolenoidOn("lampshow_mystery", 1);
+
+				//play spin lampshow in VP `SpecialSolCallback`
+				pinGod.SolenoidOn("vpcoil", 2);
 				timer.Start(6.5f);
 			}
 			else
 			{
-				player.JackpotValue += NightmareConstants.LARGE_SCORE;
+				player.JackpotValue += NightmareConstants.SCORE_100K;
 				pinGod.LogInfo("scoop: advancing jackpot..", player.JackpotValue);
 				game.OnDisplayMessage($"RAISING JACKPOT\n{player.JackpotValue.ToScoreString()}");
 				game.PlayThenResumeMusic("mus_raisingjackpot", 2f);
@@ -101,9 +103,15 @@ public class MysteryScoop : Control
 	/// </summary>
 	private void _on_BallStackPinball_timeout()
 	{
-		pinGod.SolenoidOn("lampshow_mystery", 0);
 		pinGod.LogDebug("mystery scoop timed out");
-		if (!destroyBall) pinGod.SolenoidPulse("saucer_left");
+
+		//disable lampshows VP script `SpecialSolCallback`
+		pinGod.SolenoidOn("vpcoil", 0);
+
+		if (!destroyBall)
+		{
+			pinGod.SolenoidPulse("saucer_left");
+		}
 		else
 		{
 			pinGod.SolenoidPulse("saucer_top_left_tunnel"); //saucer left tunnel, creates ball in plunger lane (in VP)
@@ -178,7 +186,7 @@ public class MysteryScoop : Control
 				break;
 		}
 
-		pinGod.LogInfo("awarding mysetery spin: " + awardText, " delay", delay);
+		pinGod.LogInfo("awarding mystery spin: " + awardText, " delay", delay);
 		game.OnDisplayMessage($"MYSTERY\n{awardText}", delay);
 		return delay;
 	}

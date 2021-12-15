@@ -19,7 +19,7 @@ public class NightmarePlayer : PinGodPlayer
     public int GraveYardValue { get; set; }
     public bool IsRemixMode { get; set; }
     public bool JackpotLit { get; internal set; }
-    public int JackpotValue { get; internal set; }
+    public int JackpotValue { get; internal set; } = 5000000;
     public bool LaneExtraBallLit { get; internal set; }
     public bool LanePanicLit { get; internal set; }
     public bool LanesLit { get; internal set; }

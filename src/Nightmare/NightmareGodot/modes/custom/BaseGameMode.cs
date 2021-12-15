@@ -25,6 +25,7 @@ public class BaseGameMode : Node
 	{
 		if (!pinGod.GameInPlay || !pinGod.IsBallStarted) return;
 		if (pinGod.IsTilted) return; //game is tilted, don't process other switches when tilted
+		if (pinGod.Player == null) return;
 
 		if (pinGod.SwitchOn("start", @event))
 		{
@@ -37,6 +38,7 @@ public class BaseGameMode : Node
 			if(!game.bgmMusicPlayer.Playing)
 				game.bgmMusicPlayer.Play();
 			game.PauseBgm(false);
+			pinGod.SolenoidOn("vpcoil", 0); //disable lamp shows
 		}
 		if (pinGod.SwitchOn("outlane_l", @event))
 		{
@@ -120,8 +122,9 @@ public class BaseGameMode : Node
 						//run for your life
 						if (game != null)
 						{
-							game.PlayThenResumeMusic("mus_rightorbitcombo", 3.1f);
-							game.OnDisplayMessage("RUN FOR\nYOUR LIFE\n" + NightmareConstants.EXTRA_LARGE_SCORE.ToScoreString());
+							game.PlayThenResumeMusic("mus_rightorbitcombo", 3.5f);
+							game.OnDisplayMessage("RUN FOR\nYOUR LIFE\n" + NightmareConstants.EXTRA_LARGE_SCORE.ToScoreString(), 3.5f);
+							pinGod.SolenoidOn("vpcoil", 4); //run for life show
 						}
 					}
 				}
@@ -230,7 +233,7 @@ public class BaseGameMode : Node
 
 		pinGod.PlayMusic("mus_ingame00");
 
-		UpdateLamps();
+		UpdateLamps();				
 	}
 
 	/// <summary>
@@ -241,7 +244,7 @@ public class BaseGameMode : Node
 		pinGod.AddPoints(NightmareConstants.SMALL_SCORE);
 		pinGod.AddBonus(100);
 		pinGod.PlaySfx("snd_bumper");
-		pinGod.SolenoidPulse("flasher_top_left");
+		pinGod.SolenoidPulse("flasher_top_left");	
 	}
 
 	/// <summary>
@@ -251,7 +254,7 @@ public class BaseGameMode : Node
 	private void ProcessRampLeft(InputEvent @event)
 	{		
 		if (pinGod.SwitchOn("ramp_l", @event) && !player.MidnightRunning)
-		{            
+		{
 			//music to play and delay to resume music
 			string music = "mus_leftramp"; float delay = 2f;
 
@@ -270,6 +273,7 @@ public class BaseGameMode : Node
 				pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
 				music = "mus_rampmillion";
 				delay = 2.0f;
+				pinGod.SolenoidOn("vpcoil", 3); //RampMillionShow				
 			}
             else
             {
@@ -284,6 +288,7 @@ public class BaseGameMode : Node
 				delay = 2.8f;
 				game.OnDisplayMessage("MIDNIGHT GETS\nCLOSER");
 				music = "mus_extrahour";
+				pinGod.SolenoidOn("vpcoil", 5);//vp lampshow
 			}
 
 			pinGod.LogInfo("ramps: roman value " + player.RomanValue);
@@ -325,6 +330,7 @@ public class BaseGameMode : Node
 				player.ScoreBonusLit = true;
 				pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
 				music = "mus_rampmillion"; delay = 1.8f;
+				pinGod.SolenoidOn("vpcoil", 3); //RampMillionShow				
 				pinGod.LogInfo("ramps: R ramp combo. " + rampLChanged);
 			}
             else
@@ -339,6 +345,7 @@ public class BaseGameMode : Node
 				AdvanceRoman();
 				pinGod.LogInfo("bgm: r ramp roman to midnight " + player.RomanValue);
 				if (music != "mus_leftramp") music = "mus_rightramp";
+				pinGod.SolenoidOn("vpcoil", 5);
 			}
 			else
 			{
@@ -357,7 +364,7 @@ public class BaseGameMode : Node
 	/// </summary>
 	private void ScoreForRamps()
 	{
-		player.JackpotValue += NightmareConstants.MED_SCORE;
+		player.JackpotValue += NightmareConstants.SCORE_50K;
 		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);		
 		pinGod.LogInfo($"ramps: ramp jackpot added value. {player.JackpotValue}");
 	}
@@ -368,7 +375,8 @@ public class BaseGameMode : Node
 	private void ScoreInlanes()
 	{
 		pinGod.AddPoints(NightmareConstants.MED_SCORE);
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);		
+		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
+		player.JackpotValue += NightmareConstants.MED_SCORE;
 	}
 
 	public void UpdateLamps()

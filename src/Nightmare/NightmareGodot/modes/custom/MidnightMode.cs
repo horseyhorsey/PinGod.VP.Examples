@@ -51,6 +51,10 @@ public class MidnightMode : Control
 		player.MidnightRunning = false;
 		player.RomanValue = 0;
 		game.PauseBgm(false);
+
+		pinGod.DisableAllLamps();
+		game.UpdateLamps();
+		pinGod.SolenoidOn("vpcoil", 0);
 	}
 
 	private void _on_Timer_timeout()
@@ -78,7 +82,8 @@ public class MidnightMode : Control
 		_midnightScore += score;
 		pinGod.AddPoints(score);
 		pinGod.AddBonus(NightmareConstants.SCORE_100K);
-
+		pinGod.SolenoidOn("vpcoil", 1); //lampshow vp
+		game.OnDisplayMessage("MIDNIGHT\n5 MILLION\nSHOT", 1.5f);
 		if (!player.HurryUpRunning)
         {
 			//todo: play sequence Midnight5Million

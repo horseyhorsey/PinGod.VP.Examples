@@ -75,6 +75,7 @@ public class LeftTargetsMode : PinballTargetsControl
 		if (game != null)
 		{
 			game.PlayThenResumeMusic("mus_alltriangles", 0.95f);
+			pinGod.SolenoidOn("vpcoil", 7); // lampshow vp
 			//run UpdateLamps in groups marked as Mode
 			pinGod.UpdateLamps(game?.GetTree());
 		}

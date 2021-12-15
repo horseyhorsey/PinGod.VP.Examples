@@ -63,9 +63,11 @@ public class HurryUp : Control
                     _player.HurryUpRunning = false;
                     pinGod.AddPoints(hurryUpTotal);
                     this.Visible = false;
-                    //_game.PlayThenResumeMusic("mus_hurryupcollected", 3.9f);
-                    _game.OnDisplayMessage($"HURRY UP\n{hurryUpTotal.ToScoreString()}");
+                    _game.PlayThenResumeMusic("mus_hurryupcollected", 3.9f); //todo
+                    _game.OnDisplayMessage($"HURRY UP\n{hurryUpTotal.ToScoreString()}", 3.9f);
                     pinGod.LogInfo("hurry up collected: " + hurryUpTotal);
+
+                    pinGod.SolenoidOn("vpcoil", 8);
                 }
             }
         }        
