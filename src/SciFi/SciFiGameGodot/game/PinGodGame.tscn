@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/SciFiPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
@@ -6,11 +6,11 @@
 [ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/Game/MachineConfig.cs" type="Script" id=5]
 [ext_resource path="res://addons/PinGodGame/Audio/AudioManager.tscn" type="PackedScene" id=6]
+[ext_resource path="res://themes/scifi_switch_overlay_theme.tres" type="Theme" id=7]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_logging_level = 2
-_playbackfile = "res://recordings/drain_3balls.record"
+_playbackfile = "res://recordings/bank_targets.record"
 
 [node name="MachineConfig" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -23,7 +23,8 @@ _coils = {
 "died": 0,
 "flippers": 2,
 "kickback": 3,
-"trough": 1
+"trough": 1,
+"vpcoil": 16
 }
 _switches = {
 "Scifi": 35,
@@ -150,30 +151,33 @@ _lamps = {
 }
 _leds = {
 }
-_auto_plunge_solenoid = ""
-_ball_save_lamp = "shoot_again"
-_ball_save_led = ""
-_ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "bs_left", "bs_right", "bs_top_right" )
 _ball_search_stop_switches = PoolStringArray( "plunger_lane" )
 
 [node name="Trough" parent="." instance=ExtResource( 4 )]
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
 
 [node name="AudioManager" parent="." instance=ExtResource( 6 )]
+MusicAssets = {
+"alienbane": "res://assets/audio/music/alienbane.ogg",
+"armada": "res://assets/audio/music/armada.ogg",
+"invasion": "res://assets/audio/music/invasion.ogg",
+"multiball": "res://assets/audio/music/multiball.ogg",
+"normal": "res://assets/audio/music/normal.ogg",
+"spawn": "res://assets/audio/music/spawn.ogg"
+}
 SfxAssets = {
-"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
-"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
-"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
-"spinner": "res://assets/audio/sfx/alien spinner.wav",
-"drain": "res://assets/audio/sfx/ball drain.wav",
-"eject": "res://assets/audio/sfx/ball eject.wav",
+"bonus": "res://assets/audio/sfx/bonus.wav",
 "bonus_advance": "res://assets/audio/sfx/bonus advance.wav",
 "bonus_counter": "res://assets/audio/sfx/bonus counter.wav",
-"bonus": "res://assets/audio/sfx/bonus.wav",
 "bumper_1": "res://assets/audio/sfx/bumper shootout 1.wav",
 "bumper_2": "res://assets/audio/sfx/bumper shootout 2.wav",
 "bumper_3": "res://assets/audio/sfx/bumper shootout 3.wav",
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
 "dock_lit": "res://assets/audio/sfx/dock lit.wav",
+"drain": "res://assets/audio/sfx/ball drain.wav",
+"eject": "res://assets/audio/sfx/ball eject.wav",
 "game_over": "res://assets/audio/sfx/game over.wav",
 "lanerollover": "res://assets/audio/sfx/lanerollover.wav",
 "multiplier_award": "res://assets/audio/sfx/multiplier award.wav",
@@ -181,17 +185,12 @@ SfxAssets = {
 "rocket_slings": "res://assets/audio/sfx/rocket slings.wav",
 "rubber_hit": "res://assets/audio/sfx/rubber hit.wav",
 "scifi_hit": "res://assets/audio/sfx/scifi hit.wav",
+"spinner": "res://assets/audio/sfx/alien spinner.wav",
 "star_trigger_rollover": "res://assets/audio/sfx/star trigger rollover.wav",
 "target": "res://assets/audio/sfx/target.wav",
+"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
 "tilt_warning": "res://assets/audio/sfx/tilt warning.wav",
-}
-MusicAssets = {
-"normal": "res://assets/audio/music/normal.ogg",
-"spawn": "res://assets/audio/music/spawn.ogg",
-"invasion": "res://assets/audio/music/invasion.ogg",
-"armada": "res://assets/audio/music/armada.ogg",
-"alienbane": "res://assets/audio/music/alienbane.ogg",
-"multiball": "res://assets/audio/music/multiball.ogg",
+"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
 }
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
@@ -207,4 +206,4 @@ margin_right = 0.0
 margin_bottom = 0.0
 
 [node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
-columns = 6
+theme = ExtResource( 7 )

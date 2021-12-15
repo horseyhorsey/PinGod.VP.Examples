@@ -3,7 +3,7 @@ using Godot;
 public class TopLanes : PinballSwitchLanesNode
 {
 	bool[] _lanesCompleted;
-	private SciFiPinGodGame pinGod;
+	private SciFiPinGodGame pinGodSciFi;
 	private SciFiPlayer player;
 	[Signal] delegate void LanesCompleted();
 	#region Exports
@@ -15,7 +15,7 @@ public class TopLanes : PinballSwitchLanesNode
 	{
 		base._EnterTree();
 
-		pinGod = GetNode("/root/PinGodGame") as SciFiPinGodGame;
+		pinGodSciFi = GetNode("/root/PinGodGame") as SciFiPinGodGame;
 		//rest the targets on new ball by listening for BallStarted
 		ResetLanesCompleted();
 
@@ -38,7 +38,7 @@ public class TopLanes : PinballSwitchLanesNode
 		if (result)
 		{
 			pinGod.AddPoints(1000);
-			pinGod.GetSciFiPlayer().AddAlienBonus(1);
+			pinGodSciFi.GetSciFiPlayer().AddAlienBonus(1);
 			pinGod.PlaySfx("bonus_advance");
 		}
 		return result;
@@ -60,7 +60,7 @@ public class TopLanes : PinballSwitchLanesNode
 
 	void OnBallStarted()
 	{
-		player = pinGod.GetSciFiPlayer();
+		player = pinGodSciFi.GetSciFiPlayer();
 		if (_reset_on_ball_started)
 		{
 			ResetLanesCompleted();

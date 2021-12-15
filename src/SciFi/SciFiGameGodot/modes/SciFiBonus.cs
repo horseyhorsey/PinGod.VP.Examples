@@ -67,15 +67,10 @@ public class SciFiBonus : Bonus
 		}
 	}
 
-	/// <summary>
-	/// Generate a simple bonus amount string
-	/// </summary>
-	/// <returns></returns>
-	public override string SetBonusText()
-	{
-		var txt = "END OF BALL" + System.Environment.NewLine;
-		txt += "DEFENDER AND ALIEN BONUS" + System.Environment.NewLine;
-		txt += _totalBonus.ToString("N0");		
-		return txt;
-	}
+    public override string SetBonusText(string text = "")
+    {
+		text = "END OF BALL" + System.Environment.NewLine;
+		text += "DEFENDER AND ALIEN BONUS" + System.Environment.NewLine;
+		return base.SetBonusText(text);
+    }
 }

@@ -44,8 +44,8 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_play_when_visible = true
 _loop = true
+_play_when_visible = true
 
 [node name="alien_face" type="Sprite" parent="AttractLayers/Push Start"]
 position = Vector2( 147.204, 151.415 )
@@ -60,9 +60,9 @@ anchor_bottom = 1.0
 margin_left = -232.5
 margin_top = -169.0
 margin_right = 232.5
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0823529, 0.6, 0.854902, 1 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "PUSH START"
 script = ExtResource( 1 )
 __meta__ = {

@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://modes/LockShot.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=2]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=3]
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=4]
+[ext_resource path="res://assets/videos/cosmic_6.ogv" type="VideoStream" id=5]
+[ext_resource path="res://assets/videos/cosmic_5.ogv" type="VideoStream" id=6]
+[ext_resource path="res://assets/videos/cosmic_7.ogv" type="VideoStream" id=7]
+[ext_resource path="res://assets/videos/cosmic_4.ogv" type="VideoStream" id=8]
+[ext_resource path="res://assets/videos/cosmic_3.ogv" type="VideoStream" id=9]
 
 [node name="LockShot" type="Control"]
 anchor_right = 1.0
@@ -12,6 +17,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_default_streams = [ ExtResource( 7 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 9 ) ]
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
@@ -43,8 +49,8 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_play_when_visible = true
 _hold = true
+_play_when_visible = true
 
 [node name="BlinkingLabel" type="Label" parent="ViewLayers"]
 anchor_left = 0.5

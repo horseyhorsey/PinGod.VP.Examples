@@ -32,7 +32,6 @@ public class SciFiPlayer : PinGodPlayer
     /// </summary>
     public GameOption AlienBaneEnabled { get; set; }
     public GameOption ArmadaEnabled { get; set; }    
-    public int ExtraBallsAwarded { get; internal set; }
     public bool LeftLockLit { get; internal set; }    
 
     const byte MaxBonusMultiplier = 6;

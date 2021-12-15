@@ -20,15 +20,14 @@ texture = ExtResource( 3 )
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Label" type="Label" parent="."]
-margin_left = 399.0
-margin_top = 229.0
-margin_right = 880.0
-margin_bottom = 490.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.239216, 0.768627, 0.105882, 1 )
 text = "END OF BALL
 BONUS"
 align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

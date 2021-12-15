@@ -25,9 +25,7 @@ script = ExtResource( 1 )
 
 [node name="Kickback" parent="Modes" instance=ExtResource( 11 )]
 
-[node name="TopLanes" parent="Modes" groups=[
-"Mode",
-] instance=ExtResource( 4 )]
+[node name="TopLanes" parent="Modes" groups=["Mode"] instance=ExtResource( 4 )]
 
 [node name="JackpotShot" parent="Modes" instance=ExtResource( 10 )]
 

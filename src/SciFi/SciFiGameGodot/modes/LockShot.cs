@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// Top left of table kicker / saucer.
+/// </summary>
 public class LockShot : Control
 {
 	private SciFiPinGodGame pinGod;
@@ -12,9 +15,9 @@ public class LockShot : Control
 
 	[Export] string _default_text = @"COMPLETING BANKS
 
-
-
 LIGHTS POWER UP";
+
+	[Export] VideoStreamTheora[] _default_streams;
 
 	public override void _EnterTree()
 	{
@@ -24,21 +27,9 @@ LIGHTS POWER UP";
 
 		layers = GetNode("ViewLayers") as Control;
 		powerUpLabel = GetNode("ViewLayers/BlinkingLabel") as BlinkingLabel;		
-	
-		var stream = new VideoStreamTheora() { File = "res://assets/videos/cosmic_7.ogv" };
-		VideoStreams[0] = stream;		
-		stream = new VideoStreamTheora() { File = "res://assets/videos/cosmic_6.ogv" };
-		VideoStreams[1] = stream;
-		stream = new VideoStreamTheora() { File = "res://assets/videos/cosmic_5.ogv" };
-		VideoStreams[2] = stream;
-		stream = new VideoStreamTheora() { File = "res://assets/videos/cosmic_4.ogv" };
-		VideoStreams[3] = stream;
-		stream = new VideoStreamTheora() { File = "res://assets/videos/cosmic_3.ogv" };
-		VideoStreams[4] = stream;
-
 
 		VideoPlayer = GetNode("ViewLayers/VideoPlayerPinball") as VideoPlayerPinball;
-		VideoPlayer.Stream = VideoStreams[0];
+		VideoPlayer.Stream = _default_streams[0];
 
 		layers.Visible = false;
 	}
@@ -76,6 +67,9 @@ LIGHTS POWER UP";
 		}
 	}
 
+	/// <summary>
+	/// Starts modes if ready
+	/// </summary>
 	private void ProcessLockKicker()
 	{
 		//show display layers if no multi-ball
@@ -87,7 +81,7 @@ LIGHTS POWER UP";
 			var player = pinGod.GetSciFiPlayer();
 			if (player.LeftLockLit)
 			{
-				//START MULTIBALL
+				//todo: START MULTIBALL
 			}
 
 			if (player.LeftPowerUpLit == GameOption.Ready)
@@ -95,13 +89,13 @@ LIGHTS POWER UP";
 				player.LeftPowerUpLit = GameOption.Off;
 				pinGod.PlaySfx("powerup");
 
-				GD.Print("power up hit ", player.SpawnEnabled);
+				pinGod.LogInfo("power up hit ", player.SpawnEnabled);
 
 				powerUpLabel.Text = "POWER UP\r\n";
 				//LightSeqGI.Play SeqRandom, 20, ,1000 TODO
 				if (player.SpawnEnabled == GameOption.Ready)
 				{
-					GD.Print("spawn ready");
+					pinGod.LogInfo("spawn ready");
 					player.SpawnEnabled = GameOption.Complete;
 					player.InvasionEnabled = GameOption.Ready;
 					powerUpLabel.Text += "SPAWN";
@@ -111,7 +105,7 @@ LIGHTS POWER UP";
 				{
 					if (player.InvasionEnabled == GameOption.Ready)
 					{
-						GD.Print("invasion ready");
+						pinGod.LogInfo("invasion ready");
 						powerUpLabel.Text += "INVASION";
 						player.InvasionEnabled = GameOption.Complete;
 						player.ArmadaEnabled = GameOption.Ready;
@@ -135,7 +129,6 @@ LIGHTS POWER UP";
 					}
 				}
 
-				//TODO: Run setup mode, enable kickback
 				game?.SetupMode();
 				pinGod.UpdatePowerupModeLamps();
 				game?.EnableKickback();
@@ -147,7 +140,7 @@ LIGHTS POWER UP";
 
 	void ChangeStream(int id)
 	{
-		VideoPlayer.Stream = VideoStreams[id];
+		VideoPlayer.Stream = _default_streams[id];
 		VideoPlayer.Play();
 	}
 }

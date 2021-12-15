@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// Bank targets and SciFi targets. Completing banks advance modes for the LOCK SHOT
+/// </summary>
 public class Targets : Control
 {
 	private SciFiPinGodGame pinGod;
@@ -9,6 +12,7 @@ public class Targets : Control
 	{
 		pinGod = GetNode("/root/PinGodGame") as SciFiPinGodGame;
 		GD.Print("targets: enter tree");
+		player = pinGod.GetSciFiPlayer();
 	}
 
 	/// <summary>
@@ -126,60 +130,53 @@ public class Targets : Control
 
 		var player = pinGod.GetSciFiPlayer();
 		if(player.BanksCompleted())
-		{
-			GD.Print("drops completed");
-			player.LeftPowerUpLit = GameOption.Ready;
+		{			
 			if(player.SpawnEnabled == GameOption.Off)
 			{
 				player.SpawnEnabled = GameOption.Ready;
+				player.LeftPowerUpLit = GameOption.Ready;
+				pinGod.LogInfo("drops completed, SPAWN ready");
 			}
-			//if (player.SpawnEnabled == GameOption.Ready)
-			//{
-			//	player.SpawnEnabled = GameOption.Complete;
-			//	player.LeftPowerUpLit = GameOption.Ready;
-			//}
-			//else
-			//{
-			//	//spawn mode already active.. are we going for invasion
-			//	if (player.InvasionEnabled == GameOption.Ready)
-			//	{
-			//		player.LeftPowerUpLit = GameOption.Ready;
-			//		player.InvasionEnabled = GameOption.Complete;
-			//	}
-			//	//invasion mode already active.. are we going for armada
-			//	else
-			//	{
-			//		if (player.ArmadaEnabled == GameOption.Ready)
-			//		{
-			//			player.LeftPowerUpLit = GameOption.Ready;
-			//			player.ArmadaEnabled = GameOption.Complete;						
-			//		}
-			//		else
-			//		{
-			//			if (player.AlienBaneEnabled == GameOption.Ready)
-			//			{							
-			//				player.AlienBaneEnabled = GameOption.Complete;				
-			//			}
-			//			else
-			//			{
-			//				pinGod.AwardSpecial();
-			//			}                            
-			//		}
-			//	}
-			//}
+            else
+            {
+                //spawn mode already active.. are we going for invasion
+                if (player.InvasionEnabled == GameOption.Ready)
+                {
+                    player.InvasionEnabled = GameOption.Complete;
+					pinGod.LogInfo("drops completed, INVASION complete");
+				}
+                //invasion mode already active.. are we going for armada
+                else
+                {
+                    if (player.ArmadaEnabled == GameOption.Ready)
+                    {
+                        player.ArmadaEnabled = GameOption.Complete;
+						pinGod.LogInfo("drops completed, ARMADA enabled");
+					}
+                    else
+                    {
+                        if (player.AlienBaneEnabled == GameOption.Ready)
+                        {
+                            player.AlienBaneEnabled = GameOption.Complete;
+							pinGod.LogInfo("drops completed, ALIENBANE enabled");
+						}
+                        else
+                        {
+                            pinGod.AwardSpecial();
+							pinGod.LogInfo("drops completed, awarded special");
+						}
+                    }
+                }
+            }
 
-			//if (player.AlienBaneEnabled != GameOption.Complete)
-			//{				
-			//	player.LeftPowerUpLit = GameOption.Ready;
-			//}
+            if (player.AlienBaneEnabled != GameOption.Complete)
+            {
+                player.LeftPowerUpLit = GameOption.Ready;
+            }
 
-			player.ResetBanks();
+            player.ResetBanks();
 			pinGod.ResetTargets();
 			pinGod.UpdatePowerupModeLamps();
-		}
-		else
-		{
-			GD.Print("drops checked");
 		}
 	}
 
