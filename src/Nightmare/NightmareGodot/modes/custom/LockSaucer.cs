@@ -1,4 +1,5 @@
 using Godot;
+using System.Linq;
 
 /// <summary>
 /// Middle lock saucer. Awards can be multiple and then displayed in order delayed
@@ -31,7 +32,7 @@ public class LockSaucer : Control
                     AwardScoreBonus();
                     break;
                 case 1:
-                    AwardSuperJackpot();
+                    AwardSuperJackpot(); //award this first because the jackpot turns this on if ready
                     break;
                 case 2:
                     AwardJackpot();
@@ -83,8 +84,10 @@ public class LockSaucer : Control
         {
             //todo: disable super jackpot after a timer 4 seconds
         }
-        
+
+        pinGod.SolenoidOn("vpcoil", 0);
         game.UpdateLamps();
+        pinGod.LogInfo("lock saucer coil exit");
     }
 
     private void AwardBallLock()
@@ -92,7 +95,7 @@ public class LockSaucer : Control
         if (player.BallsLocked < 3 && !player.BallLockEnabled)
         {
             player.BallsLocked++;
-            pinGod.LogInfo("adding ball to lock,", player.BallsLocked);
+            pinGod.LogInfo("AwardBallLock-BallsLocked:", player.BallsLocked);
             switch (player.BallsLocked)
             {
                 case 1:
@@ -103,14 +106,18 @@ public class LockSaucer : Control
                     break;
                 case 3:
                     player.BallLockEnabled = true;
-                    player.JackpotLit = true;
-                    awardTimer.Start(2.5f);
-                    game.OnDisplayMessage("BALL LOCK\nENABLED");
+                    player.JackpotLit = true;                    
+                    game.OnDisplayMessage("BALL LOCK\nENABLED", 4.55f);
+                    game.resumeBgmTimer.Stop();
                     game.PlayThenResumeMusic("mus_balllockenabled", 4.55f);
+                    awardTimer.Start(4.55f);
+                    UpdateLamps();
+                    pinGod.LogInfo("ball lock enabled, jackpot ready");
+
+                    pinGod.SolenoidOn("vpcoil", 3); //lampshow vp
                     return;
                 default:
-                    break;                    
-                    //todo: delay music kickout 1.6
+                    break;
             }            
         }
 
@@ -122,12 +129,16 @@ public class LockSaucer : Control
         if (player.ExtraBallLit)
         {
             pinGod.LogInfo("awarding extra ball");
+
             player.ExtraBallLit = false;
             player.ExtraBalls++;
-            game.OnDisplayMessage("EXTRA\nBALL");
-            awardTimer.Start(1.6f);
-            pinGod.PlayMusic("mus_extraball");
-            //todo: delay music kickout 1.6
+
+            game.OnDisplayMessage("EXTRA\nBALL", 5.6f);
+
+            game.PlayThenResumeMusic("mus_extraball", 5.6f);
+            awardTimer.Start(2.4f);
+
+            pinGod.SolenoidOn("vpcoil", 8); // lampshow vp
         }
         else
         {
@@ -139,13 +150,17 @@ public class LockSaucer : Control
     {
         if (player.ScoreBonusLit)
         {
-            player.ScoreBonusLit = false;
-            game.PauseBgm(true);
+            player.ScoreBonusLit = false;     
+            
             var bonus = player.Bonus;            
             pinGod.AddPoints((int)bonus);            
-            pinGod.LogInfo("scoring bonus from saucer:" + bonus); 
+            pinGod.LogInfo("scoring bonus from saucer:" + bonus);
+
+            var frames = PinGodHelper.CreateBonusZeroCountdown(bonus, false);
             game.StartBonusDisplay();
-            awardTimer.Start(2f);//todo: correct time
+            awardTimer.Start(frames.Count() * 0.1f);
+
+            pinGod.SolenoidOn("vpcoil", 6); //lampshow vp
         }
         else
         {
@@ -157,16 +172,22 @@ public class LockSaucer : Control
     {
         if (player.JackpotLit)
         {
-            game.PauseBgm();
             player.JackpotLit = false;
 
             //add points and reset
-            pinGod.AddPoints(player.JackpotValue);
-            game.OnDisplayMessage("SUPER JACKPOT\n" + player.JackpotValue.ToScoreString());
-            player.ResetJackpotValue();
+            var jackpotTotal = player.JackpotValue * player.Multiplier;
+            pinGod.AddPoints(jackpotTotal);
+            game.OnDisplayMessage($"JACKPOT {player.Multiplier} X {player.JackpotValue.ToScoreString()}\n {jackpotTotal.ToScoreString()}", 5f);
 
-            if (player.BallLockEnabled) 
-                game.DisableBallLocks(true); //enable super jackpot
+            game.resumeBgmTimer.Stop();
+            game.PlayThenResumeMusic("mus_jackpot", 5f);
+
+            player.ResetJackpotValue();
+            if (player.BallLockEnabled)
+            {
+                //todo: enable super jackpot for a few seconds
+                game.DisableBallLocks(true); 
+            }                
 
             awardTimer.Start(4f);
         }
@@ -180,13 +201,17 @@ public class LockSaucer : Control
     {
         if (player.SuperJackpotLit)
         {
-            game.PauseBgm(true);
             player.SuperJackpotLit = false;
-            var superTotal = player.JackpotValue * 2;
+            var superTotal = player.JackpotValue * player.Multiplier * 2;
             pinGod.AddPoints(superTotal);
             pinGod.LogInfo("awarded super jackpot, ", superTotal);
             awardTimer.Start(3.5f);
             game.OnDisplayMessage("SUPER JACKPOT\n" + superTotal.ToScoreString());
+
+
+            game.resumeBgmTimer.Stop();
+            game.PlayThenResumeMusic("mus_jackpot", 4f);
+
             player.ResetJackpotValue();
 
             //Disable locks if we have a ball already locked
@@ -205,6 +230,7 @@ public class LockSaucer : Control
     private void OnBallStarted()
     {
         player = ((NightmarePinGodGame)pinGod).GetPlayer();
+        //todo: check this is right
         player.BallLockEnabled = false;
         player.RightLock = false;
         player.LeftLock = false;
@@ -215,15 +241,8 @@ public class LockSaucer : Control
     private void ProcessSwitch()
     {
         pinGod.SolenoidPulse("flasher_top_left");
-        float delay = 0.0f;
-
-        //AwardExtraBall();
-
-        awardTimer.Start(0.1f);
-
-        //UpdateLamps();
-        //start a timer to exit the saucer
-        //ballStack.Start(delay);
+        //todo: lampshow
+        awardTimer.Start(0.1f);        
     }
     /// <summary>
     /// Updates lamps pointing to this saucer
@@ -248,5 +267,8 @@ public class LockSaucer : Control
             pinGod.SetLampState("top_init", 1);
         else if (player.BallsLocked == 3)
             pinGod.SetLampState("top_init", 0);
+
+        if(player.ExtraBalls > 0 && !pinGod.BallSaveActive)
+            pinGod.SetLampState("shoot_again", 1);
     }
 }

@@ -38,6 +38,8 @@ public class LockTopSaucer : Control
 				//kick ball on timer, in shooter lane
 				destroy_ball = true;
 
+				ballStack.Start(2);
+
 				if (p.LeftLock)
 					p.SuperJackpotLit = true;
 			}
@@ -50,11 +52,8 @@ public class LockTopSaucer : Control
 			}
 			else
 			{
-				music = "mus_raisingjackpot";
-				p.JackpotValue += NightmareConstants.LARGE_SCORE;
-				AdvanceAndAwardCrossStack();
-				ballStack.Start(2);
-				game.OnDisplayMessage($"RAISING JACKPOT\n{_player.JackpotValue.ToScoreString()}");
+				isRaisingJackpot = true;
+				ballStack.Start(AdvanceAndAwardCrossStack());
 			}
 
 			if (!string.IsNullOrWhiteSpace(music))
@@ -68,10 +67,11 @@ public class LockTopSaucer : Control
 			pinGod.UpdateLamps(game.GetTree());
 		}		
 	}
+
+	bool isRaisingJackpot = false;
 	private void _on_BallStackPinball_SwitchInActive()
 	{
-		game.PlayThenResumeMusic("mus_raisingjackpotorgan", 3.1f);
-		//game.OnDisplayMessage("R")
+
 	}
 	private void _on_BallStackPinball_timeout()
 	{
@@ -82,11 +82,22 @@ public class LockTopSaucer : Control
 		}
 		else
 		{
+			if (isRaisingJackpot)
+			{
+				isRaisingJackpot = false;
+				_player.JackpotValue += NightmareConstants.SCORE_100K;
+				game.OnDisplayMessage($"RAISING JACKPOT\n{_player.JackpotValue.ToScoreString()}", 3.1f);
+				game.PlayThenResumeMusic("mus_raisingjackpotorgan", 3.1f);
+				ballStack.Start(1.5f);
+				return;
+			}
+
 			pinGod.SolenoidPulse(ballStack._coil);
 		}
 	}
-	private void AdvanceAndAwardCrossStack()
+	private float AdvanceAndAwardCrossStack()
 	{
+		float delay = 0;
 		var msg = "awarding cross stack, ";
 		var crossStack = _player.CrossStack;
 		if (crossStack[0] == 2)
@@ -95,11 +106,12 @@ public class LockTopSaucer : Control
 			{
 				_player.RomanValue+=2;
 				pinGod.AddBonus(NightmareConstants.SMALL_SCORE / 2 * 2);
-				game.OnDisplayMessage("MIDNIGHT GETS\nCLOSER");
+				game.OnDisplayMessage("MIDNIGHT GETS\nCLOSER", 2f);
+				delay = 2f;
 			}
 			crossStack[0] = 1;
 			msg += "advanced roman";
-			game.PlayThenResumeMusic("mus_extrahour", 1.4f);
+			game.PlayThenResumeMusic("mus_extrahour", 2f);
 		}
 		else if (crossStack[1] == 2)
 		{
@@ -110,28 +122,33 @@ public class LockTopSaucer : Control
 			pinGod.AddPoints((int)bonus);
 			pinGod.LogInfo(msg);
 			game.StartBonusDisplay();
+			delay = 1f;
 		}
 		else if (crossStack[2] == 2)
 		{
 			_player.BonusHeld = true;
 			crossStack[2] = 1;
 			msg += "bonus held";
+			delay = 1f;
 		}
 		else if (crossStack[3] == 2)
 		{
 			_player.ExtraBallLit = true;
 			crossStack[3] = 1;
 			msg += "extra ball lit";
+			delay = 2f;
 		}
 		else if (crossStack[4] == 2)
 		{
 			pinGod.AddPoints(NightmareConstants.EXTRA_LARGE_SCORE);
 			crossStack[4] = 1;
 			msg += "1 million";
+			delay = 2f;
 		}
 
 		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 		pinGod.LogInfo(msg);
+		return delay;
 	}
 	private void OnBallStarted()
 	{
