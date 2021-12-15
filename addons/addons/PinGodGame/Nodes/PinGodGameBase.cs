@@ -139,7 +139,11 @@ public abstract class PinGodGameBase : Node
                     tree.Paused = false;
                     tree.Quit(0);
                 }
-                catch (Exception ex) { LogWarning("main scene disposed. " + ex.Message); }
+                catch (Exception ex)
+				{ 
+					LogWarning("main scene disposed. " + ex.Message);
+					GetTree().Quit(0);
+				}
             }
             else
             {
@@ -152,8 +156,6 @@ public abstract class PinGodGameBase : Node
             OS.WindowBorderless = !OS.WindowBorderless;
             if (OS.WindowBorderless)
             {
-                //todo: save settings because user has come out of borderless?
-                LogDebug("pingodbase: saving window settings");
                 GameSettings.Display.X = OS.WindowPosition.x;
                 GameSettings.Display.Y = OS.WindowPosition.y;
                 GameSettings.Display.Width = OS.WindowSize.x;
