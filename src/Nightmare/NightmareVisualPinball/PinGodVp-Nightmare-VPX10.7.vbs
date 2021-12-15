@@ -192,7 +192,7 @@ SolCallback(12) = "SolLeftMidFlash"
 SolCallback(13) = "SolTopRightFlash"
 SolCallback(14) = "SolTopLeftFlash"
 SolCallback(15) = "SolRightFlashMid"
-'SolCallback(16) = "SolRightFlash"
+SolCallback(16) = "LampsMysterySpin"
 'SolCallback(15) = "SolslingL"
 'SolCallback(16) = "SolslingR"
 
@@ -271,7 +271,6 @@ Sub Solsaucer_left_tunnel(Enabled)
 		Controller.Switch 25,0
 		'bsLSaucer.ExitSol_On		
 		Plunger.CreateBall
-		sw41_Hit()
 		Controller.Switch 41,0
 	End If
 End Sub
@@ -282,7 +281,6 @@ Sub Solsaucer_topright_tunnel(Enabled)
 		Controller.Switch 32,0
 		'bsTRSaucer.ExitSol_On	
 		Plunger.CreateBall		
-		sw41_Hit()		
 		Controller.Switch 41,0
 	End If
 End Sub
@@ -421,10 +419,6 @@ vpmSolToggleObj top_right_flash4, Nothing, "", Enabled
 
 End SUb
 
-
-
-
-
 '**********Sling Shot Animations
 ' Rstep and Lstep  are the variables that increment the animation
 '****************
@@ -466,6 +460,27 @@ Sub LeftSlingShot_Timer
     LStep = LStep + 1
 End Sub
 
+'**********************************************************************
+'              LAMPSHOWS
+'**********************************************************************
+
+Sub LampsMysterySpin(Enabled)
+
+	If Enabled Then
+		LightSeq001.UpdateInterval = 3
+		LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
+		LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
+		LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
+		LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
+		LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
+		LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
+		LightSeq001.Play SeqClockRightOn,0,1,0' total ms: 1080
+		LightSeq001.Play SeqClockRightOff,0,1,0' total ms: 1080
+	Else
+		LightSeq001.StopPlay
+	End If
+
+End Sub
 
 '*********************************************************************
 '                 Positional Sound Playback Functions

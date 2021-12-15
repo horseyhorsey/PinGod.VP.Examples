@@ -8,7 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="layers\" />
-    <Folder Include="modes\common\attract\" />
     <Folder Include="modes\common\score_mode\" />
   </ItemGroup>
   <ItemGroup>

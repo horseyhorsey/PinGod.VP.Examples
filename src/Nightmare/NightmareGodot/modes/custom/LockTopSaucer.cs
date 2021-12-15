@@ -19,8 +19,8 @@ public class LockTopSaucer : Control
 	}
 	private void _on_BallStackPinball_SwitchActive()
 	{
-		pinGod.AddPoints(NightmareConstants.MED_SCORE);
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
+		//pinGod.AddPoints(NightmareConstants.MED_SCORE);
+		//pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 
 		var music = "";
 		var p = _player;
@@ -33,7 +33,7 @@ public class LockTopSaucer : Control
 			if (p.BallLockEnabled)
 			{
 				p.RightLock = true;
-				//todo: scene : shoot_the_ball
+				game.OnDisplayMessage("SHOOT THE\nBALL");
 				music = "mus_ballready";
 				//kick ball on timer, in shooter lane
 				destroy_ball = true;
@@ -43,10 +43,10 @@ public class LockTopSaucer : Control
 			}
 			else if (p.DoubleBonus)
 			{
-				//todo: music?
 				p.DoubleBonus = false;
 				p.Bonus = p.Bonus * 2;
 				ballStack.Start(2);
+				game.OnDisplayMessage($"DOUBLING BONUS\n{_player.Bonus.ToScoreString()}");
 			}
 			else
 			{
@@ -54,6 +54,7 @@ public class LockTopSaucer : Control
 				p.JackpotValue += NightmareConstants.LARGE_SCORE;
 				AdvanceAndAwardCrossStack();
 				ballStack.Start(2);
+				game.OnDisplayMessage($"RAISING JACKPOT\n{_player.JackpotValue.ToScoreString()}");
 			}
 
 			if (!string.IsNullOrWhiteSpace(music))
@@ -69,7 +70,8 @@ public class LockTopSaucer : Control
 	}
 	private void _on_BallStackPinball_SwitchInActive()
 	{
-		// Replace with function body.
+		game.PlayThenResumeMusic("mus_raisingjackpotorgan", 3.1f);
+		//game.OnDisplayMessage("R")
 	}
 	private void _on_BallStackPinball_timeout()
 	{
@@ -93,10 +95,11 @@ public class LockTopSaucer : Control
 			{
 				_player.RomanValue+=2;
 				pinGod.AddBonus(NightmareConstants.SMALL_SCORE / 2 * 2);
+				game.OnDisplayMessage("MIDNIGHT GETS\nCLOSER");
 			}
 			crossStack[0] = 1;
 			msg += "advanced roman";
-			//todo: seq: extra_hour
+			game.PlayThenResumeMusic("mus_extrahour", 1.4f);
 		}
 		else if (crossStack[1] == 2)
 		{
@@ -104,7 +107,9 @@ public class LockTopSaucer : Control
 			pinGod.AddBonus((int)bonus);
 			crossStack[1] = 1;
 			msg += "awarded bonus to player: " + bonus;
-			//todo: score bonus countdown
+			pinGod.AddPoints((int)bonus);
+			pinGod.LogInfo(msg);
+			game.StartBonusDisplay();
 		}
 		else if (crossStack[2] == 2)
 		{
@@ -125,6 +130,7 @@ public class LockTopSaucer : Control
 			msg += "1 million";
 		}
 
+		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 		pinGod.LogInfo(msg);
 	}
 	private void OnBallStarted()

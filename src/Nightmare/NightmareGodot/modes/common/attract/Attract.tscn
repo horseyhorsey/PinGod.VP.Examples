@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
-[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas100.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
 [ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/PinGodGame/Modes/attract/Attract.cs" type="Script" id=4]
-[ext_resource path="res://addons/PinGodGame/Modes/score_entry/HighScores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://modes/common/attract/NmAttract.cs" type="Script" id=4]
+[ext_resource path="res://modes/common/score_mode/NmHighScores.tscn" type="PackedScene" id=5]
 [ext_resource path="res://layers/BgChurch.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/audio/music/mus_attract00.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/audio/music/mus_attract01.ogg" type="AudioStream" id=8]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas18.tres" type="DynamicFont" id=9]
 
 [node name="Attract" type="Control"]
 anchor_right = 1.0
@@ -14,6 +17,7 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_streams = [ ExtResource( 7 ), ExtResource( 8 ) ]
 
 [node name="BgChurch" parent="." instance=ExtResource( 6 )]
 
@@ -32,18 +36,17 @@ __meta__ = {
 }
 
 [node name="PushStart" type="Label" parent="AttractLayers/Push Start"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -182.0
-margin_top = -50.0
-margin_right = 182.0
-margin_bottom = 50.0
-custom_fonts/font = ExtResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 custom_colors/font_color = Color( 0.854902, 0.0823529, 0.0823529, 1 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
-text = "PUSH START"
+custom_fonts/font = ExtResource( 2 )
+text = "NIGHTMARE
+PUSH START"
+align = 1
+valign = 1
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -53,17 +56,38 @@ _blinking = 0.5
 [node name="HighScores" parent="AttractLayers" instance=ExtResource( 5 )]
 visible = false
 
+[node name="Label" type="Label" parent="AttractLayers"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0.266667, 0.611765, 0.0705882, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "- TESTERS -
+Horsepin"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="StaticLayers" type="CanvasLayer" parent="."]
 
 [node name="Credits" parent="StaticLayers" instance=ExtResource( 3 )]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -36.0
-margin_top = -38.0
-margin_right = 36.0
+margin_left = -42.5
+margin_top = -33.0
+margin_right = 42.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="AttractLayerChangeTimer" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = "Music"
 
 [connection signal="timeout" from="AttractLayerChangeTimer" to="." method="_on_Timer_timeout"]

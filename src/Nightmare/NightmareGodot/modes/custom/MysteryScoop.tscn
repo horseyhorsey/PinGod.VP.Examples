@@ -4,9 +4,7 @@
 [ext_resource path="res://modes/custom/MysteryScoop.cs" type="Script" id=2]
 [ext_resource path="res://assets/audio/sfx/snd_kicker.wav" type="AudioStream" id=3]
 
-[node name="MysteryScoop" type="Control" groups=[
-"Mode",
-]]
+[node name="MysteryScoop" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -26,7 +24,9 @@ stream = ExtResource( 3 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.5
+one_shot = true
 
 [connection signal="SwitchActive" from="BallStackPinball" to="." method="_on_BallStackPinball_SwitchActive"]
 [connection signal="SwitchInActive" from="BallStackPinball" to="." method="_on_BallStackPinball_SwitchInActive"]
 [connection signal="timeout" from="BallStackPinball" to="." method="_on_BallStackPinball_timeout"]
+[connection signal="timeout" from="Timer" to="." method="Timer_timeout"]

@@ -55,10 +55,15 @@ public class DieLaneMode : PinballSwitchLanesNode
 	public override bool LaneSwitchActivated(int i)
 	{
 		pinGod.AddPoints(NightmareConstants.MED_SCORE/2);
+		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 
 		var complete = base.LaneSwitchActivated(i);
 		if (complete)
 		{
+			pinGod.PlaySfx("snd_inlane"); //todo: remix and completed sound?			
+		}
+        else
+        {
 			pinGod.PlaySfx("snd_inlane"); //todo: remix			
 		}
 
@@ -101,7 +106,7 @@ public class DieLaneMode : PinballSwitchLanesNode
 	/// </summary>
 	private void AdvanceMultiplier()
 	{
-		pinGod.LogInfo("advance mplier");
+		pinGod.LogInfo("advance multiplier");
 		//no process if all m-pliers are complete
 		if(player.Multipliers.Any(x => !x))
 		{			
@@ -110,22 +115,33 @@ public class DieLaneMode : PinballSwitchLanesNode
 				if (!player.Multipliers[i])
 				{
 					var msg = "MULTIPLIER\nINCREASED";
-					player.Multipliers[i] = true;					
-					if(i == 2) // x6
+					player.Multipliers[i] = true;
+					
+					if(i == 0)
+                    {
+						player.Multiplier = 2;
+					}
+					else if (i == 0)
 					{
+						player.Multiplier = 4;
+					}
+					else if(i == 2) // x6
+					{
+						player.Multiplier = 6;
 						player.DoubleBonus = true;
 						pinGod.LogInfo("die: double bonus activated");
-						msg += "\nDOUBLE BONUS\nACTIVATED";
+						msg += "\nDOUBLE BONUS\nACTIVATED";						
 					}
 					else if (i == 4) // x10
 					{
+						player.Multiplier = 10;
 						player.ExtraBallLit = true;
 						pinGod.LogInfo("die: extra ball activated");
 						msg += "\nEXTRA BALL\nACTIVATED";
 					}
 
-					game.OnDisplayMessage(msg);
-					if (game != null) game.PlayThenResumeMusic("mus_bonusmultiply", 2.3f);
+					game.OnDisplayMessage(msg, 2.6f);
+					if (game != null) game.PlayThenResumeMusic("mus_bonusmultiply", 2.6f);
 
 					UpdateLamps();
 					break;

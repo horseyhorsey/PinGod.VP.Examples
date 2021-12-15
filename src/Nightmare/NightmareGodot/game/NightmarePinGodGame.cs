@@ -13,4 +13,9 @@
 
 	public NightmarePlayer GetPlayer() => Player as NightmarePlayer;
 
+    public override bool StartGame()
+    {
+        return base.StartGame();
+    }
+
 }
