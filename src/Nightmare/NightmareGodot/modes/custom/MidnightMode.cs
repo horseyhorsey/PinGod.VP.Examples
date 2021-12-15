@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class MidnightMode : Control
 {
@@ -27,11 +26,15 @@ public class MidnightMode : Control
 	public override void _Ready()
 	{
 		player = ((NightmarePinGodGame)pinGod).GetPlayer();
+
+		game.resumeBgmTimer.Stop();
+		game.PauseBgm(true);
+
 		player.MidnightRunning = true;
 		player.MidnightTimesPlayed++;
 
-		game.bgmMusicPlayer.StreamPaused = true;
 		pinGod.PlayMusic("mus_midnight");
+		game.StartHurryUp(false);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -44,9 +47,10 @@ public class MidnightMode : Control
 
 	public override void _ExitTree()
 	{
+		pinGod.StopMusic();
 		player.MidnightRunning = false;
 		player.RomanValue = 0;
-		game.bgmMusicPlayer.StreamPaused = false;
+		game.PauseBgm(false);
 	}
 
 	private void _on_Timer_timeout()
@@ -73,8 +77,9 @@ public class MidnightMode : Control
 		var score = NightmareConstants.EXTRA_LARGE_SCORE * 5;
 		_midnightScore += score;
 		pinGod.AddPoints(score);
+		pinGod.AddBonus(NightmareConstants.SCORE_100K);
 
-        if (!player.HurryUpRunning)
+		if (!player.HurryUpRunning)
         {
 			//todo: play sequence Midnight5Million
 			//clear 2 seconds

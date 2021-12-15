@@ -39,16 +39,16 @@ public class MysteryScoop : Control
 	/// </summary>
 	private void _on_BallStackPinball_SwitchActive()
 	{
-		pinGod.LogInfo("mystery switch active, 10k");
-		pinGod.AddPoints(NightmareConstants.MED_SCORE);
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
+		if(pinGod.GameInPlay && !pinGod.IsTilted)
+        {
+			pinGod.LogInfo("mystery switch active, 10k");
+			pinGod.AddPoints(NightmareConstants.MED_SCORE);
+			pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 
-		//pause music
-		_musicTime = pinGod.StopMusic();
+			//pause music
+			_musicTime = pinGod.StopMusic();
 
-		if (player.BallLockEnabled)
-		{
-			if (!player.LeftLock)
+			if (player.BallLockEnabled && !player.LeftLock)
 			{
 				player.LeftLock = true;
 				destroyBall = true;
@@ -61,26 +61,32 @@ public class MysteryScoop : Control
 				{
 					pinGod.LogInfo("scoop: left lock on");
 				}
-			}			
 
-			ballStack.Start();
+				ballStack.Start();
+			}
+			else if (player.MysterySpinLit)
+			{
+				player.MysterySpinLit = false;
+				player.SpinTimesPlayed++;
+
+				game.OnDisplayMessage("Mystery spin", 6.5f);
+				game.PlayThenResumeMusic("mus_spinbonus", 8f);
+				pinGod.SolenoidOn("lampshow_mystery", 1);
+				timer.Start(6.5f);
+			}
+			else
+			{
+				player.JackpotValue += NightmareConstants.LARGE_SCORE;
+				pinGod.LogInfo("scoop: advancing jackpot..", player.JackpotValue);
+				game.OnDisplayMessage($"RAISING JACKPOT\n{player.JackpotValue.ToScoreString()}");
+				game.PlayThenResumeMusic("mus_raisingjackpot", 2f);
+				ballStack.Start();
+			}
 		}
-		else if (player.MysterySpinLit)
-		{
-			player.MysterySpinLit = false;
-			player.SpinTimesPlayed++;
-
-			game.OnDisplayMessage("Mystery spin", 6.5f);
-			game.PlayThenResumeMusic("mus_spinbonus", 8f);
-
-            timer.Start(6.5f);
-        }
-		else
-		{			
-			player.JackpotValue += NightmareConstants.LARGE_SCORE;
-			pinGod.LogInfo("scoop: advancing jackpot..", player.JackpotValue);			
+        else
+        {
 			ballStack.Start();
-		}		
+		}				
 	}
 	/// <summary>
 	/// Saucer inactive play sound update lamps
@@ -88,16 +94,21 @@ public class MysteryScoop : Control
 	private void _on_BallStackPinball_SwitchInActive()
 	{
 		kickersound.Play();
-		UpdateLamps();
+		game.UpdateLamps();
 	}
 	/// <summary>
 	/// Exit coil or tunnel done in simulator
 	/// </summary>
 	private void _on_BallStackPinball_timeout()
 	{
+		pinGod.SolenoidOn("lampshow_mystery", 0);
 		pinGod.LogDebug("mystery scoop timed out");
-		if(!destroyBall) pinGod.SolenoidPulse("saucer_left");
-		else pinGod.SolenoidPulse("saucer_top_left_tunnel");
+		if (!destroyBall) pinGod.SolenoidPulse("saucer_left");
+		else
+		{
+			pinGod.SolenoidPulse("saucer_top_left_tunnel"); //saucer left tunnel, creates ball in plunger lane (in VP)
+			pinGod.PlayMusic("mus_ballready");
+		}
 	}
 	/// <summary>
 	/// Awards mystery based from the <see cref="_mysteryChoices"/>
@@ -106,7 +117,6 @@ public class MysteryScoop : Control
 	/// <returns></returns>
 	float AwardMystery(int index)
 	{
-		player.LanesLit = true;		
 		var delay = 0f;
 		switch (index)
 		{
@@ -187,7 +197,6 @@ public class MysteryScoop : Control
 	void OnBallStarted() 
 	{
 		player = ((NightmarePinGodGame)pinGod).GetPlayer();
-		player.MysterySpinLit = false;
 		player.LeftLock = false;
 		player.LanePanicLit = false;
 		player.LaneExtraBallLit = false;
@@ -197,10 +206,10 @@ public class MysteryScoop : Control
 	}
 	void UpdateLamps() 
 	{
-		if (player.MysterySpinLit) pinGod.SetLampState("spin_left", 1);
+		if (player.MysterySpinLit) pinGod.SetLampState("spin_left", 2);
 		else pinGod.SetLampState("spin_left", 0);
 
-		if (player.LeftLock) pinGod.SetLampState("lock_left", 1);
+		if (player.LeftLock) pinGod.SetLampState("lock_left", 2);
 		else pinGod.SetLampState("lock_left", 0);
 
 		if (player.LanePanicLit) pinGod.SetLampState("panic", 1);
