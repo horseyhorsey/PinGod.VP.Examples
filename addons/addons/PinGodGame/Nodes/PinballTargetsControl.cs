@@ -5,7 +5,7 @@ using Godot;
 /// Create a class using this and a new scene to add switches and lamps in the Godot UI <para/>
 /// override <see cref="CheckTargetsCompleted(int)"/> , <see cref="TargetsCompleted"/> 
 /// </summary>
-public abstract class PinballTargetsControl : Control
+public abstract class PinballTargetsControl : Node
 {
 	#region Exports
 	[Export] protected string[] _target_switches;
@@ -14,8 +14,15 @@ public abstract class PinballTargetsControl : Control
 	[Export] protected bool _inverse_lamps;
 	#endregion
 
-	#region Fields
-	protected bool[] _targetValues;
+	#region Signals
+	/// <summary>
+	/// Fired when all <see cref="_targetValues"/> are complete
+	/// </summary>
+	[Signal] protected delegate void OnTargetsCompleted();
+    #endregion
+
+    #region Fields
+    protected bool[] _targetValues;
 	protected PinGodGameBase pinGod;
     #endregion
 
@@ -27,7 +34,7 @@ public abstract class PinballTargetsControl : Control
 
 		if (_target_switches == null)
 		{
-			GD.PushError("no target switches assigned. removing mode");
+			pinGod.LogError("no target switches assigned. removing mode");
 			this.QueueFree();
 		}
 		else
@@ -70,6 +77,7 @@ public abstract class PinballTargetsControl : Control
 		if(!_targetValues[index])
         {
 			_targetValues[index] = true;
+			EmitSignal(nameof(OnTargetsCompleted));
 			return true;
         }
 
