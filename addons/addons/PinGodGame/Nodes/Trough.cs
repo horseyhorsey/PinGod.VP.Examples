@@ -20,11 +20,11 @@ public class Trough : Node
 	[Export] public byte _ball_save_seconds = 8;
 	[Export] public byte _ball_save_multiball_seconds = 8;
 	[Export] public byte _number_of_balls_to_save = 1;
-
 	/// <summary>
 	/// Use this to turn off trough checking, outside VP
 	/// </summary>
-	public static bool _isDebugTrough = false;
+	[Export] public bool _isDebugTrough = false;
+
 	/// <summary>
 	/// Ball saver timer. Setup in <see cref="_Ready"/>
 	/// </summary>
