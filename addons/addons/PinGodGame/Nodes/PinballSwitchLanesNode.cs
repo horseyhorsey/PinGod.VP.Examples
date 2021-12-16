@@ -21,6 +21,12 @@ public abstract class PinballSwitchLanesNode : Node
     [Export] string[] _lane_switches = new string[0];
 
     [Export] protected Color _led_color = Color.Color8(255, 255, 255);
+
+    [Export] bool _resetOnLanesCompleted = true;
+
+    [Signal] public delegate void LanesCompleted();
+    [Signal] public delegate int LaneCompleted();
+
     #endregion
 
     bool[] _lanesCompleted;
@@ -94,6 +100,11 @@ public abstract class PinballSwitchLanesNode : Node
                 break;
             }
         }
+        if (complete)
+        {
+            EmitSignal(nameof(LanesCompleted));
+            if (_resetOnLanesCompleted) ResetLanesCompleted();
+        }
         return complete;
     }
 
@@ -108,6 +119,7 @@ public abstract class PinballSwitchLanesNode : Node
         {
             _lanesCompleted[i] = true;
             pinGod.LogDebug($"lane {i} complete");
+            EmitSignal(nameof(LaneCompleted), i);
             return true;
         }
 

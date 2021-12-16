@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using System;
 
 /// <summary>
 /// Godot singleton (AUTOLOAD) to hold Common pinball variables and methods. Add everything you want scenes to use globally here. <see cref="PinGodGameBase"/>
@@ -43,7 +44,7 @@ public class PinGodGame : PinGodGameBase
 		Quit(true);
 	}
 
-	public override void _Input(InputEvent @event)
+    public override void _Input(InputEvent @event)
 	{
 		base._Input(@event); // process window events
 	}

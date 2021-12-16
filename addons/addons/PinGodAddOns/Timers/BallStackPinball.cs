@@ -69,7 +69,7 @@ public class BallStackPinball : Timer
 			// Code to execute when in game.
 			if (string.IsNullOrWhiteSpace(_switch))
 			{
-				GD.PrintErr("no _sw_action set", this.Name);
+				pingod.LogError("no _sw_action set", this.Name);
 				SetProcessInput(false);
 			}
 		}
