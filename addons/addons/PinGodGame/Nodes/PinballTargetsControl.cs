@@ -76,7 +76,8 @@ public abstract class PinballTargetsControl : Node
     {
 		if(!_targetValues[index])
         {
-			_targetValues[index] = true;			
+			_targetValues[index] = true;
+			UpdateLamps();
 			return true;
         }
 

@@ -7,7 +7,7 @@
 # import files that are built, no need to be in source
 .import
 Exported
-*.import
+#*.import
 .mono
 
 # User-specific files
@@ -379,3 +379,4 @@ FodyWeavers.xsd
 /src/KnightRider/KnightRiderGodot/addons
 /src/Playboy/PlayboyGodot/addons
 /src/DropTargets/DropTargetsGodot/addons
+/src/Motu/MotuGodot/addons

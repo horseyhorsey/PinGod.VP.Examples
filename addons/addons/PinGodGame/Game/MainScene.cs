@@ -100,8 +100,6 @@ public class MainScene : Node2D
 	public override void _Ready()
 	{
 		pauseLayer.Hide();
-		pinGod.LogInfo("main: ready. sending coil 0 for VP game ready"); ///TODO: make sure not invoked, but no biggy
-		pinGod.SolenoidOn("died", 1); //todo: change this to the VPCOIL, special coil number in core_vbs script
 	}
 
 	/// <summary>

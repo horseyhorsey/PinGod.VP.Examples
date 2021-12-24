@@ -54,6 +54,10 @@ public class Switch
     /// <returns></returns>
     public bool IsOn() => Input.IsActionPressed(ToString());
 
+    /// <summary>
+    /// Time in milliseconds
+    /// </summary>
+    /// <returns></returns>
     public ulong TimeSinceChange()
     {
         if(Time > 0)
