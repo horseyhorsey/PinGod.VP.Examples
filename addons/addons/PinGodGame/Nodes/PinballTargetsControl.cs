@@ -76,8 +76,7 @@ public abstract class PinballTargetsControl : Node
     {
 		if(!_targetValues[index])
         {
-			_targetValues[index] = true;
-			EmitSignal(nameof(OnTargetsCompleted));
+			_targetValues[index] = true;			
 			return true;
         }
 
@@ -117,6 +116,7 @@ public abstract class PinballTargetsControl : Node
 	/// <param name="reset"></param>
 	public virtual void TargetsCompleted(bool reset = true)
 	{
+		EmitSignal(nameof(OnTargetsCompleted));
 		if (reset)
 		{
 			pinGod.LogDebug("targets complete, resetting");
