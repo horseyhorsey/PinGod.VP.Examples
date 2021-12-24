@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/ImpendDangLoop.ogg-96e387f61bd687a78bb1a6e572e87865.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/music/ImpendDangLoop.ogg"
+dest_files=[ "res://.import/ImpendDangLoop.ogg-96e387f61bd687a78bb1a6e572e87865.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

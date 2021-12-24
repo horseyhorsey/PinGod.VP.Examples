@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/man_work.wav-b40e50a17149b89a3638160cc60ab4dc.sample"
+
+[deps]
+
+source_file="res://assets/sound/voice/man_work.wav"
+dest_files=[ "res://.import/man_work.wav-b40e50a17149b89a3638160cc60ab4dc.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

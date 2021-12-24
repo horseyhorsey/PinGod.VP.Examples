@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/heman_stab_1.wav-4c7f8a6a269b07999e6d9db9891f48ad.sample"
+
+[deps]
+
+source_file="res://assets/sound/sfx/heman_stab_1.wav"
+dest_files=[ "res://.import/heman_stab_1.wav-4c7f8a6a269b07999e6d9db9891f48ad.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

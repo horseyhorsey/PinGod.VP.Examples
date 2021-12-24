@@ -57,15 +57,20 @@ public class Bonus : Control
 		return text;
     }
 
-    /// <summary>
-    /// Starts display for the amount of seconds set
-    /// </summary>
-    public virtual void StartBonusDisplay()
+	/// <summary>
+	/// Starts display for the amount of seconds set
+	/// </summary>
+	/// <param name="visible">can hide the display but still use timer to let game know bonus ended</param>
+	public virtual void StartBonusDisplay(bool visible = true)
 	{
-		label.Text = SetBonusText();
-		pinGod.LogDebug("bonus: set label text to:", label.Text);
+        if (visible)
+        {
+			label.Text = SetBonusText();
+			pinGod.LogDebug("bonus: set label text to:", label.Text);
+		}
+		
 		timer.Start(_display_for_seconds);
-		Visible = true;
+		Visible = visible;
 
 		if (pinGod.Player != null)
 		{

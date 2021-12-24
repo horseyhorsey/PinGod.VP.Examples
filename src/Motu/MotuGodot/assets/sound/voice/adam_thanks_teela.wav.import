@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/adam_thanks_teela.wav-9f1f71956ab51121c2b3c6ad0b104b73.sample"
+
+[deps]
+
+source_file="res://assets/sound/voice/adam_thanks_teela.wav"
+dest_files=[ "res://.import/adam_thanks_teela.wav-9f1f71956ab51121c2b3c6ad0b104b73.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

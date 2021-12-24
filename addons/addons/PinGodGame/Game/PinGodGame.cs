@@ -19,7 +19,7 @@ public class PinGodGame : PinGodGameBase
 	[Export] bool _playback_game = false;
 	[Export] string _playbackfile = null;
 
-	#endregion	
+	#endregion
 
 	/// <summary>
 	/// Runs setup for everything in the `machine`. Trough, ball-search etc <see cref="Setup"/>

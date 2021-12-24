@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_heman.ogg-f397127c12c8a457c35697fe7aff77e1.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_heman.ogg"
+dest_files=[ "res://.import/skele_heman.ogg-f397127c12c8a457c35697fe7aff77e1.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

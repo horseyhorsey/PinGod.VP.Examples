@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/battlecat2.ogg-ce19851f1c6ef39c1f74324642fe896d.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/battlecat2.ogg"
+dest_files=[ "res://.import/battlecat2.ogg-ce19851f1c6ef39c1f74324642fe896d.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

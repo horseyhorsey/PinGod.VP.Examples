@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skel_turn_my_back.ogg-de3d390c0f4d2e1c00e99994c73961e1.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skel_turn_my_back.ogg"
+dest_files=[ "res://.import/skel_turn_my_back.ogg-de3d390c0f4d2e1c00e99994c73961e1.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_furry_coward.ogg-6eb655cc63cf171632245539ea0e5445.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_furry_coward.ogg"
+dest_files=[ "res://.import/skele_furry_coward.ogg-6eb655cc63cf171632245539ea0e5445.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
