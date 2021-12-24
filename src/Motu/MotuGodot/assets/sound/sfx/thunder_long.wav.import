@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/thunder_long.wav-a322afc113f6b29aa3ac70692e3da579.sample"
+
+[deps]
+
+source_file="res://assets/sound/sfx/thunder_long.wav"
+dest_files=[ "res://.import/thunder_long.wav-a322afc113f6b29aa3ac70692e3da579.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

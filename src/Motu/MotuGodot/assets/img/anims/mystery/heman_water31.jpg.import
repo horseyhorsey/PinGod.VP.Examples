@@ -1,0 +1,35 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/heman_water31.jpg-315318afe81c804e504428ded79240c3.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://assets/img/anims/mystery/heman_water31.jpg"
+dest_files=[ "res://.import/heman_water31.jpg-315318afe81c804e504428ded79240c3.stex" ]
+
+[params]
+
+compress/mode=1
+compress/lossy_quality=0.5
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

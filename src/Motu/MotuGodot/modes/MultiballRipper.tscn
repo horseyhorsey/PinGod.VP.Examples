@@ -1,0 +1,128 @@
+[gd_scene load_steps=46 format=2]
+
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a04.jpg" type="Texture" id=1]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a05.jpg" type="Texture" id=2]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a06.jpg" type="Texture" id=3]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a08.jpg" type="Texture" id=4]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a10.jpg" type="Texture" id=5]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a01.jpg" type="Texture" id=6]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a03.jpg" type="Texture" id=7]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a07.jpg" type="Texture" id=8]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a09.jpg" type="Texture" id=9]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a11.jpg" type="Texture" id=10]
+[ext_resource path="res://modes/MultiballRipper.cs" type="Script" id=11]
+[ext_resource path="res://layers/CastleWallBackground.tscn" type="PackedScene" id=12]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=13]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a13.jpg" type="Texture" id=14]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a02.jpg" type="Texture" id=15]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a14.jpg" type="Texture" id=16]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a12.jpg" type="Texture" id=17]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a15.jpg" type="Texture" id=18]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas28.tres" type="DynamicFont" id=19]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a23.jpg" type="Texture" id=20]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a17.jpg" type="Texture" id=21]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a18.jpg" type="Texture" id=22]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a19.jpg" type="Texture" id=23]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a20.jpg" type="Texture" id=24]
+[ext_resource path="res://assets/img/scorebarp1.png" type="Texture" id=25]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a21.jpg" type="Texture" id=26]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a24.jpg" type="Texture" id=27]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a25.jpg" type="Texture" id=28]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a29.jpg" type="Texture" id=29]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a26.jpg" type="Texture" id=30]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a22.jpg" type="Texture" id=31]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a27.jpg" type="Texture" id=32]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a30.jpg" type="Texture" id=33]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a31.jpg" type="Texture" id=34]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a16.jpg" type="Texture" id=35]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a28.jpg" type="Texture" id=36]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a32.jpg" type="Texture" id=37]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a38.jpg" type="Texture" id=38]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a37.jpg" type="Texture" id=39]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a35.jpg" type="Texture" id=40]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a39.jpg" type="Texture" id=41]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a34.jpg" type="Texture" id=42]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a33.jpg" type="Texture" id=43]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_a36.jpg" type="Texture" id=44]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 15 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 9 ), ExtResource( 5 ), ExtResource( 10 ), ExtResource( 17 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 35 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 31 ), ExtResource( 20 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 30 ), ExtResource( 32 ), ExtResource( 36 ), ExtResource( 29 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 37 ), ExtResource( 43 ), ExtResource( 42 ), ExtResource( 40 ), ExtResource( 44 ), ExtResource( 39 ), ExtResource( 38 ), ExtResource( 41 ) ],
+"loop": false,
+"name": "rip",
+"speed": 20.0
+} ]
+
+[node name="MultiballRipper" type="Node" groups=["multiball"]]
+script = ExtResource( 11 )
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anims" type="AnimatedSprite" parent="Control"]
+position = Vector2( 344, 193 )
+frames = SubResource( 1 )
+animation = "rip"
+
+[node name="CastleWallBackground" parent="Control" instance=ExtResource( 12 )]
+
+[node name="ScorePanel" type="TextureRect" parent="Control"]
+margin_right = 683.0
+margin_bottom = 384.0
+texture = ExtResource( 25 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0.270588, 0.776471, 0.196078, 1 )
+custom_fonts/font = ExtResource( 13 )
+text = "ripper multiball"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0.490196, 0.423529, 0.776471, 1 )
+custom_fonts/font = ExtResource( 19 )
+text = "COmplete all lanes"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ClearDisplayTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="ModeEndingTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="SuperJackTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="ClearDisplayTimer" to="." method="ClearDisplayTimer_timeout"]
+[connection signal="timeout" from="ModeEndingTimer" to="." method="ModeEndingTimer_timeout"]
+[connection signal="timeout" from="SuperJackTimer" to="." method="SuperJackTimer_timeout"]

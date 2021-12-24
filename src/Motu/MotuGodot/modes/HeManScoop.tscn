@@ -1,0 +1,315 @@
+[gd_scene load_steps=205 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Timers/BallStackPinball.cs" type="Script" id=1]
+[ext_resource path="res://modes/HeManScoop.cs" type="Script" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://layers/CastleWallBackground.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll02.jpg" type="Texture" id=5]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll05.jpg" type="Texture" id=6]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll20.jpg" type="Texture" id=7]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll07.jpg" type="Texture" id=8]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll08.jpg" type="Texture" id=9]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll01.jpg" type="Texture" id=10]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll14.jpg" type="Texture" id=11]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll16.jpg" type="Texture" id=12]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll06.jpg" type="Texture" id=13]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll09.jpg" type="Texture" id=14]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll12.jpg" type="Texture" id=15]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll13.jpg" type="Texture" id=16]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll15.jpg" type="Texture" id=17]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll19.jpg" type="Texture" id=18]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll10.jpg" type="Texture" id=19]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll03.jpg" type="Texture" id=20]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll11.jpg" type="Texture" id=21]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll04.jpg" type="Texture" id=22]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll17.jpg" type="Texture" id=23]
+[ext_resource path="res://assets/img/anims/hemanroll/heman_roll18.jpg" type="Texture" id=24]
+[ext_resource path="res://assets/img/anims/manat/man_talk21.jpg" type="Texture" id=25]
+[ext_resource path="res://assets/img/anims/manat/man_talk22.jpg" type="Texture" id=26]
+[ext_resource path="res://assets/img/anims/manat/man_talk20.jpg" type="Texture" id=27]
+[ext_resource path="res://assets/img/anims/manat/man_talk26.jpg" type="Texture" id=28]
+[ext_resource path="res://assets/img/anims/manat/man_talk27.jpg" type="Texture" id=29]
+[ext_resource path="res://assets/img/anims/manat/man_talk23.jpg" type="Texture" id=30]
+[ext_resource path="res://assets/img/anims/manat/man_talk24.jpg" type="Texture" id=31]
+[ext_resource path="res://assets/img/anims/manat/man_talk25.jpg" type="Texture" id=32]
+[ext_resource path="res://assets/img/anims/manat/man_talk01.jpg" type="Texture" id=33]
+[ext_resource path="res://assets/img/anims/manat/man_talk02.jpg" type="Texture" id=34]
+[ext_resource path="res://assets/img/anims/manat/man_talk03.jpg" type="Texture" id=35]
+[ext_resource path="res://assets/img/anims/manat/man_talk07.jpg" type="Texture" id=36]
+[ext_resource path="res://assets/img/anims/manat/man_talk12.jpg" type="Texture" id=37]
+[ext_resource path="res://assets/img/anims/manat/man_talk14.jpg" type="Texture" id=38]
+[ext_resource path="res://assets/img/anims/manat/man_talk15.jpg" type="Texture" id=39]
+[ext_resource path="res://assets/img/anims/manat/man_talk16.jpg" type="Texture" id=40]
+[ext_resource path="res://assets/img/anims/manat/man_talk17.jpg" type="Texture" id=41]
+[ext_resource path="res://assets/img/anims/manat/man_talk18.jpg" type="Texture" id=42]
+[ext_resource path="res://assets/img/anims/manat/man_talk19.jpg" type="Texture" id=43]
+[ext_resource path="res://assets/img/anims/manat/man_talk11.jpg" type="Texture" id=44]
+[ext_resource path="res://assets/img/anims/manat/man_talk06.jpg" type="Texture" id=45]
+[ext_resource path="res://assets/img/anims/manat/man_talk09.jpg" type="Texture" id=46]
+[ext_resource path="res://assets/img/anims/manat/man_talk10.jpg" type="Texture" id=47]
+[ext_resource path="res://assets/img/anims/manat/man_talk13.jpg" type="Texture" id=48]
+[ext_resource path="res://assets/img/anims/manat/man_talk05.jpg" type="Texture" id=49]
+[ext_resource path="res://assets/img/anims/manat/man_talk04.jpg" type="Texture" id=50]
+[ext_resource path="res://assets/img/anims/manat/man_talk08.jpg" type="Texture" id=51]
+[ext_resource path="res://assets/img/anims/manat/man_talk31.jpg" type="Texture" id=52]
+[ext_resource path="res://assets/img/anims/manat/man_talk35.jpg" type="Texture" id=53]
+[ext_resource path="res://assets/img/anims/manat/man_talk30.jpg" type="Texture" id=54]
+[ext_resource path="res://assets/img/anims/manat/man_talk41.jpg" type="Texture" id=55]
+[ext_resource path="res://assets/img/anims/manat/man_talk36.jpg" type="Texture" id=56]
+[ext_resource path="res://assets/img/anims/manat/man_talk33.jpg" type="Texture" id=57]
+[ext_resource path="res://assets/img/anims/manat/man_talk34.jpg" type="Texture" id=58]
+[ext_resource path="res://assets/img/anims/manat/man_talk39.jpg" type="Texture" id=59]
+[ext_resource path="res://assets/img/anims/manat/man_talk42.jpg" type="Texture" id=60]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_b01.jpg" type="Texture" id=61]
+[ext_resource path="res://assets/img/anims/manat/man_talk29.jpg" type="Texture" id=62]
+[ext_resource path="res://assets/img/anims/manat/man_talk37.jpg" type="Texture" id=63]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_b02.jpg" type="Texture" id=64]
+[ext_resource path="res://assets/img/anims/manat/man_talk40.jpg" type="Texture" id=65]
+[ext_resource path="res://assets/img/anims/manat/man_talk28.jpg" type="Texture" id=66]
+[ext_resource path="res://assets/img/anims/ripper/ripper_orko_b03.jpg" type="Texture" id=67]
+[ext_resource path="res://assets/img/anims/manat/man_talk32.jpg" type="Texture" id=68]
+[ext_resource path="res://assets/img/anims/manat/man_talk38.jpg" type="Texture" id=69]
+[ext_resource path="res://assets/img/anims/combo/combo_power31.jpg" type="Texture" id=70]
+[ext_resource path="res://assets/img/anims/combo/combo_power36.jpg" type="Texture" id=71]
+[ext_resource path="res://assets/img/anims/combo/combo_power40.jpg" type="Texture" id=72]
+[ext_resource path="res://assets/img/anims/combo/combo_power42.jpg" type="Texture" id=73]
+[ext_resource path="res://assets/img/anims/combo/combo_power43.jpg" type="Texture" id=74]
+[ext_resource path="res://assets/img/anims/combo/combo_power45.jpg" type="Texture" id=75]
+[ext_resource path="res://assets/img/anims/combo/combo_power47.jpg" type="Texture" id=76]
+[ext_resource path="res://assets/img/anims/combo/combo_power34.jpg" type="Texture" id=77]
+[ext_resource path="res://assets/img/anims/combo/combo_power48.jpg" type="Texture" id=78]
+[ext_resource path="res://assets/img/anims/combo/combo_power44.jpg" type="Texture" id=79]
+[ext_resource path="res://assets/img/anims/combo/combo_power49.jpg" type="Texture" id=80]
+[ext_resource path="res://assets/img/anims/combo/combo_power50.jpg" type="Texture" id=81]
+[ext_resource path="res://assets/img/anims/combo/combo_power38.jpg" type="Texture" id=82]
+[ext_resource path="res://assets/img/anims/combo/combo_power37.jpg" type="Texture" id=83]
+[ext_resource path="res://assets/img/anims/combo/combo_power39.jpg" type="Texture" id=84]
+[ext_resource path="res://assets/img/anims/combo/combo_power41.jpg" type="Texture" id=85]
+[ext_resource path="res://assets/img/anims/combo/combo_power35.jpg" type="Texture" id=86]
+[ext_resource path="res://assets/img/anims/combo/combo_power32.jpg" type="Texture" id=87]
+[ext_resource path="res://assets/img/anims/combo/combo_power33.jpg" type="Texture" id=88]
+[ext_resource path="res://assets/img/anims/combo/combo_power30.jpg" type="Texture" id=89]
+[ext_resource path="res://assets/img/anims/combo/combo_power29.jpg" type="Texture" id=90]
+[ext_resource path="res://assets/img/anims/combo/combo_power46.jpg" type="Texture" id=91]
+[ext_resource path="res://assets/img/anims/combo/combo_power88.jpg" type="Texture" id=92]
+[ext_resource path="res://assets/img/anims/combo/combo_power89.jpg" type="Texture" id=93]
+[ext_resource path="res://assets/img/anims/combo/combo_power90.jpg" type="Texture" id=94]
+[ext_resource path="res://assets/img/anims/combo/combo_power91.jpg" type="Texture" id=95]
+[ext_resource path="res://assets/img/anims/combo/combo_power72.jpg" type="Texture" id=96]
+[ext_resource path="res://assets/img/anims/combo/combo_power73.jpg" type="Texture" id=97]
+[ext_resource path="res://assets/img/anims/combo/combo_power58.jpg" type="Texture" id=98]
+[ext_resource path="res://assets/img/anims/combo/combo_power70.jpg" type="Texture" id=99]
+[ext_resource path="res://assets/img/anims/combo/combo_power65.jpg" type="Texture" id=100]
+[ext_resource path="res://assets/img/anims/combo/combo_power71.jpg" type="Texture" id=101]
+[ext_resource path="res://assets/img/anims/combo/combo_power74.jpg" type="Texture" id=102]
+[ext_resource path="res://assets/img/anims/combo/combo_power76.jpg" type="Texture" id=103]
+[ext_resource path="res://assets/img/anims/combo/combo_power60.jpg" type="Texture" id=104]
+[ext_resource path="res://assets/img/anims/combo/combo_power78.jpg" type="Texture" id=105]
+[ext_resource path="res://assets/img/anims/combo/combo_power82.jpg" type="Texture" id=106]
+[ext_resource path="res://assets/img/anims/combo/combo_power63.jpg" type="Texture" id=107]
+[ext_resource path="res://assets/img/anims/combo/combo_power75.jpg" type="Texture" id=108]
+[ext_resource path="res://assets/img/anims/combo/combo_power62.jpg" type="Texture" id=109]
+[ext_resource path="res://assets/img/anims/combo/combo_power77.jpg" type="Texture" id=110]
+[ext_resource path="res://assets/img/anims/combo/combo_power57.jpg" type="Texture" id=111]
+[ext_resource path="res://assets/img/anims/combo/combo_power69.jpg" type="Texture" id=112]
+[ext_resource path="res://assets/img/anims/combo/combo_power81.jpg" type="Texture" id=113]
+[ext_resource path="res://assets/img/anims/combo/combo_power84.jpg" type="Texture" id=114]
+[ext_resource path="res://assets/img/anims/combo/combo_power66.jpg" type="Texture" id=115]
+[ext_resource path="res://assets/img/anims/combo/combo_power79.jpg" type="Texture" id=116]
+[ext_resource path="res://assets/img/anims/combo/combo_power85.jpg" type="Texture" id=117]
+[ext_resource path="res://assets/img/anims/combo/combo_power83.jpg" type="Texture" id=118]
+[ext_resource path="res://assets/img/anims/combo/combo_power59.jpg" type="Texture" id=119]
+[ext_resource path="res://assets/img/anims/combo/combo_power67.jpg" type="Texture" id=120]
+[ext_resource path="res://assets/img/anims/combo/combo_power64.jpg" type="Texture" id=121]
+[ext_resource path="res://assets/img/anims/combo/combo_power68.jpg" type="Texture" id=122]
+[ext_resource path="res://assets/img/anims/combo/combo_power61.jpg" type="Texture" id=123]
+[ext_resource path="res://assets/img/anims/combo/combo_power80.jpg" type="Texture" id=124]
+[ext_resource path="res://assets/img/anims/combo/combo_power86.jpg" type="Texture" id=125]
+[ext_resource path="res://assets/img/anims/combo/combo_power87.jpg" type="Texture" id=126]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open05.jpg" type="Texture" id=127]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open16.jpg" type="Texture" id=128]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open03.jpg" type="Texture" id=129]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open09.jpg" type="Texture" id=130]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open14.jpg" type="Texture" id=131]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open07.jpg" type="Texture" id=132]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open06.jpg" type="Texture" id=133]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open02.jpg" type="Texture" id=134]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open11.jpg" type="Texture" id=135]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open13.jpg" type="Texture" id=136]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open12.jpg" type="Texture" id=137]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open10.jpg" type="Texture" id=138]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open17.jpg" type="Texture" id=139]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open01.jpg" type="Texture" id=140]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open19.jpg" type="Texture" id=141]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open15.jpg" type="Texture" id=142]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open18.jpg" type="Texture" id=143]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open08.jpg" type="Texture" id=144]
+[ext_resource path="res://assets/img/anims/combo/combo_power92.jpg" type="Texture" id=145]
+[ext_resource path="res://assets/img/anims/grayskull/grayskull_open04.jpg" type="Texture" id=146]
+[ext_resource path="res://assets/img/anims/combo/combo_power56.jpg" type="Texture" id=147]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc02.jpg" type="Texture" id=148]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc03.jpg" type="Texture" id=149]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc05.jpg" type="Texture" id=150]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc06.jpg" type="Texture" id=151]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc07.jpg" type="Texture" id=152]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc08.jpg" type="Texture" id=153]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc09.jpg" type="Texture" id=154]
+[ext_resource path="res://assets/img/anims/combo/combo_power52.jpg" type="Texture" id=155]
+[ext_resource path="res://assets/img/anims/combo/combo_power51.jpg" type="Texture" id=156]
+[ext_resource path="res://assets/img/anims/combo/combo_power53.jpg" type="Texture" id=157]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc04.jpg" type="Texture" id=158]
+[ext_resource path="res://assets/img/anims/combo/combo_power54.jpg" type="Texture" id=159]
+[ext_resource path="res://assets/img/anims/combo/combo_power55.jpg" type="Texture" id=160]
+[ext_resource path="res://assets/img/anims/mystery/heman_sorc01.jpg" type="Texture" id=161]
+[ext_resource path="res://assets/img/anims/mystery/heman_water20.jpg" type="Texture" id=162]
+[ext_resource path="res://assets/img/anims/mystery/heman_water25.jpg" type="Texture" id=163]
+[ext_resource path="res://assets/img/anims/mystery/heman_water10.jpg" type="Texture" id=164]
+[ext_resource path="res://assets/img/anims/mystery/heman_water29.jpg" type="Texture" id=165]
+[ext_resource path="res://assets/img/anims/mystery/heman_water09.jpg" type="Texture" id=166]
+[ext_resource path="res://assets/img/anims/mystery/heman_water11.jpg" type="Texture" id=167]
+[ext_resource path="res://assets/img/anims/mystery/heman_water15.jpg" type="Texture" id=168]
+[ext_resource path="res://assets/img/anims/mystery/heman_water23.jpg" type="Texture" id=169]
+[ext_resource path="res://assets/img/anims/mystery/heman_water14.jpg" type="Texture" id=170]
+[ext_resource path="res://assets/img/anims/mystery/heman_water22.jpg" type="Texture" id=171]
+[ext_resource path="res://assets/img/anims/mystery/heman_water37.jpg" type="Texture" id=172]
+[ext_resource path="res://assets/img/anims/mystery/heman_water21.jpg" type="Texture" id=173]
+[ext_resource path="res://assets/img/anims/mystery/heman_water36.jpg" type="Texture" id=174]
+[ext_resource path="res://assets/img/anims/mystery/heman_water38.jpg" type="Texture" id=175]
+[ext_resource path="res://assets/img/anims/mystery/heman_water27.jpg" type="Texture" id=176]
+[ext_resource path="res://assets/img/anims/mystery/heman_water18.jpg" type="Texture" id=177]
+[ext_resource path="res://assets/img/anims/mystery/heman_water26.jpg" type="Texture" id=178]
+[ext_resource path="res://assets/img/anims/mystery/heman_water34.jpg" type="Texture" id=179]
+[ext_resource path="res://assets/img/anims/mystery/heman_water30.jpg" type="Texture" id=180]
+[ext_resource path="res://assets/img/anims/mystery/heman_water16.jpg" type="Texture" id=181]
+[ext_resource path="res://assets/img/anims/mystery/heman_water24.jpg" type="Texture" id=182]
+[ext_resource path="res://assets/img/anims/mystery/heman_water19.jpg" type="Texture" id=183]
+[ext_resource path="res://assets/img/anims/mystery/heman_water32.jpg" type="Texture" id=184]
+[ext_resource path="res://assets/img/anims/mystery/heman_water12.jpg" type="Texture" id=185]
+[ext_resource path="res://assets/img/anims/mystery/heman_water13.jpg" type="Texture" id=186]
+[ext_resource path="res://assets/img/anims/mystery/heman_water17.jpg" type="Texture" id=187]
+[ext_resource path="res://assets/img/anims/mystery/heman_water35.jpg" type="Texture" id=188]
+[ext_resource path="res://assets/img/anims/mystery/heman_water28.jpg" type="Texture" id=189]
+[ext_resource path="res://assets/img/anims/mystery/heman_water31.jpg" type="Texture" id=190]
+[ext_resource path="res://assets/img/anims/mystery/heman_water08.jpg" type="Texture" id=191]
+[ext_resource path="res://assets/img/anims/mystery/heman_water33.jpg" type="Texture" id=192]
+[ext_resource path="res://assets/img/anims/mystery/heman_water04.jpg" type="Texture" id=193]
+[ext_resource path="res://assets/img/anims/mystery/heman_water05.jpg" type="Texture" id=194]
+[ext_resource path="res://assets/img/anims/mystery/heman_water06.jpg" type="Texture" id=195]
+[ext_resource path="res://assets/img/anims/mystery/heman_water07.jpg" type="Texture" id=196]
+[ext_resource path="res://assets/img/anims/mystery/heman_water01.jpg" type="Texture" id=197]
+[ext_resource path="res://assets/img/anims/mystery/heman_water02.jpg" type="Texture" id=198]
+[ext_resource path="res://assets/img/anims/mystery/heman_water03.jpg" type="Texture" id=199]
+[ext_resource path="res://assets/img/scorebarp1.png" type="Texture" id=200]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas28.tres" type="DynamicFont" id=201]
+[ext_resource path="res://assets/sound/voice/man_notime.wav" type="AudioStream" id=202]
+[ext_resource path="res://assets/sound/voice/heman_bythepower.wav" type="AudioStream" id=203]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 161 ), ExtResource( 148 ), ExtResource( 149 ), ExtResource( 158 ), ExtResource( 150 ), ExtResource( 151 ), ExtResource( 152 ), ExtResource( 153 ), ExtResource( 154 ) ],
+"loop": true,
+"name": "mystery",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 90 ), ExtResource( 89 ), ExtResource( 70 ), ExtResource( 87 ), ExtResource( 88 ), ExtResource( 77 ), ExtResource( 86 ), ExtResource( 71 ), ExtResource( 83 ), ExtResource( 82 ), ExtResource( 84 ), ExtResource( 72 ), ExtResource( 85 ), ExtResource( 73 ), ExtResource( 74 ), ExtResource( 79 ), ExtResource( 75 ), ExtResource( 91 ), ExtResource( 76 ), ExtResource( 78 ), ExtResource( 80 ), ExtResource( 81 ), ExtResource( 156 ), ExtResource( 155 ), ExtResource( 157 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 147 ), ExtResource( 111 ), ExtResource( 98 ), ExtResource( 119 ), ExtResource( 104 ), ExtResource( 123 ), ExtResource( 109 ), ExtResource( 107 ), ExtResource( 121 ), ExtResource( 100 ), ExtResource( 115 ), ExtResource( 120 ), ExtResource( 122 ), ExtResource( 112 ), ExtResource( 99 ), ExtResource( 101 ), ExtResource( 96 ), ExtResource( 97 ), ExtResource( 102 ), ExtResource( 108 ), ExtResource( 103 ), ExtResource( 110 ), ExtResource( 105 ), ExtResource( 116 ), ExtResource( 124 ), ExtResource( 113 ), ExtResource( 106 ), ExtResource( 118 ), ExtResource( 114 ), ExtResource( 117 ), ExtResource( 125 ), ExtResource( 126 ), ExtResource( 92 ), ExtResource( 93 ), ExtResource( 94 ), ExtResource( 95 ), ExtResource( 145 ) ],
+"loop": true,
+"name": "combo",
+"speed": 25.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 5 ), ExtResource( 20 ), ExtResource( 22 ), ExtResource( 6 ), ExtResource( 13 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 14 ), ExtResource( 19 ), ExtResource( 21 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 11 ), ExtResource( 17 ), ExtResource( 12 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 18 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "roll",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 45 ), ExtResource( 36 ), ExtResource( 51 ), ExtResource( 46 ), ExtResource( 47 ), ExtResource( 44 ), ExtResource( 37 ), ExtResource( 48 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 27 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 66 ), ExtResource( 62 ), ExtResource( 54 ), ExtResource( 52 ), ExtResource( 68 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 53 ), ExtResource( 56 ), ExtResource( 63 ), ExtResource( 69 ), ExtResource( 59 ), ExtResource( 65 ), ExtResource( 55 ), ExtResource( 60 ) ],
+"loop": true,
+"name": "man_talk",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 140 ), ExtResource( 134 ), ExtResource( 129 ), ExtResource( 146 ), ExtResource( 127 ), ExtResource( 133 ), ExtResource( 132 ), ExtResource( 144 ), ExtResource( 130 ), ExtResource( 138 ), ExtResource( 135 ), ExtResource( 137 ), ExtResource( 136 ), ExtResource( 131 ), ExtResource( 142 ), ExtResource( 128 ), ExtResource( 139 ), ExtResource( 143 ), ExtResource( 141 ) ],
+"loop": true,
+"name": "grayskull",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 197 ), ExtResource( 198 ), ExtResource( 199 ), ExtResource( 193 ), ExtResource( 194 ), ExtResource( 195 ), ExtResource( 196 ), ExtResource( 191 ), ExtResource( 166 ), ExtResource( 164 ), ExtResource( 167 ), ExtResource( 185 ), ExtResource( 186 ), ExtResource( 170 ), ExtResource( 168 ), ExtResource( 181 ), ExtResource( 187 ), ExtResource( 177 ), ExtResource( 183 ), ExtResource( 162 ), ExtResource( 173 ), ExtResource( 171 ), ExtResource( 169 ), ExtResource( 182 ), ExtResource( 163 ), ExtResource( 178 ), ExtResource( 176 ), ExtResource( 189 ), ExtResource( 165 ), ExtResource( 180 ), ExtResource( 190 ), ExtResource( 184 ), ExtResource( 192 ), ExtResource( 179 ), ExtResource( 188 ), ExtResource( 174 ), ExtResource( 172 ), ExtResource( 175 ) ],
+"loop": true,
+"name": "skillshot",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 61 ), ExtResource( 61 ), ExtResource( 64 ), ExtResource( 67 ) ],
+"loop": true,
+"name": "ripper",
+"speed": 20.0
+} ]
+
+[node name="HeManScoop" type="Node"]
+script = ExtResource( 2 )
+_streams = [ ExtResource( 202 ), ExtResource( 203 ) ]
+
+[node name="BallStackPinball" type="Timer" parent="."]
+one_shot = true
+script = ExtResource( 1 )
+_coil = "heman_scoop"
+_switch = "heman_scoop"
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anims" type="AnimatedSprite" parent="Control"]
+position = Vector2( 344, 193 )
+frames = SubResource( 1 )
+
+[node name="CastleWallBackground" parent="Control" instance=ExtResource( 4 )]
+
+[node name="ScorePanel" type="TextureRect" parent="Control"]
+margin_right = 683.0
+margin_bottom = 384.0
+texture = ExtResource( 200 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0.113725, 0.611765, 0.027451, 1 )
+custom_fonts/font = ExtResource( 3 )
+text = "TEST"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0.113725, 0.611765, 0.027451, 1 )
+custom_fonts/font = ExtResource( 201 )
+text = "."
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="SwitchActive" from="BallStackPinball" to="." method="BallStackPinball_SwitchActive"]
+[connection signal="SwitchInActive" from="BallStackPinball" to="." method="BallStackPinball_SwitchInActive"]
+[connection signal="timeout" from="BallStackPinball" to="." method="BallStackPinball_timeout"]
+[connection signal="animation_finished" from="Control/Anims" to="." method="Anims_animation_finished"]

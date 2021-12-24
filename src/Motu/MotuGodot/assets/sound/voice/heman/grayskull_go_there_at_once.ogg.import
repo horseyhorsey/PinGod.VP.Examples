@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/grayskull_go_there_at_once.ogg-f27f5b296b914dd61c939bc90fa658a4.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/heman/grayskull_go_there_at_once.ogg"
+dest_files=[ "res://.import/grayskull_go_there_at_once.ogg-f27f5b296b914dd61c939bc90fa658a4.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

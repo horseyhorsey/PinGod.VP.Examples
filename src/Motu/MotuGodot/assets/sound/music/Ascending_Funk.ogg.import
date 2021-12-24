@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Ascending_Funk.ogg-50bb1aeaf9d2c11bf765a34cc258d07b.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/music/Ascending_Funk.ogg"
+dest_files=[ "res://.import/Ascending_Funk.ogg-50bb1aeaf9d2c11bf765a34cc258d07b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

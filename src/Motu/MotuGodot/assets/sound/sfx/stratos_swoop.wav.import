@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/stratos_swoop.wav-9ddf99e3c99dfd3ddc4b653693245301.sample"
+
+[deps]
+
+source_file="res://assets/sound/sfx/stratos_swoop.wav"
+dest_files=[ "res://.import/stratos_swoop.wav-9ddf99e3c99dfd3ddc4b653693245301.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

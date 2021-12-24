@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_eternity_master.ogg-8a20d51cf46409f4cd7d2372e08ba499.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_eternity_master.ogg"
+dest_files=[ "res://.import/skele_eternity_master.ogg-8a20d51cf46409f4cd7d2372e08ba499.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

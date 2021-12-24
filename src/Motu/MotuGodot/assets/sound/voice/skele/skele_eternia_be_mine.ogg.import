@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_eternia_be_mine.ogg-3930aeb577d64ac9c20650d64b2d48b0.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_eternia_be_mine.ogg"
+dest_files=[ "res://.import/skele_eternia_be_mine.ogg-3930aeb577d64ac9c20650d64b2d48b0.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

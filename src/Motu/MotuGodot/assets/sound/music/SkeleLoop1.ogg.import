@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SkeleLoop1.ogg-4f05dcd182ea1343b81c8d0ada4bfce7.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/music/SkeleLoop1.ogg"
+dest_files=[ "res://.import/SkeleLoop1.ogg-4f05dcd182ea1343b81c8d0ada4bfce7.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

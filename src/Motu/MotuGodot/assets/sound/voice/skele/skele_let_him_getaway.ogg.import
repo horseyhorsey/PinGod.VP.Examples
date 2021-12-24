@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_let_him_getaway.ogg-fb3da00934ace7dbf564659d5105df56.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_let_him_getaway.ogg"
+dest_files=[ "res://.import/skele_let_him_getaway.ogg-fb3da00934ace7dbf564659d5105df56.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

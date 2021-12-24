@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/heman_stratos.wav-e99bf6381002d30196d4c4ea387d8b39.sample"
+
+[deps]
+
+source_file="res://assets/sound/voice/heman_stratos.wav"
+dest_files=[ "res://.import/heman_stratos.wav-e99bf6381002d30196d4c4ea387d8b39.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

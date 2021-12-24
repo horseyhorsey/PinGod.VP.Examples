@@ -1,0 +1,144 @@
+[gd_scene load_steps=58 format=2]
+
+[ext_resource path="res://modes/MotuPinballSwitchLanesNode.cs" type="Script" id=1]
+[ext_resource path="res://modes/ManAtArms.cs" type="Script" id=2]
+[ext_resource path="res://layers/animated_sprites/manat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://layers/CastleWallBackground.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=5]
+[ext_resource path="res://assets/img/anims/manat/man_fly12.jpg" type="Texture" id=6]
+[ext_resource path="res://assets/img/anims/manat/man_fly05.jpg" type="Texture" id=7]
+[ext_resource path="res://assets/img/anims/manat/man_fly07.jpg" type="Texture" id=8]
+[ext_resource path="res://assets/img/anims/manat/man_fly08.jpg" type="Texture" id=9]
+[ext_resource path="res://assets/img/anims/manat/man_fly09.jpg" type="Texture" id=10]
+[ext_resource path="res://assets/img/anims/manat/man_fly04.jpg" type="Texture" id=11]
+[ext_resource path="res://assets/img/anims/manat/man_fly06.jpg" type="Texture" id=12]
+[ext_resource path="res://assets/img/anims/manat/man_fly10.jpg" type="Texture" id=13]
+[ext_resource path="res://assets/img/anims/manat/man_fly11.jpg" type="Texture" id=14]
+[ext_resource path="res://assets/img/scorebarp1.png" type="Texture" id=15]
+[ext_resource path="res://assets/img/anims/manat/man_fly01.jpg" type="Texture" id=16]
+[ext_resource path="res://assets/img/anims/manat/man_fly03.jpg" type="Texture" id=17]
+[ext_resource path="res://assets/img/anims/manat/man_fly02.jpg" type="Texture" id=18]
+[ext_resource path="res://assets/img/anims/manat/man_start23.jpg" type="Texture" id=19]
+[ext_resource path="res://assets/img/anims/manat/man_start04.jpg" type="Texture" id=20]
+[ext_resource path="res://assets/img/anims/manat/man_start13.jpg" type="Texture" id=21]
+[ext_resource path="res://assets/img/anims/manat/man_start27.jpg" type="Texture" id=22]
+[ext_resource path="res://assets/img/anims/manat/man_start05.jpg" type="Texture" id=23]
+[ext_resource path="res://assets/img/anims/manat/man_start20.jpg" type="Texture" id=24]
+[ext_resource path="res://assets/img/anims/manat/man_start06.jpg" type="Texture" id=25]
+[ext_resource path="res://assets/img/anims/manat/man_start30.jpg" type="Texture" id=26]
+[ext_resource path="res://assets/img/anims/manat/man_start28.jpg" type="Texture" id=27]
+[ext_resource path="res://assets/img/anims/manat/man_start09.jpg" type="Texture" id=28]
+[ext_resource path="res://assets/img/anims/manat/man_start33.jpg" type="Texture" id=29]
+[ext_resource path="res://assets/img/anims/manat/man_start08.jpg" type="Texture" id=30]
+[ext_resource path="res://assets/img/anims/manat/man_start14.jpg" type="Texture" id=31]
+[ext_resource path="res://assets/img/anims/manat/man_start17.jpg" type="Texture" id=32]
+[ext_resource path="res://assets/img/anims/manat/man_start24.jpg" type="Texture" id=33]
+[ext_resource path="res://assets/img/anims/manat/man_start29.jpg" type="Texture" id=34]
+[ext_resource path="res://assets/img/anims/manat/man_start11.jpg" type="Texture" id=35]
+[ext_resource path="res://assets/img/anims/manat/man_start31.jpg" type="Texture" id=36]
+[ext_resource path="res://assets/img/anims/manat/man_start25.jpg" type="Texture" id=37]
+[ext_resource path="res://assets/img/anims/manat/man_start16.jpg" type="Texture" id=38]
+[ext_resource path="res://assets/img/anims/manat/man_start34.jpg" type="Texture" id=39]
+[ext_resource path="res://assets/img/anims/manat/man_start22.jpg" type="Texture" id=40]
+[ext_resource path="res://assets/img/anims/manat/man_start03.jpg" type="Texture" id=41]
+[ext_resource path="res://assets/img/anims/manat/man_start32.jpg" type="Texture" id=42]
+[ext_resource path="res://assets/img/anims/manat/man_start19.jpg" type="Texture" id=43]
+[ext_resource path="res://assets/img/anims/manat/man_start15.jpg" type="Texture" id=44]
+[ext_resource path="res://assets/img/anims/manat/man_start26.jpg" type="Texture" id=45]
+[ext_resource path="res://assets/img/anims/manat/man_start10.jpg" type="Texture" id=46]
+[ext_resource path="res://assets/img/anims/manat/man_start18.jpg" type="Texture" id=47]
+[ext_resource path="res://assets/img/anims/manat/man_start07.jpg" type="Texture" id=48]
+[ext_resource path="res://assets/img/anims/manat/man_start12.jpg" type="Texture" id=49]
+[ext_resource path="res://assets/img/anims/manat/man_start01.jpg" type="Texture" id=50]
+[ext_resource path="res://assets/img/anims/manat/man_start21.jpg" type="Texture" id=51]
+[ext_resource path="res://assets/img/anims/manat/man_start02.jpg" type="Texture" id=52]
+[ext_resource path="res://assets/sound/sfx/sfx_hit6.wav" type="AudioStream" id=53]
+[ext_resource path="res://assets/sound/voice/man_work.wav" type="AudioStream" id=54]
+[ext_resource path="res://assets/sound/voice/man_almost.wav" type="AudioStream" id=55]
+[ext_resource path="res://assets/sound/voice/man_justintime.wav" type="AudioStream" id=56]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 50 ), ExtResource( 52 ), ExtResource( 41 ), ExtResource( 20 ), ExtResource( 23 ), ExtResource( 25 ), ExtResource( 48 ), ExtResource( 30 ), ExtResource( 28 ), ExtResource( 46 ), ExtResource( 35 ), ExtResource( 49 ), ExtResource( 21 ), ExtResource( 31 ), ExtResource( 44 ), ExtResource( 38 ), ExtResource( 32 ), ExtResource( 47 ), ExtResource( 43 ), ExtResource( 24 ), ExtResource( 51 ), ExtResource( 40 ), ExtResource( 19 ), ExtResource( 33 ), ExtResource( 37 ), ExtResource( 45 ), ExtResource( 22 ), ExtResource( 27 ), ExtResource( 34 ), ExtResource( 26 ), ExtResource( 36 ), ExtResource( 42 ), ExtResource( 29 ), ExtResource( 39 ) ],
+"loop": true,
+"name": "more_work",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 18 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 7 ), ExtResource( 12 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "complete",
+"speed": 12.0
+} ]
+
+[node name="ManAtArms" type="Node"]
+process_priority = -1
+script = ExtResource( 2 )
+_laneSfx = ExtResource( 53 )
+_manCallouts = [ ExtResource( 54 ), ExtResource( 55 ), ExtResource( 56 ) ]
+
+[node name="LaneChange" type="Node" parent="."]
+script = ExtResource( 1 )
+_lane_lamps = PoolStringArray( "Man", "mAn", "maN" )
+_lane_switches = PoolStringArray( "inlane_l", "inlane_r", "inlane_rb" )
+_resetOnLanesCompleted = false
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anims" type="AnimatedSprite" parent="Control"]
+position = Vector2( 344, 193 )
+frames = SubResource( 1 )
+animation = "more_work"
+frame = 29
+
+[node name="CastleWallBackground" parent="Control" instance=ExtResource( 4 )]
+
+[node name="ScorePanel" type="TextureRect" parent="Control"]
+margin_right = 683.0
+margin_bottom = 384.0
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 3.0
+margin_bottom = -12.0
+grow_horizontal = 2
+custom_colors/font_color = Color( 0.894118, 0.556863, 0.0470588, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "TEST"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ManSprite" parent="." instance=ExtResource( 3 )]
+position = Vector2( 641, 272 )
+frame = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="ModeTimer" type="Timer" parent="."]
+
+[node name="ClearDisplayTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="LaneCompleted" from="LaneChange" to="." method="LaneChange_LaneCompleted"]
+[connection signal="LanesCompleted" from="LaneChange" to="." method="LaneChange_LanesCompleted"]
+[connection signal="animation_finished" from="ManSprite" to="." method="ManSprite_animation_finished"]
+[connection signal="timeout" from="ModeTimer" to="." method="ModeTimer_timeout"]
+[connection signal="timeout" from="ClearDisplayTimer" to="." method="ClearDisplayTimer_timeout"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_right_hefool.ogg-10b9f1abda5e5f17ca97ac69710a81da.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_right_hefool.ogg"
+dest_files=[ "res://.import/skele_right_hefool.ogg-10b9f1abda5e5f17ca97ac69710a81da.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
