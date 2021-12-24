@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/HeManSkeletor.ogg-a264a16fbfa3b976050421e96e273800.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/heman/HeManSkeletor.ogg"
+dest_files=[ "res://.import/HeManSkeletor.ogg-a264a16fbfa3b976050421e96e273800.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

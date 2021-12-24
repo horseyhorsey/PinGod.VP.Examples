@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/heman_youre_loser_skele.ogg-1f023455539665b60d9cb29b362c73f8.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/heman/heman_youre_loser_skele.ogg"
+dest_files=[ "res://.import/heman_youre_loser_skele.ogg-1f023455539665b60d9cb29b362c73f8.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

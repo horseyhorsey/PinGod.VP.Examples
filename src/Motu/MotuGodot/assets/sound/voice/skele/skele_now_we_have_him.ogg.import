@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_now_we_have_him.ogg-eee24cb5def68c1270ca47842bad0db2.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_now_we_have_him.ogg"
+dest_files=[ "res://.import/skele_now_we_have_him.ogg-eee24cb5def68c1270ca47842bad0db2.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

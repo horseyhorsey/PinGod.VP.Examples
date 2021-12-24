@@ -1,0 +1,2 @@
+cd MotuGodot
+godot -e

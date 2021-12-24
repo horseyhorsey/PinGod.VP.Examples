@@ -111,7 +111,7 @@ public abstract class PinGodGameBase : Node
 
 		AudioManager = GetNode<AudioManager>("AudioManager");
 
-		mainScene = GetNode<MainScene>("/root/MainScene");
+		mainScene = GetNodeOrNull<MainScene>("/root/MainScene");		
 	}
 
     public override void _ExitTree()
@@ -186,7 +186,7 @@ public abstract class PinGodGameBase : Node
         {
             SetProcess(false);
             LogInfo("pingodbase: process loop ended recording playback");
-            return;
+			return;
         }
         else
         {
@@ -223,7 +223,10 @@ public abstract class PinGodGameBase : Node
                 _lampMatrixOverlay.SetLabel(item.Value.Num, item.Key);
             }
         }
-    }
+
+		//pingod.vp controller coil 0, sets game running on the controller
+		SolenoidOn("died", 1);
+	}
 
     /// <summary>
     /// Parses user command lines args in the --key=value format
@@ -289,7 +292,7 @@ public abstract class PinGodGameBase : Node
 	/// </summary>
 	/// <param name="points"></param>
 	/// <param name="emitUpdateSignal">Sends a <see cref="ScoresUpdated"/> signal if set. See <see cref="ScoreMode"/> for use</param>
-	public virtual void AddPoints(long points, bool emitUpdateSignal = true)
+	public virtual long AddPoints(long points, bool emitUpdateSignal = true)
 	{
 		if (Player != null)
 		{
@@ -297,6 +300,8 @@ public abstract class PinGodGameBase : Node
 			if (emitUpdateSignal)
 				EmitSignal(nameof(ScoresUpdated));
 		}
+
+		return points;
 	}
 
 	public virtual int BallsInPlay() => _trough?.BallsInPlay() ?? 0;
@@ -413,10 +418,15 @@ public abstract class PinGodGameBase : Node
 		this.EmitSignal(nameof(GameEnded));
 	}
 
+	/// <summary>
+	/// Time in milliseconds
+	/// </summary>
+	/// <param name="sw"></param>
+	/// <returns></returns>
 	public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
 
 	/// <summary>
-	/// Detect if the input `isAction` found in the given switchNames
+	/// Detect if the input `isAction` found in the given switchNames. Uses <see cref="SwitchOn(string, InputEvent)"/>
 	/// </summary>
 	/// <param name="switchNames"></param>
 	/// <param name="input"></param>
@@ -441,9 +451,7 @@ public abstract class PinGodGameBase : Node
     /// </summary>
     public virtual void LoadSettingsAndData()
     {
-        LoadSettingsFile();
-        LoadDataFile();
-        SetUpWindow();
+		LogError("don't use, already init in ready");
     }
 
     public virtual void LoadSettingsFile() => GameSettings = GameSettings.Load();
@@ -668,25 +676,32 @@ public abstract class PinGodGameBase : Node
 			else
 			{
 				LogInfo("running playback file: ", playbackfile);
-				var pBackFile = new File();
-				if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.FileNotFound)
-				{
-					_recordPlayback = RecordPlaybackOption.Off;
-					LogError("playback file not found, set playback false");
-				}
-				else
-				{
-					string[] eventLine = null;
-					_playbackQueue = new Queue<PlaybackEvent>();
-					while ((eventLine = pBackFile.GetCsvLine("|"))?.Length == 3)
+                try
+                {
+					var pBackFile = new File();
+					if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.FileNotFound)
 					{
-						bool.TryParse(eventLine[1], out var state);
-						uint.TryParse(eventLine[2], out var time);
-						_playbackQueue.Enqueue(new PlaybackEvent(eventLine[0], state, time));
+						_recordPlayback = RecordPlaybackOption.Off;
+						LogError("playback file not found, set playback false");
 					}
-					_playbackQueue.Reverse();
-					LogInfo(_playbackQueue.Count, " playback events queued. first action: ", _playbackQueue.Peek().EvtName);
+					else
+					{
+						string[] eventLine = null;
+						_playbackQueue = new Queue<PlaybackEvent>();
+						while ((eventLine = pBackFile.GetCsvLine("|"))?.Length == 3)
+						{
+							bool.TryParse(eventLine[1], out var state);
+							uint.TryParse(eventLine[2], out var time);
+							_playbackQueue.Enqueue(new PlaybackEvent(eventLine[0], state, time));
+						}
+						_playbackQueue.Reverse();
+						LogInfo(_playbackQueue.Count, " playback events queued. first action: ", _playbackQueue.Peek().EvtName);
+					}
 				}
+                catch (Exception ex)
+                {
+					LogError($"playback file failed: " + ex.Message);
+                }
 			}
 		}
 		else if (_recordPlayback == RecordPlaybackOption.Record)
@@ -799,7 +814,7 @@ public abstract class PinGodGameBase : Node
 	/// <summary>
 	/// Sets MultiBall running and trough to send a <see cref="MultiballStarted"/>
 	/// </summary>
-	/// <param name="numOfBalls"></param>
+	/// <param name="numOfBalls">Number of balls to save. A 2 ball multiball would be 2</param>
 	/// <param name="ballSaveTime"></param>
 	public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime, float pulseTime = 0)
 	{

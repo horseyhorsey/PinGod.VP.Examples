@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/HeManSteadyBigCat.ogg-bde8a4ae244f5e1f1854d7cf099688cf.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/heman/HeManSteadyBigCat.ogg"
+dest_files=[ "res://.import/HeManSteadyBigCat.ogg-bde8a4ae244f5e1f1854d7cf099688cf.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/orko_magic_time.wav-4b47e45fca9354da815a03a831f806d4.sample"
+
+[deps]
+
+source_file="res://assets/sound/voice/orko_magic_time.wav"
+dest_files=[ "res://.import/orko_magic_time.wav-4b47e45fca9354da815a03a831f806d4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

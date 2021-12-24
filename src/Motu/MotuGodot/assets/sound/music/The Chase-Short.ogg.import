@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/The Chase-Short.ogg-ecfeb22e65ff0759b862883b626d8559.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/music/The Chase-Short.ogg"
+dest_files=[ "res://.import/The Chase-Short.ogg-ecfeb22e65ff0759b862883b626d8559.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

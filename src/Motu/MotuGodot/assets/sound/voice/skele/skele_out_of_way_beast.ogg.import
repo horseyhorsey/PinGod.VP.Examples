@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_out_of_way_beast.ogg-f149dbc30fc73bec89f6ab4d49e9083b.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_out_of_way_beast.ogg"
+dest_files=[ "res://.import/skele_out_of_way_beast.ogg-f149dbc30fc73bec89f6ab4d49e9083b.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

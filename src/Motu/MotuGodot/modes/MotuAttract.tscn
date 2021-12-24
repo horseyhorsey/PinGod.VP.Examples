@@ -1,0 +1,182 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
+[ext_resource path="res://assets/fonts/berk_86.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://modes/MotuAttract.cs" type="Script" id=4]
+[ext_resource path="res://modes/MotuHighScores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/img/motu-horsepin.png" type="Texture" id=6]
+[ext_resource path="res://assets/img/roton_heman.png" type="Texture" id=7]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas18.tres" type="DynamicFont" id=8]
+
+[sub_resource type="Animation" id=1]
+resource_name = "MoveLogo"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("TextureRect:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 115, 319 ), Vector2( 115, -17 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("TextureRect:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 306 ) ]
+}
+
+[node name="Attract" type="Node"]
+script = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AttractLayers/horsepin-logo")
+autoplay = "MoveLogo"
+anims/MoveLogo = SubResource( 1 )
+anims/RESET = SubResource( 2 )
+
+[node name="AttractLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="horsepin-logo" type="Control" parent="AttractLayers"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="AttractLayers/horsepin-logo"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.152941, 0.466667, 0.717647, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="AttractLayers/horsepin-logo"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 306.0
+margin_right = 1716.04
+margin_bottom = 1371.0
+rect_scale = Vector2( 1.36, 1.36 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PushStart" type="CenterContainer" parent="AttractLayers"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="AttractLayers/PushStart"]
+margin_right = 683.0
+margin_bottom = 384.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PushStart" type="Label" parent="AttractLayers/PushStart"]
+margin_left = 93.0
+margin_top = 144.0
+margin_right = 590.0
+margin_bottom = 240.0
+custom_colors/font_color = Color( 0.854902, 0.0823529, 0.0823529, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "PUSH START"
+align = 1
+valign = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_blinking = 0.5
+
+[node name="HighScores" parent="AttractLayers" instance=ExtResource( 5 )]
+visible = false
+
+[node name="Credits" type="Control" parent="AttractLayers"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="AttractLayers/Credits"]
+modulate = Color( 0.0941176, 0.0941176, 0.0117647, 1 )
+margin_right = 683.0
+margin_bottom = 384.0
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="AttractLayers/Credits"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0.811765, 0.941176, 0.270588, 1 )
+custom_fonts/font = ExtResource( 8 )
+text = "-- CREDITS v0.9 --
+
+-- FP MODELS / AUDIO --
+ROMPIN
+
+-- VP & Pingod --
+HORSEPIN
+
+-- TESTERS --
+HORSEPIN
+
+-- SHout out -- 
+stern for tron"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StaticLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="StaticLayers" instance=ExtResource( 3 )]
+valign = 2
+
+[node name="AttractLayerChangeTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="AnimationPlayer_animation_finished"]
+[connection signal="timeout" from="AttractLayerChangeTimer" to="." method="_on_Timer_timeout"]

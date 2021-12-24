@@ -1,0 +1,33 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Game/PauseLayer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://modes/MotuAttract.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/MotuMainScene.cs" type="Script" id=3]
+[ext_resource path="res://modes/BeastmanMode.tscn" type="PackedScene" id=4]
+[ext_resource path="res://modes/MultiballGrayskull.tscn" type="PackedScene" id=5]
+[ext_resource path="res://modes/StratosMode.tscn" type="PackedScene" id=6]
+[ext_resource path="res://modes/MultiballRipper.tscn" type="PackedScene" id=7]
+[ext_resource path="res://modes/MultiballSkeletor.tscn" type="PackedScene" id=8]
+[ext_resource path="res://modes/SorceressMode.tscn" type="PackedScene" id=9]
+[ext_resource path="res://modes/MultiballMotu.tscn" type="PackedScene" id=10]
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource( 3 )
+_beastmanMode = ExtResource( 4 )
+_graySkullMultiball = ExtResource( 5 )
+_ripperMultiball = ExtResource( 7 )
+_skeleMultiball = ExtResource( 8 )
+_stratosMode = ExtResource( 6 )
+_sorceressMode = ExtResource( 9 )
+_motuMultiball = ExtResource( 10 )
+
+[node name="Modes" type="Node" parent="."]
+
+[node name="Attract" parent="Modes" instance=ExtResource( 2 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseControl" parent="CanvasLayer" instance=ExtResource( 1 )]
+visible = false
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]

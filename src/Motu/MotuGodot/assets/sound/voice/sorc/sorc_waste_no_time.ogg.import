@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sorc_waste_no_time.ogg-80d15291176f9b34a7e0de8cf35554c9.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/sorc/sorc_waste_no_time.ogg"
+dest_files=[ "res://.import/sorc_waste_no_time.ogg-80d15291176f9b34a7e0de8cf35554c9.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

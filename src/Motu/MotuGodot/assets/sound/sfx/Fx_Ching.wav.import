@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Fx_Ching.wav-3868d396c9530f55ede80df72b1a3f95.sample"
+
+[deps]
+
+source_file="res://assets/sound/sfx/Fx_Ching.wav"
+dest_files=[ "res://.import/Fx_Ching.wav-3868d396c9530f55ede80df72b1a3f95.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

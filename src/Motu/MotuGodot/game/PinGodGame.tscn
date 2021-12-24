@@ -1,0 +1,214 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://game/MotuPinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Game/MachineConfig.cs" type="Script" id=5]
+[ext_resource path="res://addons/PinGodGame/Audio/AudioManager.tscn" type="PackedScene" id=6]
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_logging_level = 2
+_playbackfile = "res://recordings/random_game.record"
+
+[node name="MachineConfig" type="Node" parent="."]
+script = ExtResource( 5 )
+_coils = {
+"auto_plunger": 3,
+"died": 0,
+"flash_l": 12,
+"flash_l_top": 17,
+"flash_r": 13,
+"flash_r_top": 15,
+"flash_skele": 16,
+"flippers": 2,
+"heman_scoop": 6,
+"heman_toy": 9,
+"motlok_toy": 10,
+"post": 8,
+"ripper": 11,
+"roton": 7,
+"skelly_targets": 5,
+"trough": 1,
+"vpcoil": 20
+}
+_switches = {
+"Adam": 28,
+"Orko": 32,
+"aDam": 29,
+"adAm": 30,
+"adaM": 31,
+"bank_down": 55,
+"bank_up": 54,
+"bumperl": 38,
+"bumperm": 39,
+"bumperr": 40,
+"coin1": 1,
+"coin2": 2,
+"coin3": 3,
+"down": 5,
+"enter": 7,
+"exit": 4,
+"flipper_l": 9,
+"flipper_r": 11,
+"heman_lane": 37,
+"heman_scoop": 36,
+"inlane_l": 22,
+"inlane_r": 23,
+"inlane_rb": 56,
+"inner_skele_loop": 46,
+"inner_spinner": 49,
+"left_ramp": 42,
+"leftramp_full": 44,
+"loop_left": 48,
+"loop_right": 50,
+"oRko": 33,
+"orKo": 34,
+"orkO": 35,
+"outlane_l": 21,
+"outlane_r": 24,
+"plunger_lane": 20,
+"rip_ramp_enter": 45,
+"rip_ramp_mid": 41,
+"skele_l": 51,
+"skele_m": 52,
+"skele_r": 53,
+"skele_trigger": 47,
+"slam_tilt": 16,
+"sling_l": 25,
+"sling_r": 26,
+"spinner_r": 43,
+"start": 19,
+"tilt": 17,
+"trough_1": 81,
+"trough_2": 82,
+"trough_3": 83,
+"trough_4": 84,
+"trough_5": 85,
+"trough_6": 86,
+"trough_7": 87,
+"trough_8": 88,
+"up": 6
+}
+_lamps = {
+"Adam": 10,
+"Man": 18,
+"Orko": 14,
+"aDam": 11,
+"adAm": 12,
+"adaM": 13,
+"adam_bump": 22,
+"adam_double": 21,
+"adam_spin": 23,
+"arrow_l_inner_loop": 41,
+"arrow_l_inner_spin": 42,
+"arrow_l_left_loop": 59,
+"arrow_l_left_ramp": 60,
+"arrow_l_right_loop": 39,
+"arrow_l_right_ramp": 40,
+"bump_left": 57,
+"bump_right": 58,
+"extra_ball": 34,
+"gray_ready": 32,
+"gray_spin": 50,
+"heman_lane": 37,
+"inlane_l": 7,
+"inlane_r": 8,
+"mAn": 19,
+"maN": 20,
+"man_inner_spin": 49,
+"man_left_loop": 46,
+"man_r_loop": 35,
+"man_scoop": 59,
+"mode_adam": 24,
+"mode_beastman": 2,
+"mode_grayskull": 28,
+"mode_manatarms": 4,
+"mode_motu": 26,
+"mode_orko": 5,
+"mode_ripper": 27,
+"mode_roton": 25,
+"mode_skeletor": 29,
+"mode_stratos": 3,
+"motu_ready": 33,
+"mystery": 30,
+"oRko": 15,
+"orKo": 16,
+"orkO": 17,
+"outlane_l": 6,
+"outlane_r": 9,
+"rip_inner_right": 61,
+"rip_inner_spin": 51,
+"rip_left_loop": 56,
+"rip_ramp_left": 47,
+"rip_ready": 31,
+"rip_right_loop": 43,
+"rip_right_ramp": 45,
+"roton_center": 48,
+"shoot_again": 1,
+"skele_inner_loop": 53,
+"skele_inner_spin": 54,
+"skele_loop_l": 38,
+"skele_loop_r": 44,
+"skele_ramp_l": 55,
+"skele_ramp_r": 52
+}
+_leds = {
+}
+_ball_search_coils = PoolStringArray( "heman_scoop", "skelly_targets", "post" )
+_ball_search_stop_switches = PoolStringArray( "heman_scoop", "trough_1", "trough_2", "trough_3", "trough_4", "trough_5", "trough_6", "trough_7", "trough_8" )
+
+[node name="Trough" parent="." instance=ExtResource( 4 )]
+_trough_switches = PoolStringArray( "trough_1", "trough_2", "trough_3", "trough_4", "trough_5", "trough_6", "trough_7", "trough_8" )
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
+_set_ball_started_on_plunger_lane = false
+_set_ball_save_on_plunger_lane = false
+
+[node name="AudioManager" parent="." instance=ExtResource( 6 )]
+MusicAssets = {
+"base-music-bgm": "res://assets/sound/music/instrumental.ogg",
+"creeping": "res://assets/sound/music/The Creeping Terror.ogg",
+"eternia": "res://assets/sound/music/ETERNIA.ogg",
+"funk": "res://assets/sound/music/Ascending_Funk.ogg",
+"saving_day_loop": "res://assets/sound/music/saving_day_loop.ogg",
+"skele_loop_1": "res://assets/sound/music/SkeleLoop1.ogg",
+"skele_loop_2": "res://assets/sound/music/SkeleLoop2.ogg",
+"skele_loop_3": "res://assets/sound/music/SkeleLoop3.ogg",
+"skele_loop_4": "res://assets/sound/music/SkeleLoop4.ogg",
+"the_chase": "res://assets/sound/music/The Chase-Short.ogg",
+"theme": "res://assets/sound/music/he-man theme.ogg",
+"theme_alt": "res://assets/sound/music/ThemeALT.ogg"
+}
+SfxAssets = {
+"combo1": "res://assets/sound/sfx/combo1.wav",
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
+"horsefx_1": "res://assets/sound/sfx/horsefx_1.wav",
+"ram_back": "res://assets/sound/sfx/ram_back.wav",
+"sfx1": "res://assets/sound/sfx/sfx_hit1.wav",
+"sfx3": "res://assets/sound/sfx/sfx_hit3.wav",
+"sfx7": "res://assets/sound/sfx/sfx_hit7.wav",
+"skele_always_heman": "res://assets/sound/voice/skele/skele_always_heman.ogg",
+"skele_coming": "res://assets/sound/sfx/skele_coming.wav",
+"skele_heman": "res://assets/sound/voice/skele/skele_heman.ogg",
+"sorc_waste_no_time": "res://assets/sound/voice/sorc/sorc_waste_no_time.ogg",
+"spin_sword": "res://assets/sound/sfx/spin_sword.wav",
+"thunder": "res://assets/sound/sfx/thunder_long.wav",
+"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
+"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+}
+
+[node name="DevOverlays" type="CanvasLayer" parent="."]
+layer = 128
+__meta__ = {
+"_editor_description_": "Overlays to aid with developing."
+}
+
+[node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]

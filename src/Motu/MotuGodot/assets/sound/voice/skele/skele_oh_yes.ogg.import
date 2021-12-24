@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_oh_yes.ogg-024c56690785bccb0504c01fe1ab8ae0.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_oh_yes.ogg"
+dest_files=[ "res://.import/skele_oh_yes.ogg-024c56690785bccb0504c01fe1ab8ae0.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

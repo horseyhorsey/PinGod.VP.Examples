@@ -10,6 +10,8 @@ public class ScoreMode : Node
     /// </summary>
     [Export] bool _single_player_p1_visible = false;
 
+    [Export] bool _show_main_score_multiplayer = true;
+
     #region Node paths to select in scene
     [Export] NodePath _ballInfoLabel;
     [Export] NodePath _playerInfoLabel;
@@ -90,7 +92,17 @@ public class ScoreMode : Node
             {
                 if (pinGod.Player.Points > -1)
                 {
-                    scoreLabel.Text = pinGod.Player.Points.ToScoreString();
+                    if(pinGod.Players.Count > 1) 
+                    {
+                        if (_show_main_score_multiplayer)
+                        {
+                            scoreLabel.Text = pinGod.Player.Points.ToScoreString();
+                        }                        
+                    }
+                    else
+                    {
+                        scoreLabel.Text = pinGod.Player.Points.ToScoreString();
+                    }
                 }
                 else
                 {

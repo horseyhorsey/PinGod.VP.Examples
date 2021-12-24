@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_ill_talk.ogg-b6e88e07941495889d84982d042a7525.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_ill_talk.ogg"
+dest_files=[ "res://.import/skele_ill_talk.ogg-b6e88e07941495889d84982d042a7525.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

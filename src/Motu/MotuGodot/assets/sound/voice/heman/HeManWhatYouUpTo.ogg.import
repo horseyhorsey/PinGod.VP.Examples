@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/HeManWhatYouUpTo.ogg-20e9d33b6007bb4ba01de233929d2d7f.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/heman/HeManWhatYouUpTo.ogg"
+dest_files=[ "res://.import/HeManWhatYouUpTo.ogg-20e9d33b6007bb4ba01de233929d2d7f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

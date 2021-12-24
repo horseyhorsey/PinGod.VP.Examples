@@ -1,0 +1,153 @@
+[gd_scene load_steps=63 format=2]
+
+[ext_resource path="res://modes/StratosMode.cs" type="Script" id=1]
+[ext_resource path="res://layers/CastleWallBackground.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge18.jpg" type="Texture" id=3]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge08.jpg" type="Texture" id=4]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge03.jpg" type="Texture" id=5]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge05.jpg" type="Texture" id=6]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge09.jpg" type="Texture" id=7]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge10.jpg" type="Texture" id=8]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge14.jpg" type="Texture" id=9]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge15.jpg" type="Texture" id=10]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge06.jpg" type="Texture" id=11]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge19.jpg" type="Texture" id=12]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge11.jpg" type="Texture" id=13]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge12.jpg" type="Texture" id=14]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge07.jpg" type="Texture" id=15]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge16.jpg" type="Texture" id=16]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge13.jpg" type="Texture" id=17]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge04.jpg" type="Texture" id=18]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge17.jpg" type="Texture" id=19]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas100.tres" type="DynamicFont" id=20]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge01.jpg" type="Texture" id=21]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge02.jpg" type="Texture" id=22]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly26.jpg" type="Texture" id=23]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly33.jpg" type="Texture" id=24]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly25.jpg" type="Texture" id=25]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly03.jpg" type="Texture" id=26]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly27.jpg" type="Texture" id=27]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly32.jpg" type="Texture" id=28]
+[ext_resource path="res://assets/img/anims/stratos/stratos_dodge20.jpg" type="Texture" id=29]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly01.jpg" type="Texture" id=30]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly11.jpg" type="Texture" id=31]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly20.jpg" type="Texture" id=32]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly22.jpg" type="Texture" id=33]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly30.jpg" type="Texture" id=34]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly31.jpg" type="Texture" id=35]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly12.jpg" type="Texture" id=36]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly05.jpg" type="Texture" id=37]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly08.jpg" type="Texture" id=38]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly04.jpg" type="Texture" id=39]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly09.jpg" type="Texture" id=40]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly07.jpg" type="Texture" id=41]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly13.jpg" type="Texture" id=42]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly14.jpg" type="Texture" id=43]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly16.jpg" type="Texture" id=44]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly18.jpg" type="Texture" id=45]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly06.jpg" type="Texture" id=46]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly02.jpg" type="Texture" id=47]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly10.jpg" type="Texture" id=48]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly17.jpg" type="Texture" id=49]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly19.jpg" type="Texture" id=50]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly23.jpg" type="Texture" id=51]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly21.jpg" type="Texture" id=52]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly15.jpg" type="Texture" id=53]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly24.jpg" type="Texture" id=54]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly28.jpg" type="Texture" id=55]
+[ext_resource path="res://assets/img/anims/stratos/stratos_fly29.jpg" type="Texture" id=56]
+[ext_resource path="res://assets/img/anims/stratos/stratos_icon.png" type="Texture" id=57]
+[ext_resource path="res://assets/sound/sfx/stratos_swoop.wav" type="AudioStream" id=58]
+[ext_resource path="res://assets/sound/voice/heman_stratos.wav" type="AudioStream" id=59]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 30 ), ExtResource( 47 ), ExtResource( 26 ), ExtResource( 39 ), ExtResource( 37 ), ExtResource( 46 ), ExtResource( 41 ), ExtResource( 38 ), ExtResource( 40 ), ExtResource( 48 ), ExtResource( 31 ), ExtResource( 36 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 53 ), ExtResource( 44 ), ExtResource( 49 ), ExtResource( 45 ), ExtResource( 50 ), ExtResource( 32 ), ExtResource( 52 ), ExtResource( 33 ), ExtResource( 51 ), ExtResource( 54 ), ExtResource( 25 ), ExtResource( 23 ), ExtResource( 27 ), ExtResource( 55 ), ExtResource( 56 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 28 ), ExtResource( 24 ) ],
+"loop": false,
+"name": "fly",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 21 ), ExtResource( 22 ), ExtResource( 5 ), ExtResource( 18 ), ExtResource( 6 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 17 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 16 ), ExtResource( 19 ), ExtResource( 3 ), ExtResource( 12 ), ExtResource( 29 ) ],
+"loop": false,
+"name": "dodge",
+"speed": 20.0
+} ]
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -116, 424 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "StratosExtendedAnim"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 2.2974 ),
+"update": 0,
+"values": [ Vector2( -70, 392 ), Vector2( 808, 80 ) ]
+}
+
+[node name="StratosMode" type="Node"]
+script = ExtResource( 1 )
+_completeSound = ExtResource( 59 )
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StratosAnim" type="AnimatedSprite" parent="Control"]
+position = Vector2( 344, 193 )
+frames = SubResource( 1 )
+animation = "fly"
+
+[node name="CastleWallBackground" parent="Control" instance=ExtResource( 2 )]
+
+[node name="Label" type="Label" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0.788235, 0.0117647, 0.266667, 1 )
+custom_fonts/font = ExtResource( 20 )
+text = "STRATOS"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -116, 424 )
+texture = ExtResource( 57 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 2 )
+anims/StratosExtendedAnim = SubResource( 3 )
+
+[node name="ModeTimer" type="Timer" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 58 )
+
+[connection signal="animation_finished" from="Control/StratosAnim" to="." method="StratosAnim_animation_finished"]
+[connection signal="timeout" from="ModeTimer" to="." method="ModeTimer_timeout"]

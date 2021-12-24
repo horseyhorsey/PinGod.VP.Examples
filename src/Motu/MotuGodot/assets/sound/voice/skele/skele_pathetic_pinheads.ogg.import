@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/skele_pathetic_pinheads.ogg-f693d3f1ec00fb43d287560a038240d1.oggstr"
+
+[deps]
+
+source_file="res://assets/sound/voice/skele/skele_pathetic_pinheads.ogg"
+dest_files=[ "res://.import/skele_pathetic_pinheads.ogg-f693d3f1ec00fb43d287560a038240d1.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
