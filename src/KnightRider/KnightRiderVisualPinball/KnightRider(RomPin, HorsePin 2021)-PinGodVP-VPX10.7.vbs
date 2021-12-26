@@ -226,8 +226,8 @@ SolCallback(1) = "bsTrough.SolOut"
 SolCallback(2) = "FlippersEnabled"
 SolCallback(3) = "AutoPlunger"
 SolCallback(4) = "bsTSaucer.SolOut"
-SolCallback(6) = "bsVUKScoop.SolOut"
-SolCallback(7) = "bsVUK.SolOut"
+SolCallback(6) = "SolVUKScoop"
+SolCallback(7) = "SolVUK"
 SolCallback(8) = "SolKickBack"
 SolCallback(9) = "SolTruckRamp"
 SolCallback(10) = "SoltruckLockDiverter"
@@ -252,6 +252,22 @@ Sub Died(Enabled)
 		LoadingText.Visible = false
 		MsgBox "Game window unavailable." ' : Err.Raise 5
 	End if
+End Sub
+
+Sub SolVUKScoop(Enabled)
+	If Enabled Then
+		If Controller.GetSwitch(40) = 1 Then 
+			bsVUKScoop.ExitSol_On
+		End If	
+	End If
+End Sub
+
+Sub SolVUK(Enabled)
+	If Enabled Then
+		If Controller.GetSwitch(44) = 1 Then
+			bsVUK.ExitSol_On
+		End If	
+	End If
 End Sub
 
 'Do it like this as one on/off, will make it faster

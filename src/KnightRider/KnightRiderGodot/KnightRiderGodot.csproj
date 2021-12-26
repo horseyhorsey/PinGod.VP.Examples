@@ -16,6 +16,10 @@
     <None Include="modes\video\EnemyCar.tscn" />
     <None Include="modes\video\Pickup.tscn" />
     <None Include="modes\video\PlayerCar.tscn" />
+    <None Include="_build_export.bat" />
+    <None Include="_create_addons_link.bat" />
+    <None Include="_open_appdata_dir.bat" />
+    <None Include="_run_godot_editor.bat" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

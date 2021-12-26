@@ -4,13 +4,14 @@
 /// </summary>
 public class KrBonus : Bonus
 {
-	public override void StartBonusDisplay()
-	{
-		base.StartBonusDisplay();
+    public override void StartBonusDisplay(bool visible = true)
+    {
+		base.StartBonusDisplay(visible);
+
 		pinGod.DisableAllLamps();
 		pinGod.PlayMusic("kr_theme_end");
 		var kr = pinGod as KrPinGodGame;
-		kr.PlayTvScene("kitt_birds", "END OF BALL\nBONUS", _display_for_seconds, loop: false);		
+		kr.PlayTvScene("kitt_birds", "END OF BALL\nBONUS", _display_for_seconds, loop: false);
 	}
 
     public override void OnTimedOut()

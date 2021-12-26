@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/KrPinGodGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
@@ -9,7 +9,6 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_logging_level = 0
 _playbackfile = "res://recordings/truck_locks.record"
 
 [node name="MachineConfig" type="Node" parent="."]
@@ -134,37 +133,36 @@ _lamps = {
 }
 _leds = {
 }
-_early_save_switches = PoolStringArray( "outlane_r" )
-_ball_save_lamp = "shoot_again"
-_ball_save_led = ""
-_ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "saucer_truck", "vuk_entry", "scoop_ramp" )
 _ball_search_stop_switches = PoolStringArray( "saucer_truck", "trough_1", "trough_2", "trough_3", "trough_4", "vuk_entry" )
 _ball_search_wait_time_secs = 12
 
 [node name="Trough" parent="." instance=ExtResource( 4 )]
+_early_save_switches = PoolStringArray( "outlane_r" )
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
 
 [node name="AudioManager" parent="." instance=ExtResource( 6 )]
+MusicAssets = {
+"KRTVintro": "res://assets/audio/music/KRTVintro.ogg",
+"KRsuspense": "res://assets/audio/music/KRsuspense.ogg",
+"KRtheme": "res://assets/audio/music/KRtheme.ogg",
+"boogie": "res://assets/audio/music/BoogieHiScore.ogg",
+"kr_gameplay": "res://assets/audio/music/kr_gameplay.ogg",
+"kr_theme_end": "res://assets/audio/music/KRthemeEnd.ogg"
+}
 SfxAssets = {
+"DEVONhighscore": "res://assets/audio/voice/devon/DEVONhighscore.wav",
+"Gun03": "res://assets/audio/sfx/gun03.wav",
+"KITT08": "res://assets/audio/voice/kitt/KITT08.wav",
 "credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
 "dev_welcome": "res://assets/audio/voice/devon/DEVONwelcomeaboard.wav",
-"krfx08": "res://assets/audio/sfx/krfx08.wav",
 "gun02": "res://assets/audio/sfx/gun02.wav",
-"Gun03": "res://assets/audio/sfx/gun03.wav",
-"mike_laughs": "res://assets/audio/voice/mike/MichealLaughs.wav",
-"DEVONhighscore": "res://assets/audio/voice/devon/DEVONhighscore.wav",
-"KITT08": "res://assets/audio/voice/kitt/KITT08.wav",
+"krfx08": "res://assets/audio/sfx/KRfx08.wav",
 "micheal": "res://assets/audio/voice/kitt/micheal.wav",
+"mike_laughs": "res://assets/audio/voice/mike/MichealLaughs.wav",
 "tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
 "warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
-}
-MusicAssets = {
-"KRsuspense": "res://assets/audio/music/KRsuspense.ogg",
-"kr_gameplay": "res://assets/audio/music/kr_gameplay.ogg",
-"kr_theme_end": "res://assets/audio/music/kr_theme_end.ogg",
-"KRtheme": "res://assets/audio/music/KRtheme.ogg",
-"KRTVintro": "res://assets/audio/music/KRTVintro.ogg",
-"boogie": "res://assets/audio/music/BoogieHiScore.ogg",
 }
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
