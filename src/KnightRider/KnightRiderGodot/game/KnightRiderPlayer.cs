@@ -42,6 +42,8 @@ public class KnightRiderPlayer : PinGodPlayer
     internal bool AllModesComplete()
     {
         if (BillionShotLit) return true;
+
+        //all 3 modes kitt, kaar and pursuit completed?
         if (KittCompleteReady && KarrCompleteReady && PursuitCompleteReady) return true;
         return false;
     }

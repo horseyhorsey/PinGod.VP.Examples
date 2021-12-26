@@ -141,10 +141,24 @@ public class BaseMode : Control
 	{
 		if(_player != null)
 		{
-			//pinGod.SetLampState()
+			pinGod.SetLampState("complete_karr", _player.KarrCompleteReady ? (byte)1 : (byte)0);
 			pinGod.SetLampState("complete_kitt", _player.KittCompleteReady ? (byte)1 : (byte)0);			
 			pinGod.SetLampState("complete_truck", _player.TruckCompleteReady ? (byte)1 : (byte)0);
 			pinGod.SetLampState("complete_all", _player.BillionShotLit ? (byte)2 : (byte)0);
+            if (_player.BillionShotLit)
+            {
+				pinGod.SetLampState("jackpot_0", 2);
+				pinGod.SetLampState("jackpot_1", 2);
+				pinGod.SetLampState("jackpot_2", 2);
+				pinGod.SetLampState("jackpot_3", 2);
+			}
+            else
+            {
+				pinGod.SetLampState("jackpot_0", 0);
+				pinGod.SetLampState("jackpot_1", 0);
+				pinGod.SetLampState("jackpot_2", 0);
+				pinGod.SetLampState("jackpot_3", 0);
+			}
 		}
 	}
 

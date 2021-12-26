@@ -67,14 +67,18 @@ public class KarrMode : Node
 			{
 				if (!_pinGod.IsMultiballRunning)
 				{
-					_pinGod.AddPoints(Constant.SCORE_STD * 2);
-					_pinGod.SolenoidPulse("flash_top_l", 190);
 					if (_player != null)
-					{
+					{						
+						_pinGod.SolenoidPulse("flash_top_l", 190);
+
 						if (_player.BillionShotLit)
 						{
 							_pinGod.AwardBillion();
 							_player.ResetCompletedModes();
+						}
+                        else
+                        {
+							_pinGod.AddPoints(Constant.SCORE_STD * 2);
 						}
 					}
 				}
@@ -332,8 +336,6 @@ public class KarrMode : Node
 			{
 				_pinGod.SetLampState(_karrLamps[i], 0);
 			}
-		}
-
-		_pinGod.SetLampState("complete_karr", _player.KarrCompleteReady ? (byte)1 : (byte)0);
+		}		
 	}
 }
