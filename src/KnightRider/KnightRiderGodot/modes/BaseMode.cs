@@ -71,14 +71,6 @@ public class BaseMode : Control
 				if (_player.SpecialLanes[1])
 				{
 					pinGod.AddPoints(Constant.SCORE_1MIL);
-
-					if(_player.ExtraBallsAwarded < 2)
-                    {
-						_player.ExtraBalls++;						
-						pinGod.PlayTvScene("kitt_birds", "EXTRA BALL", loop: false);
-						pinGod.PlaySfx("mike_laughs");
-                    }
-                    else { pinGod.PlaySfx("krfx08"); }
 					
 					_player.SpecialLanes[1] = false;
                 }

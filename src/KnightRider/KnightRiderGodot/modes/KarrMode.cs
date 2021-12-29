@@ -213,6 +213,7 @@ public class KarrMode : Node
 	private void AwardKarr()
 	{
 		_pinGod.AddPoints(25000000);
+		_player.ExtraBallLit = true;
 		StopTimer();
 		_pinGod.PlayLampshow();
 		_pinGod.PlayLampshowFlash();
@@ -231,7 +232,7 @@ public class KarrMode : Node
 			if(_player.ExtraBallsAwarded < 2)
 			{
 				_player.ExtraBallLit = true;
-				_pinGod.LogDebug($"karr mode lighting extra ball");
+				_pinGod.LogInfo($"karr mode lighting extra ball lit");
 			}
 			else
 			{

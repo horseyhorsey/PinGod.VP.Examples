@@ -146,7 +146,19 @@ public class UpperPfMode : Node
 		pinGod.AddPoints(Constant.SCORE_MIN / 2);
 		if (_player != null)
 		{
-			//disable flippers or enable depending if the modes are running or not
+            //disable flippers or enable depending if the modes are running or not
+
+            if (_player.ExtraBallLit)
+            {
+				if (_player.ExtraBallsAwarded < 2)
+				{
+					_player.ExtraBalls++;
+					pinGod.PlayTvScene("kitt_birds", "EXTRA BALL", loop: false);
+					pinGod.PlaySfx("mike_laughs");
+				}
+				else { pinGod.PlaySfx("krfx08"); }
+			}
+
 			UpdateLamps();
 			if (_player.IsKarrRunning || _player.IsKittRunning) pinGod.EnableTopFlippers(0);
 			else 

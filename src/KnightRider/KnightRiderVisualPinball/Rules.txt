@@ -1,0 +1,17 @@
+Mode start: Modes are lit by the targets on the control panel (mini playfield).
+Light all 3 lights of one colour to start a mode.
+
+K.I.T.T Ramp: Start the mode (green) and hit the ramp.
+Every time you hit the ramp you have to relight this mode again.
+
+K.A.R.R: Defeat KAAR (yellow): 60 seconds to defeat by making all shots.
+Failure requires a restart from mini playfield.
+
+Super Pursuit Mode: Multiball with jackpots. Light lock by completing (Red).
+Lock the ball in the truck, the truck will raise after each lock.
+
+Kickback: Activated by hitting the 3 red targets on playfield.
+
+Special: Outlanes collect special if lit. Activated with kickback.
+
+Extra Ball: Collect from miniplayfield access kicker

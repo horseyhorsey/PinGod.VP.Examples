@@ -22,7 +22,7 @@ End Sub
 
 'Release
 'Const IsDebug = False ' set false to load an export
-'Const GameDirectory = ".\PinGod.KR.exe" 'exported game
+'Const GameDirectory = ".\PinGod.KnightRider.exe" 'exported game
 
 'Debug
 Const IsDebug = True
@@ -168,19 +168,19 @@ Sub Table1_KeyDown(ByVal keycode)
 
 	If keycode = PlungerKey Then
 		Plunger.PullBack
-		PlaySound "plungerpull",0,1,AudioPan(Plunger),0.25,0,0,1,AudioFade(Plunger)
+		PlaySoundAt "plungerpull", Plunger
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
 		LeftFlipper.RotateToEnd
 		if FlippersTopOn then LeftFlipper1.RotateToEnd
-		PlaySound SoundFX("flipUpSound",DOFFlippers), 0, .67, AudioPan(LeftFlipper), -0.05,0,0,1,AudioFade(LeftFlipper)
+		PlaySoundAt "flipUpSound", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
 		RightFlipper.RotateToEnd
 		if FlippersTopOn then RightFlipper1.RotateToEnd
-		PlaySound SoundFX("flipUpSound",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		PlaySoundAt "flipUpSound", RightFlipper
 	End If
 
 	If vpmKeyDown(keycode) Then Exit Sub  ' This will handle machine switches and flippers etc
@@ -199,13 +199,13 @@ Sub Table1_KeyUp(ByVal keycode)
 	If keycode = LeftFlipperKey and FlippersOn Then
 		LeftFlipper.RotateToStart
 		if FlippersTopOn then LeftFlipper1.RotateToStart
-		PlaySound SoundFX("flipDownSound",DOFFlippers), 0, 1, AudioPan(LeftFlipper), -0.05,0,0,1,AudioFade(LeftFlipper)
+		PlaySoundAt "flipDownSound", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
 		RightFlipper.RotateToStart
 		if FlippersTopOn then RightFlipper1.RotateToStart
-		PlaySound SoundFX("flipDownSound",DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		PlaySoundAt "flipDownSound", RightFlipper
 	End If
 
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc
