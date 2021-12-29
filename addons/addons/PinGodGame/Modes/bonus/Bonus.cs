@@ -7,7 +7,7 @@ using Godot;
 public class Bonus : Control
 {
     [Export] protected string _defaultText = "END OF BALL\nBONUS";
-    [Export] protected int _display_for_seconds = 5;
+    [Export] protected float _display_for_seconds = 5;
     protected Label label;
 	protected PinGodGame pinGod;
 	protected Timer timer;
@@ -68,7 +68,8 @@ public class Bonus : Control
 			label.Text = SetBonusText();
 			pinGod.LogDebug("bonus: set label text to:", label.Text);
 		}
-		
+
+		pinGod.LogInfo("bonus displaying for " + _display_for_seconds);
 		timer.Start(_display_for_seconds);
 		Visible = visible;
 

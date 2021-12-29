@@ -92,16 +92,13 @@ public class ScoreMode : Node
             {
                 if (pinGod.Player.Points > -1)
                 {
-                    if(pinGod.Players.Count > 1) 
+                    if(pinGod.Players.Count > 1 && !_show_main_score_multiplayer) 
                     {
-                        if (_show_main_score_multiplayer)
-                        {
-                            scoreLabel.Text = pinGod.Player.Points.ToScoreString();
-                        }                        
+                        scoreLabel.Text = null;
                     }
                     else
                     {
-                        scoreLabel.Text = pinGod.Player.Points.ToScoreString();
+                        scoreLabel.Text = pinGod.Player.Points.ToScoreString();                        
                     }
                 }
                 else

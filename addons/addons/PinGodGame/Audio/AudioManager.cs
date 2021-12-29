@@ -12,13 +12,20 @@ public class AudioManager : Node
 	/// </summary>
 	[Export] public string Bgm { get; set; }
 
-    public string CurrentMusic { get; private set; }
+    public string CurrentMusic { get; set; }
     public Dictionary<string, AudioStream> Music { get; private set; }
-    [Export] public Dictionary<string, string> MusicAssets { get; private set; } = new Dictionary<string, string>();
+	public Dictionary<string, AudioStream> Voice { get; private set; }
+
+	internal bool IsMusicPlaying() => MusicPlayer.Playing;
+
+	[Export] public Dictionary<string, string> MusicAssets { get; private set; } = new Dictionary<string, string>();
     [Export] public bool MusicEnabled { get; set; } = true;
 
-    public AudioStreamPlayer MusicPlayer { get; private set; }
+	[Export] public Dictionary<string, string> VoiceAssets { get; private set; } = new Dictionary<string, string>();
+
+	public AudioStreamPlayer MusicPlayer { get; private set; }
     public Dictionary<string, AudioStream> Sfx { get; private set; }
+
     [Export]
     public Dictionary<string, string> SfxAssets { get; private set; } = new Dictionary<string, string>() {
         { "credit" , "res://addons/PinGodGame/assets/audio/sfx/credit.wav"},
@@ -28,20 +35,29 @@ public class AudioManager : Node
 
     [Export] public bool SfxEnabled { get; set; } = true;
     public AudioStreamPlayer SfxPlayer { get; private set; }
-	public override void _EnterTree()
+    public AudioStreamPlayer VoicePlayer { get; private set; }
+
+    public override void _EnterTree()
 	{
         if (!Engine.EditorHint)
         {
 			MusicPlayer = GetNode("MusicPlayer") as AudioStreamPlayer;
 			SfxPlayer = GetNode("SfxPlayer") as AudioStreamPlayer;
+			VoicePlayer = GetNode("VoicePlayer") as AudioStreamPlayer;
 
 			Music = new Dictionary<string, AudioStream>();
 			Sfx = new Dictionary<string, AudioStream>();
+			Voice = new Dictionary<string, AudioStream>();
 
 			foreach (var sfx in SfxAssets)
             {
 				AddSfx(sfx.Value, sfx.Key);
             }
+
+			foreach (var vox in VoiceAssets)
+			{
+				AddVoice(vox.Value, vox.Key);
+			}
 
 			foreach (var music in MusicAssets)
 			{
@@ -88,6 +104,25 @@ public class AudioManager : Node
 		}
 	}
 
+	/// <summary>
+	/// Adds a Voice resource
+	/// </summary>
+	/// <param name="resource"></param>
+	/// <param name="key"></param>
+	public void AddVoice(string resource, string key)
+	{
+		if (!Voice.ContainsKey(key))
+		{
+			var stream = GD.Load(resource) as AudioStream;
+			if (stream != null)
+			{
+				Voice.Add(key, stream);
+				Logger.LogDebug("Voice added: ", key, resource);
+			}
+			else { Logger.LogWarning($"Voice add fail: {key}", resource); }
+		}
+	}
+
 	public void MusicPlayer_finished()
 	{
 		Logger.LogDebug($"{MusicPlayer.Stream?.ResourceName} - music player finished");
@@ -110,7 +145,12 @@ public class AudioManager : Node
 		}        
 	}
 
-	public void PlaySfx(string name)
+    internal void SetMusicVolume(float musicVolume)
+    {
+		Godot.AudioServer.SetBusVolumeDb(1, musicVolume);
+    }
+
+    public void PlaySfx(string name, string bus = "Master")
 	{
 		if (string.IsNullOrWhiteSpace(name) || !SfxEnabled || Sfx == null) return;
 		if (!Sfx.ContainsKey(name))			
@@ -118,7 +158,21 @@ public class AudioManager : Node
 		else
 		{
 			SfxPlayer.Stream = Sfx[name];
+			SfxPlayer.Bus = bus;
 			SfxPlayer.Play();
+		}
+	}
+
+	public void PlayVoice(string name, string bus = "Master")
+	{
+		if (string.IsNullOrWhiteSpace(name) || Voice == null) return;
+		if (!Voice.ContainsKey(name))
+			Logger.LogWarning($"play voice: '{name}' not found");
+		else
+		{
+			VoicePlayer.Bus = bus;
+			VoicePlayer.Stream = Voice[name];
+			VoicePlayer.Play();			
 		}
 	}
 

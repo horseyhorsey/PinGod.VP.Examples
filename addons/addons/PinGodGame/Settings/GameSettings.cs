@@ -16,12 +16,16 @@ public class GameSettings
     const string GAME_SETTINGS_FILE = "user://settings.save";
     public byte BallsPerGame { get; set; } = 3;
     public DisplaySettings Display { get; set; } = new DisplaySettings();
+    /// <summary>
+    /// Decibel volume. minus values. -80 lowest
+    /// </summary>
     public float MasterVolume { get; set; } = 0;
     public byte MaxHiScoresCount { get; set; } = 5;
+
     /// <summary>
-    /// Decibel volume. minus values
+    /// Decibel volume. minus values. -80 lowest
     /// </summary>
-    public float MusicVolume { get; set; } = 0;
+    public float MusicVolume { get; set; } = -6;
 
     /// <summary>
     /// De-serializes settings from json if Type is <see cref="GameSettings"/>

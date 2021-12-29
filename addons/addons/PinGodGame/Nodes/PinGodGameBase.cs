@@ -95,7 +95,7 @@ public abstract class PinGodGameBase : Node
 		SetUpWindow();
 
 		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
-		//AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Music"), GameSettings.MusicVolume);        
+		AudioServer.SetBusVolumeDb(1, GameSettings.MusicVolume);			
 
 		//get trough from tree
 		_trough = GetNode("Trough") as Trough;
@@ -107,11 +107,10 @@ public abstract class PinGodGameBase : Node
 		BallSearchTimer.Connect("timeout", this, "OnBallSearchTimeout");
 		this.AddChild(BallSearchTimer);
 
-		gameLoadTimeMsec = OS.GetTicksMsec();
-
 		AudioManager = GetNode<AudioManager>("AudioManager");
+		mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
 
-		mainScene = GetNodeOrNull<MainScene>("/root/MainScene");		
+		gameLoadTimeMsec = OS.GetTicksMsec();		
 	}
 
     public override void _ExitTree()
@@ -521,9 +520,19 @@ public abstract class PinGodGameBase : Node
 	/// </summary>
 	/// <param name="name"></param>
 	/// <param name="pos"></param>
-	public virtual void PlaySfx(string name)
+	public virtual void PlaySfx(string name, string bus = "Master")
 	{
-		AudioManager.PlaySfx(name);
+		AudioManager.PlaySfx(name, bus);
+	}
+
+	/// <summary>
+	///  <see cref="AudioManager.PlayVoice(string, string)"/>
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="pos"></param>
+	public virtual void PlayVoice(string name, string bus = "Master")
+	{
+		AudioManager.PlayVoice(name, bus);
 	}
 
 	/// <summary>
