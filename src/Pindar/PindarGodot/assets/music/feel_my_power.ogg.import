@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/feel_my_power.ogg-b0f511d2a5e4e58d4506c81c7943ff77.oggstr"
+
+[deps]
+
+source_file="res://assets/music/feel_my_power.ogg"
+dest_files=[ "res://.import/feel_my_power.ogg-b0f511d2a5e4e58d4506c81c7943ff77.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

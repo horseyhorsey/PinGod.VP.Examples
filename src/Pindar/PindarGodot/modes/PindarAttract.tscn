@@ -1,0 +1,163 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
+[ext_resource path="res://assets/DelaGothicOne-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Modes/attract/Attract.cs" type="Script" id=4]
+[ext_resource path="res://modes/PindarHighScores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/img/pindar_face.png" type="Texture" id=6]
+
+[sub_resource type="DynamicFont" id=3]
+size = 80
+outline_size = 5
+outline_color = Color( 0.435294, 0.435294, 0.435294, 1 )
+use_filter = true
+extra_spacing_top = 3
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("PindarFace3:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 2.76, 2.76 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "growface"
+length = 5.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("PindarFace3:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2.76, 2.76 ), Vector2( 3.5, 3.5 ) ]
+}
+
+[sub_resource type="DynamicFont" id=4]
+size = 18
+use_filter = true
+font_data = ExtResource( 2 )
+
+[node name="Attract" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.027451, 0.0627451, 0.0431373, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttractLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PushStart" type="CenterContainer" parent="AttractLayers"]
+margin_right = 1024.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PindarFace3" type="Sprite" parent="AttractLayers/PushStart"]
+modulate = Color( 1, 1, 1, 0.121569 )
+position = Vector2( 516, 371 )
+scale = Vector2( 2.76, 2.76 )
+texture = ExtResource( 6 )
+
+[node name="PushStart" type="Label" parent="AttractLayers/PushStart"]
+margin_left = 46.0
+margin_top = 192.0
+margin_right = 977.0
+margin_bottom = 408.0
+custom_colors/font_color = Color( 0, 0.298039, 0.0352941, 1 )
+custom_constants/line_spacing = -24
+custom_fonts/font = SubResource( 3 )
+text = "PINDAR
+THE LIZARD KING"
+align = 1
+valign = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_blinking = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AttractLayers/PushStart"]
+autoplay = "growface"
+anims/RESET = SubResource( 1 )
+anims/growface = SubResource( 2 )
+
+[node name="HighScores" parent="AttractLayers" instance=ExtResource( 5 )]
+visible = false
+
+[node name="Credits" type="CenterContainer" parent="AttractLayers"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="AttractLayers/Credits"]
+margin_left = 344.0
+margin_top = 61.0
+margin_right = 680.0
+margin_bottom = 538.0
+custom_fonts/font = SubResource( 4 )
+text = "PINDAR - THE LIZARD KING
+
+VPX
+GORGAR - FUZZEL
+
+SNAKE MODEL
+ARAM FIROZY (SKETCHFAB)
+
+PINGOD
+HORSEPIN
+
+MUSIC / FX
+HORSEPIN
+
+TESTERS
+HORSEPIN"
+align = 1
+
+[node name="StaticLayers" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="StaticLayers" instance=ExtResource( 3 )]
+valign = 2
+
+[node name="AttractLayerChangeTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="AttractLayerChangeTimer" to="." method="_on_Timer_timeout"]

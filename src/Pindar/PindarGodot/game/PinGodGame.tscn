@@ -1,0 +1,201 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://game/CustomPinGodGame.cs" type="Script" id=1]
+[ext_resource path="res://modes/PindarSwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Game/MachineConfig.cs" type="Script" id=5]
+[ext_resource path="res://addons/PinGodGame/Audio/AudioManager.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas18.tres" type="DynamicFont" id=7]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 1, 0.466667, 0.466667, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 0.168627, 0.168627, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.101961, 0.67451, 0.113725, 1 )
+
+[sub_resource type="Theme" id=4]
+default_font = ExtResource( 7 )
+Button/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 3
+Button/fonts/font = null
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = SubResource( 1 )
+Button/styles/normal = SubResource( 2 )
+Button/styles/pressed = SubResource( 3 )
+
+[node name="PinGodGame" type="Node"]
+script = ExtResource( 1 )
+_write_machine_states = true
+_read_machine_states = true
+_logging_level = 3
+_playbackfile = "res://recordings/collect_bonus_screen.record"
+
+[node name="MachineConfig" type="Node" parent="."]
+script = ExtResource( 5 )
+_coils = {
+"dar": 3,
+"died": 0,
+"eject_hole": 2,
+"flippers": 7,
+"magnet": 5,
+"magnet_flash": 6,
+"pin": 4,
+"trough": 1,
+"vpcoil": 20
+}
+_switches = {
+"1": 14,
+"2": 31,
+"3": 32,
+"4": 33,
+"A": 24,
+"B": 27,
+"C": 28,
+"Dar": 41,
+"Pin": 18,
+"bumper_bottom": 37,
+"bumper_left": 38,
+"bumper_top": 39,
+"coin1": 1,
+"coin2": 2,
+"coin3": 3,
+"dAr": 42,
+"daR": 43,
+"down": 5,
+"eject_hole": 15,
+"enter": 7,
+"exit": 4,
+"flipper_l": 11,
+"flipper_r": 9,
+"inlane_l": 49,
+"inlane_r": 35,
+"magnet": 23,
+"mball_saucer": 27,
+"outlane_l": 10,
+"outlane_r": 34,
+"pIn": 44,
+"piN": 21,
+"plunger_lane": 20,
+"slam_tilt": 16,
+"sling_1": 50,
+"sling_2": 51,
+"sling_3": 52,
+"sling_4": 53,
+"sling_5": 54,
+"sling_6": 55,
+"sling_7": 56,
+"sling_l": 12,
+"sling_r": 36,
+"spinner": 30,
+"start": 19,
+"tilt": 17,
+"trough_1": 85,
+"up": 6
+}
+_lamps = {
+"1": 25,
+"1_arrow": 29,
+"2": 26,
+"2_arrow": 30,
+"2x": 4,
+"3": 27,
+"3_arrow": 31,
+"3x": 5,
+"4": 28,
+"4_arrow": 32,
+"A": 20,
+"B": 21,
+"C": 22,
+"D": 23,
+"E": 24,
+"b_1": 8,
+"b_10": 18,
+"b_11": 19,
+"b_2": 9,
+"b_3": 10,
+"b_4": 11,
+"b_5": 12,
+"b_6": 13,
+"b_7": 14,
+"b_8": 15,
+"b_9": 16,
+"bumper_bottom": 40,
+"bumper_left": 39,
+"bumper_top": 38,
+"dar": 43,
+"eject_hole_10k": 44,
+"eject_hole_15k": 45,
+"eject_hole_xb": 46,
+"magnet_10k": 34,
+"magnet_20k": 35,
+"magnet_30k": 36,
+"magnet_50k": 37,
+"magnet_5k": 33,
+"pin": 42,
+"pin_5k": 41,
+"shoot_again": 1,
+"special_l": 2,
+"special_r": 3,
+"spinner": 48,
+"star_1": 6,
+"star_2": 7
+}
+_leds = {
+}
+_ball_search_coils = PoolStringArray( "eject_hole" )
+_ball_search_stop_switches = PoolStringArray( "eject_hole", "trough_1" )
+
+[node name="Trough" parent="." instance=ExtResource( 4 )]
+_trough_switches = PoolStringArray( "trough_1" )
+_early_save_switches = PoolStringArray(  )
+_auto_plunge_solenoid = ""
+_ball_save_lamp = "shoot_again"
+_ball_save_led = ""
+_number_of_balls_to_save = 0
+_set_ball_save_on_plunger_lane = false
+
+[node name="AudioManager" parent="." instance=ExtResource( 6 )]
+MusicAssets = {
+"pindar-1": "res://assets/music/pindar-1.ogg",
+"pindar-2": "res://assets/music/pindar-2.ogg",
+"pindar-3": "res://assets/music/pindar-3.ogg",
+"pindar-4": "res://assets/music/pindar-4.ogg",
+"pindar-5": "res://assets/music/pindar-5.ogg",
+"pindar-intro": "res://assets/music/pindar-intro.ogg"
+}
+VoiceAssets = {
+"meet_me": "res://assets/music/meet_me.ogg",
+"megotyou": "res://assets/music/me_got_you.ogg"
+}
+SfxAssets = {
+"bonus2": "res://assets/music/bonus2.wav",
+"bonus3": "res://assets/music/bonus3.wav",
+"bonus_advance": "res://assets/music/bonus.wav",
+"bonus_stab": "res://assets/music/bonus-stab.wav",
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
+"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
+"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+}
+
+[node name="DevOverlays" type="CanvasLayer" parent="."]
+layer = 128
+__meta__ = {
+"_editor_description_": "Overlays to aid with developing."
+}
+
+[node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
+theme = SubResource( 4 )

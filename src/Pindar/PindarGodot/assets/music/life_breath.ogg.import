@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/life_breath.ogg-3f545f2222ca66a8f8aba2efe50ad46f.oggstr"
+
+[deps]
+
+source_file="res://assets/music/life_breath.ogg"
+dest_files=[ "res://.import/life_breath.ogg-3f545f2222ca66a8f8aba2efe50ad46f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,184 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://assets/font/goth_80.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
+[ext_resource path="res://scenes/ScoreScene.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/font/goth_160.tres" type="DynamicFont" id=7]
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("Viewport")
+
+[node name="ScoreMode" type="Node" groups=["Mode"]]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_show_main_score_multiplayer = false
+_ballInfoLabel = NodePath("BallInfo")
+_playerInfoLabel = NodePath("PlayerInfo")
+_scoreLabel = NodePath("CenterContainer/ScoreMain")
+_scoreLabelP1 = NodePath("ScoreP1")
+_scoreLabelP2 = NodePath("ScoreP2")
+_scoreLabelP3 = NodePath("ScoreP3")
+_scoreLabelP4 = NodePath("ScoreP4")
+
+[node name="BackgroundColour" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0.12549, 0.129412, 0.12549, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 1024, 600 )
+own_world = true
+transparent_bg = true
+msaa = 1
+hdr = false
+render_target_v_flip = true
+
+[node name="ScoreScene" parent="Viewport" instance=ExtResource( 6 )]
+
+[node name="pingod-logo" type="Sprite" parent="."]
+visible = false
+position = Vector2( 519.583, 292.553 )
+texture = ExtResource( 5 )
+
+[node name="ViewportSprite" type="Sprite" parent="."]
+position = Vector2( 513, 305 )
+texture = SubResource( 1 )
+
+[node name="ScoreMain2" type="Label" parent="."]
+margin_left = 106.0
+margin_top = -60.0
+margin_right = 934.0
+margin_bottom = 173.0
+custom_colors/font_color = Color( 0.752941, 0.733333, 0.0745098, 1 )
+custom_colors/font_color_shadow = Color( 0.239216, 0.478431, 0.109804, 1 )
+custom_constants/shadow_offset_x = -4
+custom_constants/shadow_offset_y = -1
+custom_fonts/font = ExtResource( 7 )
+text = "PINDAR"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 298.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreMain" type="Label" parent="CenterContainer"]
+margin_left = 439.0
+margin_top = 34.0
+margin_right = 585.0
+margin_bottom = 267.0
+custom_colors/font_color = Color( 0.870588, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.411765, 0.317647, 0.0431373, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP1" type="Label" parent="."]
+anchor_top = 0.545
+anchor_bottom = 0.545
+margin_top = 4.23785
+margin_right = 51.0
+margin_bottom = 129.038
+custom_colors/font_color = Color( 0.752941, 0.0784314, 0.0784314, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP2" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 0.545
+anchor_right = 1.0
+anchor_bottom = 0.545
+margin_left = -51.0
+margin_bottom = 129.0
+grow_horizontal = 0
+custom_colors/font_color = Color( 0.752941, 0.0784314, 0.0784314, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP3" type="Label" parent="."]
+anchor_top = 0.757
+anchor_bottom = 0.757
+margin_right = 51.0
+margin_bottom = 31.0
+custom_colors/font_color = Color( 0.752941, 0.0784314, 0.0784314, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+align = 2
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreP4" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 0.757
+anchor_right = 1.0
+anchor_bottom = 0.757
+margin_bottom = 31.0
+grow_horizontal = 0
+custom_colors/font_color = Color( 0.752941, 0.0784314, 0.0784314, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "0"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerInfo" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 28.0
+margin_top = -33.0
+margin_right = 113.0
+custom_fonts/font = ExtResource( 3 )
+text = "Player: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BallInfo" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -130.0
+margin_top = -33.0
+custom_fonts/font = ExtResource( 3 )
+text = "BALL: "
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="." instance=ExtResource( 4 )]
+margin_top = -33.0
+margin_right = 85.0

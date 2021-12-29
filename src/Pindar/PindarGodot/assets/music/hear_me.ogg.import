@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/hear_me.ogg-b1ab53868be568da5c40cd6b080836a4.oggstr"
+
+[deps]
+
+source_file="res://assets/music/hear_me.ogg"
+dest_files=[ "res://.import/hear_me.ogg-b1ab53868be568da5c40cd6b080836a4.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

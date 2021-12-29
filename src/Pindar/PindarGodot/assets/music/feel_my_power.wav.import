@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/feel_my_power.wav-3b25e4ac626210edc9facbdb5512e7b3.sample"
+
+[deps]
+
+source_file="res://assets/music/feel_my_power.wav"
+dest_files=[ "res://.import/feel_my_power.wav-3b25e4ac626210edc9facbdb5512e7b3.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/pindar-1.ogg-d29dde3be42ac31b559856401e455831.oggstr"
+
+[deps]
+
+source_file="res://assets/music/pindar-1.ogg"
+dest_files=[ "res://.import/pindar-1.ogg-d29dde3be42ac31b559856401e455831.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

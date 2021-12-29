@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/meet_me.ogg-b8b137f64658d86deb1154940660d666.oggstr"
+
+[deps]
+
+source_file="res://assets/music/meet_me.ogg"
+dest_files=[ "res://.import/meet_me.ogg-b8b137f64658d86deb1154940660d666.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
