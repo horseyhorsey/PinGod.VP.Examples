@@ -50,11 +50,11 @@ public class PinGodGame : PinGodGameBase
 	}
 
 	/// <summary>
-	/// Sets up machine items from the collections, starts memory mapping
+	/// Sets up machine items from the collections, starts memory mapping and recordings
 	/// </summary>
-	public void Setup()
+	public virtual void Setup()
 	{
-		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
+		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");		
 
 		//setup and run writing memory states for other application to access
 		if (_write_machine_states || _read_machine_states)

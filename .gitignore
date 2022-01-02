@@ -9,6 +9,8 @@
 Exported
 #*.import
 .mono
+temp
+
 
 # User-specific files
 *.rsuser

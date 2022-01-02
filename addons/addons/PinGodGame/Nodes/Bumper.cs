@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// sends BumperHit signal, plays sound and coil if given
+/// </summary>
 public class Bumper : Node
 {
 	[Export] string _SwitchName = string.Empty;
@@ -8,7 +11,7 @@ public class Bumper : Node
 	[Signal] delegate void BumperHit(string name);
 
 	private PinGodGameBase _pinGod;
-	private AudioStreamPlayer player;
+	public AudioStreamPlayer player;
 
 	public override void _Ready()
 	{
@@ -34,9 +37,11 @@ public class Bumper : Node
 		if (_pinGod.SwitchOn(_SwitchName, @event))
 		{
 			//play sound for bumper
-			if (player != null) { player.Play(); }
+			if (_AudioStream != null) { player.Play(); }
+
 			//pulse coil
 			if(!string.IsNullOrWhiteSpace(_CoilName)) { _pinGod.SolenoidPulse(_CoilName); }
+
 			//publish hit event
 			EmitSignal(nameof(BumperHit), _SwitchName);
 		}

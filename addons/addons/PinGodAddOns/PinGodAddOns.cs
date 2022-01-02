@@ -19,6 +19,12 @@ public class PinGodAddOns : EditorPlugin
 
 		script = GD.Load<Script>(ROOT_DIR + "Timers/BallStackPinball.cs");
 		AddCustomType(nameof(BallStackPinball), nameof(Timer), script, null);
+
+		script = GD.Load<Script>(ROOT_DIR + "Lanes/PinballLanesNode.cs");
+		AddCustomType(nameof(PinballLanesNode), nameof(Node), script, null);
+
+		script = GD.Load<Script>(ROOT_DIR + "Targets/PinballTargetsBank.cs");
+		AddCustomType(nameof(PinballTargetsBank), nameof(Node), script, null);
 	}
 
 	/// <summary>
@@ -27,7 +33,9 @@ public class PinGodAddOns : EditorPlugin
 	public override void _ExitTree()
 	{
 		RemoveCustomType(nameof(BlinkingLabel));
-		RemoveCustomType(nameof(BallStackPinball));
+		RemoveCustomType(nameof(BallStackPinball));		
+		RemoveCustomType(nameof(PinballLanesNode));
+		RemoveCustomType(nameof(PinballTargetsBank));
 		RemoveCustomType(nameof(VideoPlayerPinball));
 	}
 }

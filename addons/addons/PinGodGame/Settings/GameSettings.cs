@@ -27,6 +27,8 @@ public class GameSettings
     /// </summary>
     public float MusicVolume { get; set; } = -6;
 
+    public string Language { get; set; }
+
     /// <summary>
     /// De-serializes settings from json if Type is <see cref="GameSettings"/>
     /// </summary>
@@ -44,12 +46,12 @@ public class GameSettings
         {
             gS = DeserializeSettings<T>(settingsSave.GetLine());
             settingsSave.Close();
-            Print("settings loaded from file");
+            Print("game settings loaded from file");
         }
         else
         {
             Save(gS);
-            Print("new settings created");
+            Print("new game settings created");
         }
 
         return gS;
