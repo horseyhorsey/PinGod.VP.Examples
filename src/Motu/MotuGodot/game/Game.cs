@@ -4,7 +4,7 @@ using System;
 public class Game : PinGodGameNode
 {
     [Export] protected string MULTIBALL_SCENE = "res://addons/PinGodGame/Modes/multiball/Multiball.tscn";
-    [Export] Godot.Collections.Array<AudioStream> _skeleStreams;
+    [Export] Godot.Collections.Array<AudioStream> _skeleStreams = null;
 
     private bool _lastBall;
     private Timer _tiltedTimeOut;

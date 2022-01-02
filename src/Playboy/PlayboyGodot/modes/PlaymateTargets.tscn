@@ -1,8 +1,26 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://modes/PlaymateTargets.cs" type="Script" id=1]
 [ext_resource path="res://assets/img/miss-complete.png" type="Texture" id=2]
 [ext_resource path="res://assets/img/pb_miss_march.png" type="Texture" id=3]
+[ext_resource path="res://assets/fonts/pb_64.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/img/pb_key.png" type="Texture" id=5]
+[ext_resource path="res://assets/fonts/pb_28.tres" type="DynamicFont" id=6]
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 10, 0 ) ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "open_playmates"
@@ -17,12 +35,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -125.49, 0 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( -125.49, 0 ), Vector2( 3, 0 ) ]
 }
 
-[node name="PlaymateTargets" type="Control" groups=[
-"Mode",
-]]
+[node name="PlaymateTargets" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -33,6 +49,7 @@ _target_switches = PoolStringArray( "target_l_0", "target_l_1", "target_l_2", "t
 _target_lamps = PoolStringArray( "pm0", "pm1", "pm2", "pm3", "pm4" )
 
 [node name="PlaymatesBar" type="Node2D" parent="."]
+position = Vector2( 10, 0 )
 
 [node name="pb_miss_march" type="Sprite" parent="PlaymatesBar"]
 position = Vector2( 143, 320 )
@@ -71,7 +88,41 @@ texture = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PlaymatesBar"]
 autoplay = "open_playmates"
+anims/RESET = SubResource( 2 )
 anims/open_playmates = SubResource( 1 )
+
+[node name="TimesCompleteLabel" type="Label" parent="PlaymatesBar"]
+margin_left = 101.183
+margin_top = 90.9307
+margin_right = 196.183
+margin_bottom = 142.931
+custom_fonts/font = ExtResource( 4 )
+text = "10K"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PbKey" type="Sprite" parent="PlaymatesBar"]
+visible = false
+position = Vector2( 148.076, 99.3115 )
+scale = Vector2( 0.232255, 0.232255 )
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="PlaymatesBar"]
+visible = false
+margin_left = 140.215
+margin_top = 14.7419
+margin_right = 156.215
+margin_bottom = 42.7419
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 6 )
+text = "5"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Audio" type="AudioStreamPlayer" parent="."]
 bus = "Vox"

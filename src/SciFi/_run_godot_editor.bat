@@ -1,0 +1,2 @@
+cd SciFiGameGodot
+godot -e

@@ -5,7 +5,6 @@ public class OrkoMode : PinGodGameMode
 {
     private MotuPlayer _player;
     private int _modeTime;
-    private long _orkoTargetAward;
     private Timer _timer;
     private AnimationPlayer _animPlayer;
     private AudioStreamPlayer _audio;

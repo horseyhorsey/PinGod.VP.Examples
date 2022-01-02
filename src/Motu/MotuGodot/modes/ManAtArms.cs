@@ -10,8 +10,8 @@ public class ManAtArms : PinGodGameMode
     private Control _control;
     private Label _label;
     private PinballSwitchLanesNode _laneChangeScene;
-    [Export] AudioStream _laneSfx;
-    [Export] Godot.Collections.Array<AudioStream> _manCallouts;
+    [Export] AudioStream _laneSfx = null;
+    [Export] Godot.Collections.Array<AudioStream> _manCallouts = null;
     private AnimatedSprite _manSprite;
     int _modeTime = 25;
     internal Timer _modeTimer;

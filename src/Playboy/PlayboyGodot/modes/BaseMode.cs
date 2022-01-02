@@ -2,9 +2,7 @@ using Godot;
 using System;
 
 public class BaseMode : Control
-{
-	[Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
-
+{ 
 	private PinGodGame pinGod;
 	private Game game;
 	private PackedScene _playawardScene;
@@ -39,18 +37,38 @@ public class BaseMode : Control
 		if (pinGod.SwitchOn("outlane_l", @event))
 		{
 			pinGod.AddPoints(Game.MINSCORE);
+            if (!pinGod.BallSaveActive)
+            {
+				AudioServer.SetBusEffectEnabled(1, 0, true);
+			}
+			if (_player.OutlanesLit)
+			{
+				pinGod.AddPoints(25000);
+				_player.OutlanesLit = false;
+			}
 		}
 		if (pinGod.SwitchOn("inlane_l", @event))
 		{
 			pinGod.AddPoints(Game.MINSCORE);
+			pinGod.PlaySfx("horse-disco-pop");
 		}
 		if (pinGod.SwitchOn("inlane_r", @event))
 		{
 			pinGod.AddPoints(Game.MINSCORE);
+			pinGod.PlaySfx("horse-disco-pop");
 		}
 		if (pinGod.SwitchOn("outlane_r", @event))
 		{
 			pinGod.AddPoints(Game.MINSCORE);
+			if (!pinGod.BallSaveActive)
+			{
+				AudioServer.SetBusEffectEnabled(1, 0, true);
+			}
+			if (_player.OutlanesLit)
+            {
+				pinGod.AddPoints(25000);
+				_player.OutlanesLit = false;
+			}				
 		}
 		if (pinGod.SwitchOn("sling_l", @event))
 		{
@@ -67,14 +85,17 @@ public class BaseMode : Control
 		if (pinGod.SwitchOn("bumper_1", @event))
 		{
 			pinGod.AddPoints(Game.MINSCORE);
+			pinGod.PlaySfx("horse-disco-pop");
 		}
 		if (pinGod.SwitchOn("bumper_2", @event))
 		{
 			pinGod.AddPoints(Game.MINSCORE);
+			pinGod.PlaySfx("horse-disco-pop");
 		}
 		if (pinGod.SwitchOn("bumper_3", @event))
 		{
 			pinGod.AddPoints(Game.MINSCORE);
+			pinGod.PlaySfx("horse-disco-pop");
 		}
 		if (pinGod.SwitchOn("extra_ball", @event))
 		{
@@ -86,14 +107,19 @@ public class BaseMode : Control
 				if (_player.LeftSpecialLit)
 				{
 					pinGod.AddPoints(25000);
+					pinGod.PlaySfx("horse-disco-laser");
 					_player.LeftSpecialLit = false;
 				}
 				if (_player.ExtraBallLit)
 				{
 					_player.ExtraBalls++;
 					_player.ExtraBallLit = false;
+					pinGod.PlaySfx("horse-disco-laser");
+					AddPlayboyAwardScene("EXTRA BALL");
 				}
 			}
+
+			UpdateLamps();
 		}
 	}
 
@@ -107,14 +133,14 @@ public class BaseMode : Control
 	private void ProcessRightLoop()
 	{
 		_player?.AdvanceBonus(1);
+		pinGod.PlaySfx("horse-disco-laser");
 		if (_player != null)
 		{
 			pinGod.LogInfo("base: advanced bonus - " + _player.BonusTimes);
 
 			if (_player.SpecialRightLit)
 			{
-				pinGod.AddPoints(Game.MINSCORE * 10); //5k special
-				_player.SpecialRightLit = false;
+				pinGod.AddPoints(5000); //5k special				
 			}
 		}
 		else { pinGod.AddPoints(Game.MINSCORE); }
@@ -137,25 +163,31 @@ public class BaseMode : Control
 		}
 	}
 
-	public void OnBallStarted() 
-	{
-		pinGod.LogInfo("base: onballstarted");
-		_player = pinGod.Player as PlayboyPlayer;
-		_player.SpecialRightLit = false;
-		_player.BonusTimes = 1;
+	public void OnBallStarted()
+    {
+        _player = pinGod.Player as PlayboyPlayer;
+		_player.Reset();
 
-		pinGod.PlayMusic("cook_loop_1");
-	}
+        PlaymusicForScore();
+    }
 
-	public void OnBallDrained()
+    private void PlaymusicForScore()
+    {
+        if (_player.Points > 68999)
+            pinGod.PlayMusic("cook_loop_2");
+        else
+            pinGod.PlayMusic("cook_loop_1");
+    }
+
+    public void OnBallDrained()
 	{
 		pinGod.LogInfo("base: ball drained");
+		AudioServer.SetBusEffectEnabled(1, 0, false);
 		pinGod.StopMusic();
 	}
 
 	public void OnBallSaved()
 	{
-		//todo: show PlayboyAward
 		if (!pinGod.IsMultiballRunning)
 		{
 			pinGod.LogDebug("ballsave: ball_saved");
@@ -167,6 +199,10 @@ public class BaseMode : Control
 		}
 	}
 
+	/// <summary>
+	/// todo: use this scene elsewhere so can be used other modes
+	/// </summary>
+	/// <param name="awardText"></param>
 	private void AddPlayboyAwardScene(string awardText = "BALL SAVED")
 	{
 		var scene = _playawardScene.Instance() as PlayboyAward;
@@ -178,9 +214,23 @@ public class BaseMode : Control
 	{
 		if(_player != null)
 		{
-			pinGod.SetLampState("special_r", _player.SpecialRightLit ? (byte)1 : (byte)0);
+			pinGod.SetLampState("arrow_r", _player.SpecialRightLit ? (byte)1 : (byte)0);
 			pinGod.SetLampState("arrow_special", _player.LeftSpecialLit ? (byte)1 : (byte)0);
+
+            if (_player.OutlanesLit)
+            {
+				pinGod.SetLampState("left_25k", 1);
+				pinGod.SetLampState("special_r", 1);
+			}
+            else
+            {
+				pinGod.SetLampState("left_25k", 0);
+				pinGod.SetLampState("special_r", 0);
+			}
+			
 			pinGod.SetLampState("extra_ball", _player.ExtraBallLit ? (byte)1 : (byte)0);
+
+			game.UpdateBonusLamps();			
 		}
-	}	
+	}
 }

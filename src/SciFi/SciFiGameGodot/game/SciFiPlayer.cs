@@ -35,7 +35,6 @@ public class SciFiPlayer : PinGodPlayer
     public bool LeftLockLit { get; internal set; }    
 
     const byte MaxBonusMultiplier = 6;
-    public byte BonusMultiplier { get; set; } = 1;
 
     public SciFiPlayer()
     {

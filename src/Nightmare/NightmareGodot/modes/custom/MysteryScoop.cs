@@ -10,7 +10,6 @@ public class MysteryScoop : Control
 	private BallStackPinball ballStack;
     private Game game;
     private Timer timer;
-	float totalSecondsInMystery = 7.5f;
 
     /// <summary>
     /// Used for tunnel
@@ -31,8 +30,6 @@ public class MysteryScoop : Control
 		ballStack = GetNode("BallStackPinball") as BallStackPinball;
 		game = GetParent().GetParent() as Game;
 		timer = GetNode<Timer>("Timer");
-
-		totalSecondsInMystery = 7.5f;
 	}	
 	/// <summary>
 	/// Locks balls and mystery awards. Increases jackpots

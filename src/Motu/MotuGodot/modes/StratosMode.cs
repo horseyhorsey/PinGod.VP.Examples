@@ -6,7 +6,7 @@
 public class StratosMode : PinGodGameMode
 {
     private AudioStreamPlayer _audioPlayer;
-    [Export] AudioStream _completeSound;
+    [Export] AudioStream _completeSound = null;
     private Control _control;
     [Export] int _modeTime = 25;
     private Timer _modeTimer;

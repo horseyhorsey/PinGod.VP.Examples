@@ -108,7 +108,7 @@ public class BarrelTargetsMode : PinGodGameNode
 		if(!game.currentPlayer.BarrelTargets.Any(x=> !x))
 		{
 			game.DoublePlayfield = true;
-			GD.Print("barrel targets completed. Double PF active");
+			pinGod.LogInfo("barrel targets completed. Double PF active");
 			game.AddPoints(50000);			
 			//todo: barrel bonus, bonus
 			game.currentPlayer.BonusBarrel += game.DoublePlayfield ? 2750 * 2 : 2750;

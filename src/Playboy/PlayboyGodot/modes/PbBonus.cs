@@ -7,8 +7,6 @@ using System;
 /// </summary>
 public class PbBonus : Control
 {
-	[Export] int _display_for_seconds = 5;
-
 	private Label label;
 	private Label labelTotal;
 	private VideoPlayerPinball video;
@@ -44,19 +42,25 @@ TOTAL";
 		if (!timer.IsStopped())
 			timer.Stop();
 
+		
 		//start display - TEST
 		//StartBonusDisplay();
 	}
 
 	public void StartBonusDisplay()
 	{
+		if (pinGod.IsTilted) return;
+		_bonusTotal = 0;
+		pinGod.PlayMusic("horsepin_i_see_you_move_it"); //todo paly position not working?
 		var player = pinGod.Player as PlayboyPlayer;
-		_bonusTimes = 25; _multiplier = 3;
 		video.Play();
 		if (player != null)
 		{
 			//todo: countdown lamps, countdown lamps again if a multiplier
 			pinGod.LogInfo("player bonus_times: " + player.BonusTimes + " " + player.BonusTimes * 1000);
+
+			if (player.SuperBonus)
+				_bonusTotal += 20000;
 
 			_bonusTimes = player.BonusTimes;			
 			_multiplier = player.BonusMultiplier;
@@ -72,7 +76,14 @@ TOTAL";
 
 		_bonusTimesLabel = _bonusTimes;
 		labelTotal.Text = 1000.ToScoreString();
-		timer.Start(0.5f);
+		if(_bonusTimes > 10)
+		{
+			timer.Start(0.2f);
+		}
+		else
+		{
+			timer.Start(0.5f);
+		}
 		Visible = true;
 	}
 
@@ -89,6 +100,7 @@ TOTAL";
 				timer.Stop();
 				this.Visible = false;
 				video.Stop();
+				pinGod.AddPoints(_bonusTotal);
 				pinGod.EmitSignal("BonusEnded");
 			}
 			else
@@ -102,7 +114,7 @@ TOTAL";
 			_bonusTimesLabel--;
 			_bonusTotal += 1000;
 			labelTotal.Text = _bonusTotal.ToScoreString();
-			UpdateBonusLamps(_bonusTimesLabel);
+			GetParent().GetParent<Game>().UpdateBonusLamps();
 		}
 	}
 
@@ -115,33 +127,5 @@ TOTAL";
 		return BONUS_TEXT.Replace("{PLAYER}", player.ToString())
 			.Replace("{MULTIPLIER}", multiplier.ToString())
 			.Replace("{BONUS}", times.ToString());
-	}
-
-	private void UpdateBonusLamps(int bonusCount)
-	{
-		var cnt = bonusCount;
-		//disable all bonus lamps
-		for (int i = 1; i < 11; i++) pinGod.SetLampState("bonus_" + i, 0);
-
-		if (cnt > 0)
-		{
-			//set a single number lamp
-			var lmpCnt = cnt > 10 ? Convert.ToInt32(cnt.ToString().Substring(1)) : cnt;
-			if(lmpCnt > 0) pinGod.SetLampState("bonus_" + lmpCnt, 1);
-
-			if (cnt % 10 == 0) pinGod.SetLampState("bonus_9", 1);
-
-			if (cnt == 20)
-			{
-				pinGod.SetLampState("bonus_9", 0);
-				pinGod.SetLampState("bonus_10", 1);
-				pinGod.SetLampState("bonus_11", 1);
-			}
-			else if (cnt > 20) pinGod.SetLampState("bonus_11", 1);
-		}
-		else
-		{
-			//pinGod.SetLampState("bonus_" + cnt, (byte)LightState.On);
-		}
 	}
 }

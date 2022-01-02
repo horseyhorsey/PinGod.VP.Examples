@@ -16,7 +16,7 @@ public class BaseMode : Control
     private MotuPlayer _player;
     private AudioStreamPlayer _skeleAudio;
     private PackedScene _skeleMultiball;
-    [Export] Godot.Collections.Array<AudioStream> _skeletorStreams;
+    [Export] Godot.Collections.Array<AudioStream> _skeletorStreams = null;
     private AudioStreamPlayer _spinAudio;
     private PackedScene _stratosMode;
     string[] ComboLamps = new string[] { "arrow_l_left_loop", "arrow_l_left_ramp", "arrow_l_inner_spin", "arrow_l_inner_loop", "arrow_l_right_ramp", "arrow_l_right_loop" };

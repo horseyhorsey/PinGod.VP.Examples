@@ -16,7 +16,7 @@ public class JawsAttract : Attract
 
 	public override void _Ready()
 	{
-		Print("Jaws Attract _ready");
+		pinGod.LogInfo("Jaws Attract _ready");
 		//pinGodGame.SolenoidPulse("disable_shows");
 	}
 }

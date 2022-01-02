@@ -2,10 +2,9 @@ using Godot;
 
 public class TopLanes : PinballSwitchLanesNode
 {
-	bool[] _lanesCompleted;
 	private SciFiPinGodGame pinGodSciFi;
 	private SciFiPlayer player;
-	[Signal] delegate void LanesCompleted();
+
 	#region Exports
 	[Export] bool _logging_enabled = false;
 	[Export] bool _reset_on_ball_started = true;

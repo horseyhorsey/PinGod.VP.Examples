@@ -77,7 +77,7 @@ public class BruceMultiball : Node
 		{
 			if (!IsMultiballRunning)
 			{
-				GD.Print("jaws kicker hit");
+				pinGod.LogInfo("jaws kicker hit");
 				pinGod.EnableJawsToy(true);
 				if (pinGod.IsMultiballRunning)
 				{
@@ -105,7 +105,7 @@ public class BruceMultiball : Node
 				game.SetGiState(LightState.Blink);
 				JackportTargets = new bool[2];
 				pinGod.EnableJawsToy(true);
-				GD.Print("super jackpot");
+				pinGod.LogInfo("super jackpot");
 				_jackpotBusy = true;
 				superLabel.Text = MSG_SUPER_JACKPOT;
 				superLabel.Visible = true;
@@ -333,7 +333,7 @@ public class BruceMultiball : Node
 	{
 		int lockNum = PlayHurryUpSuspense();
 
-		GD.Print("jaws open:" + game.IsJawsLockReady());
+		pinGod.LogInfo("jaws open:" + game.IsJawsLockReady());
 		pinGod.SolenoidOn("flash_jaws", 1);
 		superLabel.Text = "\r\n\r\nSHOOT\r\nSHARK"; superLabel.Visible = true;
 		suspenseTimer.Start(3.2f);
@@ -400,7 +400,7 @@ public class BruceMultiball : Node
 		else
 		{
 			game.AddPoints(7500);
-			GD.Print("activated");
+			pinGod.LogInfo("activated");
 			if (!game.currentPlayer.QuintActivated[index])
 			{				
 				game.currentPlayer.QuintActivated[index] = true;
@@ -410,7 +410,7 @@ public class BruceMultiball : Node
 			//scene: bStars, sharktoon
 			if (completed)
 			{
-				GD.Print("activator completed");
+				pinGod.LogInfo("activator completed");
 				game.currentPlayer.QuintLockEnabled = true;
 				activatorLabel.Text = "BRUCE\r\nLOCKS OPEN";
 				if (!pinGod.IsMultiballRunning)
@@ -434,22 +434,22 @@ public class BruceMultiball : Node
 	}
 	private void BruceVukHit()
 	{
-		GD.Print("bruce kicker");
+		pinGod.LogInfo("bruce kicker");
 		if (pinGod.IsMultiballRunning)
 		{
-			GD.Print("bruce: in multiball exiting");
+			pinGod.LogInfo("bruce: in multiball exiting");
 			game.currentPlayer.BonusBruce += game.DoublePlayfield ? Game.BONUS_BRUCEY_VALUE * 2 : Game.BONUS_BRUCEY_VALUE;
 			KickoutLock();
 		}
 		else if (game.currentPlayer.BarrelsOn)
 		{
-			GD.Print("bruce: targets up exiting");
+			pinGod.LogInfo("bruce: targets up exiting");
 			game.PlayBarrelReminderScene();
 			KickoutLock();
 		}
 		else
 		{
-			GD.Print("bruce: checking quint");
+			pinGod.LogInfo("bruce: checking quint");
 			QuintLockCheck();
 		}
 	}
@@ -463,7 +463,7 @@ public class BruceMultiball : Node
 			game.currentPlayer.QuintCount = 0;
 			pinGod.EnableJawsToy(true);
 			UpdateLamps();
-			GD.Print("bruce: EndMultiball");
+			pinGod.LogInfo("bruce: EndMultiball");
 		}
 	}
 	private void JawsKickinMultiball()
@@ -477,7 +477,7 @@ public class BruceMultiball : Node
 	{
 		if (game.currentPlayer.SharkLockEnabled)
 		{
-			GD.Print("bruce: jaws lock check. shark complete:", game.currentPlayer.SharkLocksComplete);
+			pinGod.LogInfo("bruce: jaws lock check. shark complete:", game.currentPlayer.SharkLocksComplete);
 			pinGod.SolenoidOn("flash_vuk", 1);
 			pinGod.SolenoidOn("flash_jaws", 0);
 			game.AwardHurryUp();
@@ -512,7 +512,7 @@ public class BruceMultiball : Node
 				CallDeferred("PlayScene", "quint_dead");
 			}
 
-			GD.Print("bruce: jaws lock check. shark complete:", game.currentPlayer.SharkLocksComplete);
+			pinGod.LogInfo("bruce: jaws lock check. shark complete:", game.currentPlayer.SharkLocksComplete);
 		}
 		else
 		{
@@ -578,7 +578,7 @@ public class BruceMultiball : Node
 	private void PlayScene(string name)
 	{
 		activatorControl.Visible = false;
-		GD.Print("playing scene: ", name);
+		pinGod.LogInfo("playing scene: ", name);
 		VideoPlayer.Stream = VideoStreams[name];
 		VideoPlayer.Play();
 		VideoPlayer.Visible = true;		
@@ -590,7 +590,7 @@ public class BruceMultiball : Node
 		game.currentPlayer.BonusBruce += game.DoublePlayfield ? Game.BONUS_BRUCEY_VALUE * 2 : Game.BONUS_BRUCEY_VALUE;
 		if (quinkLocksOn)
 		{
-			GD.Print("quint check locks on");
+			pinGod.LogInfo("quint check locks on");
 			pinGod.DisableAllLamps();
 			game.SetGiState(LightState.On);
 			game.currentPlayer.BonusBruce += game.DoublePlayfield ? Game.BONUS_BRUCEY_VALUE * 2 : Game.BONUS_BRUCEY_VALUE;
@@ -626,7 +626,7 @@ public class BruceMultiball : Node
 		}
 		else
 		{
-			GD.Print("quint check locks off");
+			pinGod.LogInfo("quint check locks off");
 			KickoutLock();
 		}
 	}

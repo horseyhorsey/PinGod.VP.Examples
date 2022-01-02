@@ -1,0 +1,2 @@
+cd MoonStation
+godot -e

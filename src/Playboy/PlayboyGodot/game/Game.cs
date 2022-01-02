@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 public class Game : Node2D
 {
@@ -10,8 +11,8 @@ public class Game : Node2D
 	private PackedScene multiballPkd;
 	private PinGodGame pinGod;
 	private ScoreEntry scoreEntry;
-
-	public const int MINSCORE = 500;
+    private PlayboyPlayer _player;
+    public const int MINSCORE = 500;
 	public const int MINBONUS = 1000;
 
 	public override void _EnterTree()
@@ -96,6 +97,7 @@ public class Game : Node2D
 	}
 	public void OnBonusEnded()
 	{
+		pinGod.DisableAllLamps();
 		pinGod.LogInfo("game: bonus ended, starting new ball");
 		pinGod.InBonusMode = false;
 		if (_lastBall)
@@ -114,10 +116,16 @@ public class Game : Node2D
 		pinGod.AddPoints(points);
 		pinGod.AddBonus(25);
 	}
-	/// <summary>
-	/// Sets <see cref="PinGodGameBase.IsMultiballRunning"/> to false and Any node that is in the multiball group is removed from tree
-	/// </summary>
-	private void EndMultiball()
+
+    internal void UpdateLamps()
+    {
+		pinGod.UpdateLamps(this.GetTree());
+    }
+
+    /// <summary>
+    /// Sets <see cref="PinGodGameBase.IsMultiballRunning"/> to false and Any node that is in the multiball group is removed from tree
+    /// </summary>
+    private void EndMultiball()
 	{
 		pinGod.LogInfo("removing multiballs");
 		GetTree().CallGroup("multiball", "EndMultiball");
@@ -167,5 +175,36 @@ public class Game : Node2D
 		pinGod.DisableAllLamps();
 		pinGod.StartNewBall();
 		pinGod.OnBallStarted(GetTree());
+
+		_player = (pinGod as PbPinGodGame).Player as PlayboyPlayer;
+	}
+
+
+	public void UpdateBonusLamps()
+	{
+		var cnt = _player.BonusTimes;
+		//disable all bonus lamps
+		for (int i = 1; i < 12; i++) pinGod.SetLampState("bonus_" + i, 0);
+
+		if (cnt > 0)
+		{
+			//set a single number lamp
+			var lmpCnt = cnt > 10 ? Convert.ToInt32(cnt.ToString().Substring(1)) : cnt;
+			pinGod.SetLampState("bonus_" + lmpCnt, 1);
+
+			if (cnt % 10 == 0) pinGod.SetLampState("bonus_9", 1);
+
+			if (cnt == 20)
+			{
+				pinGod.SetLampState("bonus_9", 0);
+				pinGod.SetLampState("bonus_10", 1);
+				pinGod.SetLampState("bonus_11", 1);
+			}
+			else if (cnt > 20) pinGod.SetLampState("bonus_11", 1);
+		}
+		else
+		{
+			pinGod.SetLampState("bonus_" + cnt, (byte)LightState.On);
+		}
 	}
 }

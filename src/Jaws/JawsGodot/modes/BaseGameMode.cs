@@ -6,9 +6,9 @@ public class BaseGameMode : Control
 	public const int BASIC_SWITCH_VALUE = 10000;
 	private PackedScene _ballSaveScene;
 	private Timer _clearLayersTimer;
-	[Export] VideoStreamTheora[] _deathScenes;
-	[Export] VideoStreamTheora[] _hoopScenes;
-	[Export] VideoStreamTheora _kickbackScene;
+	[Export] VideoStreamTheora[] _deathScenes = null;
+	[Export] VideoStreamTheora[] _hoopScenes = null;
+	[Export] VideoStreamTheora _kickbackScene = null;
 
 	private Label _label;
 	private RandomNumberGenerator _rng;
@@ -90,7 +90,7 @@ public class BaseGameMode : Control
 	}
 	public void OnBallStarted()
 	{
-		GD.Print("base: ball started");
+		pinGod.LogInfo("base: ball started");
 
 		Game.currentPlayer = pinGod.GetJawsPlayer();
 		Game.DisableBarrelTargets();
@@ -151,7 +151,7 @@ public class BaseGameMode : Control
 	{
 		_clearLayersTimer.Stop();
 		var index = _rng.RandiRange(0, _deathScenes.Length - 1);
-		GD.Print("death scene: ", index);
+		pinGod.LogInfo("death scene: ", index);
 		_label.Text = "BALL EATEN";
 		_videoPlayer.Stream = _deathScenes[index];
 		_videoPlayer.Play();
@@ -163,7 +163,7 @@ public class BaseGameMode : Control
 		_clearLayersTimer.Stop();
 		_label.Text = "BALL LOST";
 		var index = _rng.RandiRange(0, _hoopScenes.Length - 1);
-		GD.Print("hoop scene: ", index);
+		pinGod.LogInfo("hoop scene: ", index);
 		_videoPlayer.Stream = _hoopScenes[index];
 		_videoPlayer.Play();
 		ShowLayers(true);

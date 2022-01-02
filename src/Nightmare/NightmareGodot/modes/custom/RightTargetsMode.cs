@@ -9,9 +9,6 @@ public class RightTargetsMode : PinballTargetsControl
 		base._EnterTree();
 		//get game to resume music
 		game = GetParent().GetParent() as Game;
-
-		//hide this mode, still process the switches
-		Clear();
 	}
 	/// <summary>
 	/// Just processes the target switches in the base
@@ -73,8 +70,6 @@ public class RightTargetsMode : PinballTargetsControl
 			UpdateLamps();
 		return completed;
 	}
-
-	public void Clear() => this.Visible = false;
 
 	/// <summary>
 	/// reset cross value and targets

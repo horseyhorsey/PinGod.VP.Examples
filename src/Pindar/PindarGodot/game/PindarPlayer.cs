@@ -45,8 +45,6 @@ public class PindarPlayer : PinGodPlayer
 
     public int BonusCount { get; set; } = 1;
 
-    public int BonusMultiplier { get; set; }=1;
-
     public int DarsCompleted { get; set; }
 
     /// <summary>

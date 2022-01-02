@@ -6,26 +6,41 @@ public class KeysMode : PinballTargetsControl
 {
 	private PackedScene _keyScene;
 	private PlayboyPlayer _player;
-	private PackedScene _grotoScene;	
+	private PackedScene _grotoScene;
+    private Game game;
 
-	public override void _EnterTree()
+    public override void _EnterTree()
 	{
 		base._EnterTree();
 
 		_keyScene = ResourceLoader.Load("res://scenes/KeyCollected.tscn") as PackedScene;
-		_grotoScene = ResourceLoader.Load("res://scenes/GrottoScene.tscn") as PackedScene;		
+		_grotoScene = ResourceLoader.Load("res://scenes/GrottoScene.tscn") as PackedScene;
+
+		game = GetParent().GetParent() as Game;
 	}
 
     public override void _Input(InputEvent @event)
     {
 		base._Input(@event);
 
+		//check the saucer switch, kick the ball if game isn't running
 		if (pinGod.SwitchOn("saucer", @event))
 		{
-			OnGrottoEntered();
-		}
+			if (pinGod.GameInPlay && !pinGod.IsTilted)
+			{
+				OnGrottoEntered();
+			}
+            else
+            {
+				pinGod.SolenoidPulse("saucer");
+			}
+		}		
 	}
 
+	/// <summary>
+	/// making 5 1st time 2x, 3x, 5x
+	/// </summary>
+	/// <param name="reset"></param>
     public override void TargetsCompleted(bool reset = true)
 	{
 		pinGod.AddPoints(Game.MINSCORE);
@@ -43,11 +58,14 @@ public class KeysMode : PinballTargetsControl
 					break;
 				case 3:
 					_player.BonusMultiplier = 5;
-					break;
-				case 4:
-					//todo: award special?
-					break;
+					break;					
 				default:
+					if(_player.LeftSpecialLit || _player.SpecialRightLit)
+						pinGod.AddPoints(50000);
+                    else
+                    {
+						pinGod.AddPoints(25000);
+					}
 					break;
 			}
 		}
@@ -80,10 +98,10 @@ public class KeysMode : PinballTargetsControl
 			CallDeferred(nameof(AddKeyScene));
 		}
 
-		var game = GetParent().GetParent() as Game;
-		if(game != null)
+		
+		if (game != null)
 		{
-			pinGod.UpdateLamps(game.GetTree());
+			game.UpdateLamps();
 		}		
 
 		return result;
@@ -117,6 +135,7 @@ public class KeysMode : PinballTargetsControl
 				_player.AdvanceBonus(5);
 				pinGod.AddPoints(30000);
 				grotto.BonusAdvanced = 5;
+				grotto.ScoreToDisplay = 30000;
 			}
             else
             {
@@ -124,6 +143,7 @@ public class KeysMode : PinballTargetsControl
 				grotto.BonusAdvanced = keyCount;
 				_player.AdvanceBonus((byte)keyCount);
 				pinGod.AddPoints(1000 * keyCount);
+				grotto.ScoreToDisplay = 1000 * keyCount;
 			}
 		}
 		else
@@ -131,6 +151,8 @@ public class KeysMode : PinballTargetsControl
 			grotto.BonusAdvanced = 2;
 		}
 		AddChild(grotto);
+
+		game.UpdateLamps();
 	}
 
 	/// <summary>
@@ -138,43 +160,14 @@ public class KeysMode : PinballTargetsControl
 	/// </summary>
 	private void OnGrottoEntered()
 	{
-		pinGod.StopMusic();
+		AudioServer.SetBusEffectEnabled(1, 0, true);
 		pinGod.AddPoints(Game.MINSCORE * 2);
 		if (_player != null)
 		{
-			if (_player.GrottoComplete) pinGod.AddPoints(25000);
-			UpdateBonusLamps();
+			if (_player.GrottoComplete) pinGod.AddPoints(25000);			
 		}
 
 		CallDeferred(nameof(AddGrottoScene));
-	}
-
-	private void UpdateBonusLamps()
-	{
-		var cnt = _player.BonusTimes;
-		//disable all bonus lamps
-		for (int i = 1; i < 12; i++) pinGod.SetLampState("bonus_" + i, 0);
-
-		if (cnt > 0)
-		{
-			//set a single number lamp
-			var lmpCnt = cnt > 10 ? Convert.ToInt32(cnt.ToString().Substring(1)) : cnt;
-			pinGod.SetLampState("bonus_" + lmpCnt, 1);
-
-			if (cnt % 10 == 0) pinGod.SetLampState("bonus_9", 1);
-
-			if (cnt == 20)
-			{
-				pinGod.SetLampState("bonus_9", 0);
-				pinGod.SetLampState("bonus_10", 1);
-				pinGod.SetLampState("bonus_11", 1);
-			}
-			else if (cnt > 20) pinGod.SetLampState("bonus_11", 1);
-		}
-		else
-		{
-			pinGod.SetLampState("bonus_" + cnt, (byte)LightState.On);
-		}
 	}
 
 	public override void UpdateLamps()

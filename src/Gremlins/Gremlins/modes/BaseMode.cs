@@ -19,6 +19,9 @@ public class BaseMode : Control
 		game = GetParent().GetParent() as Game;
 
 		_ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);
+
+		var _panel = GetNode<PanelContainer>("PanelContainer");
+		_panel.AddColorOverride("bg_color", Color.Color8(0, 255, 0));
 	}
 
 	/// <summary>

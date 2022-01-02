@@ -11,12 +11,7 @@ public class LeftTargetsMode : PinballTargetsControl
 
 		//get game to resume music
 		game = GetParent().GetParent() as Game;
-
-		//hide this mode, still process the switches
-		Clear();
 	}
-
-	public void Clear() => this.Visible = false;
 
 	public override void _Input(InputEvent @event)
 	{

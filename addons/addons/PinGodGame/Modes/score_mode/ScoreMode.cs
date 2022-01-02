@@ -1,4 +1,5 @@
 using Godot;
+using Pingod.Local.resources;
 
 /// <summary>
 /// Simple score display mode for 4 players with ball information. Used in the <see cref="Game"/> Scene
@@ -13,13 +14,13 @@ public class ScoreMode : Node
     [Export] bool _show_main_score_multiplayer = true;
 
     #region Node paths to select in scene
-    [Export] NodePath _ballInfoLabel;
-    [Export] NodePath _playerInfoLabel;
-    [Export] NodePath _scoreLabel;
-    [Export] NodePath _scoreLabelP1;
-    [Export] NodePath _scoreLabelP2;
-    [Export] NodePath _scoreLabelP3;
-    [Export] NodePath _scoreLabelP4; 
+    [Export] NodePath _ballInfoLabel = null;
+    [Export] NodePath _playerInfoLabel = null;
+    [Export] NodePath _scoreLabel = null;
+    [Export] NodePath _scoreLabelP1 = null;
+    [Export] NodePath _scoreLabelP2 = null;
+    [Export] NodePath _scoreLabelP3 = null;
+    [Export] NodePath _scoreLabelP4 = null; 
     #endregion
 
     protected PinGodGame pinGod;
@@ -132,12 +133,13 @@ public class ScoreMode : Node
 
             //update current player and ball
             if (ballInfolabel != null)
-            {
-                ballInfolabel.Text = $"BALL: {pinGod.BallInPlay}";
+            {                
+                ballInfolabel.Text = ResourceText.ball_info + pinGod.BallInPlay.ToString();
             }
             if (playerInfoLabel != null)
             {
                 playerInfoLabel.Text = $"PLAYER: {pinGod.CurrentPlayerIndex + 1}";
+                ballInfolabel.Text = ResourceText.ply_info + (pinGod.CurrentPlayerIndex + 1).ToString();
             }
 
         }

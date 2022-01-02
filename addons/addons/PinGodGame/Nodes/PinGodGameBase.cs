@@ -87,30 +87,37 @@ public abstract class PinGodGameBase : Node
 	#region Godot overrides
 	public override void _EnterTree()
 	{
-		LogInfo("pingod:enter tree");
+        if (!Engine.EditorHint)
+        {
+			LogInfo("pingod:enter tree");
 
-		CmdArgs = GetCommandLineArgs();
-		LoadDataFile();
-		LoadSettingsFile();
-		SetUpWindow();
+			CmdArgs = GetCommandLineArgs();
+			LoadDataFile();
+			LoadSettingsFile();
 
-		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
-		AudioServer.SetBusVolumeDb(1, GameSettings.MusicVolume);			
+			PingodText.InitResourceManager(GameSettings.Language);
+			LogInfo("pingod:loaded language resources");
 
-		//get trough from tree
-		_trough = GetNode("Trough") as Trough;
-		if (_trough == null)
-			LogWarning("trough not found");
+			SetUpWindow();
 
-		//create and add ball search timer
-		BallSearchTimer = new Timer() { Autostart = false, OneShot = false };
-		BallSearchTimer.Connect("timeout", this, "OnBallSearchTimeout");
-		this.AddChild(BallSearchTimer);
+			AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
+			AudioServer.SetBusVolumeDb(1, GameSettings.MusicVolume);
 
-		AudioManager = GetNode<AudioManager>("AudioManager");
-		mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
+			//get trough from tree
+			_trough = GetNode("Trough") as Trough;
+			if (_trough == null)
+				LogWarning("trough not found");
 
-		gameLoadTimeMsec = OS.GetTicksMsec();		
+			//create and add ball search timer
+			BallSearchTimer = new Timer() { Autostart = false, OneShot = false };
+			BallSearchTimer.Connect("timeout", this, "OnBallSearchTimeout");
+			this.AddChild(BallSearchTimer);
+
+			AudioManager = GetNode<AudioManager>("AudioManager");
+			mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
+
+			gameLoadTimeMsec = OS.GetTicksMsec();
+		}		
 	}
 
     public override void _ExitTree()
@@ -148,6 +155,8 @@ public abstract class PinGodGameBase : Node
             {
                 GetTree().Quit(0);
             }
+
+			return;
         }
 
         if (@event.IsActionPressed("toggle_border"))
@@ -541,16 +550,16 @@ public abstract class PinGodGameBase : Node
 	/// <param name="saveData">save game on exit?</param>
 	public virtual void Quit(bool saveData = true)
 	{
-		//send game ended, died
-		SolenoidOn("died", 0);
-
 		if (saveData)
 		{
 			SaveGameData();
 			SaveGameSettings();
 		}
 
-		memMapping?.Dispose(); //dispose invokes stop as well
+		//send game ended, died
+		SolenoidOn("died", 0);
+
+		memMapping?.Dispose(); //dispose invokes stop as well		
 	}
 
 	/// <summary>
@@ -734,17 +743,21 @@ public abstract class PinGodGameBase : Node
                 if (!GameSettings.Display.NoWindow)
                 {
                     LogDebug("pingodbase: setting display settings");
-                    OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
-
                     if (GameSettings.Display.FullScreen)
                     {
-                        OS.WindowFullscreen = true;
+						OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
+						OS.WindowFullscreen = true;
                     }
                     else
                     {
                         OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);
-                        OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
+						OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);						
                     }
+					OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
+				}
+                else
+                {
+					//todo: remove window
                 }
             }
         }

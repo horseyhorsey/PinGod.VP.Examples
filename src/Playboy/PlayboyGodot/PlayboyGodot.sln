@@ -7,8 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayboyGodot", "PlayboyGodo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E6BE33C-3F33-4EAE-9CB2-D22EC15A631A}"
 	ProjectSection(SolutionItems) = preProject
+		..\_build_export.bat = ..\_build_export.bat
+		..\_run_godot_editor.bat = ..\_run_godot_editor.bat
+		..\_vp_edit.bat = ..\_vp_edit.bat
+		..\_vp_play.bat = ..\_vp_play.bat
 		..\readme.md = ..\readme.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pingod.Local", "..\Pingod.Local\Pingod.Local.csproj", "{9363615E-6F21-4ABD-B7DD-80F948974ECB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +24,8 @@ Global
 		ExportDebug|x86 = ExportDebug|x86
 		ExportRelease|Any CPU = ExportRelease|Any CPU
 		ExportRelease|x86 = ExportRelease|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -32,6 +40,26 @@ Global
 		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|x86.ActiveCfg = ExportRelease|x86
 		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|x86.Build.0 = ExportRelease|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Release|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Release|Any CPU.Build.0 = ExportRelease|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Release|x86.ActiveCfg = ExportRelease|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Release|x86.Build.0 = ExportRelease|x86
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.Debug|x86.Build.0 = Debug|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.ExportDebug|x86.ActiveCfg = Debug|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.ExportDebug|x86.Build.0 = Debug|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.ExportRelease|x86.ActiveCfg = Release|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.ExportRelease|x86.Build.0 = Release|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.Release|x86.ActiveCfg = Release|Any CPU
+		{9363615E-6F21-4ABD-B7DD-80F948974ECB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

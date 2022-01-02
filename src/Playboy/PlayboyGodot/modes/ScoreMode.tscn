@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://modes/PbScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/pb_264.tres" type="DynamicFont" id=2]
@@ -8,10 +8,9 @@
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=6]
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=7]
 [ext_resource path="res://assets/videos/Playboy_2.ogv" type="VideoStream" id=8]
+[ext_resource path="res://addons/PinGodGame/Shaders/SimpleCRTShader/ShaderTestScreen.tscn" type="PackedScene" id=9]
 
-[node name="ScoreMode" type="Control" groups=[
-"Mode",
-]]
+[node name="ScoreMode" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -31,11 +30,12 @@ pause_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
 stream = ExtResource( 8 )
+autoplay = true
+buffering_msec = 1000
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_pause_when_hidden = true
 _loop = true
 _play_when_visible = true
 
@@ -67,19 +67,19 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -0.707153
-margin_top = 404.0
-margin_right = -0.707153
-margin_bottom = -51.0
+margin_left = -0.707
+margin_top = 301.0
+margin_right = -0.707031
+margin_bottom = -50.979
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="ScoreMain" type="Label" parent="CenterContainer"]
 margin_left = 587.0
+margin_top = 51.0
 margin_right = 692.0
-margin_bottom = 265.0
+margin_bottom = 316.0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 1
@@ -149,6 +149,12 @@ valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CRTShaderTestScreen" parent="." instance=ExtResource( 9 )]
+margin_left = 83.0
+margin_top = -3.0
+margin_right = -73.0
+margin_bottom = -126.0
 
 [node name="Pillars" type="TextureRect" parent="."]
 margin_left = 2.0

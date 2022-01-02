@@ -12,7 +12,6 @@ public class Game : PinGodGameNode
     bool isLastBall = false;
     private PackedScene multiballPkd;
     private ScoreEntry scoreEntry;
-    private Control scoreNode;
 
     #region Nightmare property add on
     public AudioStreamPlayer bgmMusicPlayer;

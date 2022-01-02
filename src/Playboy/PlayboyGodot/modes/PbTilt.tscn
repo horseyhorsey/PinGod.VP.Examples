@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.cs" type="Script" id=2]
+[ext_resource path="res://assets/fonts/pb_128.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/img/GirlRight.png" type="Texture" id=4]
+[ext_resource path="res://assets/img/pb_pinball.png" type="Texture" id=5]
+
+[node name="Tilt" type="Control" groups=["Mode"]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.533333, 0.0784314, 0.152941, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GirlRight" type="Sprite" parent="."]
+position = Vector2( 654.927, 529.698 )
+scale = Vector2( 0.759999, 0.759999 )
+texture = ExtResource( 4 )
+
+[node name="PbPinball" type="Sprite" parent="."]
+position = Vector2( 423.681, 552.888 )
+scale = Vector2( 4.04, 4.04 )
+texture = ExtResource( 5 )
+
+[node name="PbPinball2" type="Sprite" parent="."]
+position = Vector2( 884.291, 552.888 )
+scale = Vector2( 4.04, 4.04 )
+texture = ExtResource( 5 )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlinkingLabel" type="Label" parent="CenterContainer"]
+margin_left = 482.0
+margin_top = 296.0
+margin_right = 798.0
+margin_bottom = 424.0
+custom_fonts/font = ExtResource( 3 )
+text = "TILT"
+align = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

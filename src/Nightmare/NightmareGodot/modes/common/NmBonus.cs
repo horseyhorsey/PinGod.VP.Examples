@@ -6,7 +6,6 @@ public class NmBonus : Bonus
 {
     private IEnumerable<string> _frames;
     private int? _frameCount;
-    private int _frameCountMultiplier = 1;
     private int _currentFrame = 0;
     private int _currentFrameCountMultiplier = 1;
     [Export] float _countDownDelay = 0.2f;
@@ -26,7 +25,7 @@ public class NmBonus : Bonus
     /// <summary>
     /// This normally invoked by the projects Game
     /// </summary>
-    public override void StartBonusDisplay()
+    public override void StartBonusDisplay(bool visible = true)
     {
         //base.StartBonusDisplay();
         pinGod.LogInfo("bonus: starting display. ball is started? " + pinGod.IsBallStarted);

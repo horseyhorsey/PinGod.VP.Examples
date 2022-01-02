@@ -7,8 +7,7 @@ using System.Linq;
 /// </summary>
 public class HeManScoop : PinGodGameMode
 {
-    [Export] int _modeTime;
-    [Export] Godot.Collections.Array<AudioStream> _streams;
+    [Export] Godot.Collections.Array<AudioStream> _streams = null;
 
     private BallStackPinball _ballStack;
 

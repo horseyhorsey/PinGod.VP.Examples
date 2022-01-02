@@ -9,8 +9,7 @@ public class BaseGameMode : Node
 	#region Fields
 	private Game game;
 	private PinGodGame pinGod;
-	private NightmarePlayer player;
-	private float _musicTime;    
+	private NightmarePlayer player;   
 	#endregion
 
 	public override void _EnterTree()

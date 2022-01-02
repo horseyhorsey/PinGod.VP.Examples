@@ -1,0 +1,2 @@
+cd NightmareGodot
+godot -e

@@ -1,0 +1,2 @@
+cd KnightRiderGodot
+godot -e

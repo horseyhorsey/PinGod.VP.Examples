@@ -1,0 +1,2 @@
+cd BasicGameGodot
+godot -e

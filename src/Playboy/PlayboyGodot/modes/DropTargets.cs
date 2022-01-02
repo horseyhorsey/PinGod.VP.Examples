@@ -12,18 +12,31 @@ public class DropTargets : PinballTargetsControl
 		bool result = base.SetTargetComplete(index);
 		pinGod.AddPoints(Game.MINSCORE);
 		pinGod.AddBonus(Game.MINBONUS);
+		pinGod.PlaySfx("horse-disco-pop");
 		return result;
 	}
 
 	public override void TargetsCompleted(bool reset = true)
 	{
 		base.TargetsCompleted(reset);
-		//todo: watch what game is doing when the drop targets are completed
+
 		if(_player != null)
 		{
+			pinGod.PlaySfx("horse-disco-laser");
 			_player.DropsCompleted++;
-			if (_player.DropsCompleted == 1) _player.OutlanesLit = true;
-			else if (_player.DropsCompleted == 2) {; }//todo: award special
+
+			if (_player.DropsCompleted == 1)
+			{
+				pinGod.AddPoints(25000);
+			}
+
+			else if (_player.DropsCompleted >= 2)
+			{				
+				pinGod.AddPoints(50000);
+			}
+
+			_player.OutlanesLit = true;
+			_player.SpecialRightLit = true;
 
 			pinGod.SolenoidPulse("drop_bank");
 		}

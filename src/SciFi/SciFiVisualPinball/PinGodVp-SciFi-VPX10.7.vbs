@@ -34,18 +34,24 @@ Dim bsTrough, bsLeft, bsTopRight, bsRight, plungerIM ', bsSaucer, plungerIM,
 Dim bsLeftSw, bsRightSw, bsTopRightSw
 bsLeftSw=46:bsRightSw=34:bsTopRightSw=51
 
+'**********************
+' VP table display / controller events
+'**********************
+Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
+Sub Table1_Paused: Controller.Pause 1 : End Sub
+Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 
 Sub Table1_Init	
 	With Controller
 		.DisplayX			= 1920 - 640 ' Take the width of the display off the 1st display size
 		.DisplayY			= 10
-		.DisplayWidth 		= 640 ' 1280 FS
-		.DisplayHeight 		= 360 ' 720  FS
+		.DisplayWidth 		= 1280 ' 1280 FS
+		.DisplayHeight 		= 720 ' 720  FS
 		.DisplayAlwaysOnTop = True
 		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
 		.DisplayLowDpi 		= False
 		.DisplayNoWindow 	= False
-		.LampCount			= 80
+		'.LampCount			= 80
 	On Error Resume Next
 		if isDebug Then '
 			.RunDebug GetPlayerHWnd, GameDirectory ' Load game from Godot folder with Godot exe
@@ -64,10 +70,18 @@ Sub Table1_Init
 	LeftFlipper.TimerEnabled = 1		
 End Sub
 
-Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
-Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 
+'Game ready checker from flipper timer
+Sub LeftFlipper_Timer
+	LeftFlipper.TimerEnabled = 0
+	if not Controller.GameRunning Then LeftFlipper.TimerEnabled = 1 : Exit Sub
+	InitGame
+End Sub
+
+'**********************
+' GAME / VP init
+' When the display is ready initialize VPM controller scripts and table objects
+'**********************
 Dim initialized : initialized = 0
 Sub InitGame
 
@@ -133,13 +147,6 @@ Sub InitGame
 	
 End Sub
 
-'Game ready checker from flipper timer
-Sub LeftFlipper_Timer
-	LeftFlipper.TimerEnabled = 0
-	if not Controller.GameRunning Then LeftFlipper.TimerEnabled = 1 : Exit Sub
-	InitGame
-End Sub
-
 '****************************
 ' Keyboard / Machine
 '****************************
@@ -202,11 +209,23 @@ SolCallback(6) = "bsTopRight.solOut"
 SolCallback(7) = "Bank3Reset"
 SolCallback(8) = "Bank4Reset"
 
+' set up a coil number. This sends a byte rather than a bool so we can act on 0-255 values from game rather than just 0-1
+SpecialSol = 16
+SolCallback(SpecialSol) = "SpecialSolCallback"
+
+Sub SpecialSolCallback(num)
+
+	'Select Case num
+	'	Case 0 : DisableAllLampSequencers
+	'End Select
+
+End Sub
+
 
 Sub Died(Enabled)
 	'on error resume next	
 	If not enabled then
-		MsgBox "Game window unavailable." : Err.Raise 5
+		'MsgBox "Game window unavailable." : Err.Raise 5
 	End if
 End Sub
 

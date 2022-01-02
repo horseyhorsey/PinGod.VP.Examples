@@ -13,7 +13,7 @@ public class BeastmanMode : PinGodGameMode
         "arrow_l_inner_loop", "arrow_l_right_ramp", "arrow_l_right_loop"
     };
 
-    [Export] AudioStream _foundSound;
+    [Export] AudioStream _foundSound = null;
     private MotuPlayer _player;
     bool firstShot = true;
 

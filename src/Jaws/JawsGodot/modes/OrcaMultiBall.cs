@@ -148,7 +148,7 @@ public class OrcaMultiBall : Control
 				multiballReady = false;
 				IsMultiballRunning = true;
 				game.currentPlayer.ResetOrca();
-				GD.Print("orca: starting m-ball");
+				pinGod.LogInfo("orca: starting m-ball");
 				pinGod.StartMultiBall(2, 20, 2); //two ball multi-ball
 				game.AddMultiScoringMode();
 				clearTimer.Start(5f);
@@ -165,24 +165,24 @@ public class OrcaMultiBall : Control
 			IsMultiballRunning = false;			
 			DisableOrcaLamps();
 			UpdateLamps();
-			GD.Print("orca: _OnMultiBallEnded");
+			pinGod.LogInfo("orca: _OnMultiBallEnded");
 		}
 	}
 	private void OrcaMagnetHit()
 	{
-		GD.Print("orca magnet: hit");
+		pinGod.LogInfo("orca magnet: hit");
 		if (pinGod.IsMultiballRunning)
 		{
 			
 		}
 		else if (pinGod.GetJawsPlayer().BarrelsOn) 
 		{
-			GD.Print("orca magnet: barrels up");
+			pinGod.LogInfo("orca magnet: barrels up");
 			game.PlayBarrelReminderScene();
 		}
 		else if (game.currentPlayer.OrcaLocksActive)
 		{
-			GD.Print("orca magnet: activated");
+			pinGod.LogInfo("orca magnet: activated");
 			game.AddPoints(20000);
 			game.ReleaseOrcaMagnet(false);
 			game.currentPlayer.Bonus += Game.BONUS_VALUE;
@@ -251,7 +251,7 @@ public class OrcaMultiBall : Control
 	}
 	private void PlayScene(string name)
 	{
-		GD.Print("playing scene: ", name);
+		pinGod.LogInfo("playing scene: ", name);
 		VideoPlayer.Stream = VideoStreams[name];
 		VideoPlayer.Play();
 		VideoPlayer.Visible = true;

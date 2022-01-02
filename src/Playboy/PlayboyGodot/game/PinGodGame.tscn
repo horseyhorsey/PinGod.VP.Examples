@@ -1,16 +1,17 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/PbPinGodGame.cs" type="Script" id=1]
-[ext_resource path="res://addons/PinGodGame/Settings/SwitchOverlay.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/PinGodGame/Overlays/Lamps/LampMatrix.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/SwitchOverlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/LampMatrix.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/PinGodGame/Nodes/Trough.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/Game/MachineConfig.cs" type="Script" id=5]
 [ext_resource path="res://addons/PinGodGame/Audio/AudioManager.tscn" type="PackedScene" id=6]
+[ext_resource path="res://themes/switch_overlay_theme.tres" type="Theme" id=7]
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_logging_level = 2
-_playbackfile = "res://recordings/test.record"
+_logging_level = 3
+_playbackfile = "res://recordings/do_stuff.record"
 
 [node name="MachineConfig" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -119,14 +120,17 @@ _ball_save_lamp = "shoot_again"
 _ball_save_led = ""
 
 [node name="AudioManager" parent="." instance=ExtResource( 6 )]
-SfxAssets = {
-"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
-"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
-"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
-}
 MusicAssets = {
 "cook_loop_1": "res://assets/audio/music/cook_loop1.ogg",
-"cook_loop_2": "res://assets/audio/music/cook_loop2.ogg"
+"cook_loop_2": "res://assets/audio/music/cook_loop2.ogg",
+"horsepin_i_see_you_move_it": "res://assets/audio/music/Horsepin-I_See_You_Move_It.mp3"
+}
+SfxAssets = {
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
+"horse-disco-laser": "res://assets/audio/sfx/horse-disco-laser.wav",
+"horse-disco-pop": "res://assets/audio/sfx/horse-disco-pop.wav",
+"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
+"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
 }
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
@@ -136,16 +140,21 @@ __meta__ = {
 }
 
 [node name="LampMatrix" parent="DevOverlays" instance=ExtResource( 3 )]
-modulate = Color( 1, 1, 1, 0.658824 )
-margin_left = 539.255
-margin_top = 463.451
-margin_right = -28.7451
-margin_bottom = 62.4508
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
 _lamp_count = 48
 _lamp_size_pixels = Vector2( 85, 35 )
 
 [node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
-margin_left = 243.0
-margin_right = -40.0
-margin_bottom = -419.0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+margin_left = -640.0
+margin_top = -374.0
+margin_right = 640.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 7 )
 columns = 6

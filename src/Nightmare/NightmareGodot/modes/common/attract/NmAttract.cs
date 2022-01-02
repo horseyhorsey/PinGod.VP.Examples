@@ -5,7 +5,7 @@ using System;
 public class NmAttract : Attract
 {
     int audioIndex = 0;
-    [Export] Array<AudioStream> _streams;
+    [Export] Array<AudioStream> _streams = null;
     private AudioStreamPlayer player;
 
     public override void _Ready()

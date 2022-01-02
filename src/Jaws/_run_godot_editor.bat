@@ -1,0 +1,2 @@
+cd JawsGodot
+godot -e

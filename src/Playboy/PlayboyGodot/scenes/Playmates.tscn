@@ -31,6 +31,7 @@ __meta__ = {
 }
 
 [node name="PlaymatesBar" type="Node2D" parent="."]
+position = Vector2( -125.49, 0 )
 
 [node name="pb_miss_march" type="Sprite" parent="PlaymatesBar"]
 position = Vector2( 143, 320 )

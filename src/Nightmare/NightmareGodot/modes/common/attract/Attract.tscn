@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/audio/music/mus_attract00.ogg" type="AudioStream" id=7]
 [ext_resource path="res://assets/audio/music/mus_attract01.ogg" type="AudioStream" id=8]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas18.tres" type="DynamicFont" id=9]
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas45.tres" type="DynamicFont" id=10]
 
 [node name="Attract" type="Control"]
 anchor_right = 1.0
@@ -56,7 +57,23 @@ _blinking = 0.5
 [node name="HighScores" parent="AttractLayers" instance=ExtResource( 5 )]
 visible = false
 
-[node name="Label" type="Label" parent="AttractLayers"]
+[node name="DrugMessage" type="Label" parent="AttractLayers"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_colors/font_color = Color( 0.266667, 0.611765, 0.0705882, 1 )
+custom_fonts/font = ExtResource( 10 )
+text = "WINNERS
+DON'T USE THE HORSE"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreditsLabel" type="Label" parent="AttractLayers"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -64,7 +81,11 @@ grow_horizontal = 2
 grow_vertical = 2
 custom_colors/font_color = Color( 0.266667, 0.611765, 0.0705882, 1 )
 custom_fonts/font = ExtResource( 9 )
-text = "- TESTERS -
+text = "- CREDITS -
+FP Ramps / AUDIO
+- SCRIPT / TABLE - 
+HorsePIN
+- TESTERS -
 Horsepin"
 align = 1
 valign = 1

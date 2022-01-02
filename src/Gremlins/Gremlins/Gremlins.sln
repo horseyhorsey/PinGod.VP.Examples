@@ -5,6 +5,17 @@ VisualStudioVersion = 16.0.31025.218
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gremlins", "Gremlins.csproj", "{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pingod.Local", "..\Pingod.Local\Pingod.Local.csproj", "{27128B5C-AC87-4A5D-829F-E0660764678D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{971ABA30-7389-4834-B0CE-7A3E97E34689}"
+	ProjectSection(SolutionItems) = preProject
+		..\_build_export.bat = ..\_build_export.bat
+		..\_run_godot_editor.bat = ..\_run_godot_editor.bat
+		..\_vp_edit.bat = ..\_vp_edit.bat
+		..\_vp_play.bat = ..\_vp_play.bat
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +24,8 @@ Global
 		ExportDebug|x86 = ExportDebug|x86
 		ExportRelease|Any CPU = ExportRelease|Any CPU
 		ExportRelease|x86 = ExportRelease|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -27,6 +40,26 @@ Global
 		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
 		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|x86.ActiveCfg = ExportRelease|x86
 		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.ExportRelease|x86.Build.0 = ExportRelease|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Release|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Release|Any CPU.Build.0 = ExportRelease|Any CPU
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Release|x86.ActiveCfg = ExportRelease|x86
+		{5A8ADE7C-8F7B-444B-8E47-8E5960F3DB92}.Release|x86.Build.0 = ExportRelease|x86
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.Debug|x86.Build.0 = Debug|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.ExportDebug|x86.ActiveCfg = Debug|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.ExportDebug|x86.Build.0 = Debug|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.ExportRelease|x86.ActiveCfg = Release|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.ExportRelease|x86.Build.0 = Release|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.Release|x86.ActiveCfg = Release|Any CPU
+		{27128B5C-AC87-4A5D-829F-E0660764678D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

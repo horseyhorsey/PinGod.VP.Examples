@@ -9,7 +9,7 @@ public class Orbits : Control
 	int loops = 0;
 	int loop_seed_value = 100000;
 
-	[Export] VideoStreamTheora[] _videos;
+	[Export] VideoStreamTheora[] _videos = null;
 
 	public override void _EnterTree()
 	{

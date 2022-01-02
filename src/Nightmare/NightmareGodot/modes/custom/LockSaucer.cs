@@ -7,7 +7,6 @@ using System.Linq;
 public class LockSaucer : Control
 {
     int awardIndex = 0;
-    float awardDelay = 0;
     private BallStackPinball ballStack;
     private Game game;
     private Timer awardTimer;

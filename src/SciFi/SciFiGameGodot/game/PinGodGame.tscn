@@ -155,6 +155,7 @@ _ball_search_coils = PoolStringArray( "bs_left", "bs_right", "bs_top_right" )
 _ball_search_stop_switches = PoolStringArray( "plunger_lane" )
 
 [node name="Trough" parent="." instance=ExtResource( 4 )]
+_auto_plunge_solenoid = ""
 _ball_save_lamp = "shoot_again"
 _ball_save_led = ""
 

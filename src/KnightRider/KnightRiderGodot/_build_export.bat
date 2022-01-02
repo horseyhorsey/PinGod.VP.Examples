@@ -1,1 +1,0 @@
-godot --export "Windows Desktop" "../Exported/PinGod.KnightRider.exe"

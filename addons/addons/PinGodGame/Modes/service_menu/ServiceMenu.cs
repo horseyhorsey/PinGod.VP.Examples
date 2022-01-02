@@ -1,4 +1,5 @@
 using Godot;
+using Pingod.Local.resources;
 
 public class ServiceMenu : Node
 {
@@ -24,6 +25,7 @@ public class ServiceMenu : Node
     public override void _Ready()
     {
 		menuNameLabel = GetNode("Label") as Label;
+		menuNameLabel.Text = ResourceText.service_title;
 	}
 	/// <summary>
 	/// Fired with Down switch.

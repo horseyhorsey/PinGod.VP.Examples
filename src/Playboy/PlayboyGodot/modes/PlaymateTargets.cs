@@ -8,7 +8,9 @@ public class PlaymateTargets : PinballTargetsControl
 {
 	private Sprite[] pMateSprites;
 	private AudioStreamPlayer _audio;
-	private Array orgStreams;
+    private Label _label;
+    private Game _game;
+    private Array orgStreams;
 	private PlayboyPlayer _player;
 
 	public override void _EnterTree()
@@ -27,6 +29,10 @@ public class PlaymateTargets : PinballTargetsControl
 
 		_audio = GetNode<AudioStreamPlayer>("Audio");
 
+		_label = GetNode<Label>("PlaymatesBar/TimesCompleteLabel");
+
+		_game = GetParent().GetParent<Game>();
+
 		orgStreams = new Godot.Collections.Array();
 		orgStreams.Add(GD.Load<AudioStreamSample>("res://assets/audio/voice/org_ah.wav"));
 		orgStreams.Add(GD.Load<AudioStreamSample>("res://assets/audio/voice/org_ahhah.wav"));
@@ -39,14 +45,18 @@ public class PlaymateTargets : PinballTargetsControl
 
 	public override bool CheckTargetsCompleted(int index)
 	{
-		base.pinGod.LogInfo("playmate completed");
+		var complete =  base.CheckTargetsCompleted(index);
 
-		return base.CheckTargetsCompleted(index);
+		if(complete)
+			base.pinGod.LogInfo("playmates completed");
+
+		return complete;
 	}
 
 	public override bool SetTargetComplete(int index)
 	{
 		pinGod.AddPoints(Game.MINSCORE);		
+
 		var result = base.SetTargetComplete(index);
 		if (!result) { }
 		else
@@ -58,8 +68,8 @@ public class PlaymateTargets : PinballTargetsControl
 			_audio.Play();
 
 			_player?.AdvanceBonus(1);
-			pinGod.LogInfo("base: advanced bonus - " + _player.BonusTimes);
-			UpdateLamps();
+			pinGod.LogInfo(index+": playmate target complete");
+			_game.UpdateLamps();
 		}
 
 		return result;
@@ -73,17 +83,47 @@ public class PlaymateTargets : PinballTargetsControl
 		}
 
 		if(_player != null)
-		{			
-			_player.PlaymateFeatureComplete += 1;
-			if (_player.PlaymateFeatureComplete == 1) _player.ExtraBallLit = true;
-			else if (_player.PlaymateFeatureComplete == 2) _player.LeftSpecialLit = true;
+		{
+			pinGod.PlaySfx("horse-disco-laser");
+			_player.PlaymateFeatureComplete ++;			
+
+			if (_player.PlaymateFeatureComplete == 1)
+            {
+                pinGod.AddPoints(10000);
+                _player.ExtraBallLit = true;
+                pinGod.LogInfo("playmate feature extra ball lit");                
+            }
+            else if (_player.PlaymateFeatureComplete == 2)
+			{
+				pinGod.AddPoints(20000);
+				_player.LeftSpecialLit = true;				
+				pinGod.LogInfo("20k, playmate feature left special lit");
+			}
+            else
+            {
+				pinGod.AddPoints(50000);
+			}
+
+			SetValueLabel();
 		}
 		else { pinGod.LogWarning("No player found"); }
-
+		
 		base.TargetsCompleted(reset);
+
+		_game.UpdateLamps();
 	}
 
-	private void PlayMateReset()
+    private void SetValueLabel()
+    {
+		if(_player.PlaymateFeatureComplete < 1)
+			_label.Text = "10K";
+		else if (_player.PlaymateFeatureComplete == 1)
+			_label.Text = "20K";
+		else _label.Text = "50K";
+
+	}
+
+    private void PlayMateReset()
 	{
 		foreach (var pmate in pMateSprites)
 		{
@@ -98,7 +138,11 @@ public class PlaymateTargets : PinballTargetsControl
 		_player.KeyFeatureComplete = 0;		
 	}
 
-	public void OnBallStarted() => UpdateLamps();
+	public void OnBallStarted()
+	{
+		SetValueLabel();
+		UpdateLamps();
+	}
 
 	public override void UpdateLamps()
 	{

@@ -10,11 +10,8 @@
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=8]
 [ext_resource path="res://assets/videos/cosmic_1.ogv" type="VideoStream" id=9]
 
-[node name="Attract" type="Control"]
+[node name="Attract" type="Node"]
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 _scene_change_secs = 2
 
 [node name="AttractLayers" type="CanvasLayer" parent="."]
@@ -39,13 +36,11 @@ pause_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
 stream = ExtResource( 9 )
-autoplay = true
+expand = false
 script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_loop = true
-_play_when_visible = true
 
 [node name="alien_face" type="Sprite" parent="AttractLayers/Push Start"]
 position = Vector2( 147.204, 151.415 )

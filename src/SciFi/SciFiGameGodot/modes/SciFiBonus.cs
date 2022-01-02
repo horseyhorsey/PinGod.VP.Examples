@@ -17,7 +17,7 @@ public class SciFiBonus : Bonus
 
     }
 
-    public override void StartBonusDisplay()
+    public override void StartBonusDisplay(bool visible = true)
 	{
 		_totalBonus = 1000;
 		Visible = true;

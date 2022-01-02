@@ -33,7 +33,7 @@ public class HurryUpMode : Control
 
 	public void StartHurryUp()
 	{
-		GD.Print("hurry up: starting");
+		pinGod.LogInfo("hurry up: starting");
 		pinGod.EnableJawsToy(false);
 		Visible = true;
 		_current_award = _hurry_up_award;
@@ -48,7 +48,7 @@ public class HurryUpMode : Control
 	{
 		Visible = false;
 		timer.Stop();
-		GD.Print("hurry up: stopped");
+		pinGod.LogInfo("hurry up: stopped");
 		game.PlayMusicForMode();
 		return _current_award;
 	}
@@ -56,7 +56,7 @@ public class HurryUpMode : Control
 	{
 		if (_current_award <= 0)
 		{			
-			GD.Print("hurry up: timed out");
+			pinGod.LogInfo("hurry up: timed out");
 			StopHurryUp();
 		}
 		else

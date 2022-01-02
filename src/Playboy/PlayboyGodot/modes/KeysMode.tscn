@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://modes/KeysMode.cs" type="Script" id=1]
+[ext_resource path="res://assets/img/screenborder.png" type="Texture" id=4]
 
 [node name="KeysMode" type="Control"]
 anchor_right = 1.0
@@ -11,3 +12,14 @@ __meta__ = {
 }
 _target_switches = PoolStringArray( "lane_0", "lane_1", "lane_2", "lane_3", "target_key" )
 _target_lamps = PoolStringArray( "key_0", "key_1", "key_2", "key_3", "key_4" )
+
+[node name="Pillars" type="TextureRect" parent="."]
+visible = false
+margin_left = 2.0
+margin_right = 1282.0
+margin_bottom = 720.0
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}

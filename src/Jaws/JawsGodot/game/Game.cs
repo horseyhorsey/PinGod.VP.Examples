@@ -14,7 +14,7 @@ public class Game : Node2D
     private OrcaMultiBall _orcaMultiBall;
     private Timer _tiltedTimeOut;
 	private JawsBonus endOfBallBonus;
-	private PackedScene multiballPkd;
+	private PackedScene multiballPkd = null;
 	private JawsPinGodGame pinGod;
 	private ScoreEntry scoreEntry;
 
@@ -32,7 +32,7 @@ public class Game : Node2D
 
 	public override void _EnterTree()
 	{
-		Print("game: enter tree");
+		
 		//get packed scene to create an instance of when a Multiball gets activated
 		//multiballPkd = ResourceLoader.Load(MULTIBALL_SCENE) as PackedScene;
 
@@ -57,6 +57,8 @@ public class Game : Node2D
 		_tiltedTimeOut = new Timer() { OneShot = true, WaitTime = 4, Autostart = false };
 		AddChild(_tiltedTimeOut);
 		_tiltedTimeOut.Connect("timeout", this, "timeout");
+
+		pinGod.LogInfo("game: enter tree");
 	}
 
 	/// <summary>
@@ -70,7 +72,7 @@ public class Game : Node2D
 
 		if (pinGod.SwitchOn("start", @event))
 		{
-			Print("attract: starting game. started?", pinGod.StartGame());
+			pinGod.LogInfo("attract: starting game. started?", pinGod.StartGame());
 		}
 
 		//ball shooter, only allow when lane switch on
@@ -109,7 +111,7 @@ public class Game : Node2D
 
 	public override void _Ready()
 	{
-		Print("game: _ready");
+		pinGod.LogInfo("game: _ready");
 		pinGod.DisableAllLamps();
 		SetGiState(LightState.On);
 
@@ -146,19 +148,19 @@ public class Game : Node2D
     /// </summary>
     public void OnBallEnded(bool lastBall)
     {
-        Print("game: ball ended", pinGod.BallInPlay, "last ball:" + lastBall);
+        pinGod.LogInfo("game: ball ended", pinGod.BallInPlay, "last ball:" + lastBall);
         _lastBall = lastBall;
 
         if (!pinGod.IsTilted)
         {
             pinGod.InBonusMode = true;
-            Print("game: adding bonus scene for player: " + pinGod.CurrentPlayerIndex);
+            pinGod.LogInfo("game: adding bonus scene for player: " + pinGod.CurrentPlayerIndex);
             endOfBallBonus.StartBonusDisplay();
             return;
         }
         else if (pinGod.IsTilted && lastBall)
         {
-            Print("last ball in tilt");
+            pinGod.LogInfo("last ball in tilt");
             pinGod.InBonusMode = false;
             scoreEntry.DisplayHighScore();
             return;
@@ -168,24 +170,24 @@ public class Game : Node2D
             if (_tiltedTimeOut.IsStopped())
             {
                 pinGod.InBonusMode = false;
-                Print("no bonus, game was tilted. running timer to make player wait");
+                pinGod.LogInfo("no bonus, game was tilted. running timer to make player wait");
                 _tiltedTimeOut.Start(4);
             }
             else
             {
-                Print("Still tilted");
+                pinGod.LogInfo("Still tilted");
             }
         }
     }
 
     public void OnBonusEnded()
     {
-        Print("game: bonus ended, starting new ball");
+        pinGod.LogInfo("game: bonus ended, starting new ball");
         pinGod.InBonusMode = false;
         currentPlayer.ResetNewBall();
         if (_lastBall)
         {
-            Print("game: last ball played, end of game");
+            pinGod.LogInfo("game: last ball played, end of game");
             scoreEntry.DisplayHighScore();
         }
         else
@@ -228,7 +230,7 @@ public class Game : Node2D
     /// </summary>
     public void UpdateProgress()
     {
-        GD.Print("updating progress");
+        pinGod.LogInfo("updating progress");
         GetTree().CallGroup("game_progress", "UpdateProgress", DoublePlayfield, new int[] { currentPlayer.OrcaMballCompleteCount, currentPlayer.BarrelMballCompleteCount, currentPlayer.BruceMballCompleteCount });
     }
 
@@ -243,7 +245,7 @@ public class Game : Node2D
         {
             var award = _hurryUpMode.AwardHurryUp();
             award = AddPoints((int)award);
-            GD.Print("hurryup_awarded: ", award);
+            pinGod.LogInfo("hurryup_awarded: ", award);
         }
     }
 
@@ -359,7 +361,7 @@ public class Game : Node2D
 	/// </summary>
 	private void EndMultiball()
 	{
-		Print("removing multiballs");
+		pinGod.LogInfo("removing multiballs");
 		GetTree().CallGroup("multiball", "EndMultiball");
 		pinGod.PlayMusic("bgmmusic");
 		//set coil and send update
@@ -374,11 +376,11 @@ public class Game : Node2D
 
 			if (pinGod.EndBall())
 			{
-				Print("last ball played game ending");
+				pinGod.LogInfo("last ball played game ending");
 			}
 			else
 			{				
-				Print("game: new ball starting");
+				pinGod.LogInfo("game: new ball starting");
 			}			
 		}
 	}
@@ -400,7 +402,7 @@ public class Game : Node2D
 	/// </summary>
 	void OnStartNewBall()
 	{
-		Print("game: starting ball after tilting");
+		pinGod.LogInfo("game: starting ball after tilting");
 		StartNewBall();
 	}
 

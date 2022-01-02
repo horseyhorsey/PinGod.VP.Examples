@@ -1,4 +1,5 @@
 using Godot;
+using Pingod.Local.resources;
 using System.Collections.Generic;
 
 /// <summary>
@@ -18,6 +19,7 @@ public class Attract : Node
 	protected PinGodGame pinGod;
 	List<CanvasItem> Scenes = new List<CanvasItem>();
 	private Timer timer;
+	Label _mainTitleLabel;
 	#endregion
 
 	public override void _EnterTree()
@@ -35,6 +37,10 @@ public class Attract : Node
 				Scenes.Add(cItem);
 			}
 		}
+
+		_mainTitleLabel = GetNodeOrNull<Label>("AttractLayers/PushStart/PushStart");
+		if(_mainTitleLabel != null)
+			_mainTitleLabel.Text = ResourceText.attract_title;
 	}
 
 	public override void _Ready()

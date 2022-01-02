@@ -25,7 +25,6 @@ public class MultiballSkeletor : PinGodGameMode
     string[] _skeleLamps = new string[] { "skele_loop_l", "skele_ramp_l", "skele_inner_spin", "skele_inner_loop", "skele_ramp_r", "skele_loop_r" };
     private int _skeletorShotCount;
     int _superJackpot = 0;
-    bool _superJackpotReady = false;
     long totalScored = 0;
 
     public override void _ExitTree()

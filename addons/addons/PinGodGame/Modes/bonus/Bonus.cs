@@ -1,4 +1,5 @@
 using Godot;
+using Pingod.Local.resources;
 
 /// <summary>
 /// A bonus layer / mode. Display at end of ball. Bonus.tscn scene <para/>
@@ -6,9 +7,9 @@ using Godot;
 /// </summary>
 public class Bonus : Control
 {
-    [Export] protected string _defaultText = "END OF BALL\nBONUS";
+    [Export] protected string _defaultText = ResourceText.bonus;
     [Export] protected float _display_for_seconds = 5;
-    protected Label label;
+    internal Label label;
 	protected PinGodGame pinGod;
 	protected Timer timer;
 

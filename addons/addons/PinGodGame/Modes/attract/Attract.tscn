@@ -37,14 +37,13 @@ __meta__ = {
 }
 
 [node name="PushStart" type="Label" parent="AttractLayers/PushStart"]
-margin_left = 279.0
+margin_left = 512.0
 margin_top = 235.0
-margin_right = 744.0
+margin_right = 512.0
 margin_bottom = 364.0
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.854902, 0.0823529, 0.0823529, 1 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
-text = "PUSH START"
+custom_fonts/font = ExtResource( 2 )
 align = 1
 valign = 1
 script = ExtResource( 1 )

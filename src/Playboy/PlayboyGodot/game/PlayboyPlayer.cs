@@ -3,7 +3,6 @@
 /// </summary>
 public class PlayboyPlayer : PinGodPlayer
 {
-    public byte BonusMultiplier { get; set; } = 1;
     public byte BonusTimes { get; set; }
     public byte DropsCompleted { get; set; }
     public bool ExtraBallLit { get; set; }
@@ -17,20 +16,27 @@ public class PlayboyPlayer : PinGodPlayer
     public bool SpecialRightLit { get; set; }
 
     /// <summary>
+    /// retained ball to ball
+    /// </summary>
+    public bool SuperBonus { get; set; }
+
+    /// <summary>
     /// Advance the bonus times
     /// </summary>
     /// <param name="times"></param>
     public void AdvanceBonus(byte times)
     {
         BonusTimes += times;
+        if (!SuperBonus && BonusTimes >= 20)
+            SuperBonus = true;
     }
 
     public void Reset()
     {
-        BonusTimes = 1;
-        DropsCompleted = 0;
+        BonusTimes = 1;        
         GrottoComplete = false;
         KeyFeatureComplete = 0;
+        SuperBonus = false;
     }
 
     public void ResetKeys()

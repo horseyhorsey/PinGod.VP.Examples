@@ -53,10 +53,10 @@ Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 '**********************
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 1920 - 512
-		.DisplayY			= 10
-		.DisplayWidth 		= 512 ' 1024 FS
-		.DisplayHeight 		= 300 ' 600  FS
+		.DisplayX			= 0
+		.DisplayY			= 0
+		.DisplayWidth 		= 1280 ' 1280 FS
+		.DisplayHeight 		= 720  ' 720  FS
 		.DisplayAlwaysOnTop = True
 		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
 		.DisplayLowDpi 		= False
@@ -152,7 +152,7 @@ SolCallback(5) 		= "dtRBank.SolDropUp"
 Sub Died(Enabled)
 	'on error resume next	
 	If not enabled then
-		MsgBox "Game window unavailable." : Err.Raise 5
+		'MsgBox "Game window unavailable." : Err.Raise 5
 	End if
 End Sub
 

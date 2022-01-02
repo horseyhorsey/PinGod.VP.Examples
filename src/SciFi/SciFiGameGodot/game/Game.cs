@@ -13,10 +13,9 @@ public enum GameMusic
 	MultiBall
 }
 
-public class Game : Node2D
+public class Game : PinGodGameNode
 {
 	[Export] protected string MULTIBALL_SCENE = "res://addons/PinGodGame/Modes/multiball/Multiball.tscn";
-	[Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
 
 	private bool _lastBall;
 	private Timer _tiltedTimeOut;
@@ -24,25 +23,25 @@ public class Game : Node2D
 	private Bonus endOfBallBonus;
 	GameMusic GameMusic = GameMusic.None;
 	private PackedScene multiballPkd;
-	private SciFiPinGodGame pinGod;
+	private SciFiPinGodGame sciPinGod;
 	private ScoreEntry scoreEntry;
 	public Kickback Kickback { get; private set; }
 	public bool KickbackEnabled { get; internal set; }
 
 	public override void _EnterTree()
 	{
-		pinGod = GetNode("/root/PinGodGame") as SciFiPinGodGame;
-		pinGod.LogInfo("game: enter tree");
+		sciPinGod = GetNode("/root/PinGodGame") as SciFiPinGodGame;
+		sciPinGod.LogInfo("game: enter tree");
 
 		//get packed scene to create an instance of when a Multiball gets activated
 		multiballPkd = ResourceLoader.Load(MULTIBALL_SCENE) as PackedScene;
 
-		pinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
-		pinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
-		pinGod.Connect(nameof(PinGodGameBase.BallSaved), this, "OnBallSaved");
-		pinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
-		pinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
-		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
+		sciPinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
+		sciPinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
+		sciPinGod.Connect(nameof(PinGodGameBase.BallSaved), this, "OnBallSaved");
+		sciPinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
+		sciPinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
+		sciPinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
 
 		scoreEntry = GetNode("Modes/ScoreEntry") as ScoreEntry;
 		endOfBallBonus = GetNode("Modes/Bonus") as Bonus;
@@ -55,11 +54,11 @@ public class Game : Node2D
 	public override void _Ready()
 	{
 		Print("game: _ready");		
-		pinGod.DisableAllLamps();
+		sciPinGod.DisableAllLamps();
 		SetupMode();
 
-		pinGod.LogInfo("game: _ready");
-		pinGod.BallInPlay = 1;
+		sciPinGod.LogInfo("game: _ready");
+		sciPinGod.BallInPlay = 1;
 		StartNewBall();		
 	}
 
@@ -68,9 +67,9 @@ public class Game : Node2D
 	/// </summary>
 	private void StartNewBall()
 	{
-		pinGod.DisableAllLamps();
-		pinGod.StartNewBall();
-		pinGod.OnBallStarted(GetTree());
+		sciPinGod.DisableAllLamps();
+		sciPinGod.StartNewBall();
+		sciPinGod.OnBallStarted(GetTree());
 	}
 	
 	public void EnableKickback(bool enable = true) => Kickback.EnableKickback(enable);
@@ -80,36 +79,36 @@ public class Game : Node2D
 	/// </summary>
 	public void OnBallEnded(bool lastBall)
 	{
-		pinGod.LogInfo("game: ball ended", pinGod.BallInPlay, "last ball:" + lastBall);
+		sciPinGod.LogInfo("game: ball ended", sciPinGod.BallInPlay, "last ball:" + lastBall);
 		_lastBall = lastBall;
 
 		EndMultiball();
 
-		if (!pinGod.IsTilted)
+		if (!sciPinGod.IsTilted)
 		{
-			pinGod.InBonusMode = true;
-			pinGod.LogInfo("game: adding bonus scene for player: " + pinGod.CurrentPlayerIndex);
+			sciPinGod.InBonusMode = true;
+			sciPinGod.LogInfo("game: adding bonus scene for player: " + sciPinGod.CurrentPlayerIndex);
 			endOfBallBonus.StartBonusDisplay();
 			return;
 		}
-		else if (pinGod.IsTilted && lastBall)
+		else if (sciPinGod.IsTilted && lastBall)
 		{
-			pinGod.LogDebug("last ball in tilt");
-			pinGod.InBonusMode = false;
+			sciPinGod.LogDebug("last ball in tilt");
+			sciPinGod.InBonusMode = false;
 			scoreEntry.DisplayHighScore();
 			return;
 		}
-		else if (pinGod.IsTilted)
+		else if (sciPinGod.IsTilted)
 		{
 			if (_tiltedTimeOut.IsStopped())
 			{
-				pinGod.InBonusMode = false;
-				pinGod.LogInfo("no bonus, game was tilted. running timer to make player wait");
+				sciPinGod.InBonusMode = false;
+				sciPinGod.LogInfo("no bonus, game was tilted. running timer to make player wait");
 				_tiltedTimeOut.Start(4);
 			}
 			else
 			{
-				pinGod.LogDebug("Still tilted");
+				sciPinGod.LogDebug("Still tilted");
 			}
 		}
 	}
@@ -117,16 +116,16 @@ public class Game : Node2D
 	/// <summary>
 	/// Signals to Mode groups OnBallSaved
 	/// </summary>
-	void OnBallSaved() => pinGod.OnBallSaved(GetTree());
+	void OnBallSaved() => sciPinGod.OnBallSaved(GetTree());
 
 	public void OnBallStarted()
 	{
-		pinGod.LogInfo("game: ball started");
-		pinGod.DisableAllLamps();
+		sciPinGod.LogInfo("game: ball started");
+		sciPinGod.DisableAllLamps();
 
-		var player = pinGod.GetSciFiPlayer();
+		var player = sciPinGod.GetSciFiPlayer();
 		player.ResetNewBall();
-		pinGod.ResetTargets();
+		sciPinGod.ResetTargets();
 
 		SetupMode();
 
@@ -135,26 +134,26 @@ public class Game : Node2D
 
 	public void OnBonusEnded()
 	{
-		pinGod.LogInfo("game: bonus ended, starting new ball");
-		pinGod.InBonusMode = false;
+		sciPinGod.LogInfo("game: bonus ended, starting new ball");
+		sciPinGod.InBonusMode = false;
 		if (_lastBall)
 		{
-			pinGod.LogInfo("game: last ball played, end of game");
+			sciPinGod.LogInfo("game: last ball played, end of game");
 			scoreEntry.DisplayHighScore();
 		}
 		else
 		{
-			pinGod.StartNewBall();
-			pinGod.OnBallStarted(GetTree());
-			pinGod.UpdateLamps(GetTree());
+			sciPinGod.StartNewBall();
+			sciPinGod.OnBallStarted(GetTree());
+			sciPinGod.UpdateLamps(GetTree());
 		}
 	}
 
 	public void SetupMode()
 	{
-		pinGod.LogInfo("game: setting up mode");
+		sciPinGod.LogInfo("game: setting up mode");
 		GameMusic = GameMusic.Normal;
-		currentPlayer = pinGod.GetSciFiPlayer();
+		currentPlayer = sciPinGod.GetSciFiPlayer();
 		if (currentPlayer.SpawnEnabled == GameOption.Complete)
 		{
 			GameMusic = GameMusic.Spawn;
@@ -173,8 +172,8 @@ public class Game : Node2D
 		}
 
 		InitModeLamps(currentPlayer);
-		pinGod.AudioManager.StopMusic();
-		pinGod.PlayMusic(GameMusic.ToString().ToLower());
+		sciPinGod.AudioManager.StopMusic();
+		sciPinGod.PlayMusic(GameMusic.ToString().ToLower());
 	}
 
 	void AddMultiballSceneToTree()
@@ -189,8 +188,8 @@ public class Game : Node2D
 
 	private void AddPoints(int points)
 	{
-		pinGod.AddPoints(points);
-		pinGod.AddBonus(25);
+		sciPinGod.AddPoints(points);
+		sciPinGod.AddBonus(25);
 	}
 
 	/// <summary>
@@ -198,31 +197,31 @@ public class Game : Node2D
 	/// </summary>
 	private void EndMultiball()
 	{
-		pinGod.LogInfo("removing multiballs");
+		sciPinGod.LogInfo("removing multiballs");
 		GetTree().CallGroup("multiball", "EndMultiball");
-		pinGod.IsMultiballRunning = false;
+		sciPinGod.IsMultiballRunning = false;
 	}
 
 	private void InitModeLamps(SciFiPlayer sciFiPlayer)
 	{
-		pinGod.UpdateDockLamps();
-		pinGod.UpdatePowerupModeLamps();
-		pinGod.UpdateSciFiLamps();
+		sciPinGod.UpdateDockLamps();
+		sciPinGod.UpdatePowerupModeLamps();
+		sciPinGod.UpdateSciFiLamps();
 	}
 
 	void OnBallDrained()
 	{
 		if (_tiltedTimeOut.IsStopped())
 		{
-			pinGod.OnBallDrained(GetTree());
+			sciPinGod.OnBallDrained(GetTree());
 
-			if (pinGod.EndBall())
+			if (sciPinGod.EndBall())
 			{
-				pinGod.LogInfo("last ball played game ending");
+				sciPinGod.LogInfo("last ball played game ending");
 			}
 			else
 			{
-				pinGod.LogInfo("game: new ball starting");
+				sciPinGod.LogInfo("game: new ball starting");
 			}
 		}
 	}
@@ -232,14 +231,14 @@ public class Game : Node2D
 	/// </summary>
 	void OnScoreEntryEnded()
 	{
-		pinGod.EndOfGame();
+		sciPinGod.EndOfGame();
 	}
 
 	void OnStartNewBall()
 	{
-		pinGod.DisableAllLamps();
-		pinGod.StartNewBall();
-		pinGod.OnBallStarted(GetTree());
+		sciPinGod.DisableAllLamps();
+		sciPinGod.StartNewBall();
+		sciPinGod.OnBallStarted(GetTree());
 	}
 	
 	void timeout()

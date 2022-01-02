@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/fonts/pb_72a.tres" type="DynamicFont" id=1]
 [ext_resource path="res://modes/PbBonus.cs" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/img/GirlLeft.png" type="Texture" id=4]
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=5]
 [ext_resource path="res://assets/videos/Playboy_1.ogv" type="VideoStream" id=6]
+[ext_resource path="res://assets/fonts/pb_64.tres" type="DynamicFont" id=7]
 
 [node name="Bonus" type="Control"]
 anchor_right = 1.0
@@ -32,9 +33,9 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_hold = true
 _play_when_visible = true
 _pause_when_hidden = true
-_hold = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
@@ -65,23 +66,24 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 452.409
+margin_top = 425.423
+margin_right = -512.591
+margin_bottom = -1.5769
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 420.0
-margin_top = 173.0
-margin_right = 859.0
-margin_bottom = 546.0
+margin_right = 315.0
+margin_bottom = 293.0
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_right = 439.0
-margin_bottom = 297.0
-custom_fonts/font = ExtResource( 1 )
+margin_right = 315.0
+margin_bottom = 217.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0.501961, 0.235294, 0.235294, 1 )
+custom_fonts/font = ExtResource( 7 )
 text = "PLAYER 1
 BONUS = 39
 X 5
@@ -92,12 +94,12 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_top = 301.0
-margin_right = 439.0
-margin_bottom = 373.0
-custom_fonts/font = ExtResource( 1 )
+margin_top = 221.0
+margin_right = 315.0
+margin_bottom = 293.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0.501961, 0.235294, 0.235294, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "22,500"
 align = 1
 __meta__ = {

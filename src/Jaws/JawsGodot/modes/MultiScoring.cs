@@ -59,7 +59,7 @@ public class MultiScoring : Control
 			{
 				if (pinGod.SwitchOn("orbit_m", @event))
 				{
-					GD.Print("mball orbit_m");
+					pinGod.LogInfo("mball orbit_m");
 					var score = game.AddPoints(GetScore(false));
 					_label.Text = PinGodExtensions.ToScoreString(score);
 					game.currentPlayer.Bonus += game.DoublePlayfield ? Game.BONUS_VALUE * 2 : Game.BONUS_VALUE;
@@ -99,7 +99,7 @@ public class MultiScoring : Control
 	public override void _Ready()
 	{
 		SetProcessInput(false);
-		GD.Print("mscoring active: input processing off");
+		pinGod.LogInfo("mscoring active: input processing off");
 		this.Visible = false;
 	}
 	public void StartScoringMode()
@@ -113,11 +113,11 @@ public class MultiScoring : Control
 
 			UpdateLamps();
 			SetProcessInput(true);
-			GD.Print("scoring mode started");
+			pinGod.LogInfo("scoring mode started");
 		}
 		else
 		{
-			GD.Print("scoring mode already started");
+			pinGod.LogInfo("scoring mode already started");
 		}
 	}
 
@@ -159,7 +159,7 @@ public class MultiScoring : Control
 
 	private void _on_Tween_tween_completed(Godot.Object @object, NodePath key)
 	{
-		GD.Print("tween completed");
+		pinGod.LogInfo("tween completed");
 		if (!_displayBusy)
 		{
 			Visible = false;
@@ -167,7 +167,7 @@ public class MultiScoring : Control
 	}
 	private void EndMultiball()
 	{
-		GD.Print("mscoring: end multiball");
+		pinGod.LogInfo("mscoring: end multiball");
 		StopScoringMode();
 	}
 

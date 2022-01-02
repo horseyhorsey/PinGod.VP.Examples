@@ -36,8 +36,8 @@ volume_db = -5.42
 [node name="CraterSaucer" type="Timer" parent="."]
 one_shot = true
 script = ExtResource( 1 )
-_switch = "crater_saucer"
 _coil = "crater_saucer"
+_switch = "crater_saucer"
 
 [connection signal="SwitchActive" from="CraterSaucer" to="." method="OnCraterSaucerSwitchActive"]
 [connection signal="timeout" from="CraterSaucer" to="." method="OnCraterSaucer_timeout"]

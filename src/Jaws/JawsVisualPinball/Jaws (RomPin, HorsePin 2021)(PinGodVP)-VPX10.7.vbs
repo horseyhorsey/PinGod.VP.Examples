@@ -257,7 +257,7 @@ SolCallback(28)  = "SolFlashSlingR"
 Sub Died(Enabled)
 	'on error resume next	
 	If not enabled then
-		MsgBox "Game window unavailable." : Err.Raise 5
+		'MsgBox "Game window unavailable." : Err.Raise 5
 	End if
 End Sub
 

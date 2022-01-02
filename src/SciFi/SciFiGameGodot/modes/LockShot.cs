@@ -17,7 +17,7 @@ public class LockShot : Control
 
 LIGHTS POWER UP";
 
-	[Export] VideoStreamTheora[] _default_streams;
+	[Export] VideoStreamTheora[] _default_streams = null;
 
 	public override void _EnterTree()
 	{

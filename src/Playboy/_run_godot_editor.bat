@@ -1,0 +1,2 @@
+cd PlayboyGodot
+godot -e

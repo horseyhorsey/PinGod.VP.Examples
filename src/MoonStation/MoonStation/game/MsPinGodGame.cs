@@ -12,11 +12,12 @@ public class MsPinGodGame : PinGodGame
     /// </summary>
     /// <param name="points"></param>
     /// <param name="emitUpdateSignal"></param>
-    public override void AddPoints(long points, bool emitUpdateSignal = true)
+    public override long AddPoints(long points, bool emitUpdateSignal = true)
     {
         var totalPoints = points * Multiplier;
         base.AddPoints(points * Multiplier, emitUpdateSignal);
         AddBonus(totalPoints / 5);
+        return totalPoints;
     }
 
     /// <summary>

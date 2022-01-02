@@ -2,9 +2,7 @@
 
 [ext_resource path="res://modes/custom/LeftTargetsMode.cs" type="Script" id=1]
 
-[node name="LeftTargetsMode" type="Control" groups=[
-"Mode",
-]]
+[node name="LeftTargetsMode" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )

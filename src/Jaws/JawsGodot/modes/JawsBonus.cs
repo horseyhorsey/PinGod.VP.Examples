@@ -58,7 +58,7 @@ public class JawsBonus : Control
 		pinGod.DisableAllLamps();
 		_display_for_seconds = _default_display_for_seconds;
 		player = pinGod.GetJawsPlayer();
-		GD.Print("starting bonus display");
+		pinGod.LogInfo("starting bonus display");
 
 		total = player.Bonus + player.BonusBarrel + player.BonusBruce + player.BonusSkipper;
 		pinGod.AddPoints((int)total, false);
@@ -109,13 +109,13 @@ public class JawsBonus : Control
 	{
 		_display_for_seconds -= 1;
 		bonusIndex++;
-		//GD.Print("bonus: timer ", _display_for_seconds);
+		//pinGod.LogInfo("bonus: timer ", _display_for_seconds);
 		if (_display_for_seconds <= 0)
 		{
 			pinGod.AudioManager.StopMusic();
 			pinGod.AddPoints(1000);
 			HideAndRestLabels();
-			Print("bonus: BonusEnded");
+			pinGod.LogInfo("bonus: BonusEnded");
 			timer.Stop();
 			this.Visible = false;
 			pinGod.EmitSignal("BonusEnded");
