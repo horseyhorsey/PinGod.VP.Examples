@@ -9,7 +9,6 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_logging_level = 2
 _playbackfile = "res://recordings/random_game.record"
 
 [node name="MachineConfig" type="Node" parent="."]

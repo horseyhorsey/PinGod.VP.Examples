@@ -8,9 +8,7 @@
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas256.tres" type="DynamicFont" id=6]
 [ext_resource path="res://layers/LogoLabel.tscn" type="PackedScene" id=7]
 
-[node name="ScoreMode" type="Control" groups=[
-"Mode",
-]]
+[node name="ScoreMode" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -54,22 +52,22 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 314.0
 margin_bottom = 243.0
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -5
 custom_constants/line_spacing = -15
+custom_fonts/font = ExtResource( 2 )
 
 [node name="ScoreMain" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_top = 247.0
 margin_right = 314.0
 margin_bottom = 504.0
-custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = -5
 custom_constants/line_spacing = -15
 custom_constants/shadow_offset_y = 3
+custom_fonts/font = ExtResource( 6 )
 text = "0"
 align = 1
 valign = 1
@@ -81,9 +79,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 337.0
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -93,9 +91,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 337.0
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 2
 __meta__ = {
@@ -106,9 +104,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -73.0
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "0"
 valign = 2
 __meta__ = {
@@ -120,9 +118,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 2.0
 margin_bottom = -82.0
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.0627451, 0.713726, 0.243137, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 2
 valign = 2

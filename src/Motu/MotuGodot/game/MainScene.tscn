@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://addons/PinGodGame/Game/PauseLayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://modes/MotuAttract.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://modes/MultiballSkeletor.tscn" type="PackedScene" id=8]
 [ext_resource path="res://modes/SorceressMode.tscn" type="PackedScene" id=9]
 [ext_resource path="res://modes/MultiballMotu.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/PinGodGame/Settings/SettingsDisplay.tscn" type="PackedScene" id=11]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource( 3 )
@@ -24,10 +25,14 @@ _motuMultiball = ExtResource( 10 )
 [node name="Modes" type="Node" parent="."]
 
 [node name="Attract" parent="Modes" instance=ExtResource( 2 )]
+pause_mode = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PauseControl" parent="CanvasLayer" instance=ExtResource( 1 )]
+visible = false
+
+[node name="SettingsDisplay" parent="CanvasLayer" instance=ExtResource( 11 )]
 visible = false
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]
