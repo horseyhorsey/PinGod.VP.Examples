@@ -79,7 +79,7 @@ __meta__ = {
 }
 
 [node name="GameSettingsScene" parent="TabContainer/Game/ScrollContainer" instance=ExtResource( 1 )]
-margin_bottom = 190.0
+margin_bottom = 237.0
 
 [node name="Panel" type="Panel" parent="."]
 visible = false

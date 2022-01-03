@@ -1,5 +1,4 @@
 using Godot;
-using Pingod.Local.resources;
 
 /// <summary>
 /// Basic credit Label to listen for Coin events to update the scene <para/>
@@ -20,6 +19,6 @@ public class CreditsLayer : Label
 
 	private void OnCreditsUpdated()
 	{
-		this.Text = $"{pingod.GameData.Credits} {ResourceText.credits}";
+		this.Text = $"{pingod.GameData.Credits} {Tr("CREDITS")}";
 	}
 }

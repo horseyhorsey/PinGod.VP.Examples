@@ -1,5 +1,4 @@
 using Godot;
-using Pingod.Local.resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +76,7 @@ public class ScoreEntry : Control
 		//get the player to check hi scores
 		_cPlayer = pinGod.Players[CurrentPlayer];
 
-		playerLabel.Text = ResourceText.high_score_entry?.Replace("{VAL1}", (CurrentPlayer + 1).ToString());
+		playerLabel.Text = Tr("HI_SCORE_ENTRY").Replace("%d", (CurrentPlayer + 1).ToString());
 
 		//hi scores has enough room to add new at any points
 		if (pinGod.GameData.HighScores.Count < pinGod.GameSettings.MaxHiScoresCount)

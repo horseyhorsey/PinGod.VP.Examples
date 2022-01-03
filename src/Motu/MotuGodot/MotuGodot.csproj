@@ -27,9 +27,6 @@
     <None Include="_open_appdata_dir.bat" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pingod.Local\Pingod.Local.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
 </Project>

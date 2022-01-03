@@ -35,7 +35,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
-text = " MASTER"
+text = "SETT_VOL_MASTER"
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/MasterContainer"]
 margin_left = 360.0
@@ -81,7 +81,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
 pressed = true
-text = "MUSIC"
+text = "SETT_VOL_MUSIC"
 flat = true
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/MusicContainer"]
@@ -129,7 +129,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
 pressed = true
-text = "SFX"
+text = "SETT_VOL_SFX"
 flat = true
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/SfxContainer"]
@@ -177,7 +177,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 7
 custom_fonts/font = ExtResource( 1 )
 pressed = true
-text = "VOICE"
+text = "SETT_VOL_VOICE"
 flat = true
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer/VoiceContainer"]

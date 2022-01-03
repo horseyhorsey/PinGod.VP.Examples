@@ -1,5 +1,4 @@
 using Godot;
-using Pingod.Local.resources;
 
 /// <summary>
 /// Manages the <see cref="PinGodGame.TiltSwitchNum"/> and <see cref="PinGodGame.SlamTiltSwitch"/> inputs <para/>
@@ -55,7 +54,7 @@ public class Tilt : Control
 				pinGod.IsTilted = true;
 				pinGod.EnableFlippers(0);
 				trough.DisableBallSave();
-				setText(ResourceText.tilt);
+				setText(Tr("TILT"));
 				pinGod.PlaySfx("tilt");
 				Visible = true;
 				pinGod.LogInfo("game tilted");
@@ -74,7 +73,7 @@ public class Tilt : Control
 		{
 			timer.Stop();
 			pinGod.LogInfo("slam_tilt");
-			setText(ResourceText.slam_tilt);
+			setText(Tr("SLAMTILT"));
 			pinGod.PlaySfx("tilt");
 			pinGod.IsTilted = true;			
 			pinGod.EnableFlippers(0);

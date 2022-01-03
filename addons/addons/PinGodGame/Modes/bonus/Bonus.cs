@@ -1,5 +1,4 @@
 using Godot;
-using Pingod.Local.resources;
 
 /// <summary>
 /// A bonus layer / mode. Display at end of ball. Bonus.tscn scene <para/>
@@ -7,7 +6,7 @@ using Pingod.Local.resources;
 /// </summary>
 public class Bonus : Control
 {
-    [Export] protected string _defaultText = ResourceText.bonus;
+    [Export] protected string _defaultText = string.Empty;
     [Export] protected float _display_for_seconds = 5;
     internal Label label;
 	protected PinGodGame pinGod;
@@ -22,6 +21,9 @@ public class Bonus : Control
 		//get nodes from this scene tree
 		timer = GetNode("Timer") as Timer;
 		label = GetNode("Label") as Label;
+
+		if(string.IsNullOrWhiteSpace(_defaultText))
+			_defaultText = Tr("BONUS_EOB");
 	}
 
 	public override void _Ready()

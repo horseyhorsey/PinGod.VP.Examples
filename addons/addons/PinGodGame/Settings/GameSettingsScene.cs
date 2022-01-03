@@ -1,5 +1,4 @@
 using Godot;
-using Pingod.Local.resources;
 
 public class GameSettingsScene : MarginContainer
 {
@@ -12,15 +11,15 @@ public class GameSettingsScene : MarginContainer
 
         var _ballsPerGame = GetNode<SpinBox>("VBoxContainer/BallsPerGameSpinBox");
         _ballsPerGame.Value = pinGod.GameSettings.BallsPerGame;
-        _ballsPerGame.Prefix = ResourceText.setting_game_balls;
+        _ballsPerGame.Prefix = Tr("SETT_BALLS");
 
         var _ballSaveTime = GetNode<SpinBox>("VBoxContainer/BallSaveTimeSpinBox");
         _ballSaveTime.Value = pinGod.GameSettings.BallSaveTime;
-        _ballSaveTime.Prefix = ResourceText.setting_game_ballsave_time;
+        _ballSaveTime.Prefix = Tr("SETT_BALL_SAVE");
 
         var _extraBalls = GetNode<SpinBox>("VBoxContainer/ExtraBallsSpinBox");
         _extraBalls.Value = pinGod.GameSettings.MaxExtraBalls;
-        _extraBalls.Prefix = ResourceText.setting_game_xb_max;
+        _extraBalls.Prefix = Tr("SETT_XB_MAX");
     }
 
     void _on_BallsPerGameSpinBox_changed(float val) => pinGod.GameSettings.BallsPerGame = (byte)val;

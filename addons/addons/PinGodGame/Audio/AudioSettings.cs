@@ -1,5 +1,4 @@
 using Godot;
-using Pingod.Local.resources;
 
 /// <summary>
 /// Settings for music, sfx, voice
@@ -39,8 +38,7 @@ public class AudioSettings : MarginContainer
         _volMasterSlider = GetNode<HSlider>("VBoxContainer/MasterContainer/HSlider");
         _volMasterSlider.Value = pinGod.GameSettings.MasterVolume;
 
-        _volMasterLabel = GetNode<Label>("VBoxContainer/MasterContainer/Label");        
-        GetNode<Label>("VBoxContainer/MasterContainer/MasterLabel").Text = ResourceText.setting_volume_master;
+        _volMasterLabel = GetNode<Label>("VBoxContainer/MasterContainer/Label");
         _volMasterLabel.Text = $"{pinGod.GameSettings.MasterVolume}";
     }
 
@@ -53,7 +51,6 @@ public class AudioSettings : MarginContainer
         _volVoiceLabel.Text = $"{pinGod.GameSettings.VoiceVolume}";
 
         _voiceCheck = GetNode<CheckButton>("VBoxContainer/VoiceContainer/CheckButton");
-        _voiceCheck.Text = ResourceText.setting_volume_voice;
         _voiceCheck.SetPressedNoSignal(pinGod.GameSettings.VoiceEnabled);
     }
 
@@ -66,7 +63,6 @@ public class AudioSettings : MarginContainer
         _volSfxLabel.Text = $"{pinGod.GameSettings.SfxVolume}";
 
         sfxCheck = GetNode<CheckButton>("VBoxContainer/SfxContainer/CheckButton");
-        sfxCheck.Text = ResourceText.setting_volume_sfx;
         sfxCheck.SetPressedNoSignal(pinGod.GameSettings.SfxEnabled);
     }
 
@@ -79,7 +75,6 @@ public class AudioSettings : MarginContainer
         _volMusLabel.Text = $"{pinGod.GameSettings.MusicVolume}";
 
         _musicCheck = GetNode<CheckButton>("VBoxContainer/MusicContainer/CheckButton");
-        _musicCheck.Text = ResourceText.setting_volume_music;
         _musicCheck.SetPressedNoSignal(pinGod.GameSettings.MusicEnabled);
     }
 

@@ -31,7 +31,7 @@ size_flags_stretch_ratio = 1.6
 min_value = 1.0
 max_value = 5.0
 value = 1.0
-prefix = "BALLS PER GAME"
+prefix = "SETT_BALLS"
 
 [node name="BallSaveTimeSpinBox" type="SpinBox" parent="VBoxContainer"]
 margin_top = 47.0
@@ -41,7 +41,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.6
 max_value = 20.0
 value = 1.0
-prefix = "BALL SAVE TIME"
+prefix = "SETT_BALL_SAVE"
 
 [node name="ExtraBallsSpinBox" type="SpinBox" parent="VBoxContainer"]
 margin_top = 94.0
@@ -51,7 +51,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.6
 max_value = 5.0
 value = 2.0
-prefix = "EXTRA BALLS"
+prefix = "SETT_XB_MAX"
 
 [connection signal="changed" from="VBoxContainer/BallsPerGameSpinBox" to="." method="_on_BallsPerGameSpinBox_changed"]
 [connection signal="changed" from="VBoxContainer/BallSaveTimeSpinBox" to="." method="_on_BallSaveTimeSpinBox_changed"]

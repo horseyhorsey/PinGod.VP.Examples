@@ -18,14 +18,14 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 50.0
 margin_top = 50.0
-margin_right = 250.0
+margin_right = 274.0
 margin_bottom = 303.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 200.0
+margin_right = 224.0
 margin_bottom = 25.0
 
 [node name="DefaultWindowSizeLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
@@ -42,55 +42,55 @@ text = "RESET"
 
 [node name="StretchAspectOptionButton" type="OptionButton" parent="VBoxContainer"]
 margin_top = 29.0
-margin_right = 200.0
+margin_right = 224.0
 margin_bottom = 49.0
-hint_tooltip = "Resize / Stretch Aspect Ratio"
+hint_tooltip = "TIP_ASPECT"
 
 [node name="CheckButtonFullScreen" type="CheckButton" parent="VBoxContainer"]
 margin_top = 53.0
-margin_right = 200.0
+margin_right = 224.0
 margin_bottom = 93.0
 custom_fonts/font = ExtResource( 2 )
-text = "FULL SCREEN"
+text = "SETT_DISP_FS"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CheckButtonVsync" type="CheckButton" parent="VBoxContainer"]
 margin_top = 97.0
-margin_right = 200.0
+margin_right = 224.0
 margin_bottom = 137.0
 custom_fonts/font = ExtResource( 2 )
-text = "VSYNC"
+text = "SETT_DISP_VSYNC"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CheckButtonVsyncComp" type="CheckButton" parent="VBoxContainer"]
 margin_top = 141.0
-margin_right = 200.0
+margin_right = 224.0
 margin_bottom = 181.0
 hint_tooltip = "Experimental and meant to remove stutter for players. Vsync must be enabled"
 custom_fonts/font = ExtResource( 2 )
-text = "VSYNC VIA COMPOSITE"
+text = "SETT_DISP_VSYNC_COMP"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CheckButtonAlwaysOnTop" type="CheckButton" parent="VBoxContainer"]
 margin_top = 185.0
-margin_right = 200.0
+margin_right = 224.0
 margin_bottom = 225.0
 hint_tooltip = "Experimental and meant to remove stutter for players. Vsync must be enabled"
 custom_fonts/font = ExtResource( 2 )
-text = "ALWAYS ON TOP"
+text = "SETT_DISP_ON_TOP"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SpinBoxFPS" type="SpinBox" parent="VBoxContainer"]
 margin_top = 229.0
-margin_right = 200.0
+margin_right = 224.0
 margin_bottom = 253.0
 hint_tooltip = "0 will be unlimited"
 max_value = 120.0

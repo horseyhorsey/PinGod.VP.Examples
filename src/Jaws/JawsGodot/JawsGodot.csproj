@@ -28,7 +28,4 @@
   <ItemGroup>
     <Folder Include="layers\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Pingod.Local\Pingod.Local.csproj" />
-  </ItemGroup>
 </Project>

@@ -149,6 +149,11 @@ settings={
  ]
 }
 
+[locale]
+
+translations=PoolStringArray( "res://addons/PinGodGame/Localization/pingod_default_lang.en.translation" )
+locale_filter=[ 0, [  ] ]
+
 [rendering]
 
 quality/dynamic_fonts/use_oversampling=false

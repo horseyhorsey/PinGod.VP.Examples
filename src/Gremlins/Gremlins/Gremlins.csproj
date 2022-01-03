@@ -13,9 +13,6 @@
     <None Include="export_presets.cfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pingod.Local\Pingod.Local.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <!--<ProjectReference Include="..\..\..\..\PinGod.VP.Examples\addons\PinGodAddOns.csproj" />-->
   </ItemGroup>

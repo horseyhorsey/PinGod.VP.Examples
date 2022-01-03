@@ -1,5 +1,4 @@
 using Godot;
-using Pingod.Local.resources;
 using System;
 
 public class DisplaySettingsScene : MarginContainer
@@ -21,21 +20,12 @@ public class DisplaySettingsScene : MarginContainer
         GetNode<Label>("VBoxContainer/HBoxContainer/DefaultWindowSizeLabel").Text = $"ORIGINAL RESOLUTION: {_displaySettings.WidthDefault} X {_displaySettings.HeightDefault}";
 
         GetNode<CheckButton>("VBoxContainer/CheckButtonFullScreen").Pressed = _displaySettings.FullScreen;
-        GetNode<CheckButton>("VBoxContainer/CheckButtonFullScreen").Text = ResourceText.setting_display_fs;
-
         GetNode<CheckButton>("VBoxContainer/CheckButtonVsync").Pressed = _displaySettings.Vsync;
-        GetNode<CheckButton>("VBoxContainer/CheckButtonVsync").Text = ResourceText.setting_display_vsync;
-
         GetNode<CheckButton>("VBoxContainer/CheckButtonVsyncComp").Pressed = _displaySettings.VsyncViaCompositor;
-        GetNode<CheckButton>("VBoxContainer/CheckButtonVsyncComp").Text = ResourceText.setting_display_vsynccomp;
-
         GetNode<CheckButton>("VBoxContainer/CheckButtonAlwaysOnTop").Pressed = _displaySettings.AlwaysOnTop;
-        GetNode<CheckButton>("VBoxContainer/CheckButtonAlwaysOnTop").Text = ResourceText.setting_display_ontop;
-
         GetNode<SpinBox>("VBoxContainer/SpinBoxFPS").Value = _displaySettings.FPS;
 
         var stretchOption = GetNode<OptionButton>("VBoxContainer/StretchAspectOptionButton");
-        stretchOption.HintTooltip = ResourceText.setting_display_aspect_ratio;
         foreach (SceneTree.StretchAspect item in Enum.GetValues(typeof(SceneTree.StretchAspect)))
         {
             stretchOption.AddItem(item.ToString(), (int)item);

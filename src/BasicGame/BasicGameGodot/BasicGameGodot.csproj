@@ -21,12 +21,11 @@
     <Folder Include="recordings\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv" />
+    <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv.import" />
     <None Include="export_presets.cfg" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Pingod.Local\Pingod.Local.csproj" />
   </ItemGroup>
 </Project>
