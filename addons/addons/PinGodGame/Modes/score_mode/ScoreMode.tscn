@@ -6,9 +6,7 @@
 [ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
 
-[node name="ScoreMode" type="Node" groups=[
-"Mode",
-]]
+[node name="ScoreMode" type="Node" groups=["Mode"]]
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -31,16 +29,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="pingod-logo" type="Sprite" parent="."]
-position = Vector2( 519.583, 292.553 )
-texture = ExtResource( 5 )
-
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="pingod-logo" type="TextureRect" parent="CenterContainer"]
+margin_left = 287.0
+margin_top = 55.0
+margin_right = 737.0
+margin_bottom = 544.0
+texture = ExtResource( 5 )
+stretch_mode = 5
 
 [node name="ScoreMain" type="Label" parent="CenterContainer"]
 margin_left = 486.0
@@ -127,8 +129,11 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -130.0
+margin_left = -59.0
 margin_top = -33.0
+margin_right = -23.0
+grow_horizontal = 0
+grow_vertical = 0
 custom_fonts/font = ExtResource( 3 )
 text = "BALL: "
 valign = 2
@@ -137,5 +142,10 @@ __meta__ = {
 }
 
 [node name="Credits" parent="." instance=ExtResource( 4 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -42.5
 margin_top = -33.0
-margin_right = 85.0
+margin_right = 42.5
+grow_horizontal = 2
+grow_vertical = 2
