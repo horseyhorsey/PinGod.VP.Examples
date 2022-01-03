@@ -3,9 +3,7 @@
 [ext_resource path="res://modes/BaseMode.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodAddOns/Timers/BallStackPinball.cs" type="Script" id=2]
 
-[node name="BaseMode" type="Control" groups=[
-"Mode",
-]]
+[node name="BaseMode" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -17,8 +15,8 @@ __meta__ = {
 wait_time = 2.0
 one_shot = true
 script = ExtResource( 2 )
-_switch = "mball_saucer"
 _coil = "mball_saucer"
+_switch = "mball_saucer"
 
 [connection signal="SwitchActive" from="BallStackPinball" to="." method="OnBallStackPinball_SwitchActive"]
 [connection signal="timeout" from="BallStackPinball" to="." method="OnBallStackPinball_timeout"]

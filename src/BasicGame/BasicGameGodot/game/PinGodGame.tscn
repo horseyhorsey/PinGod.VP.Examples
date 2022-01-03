@@ -9,7 +9,6 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_logging_level = 0
 _playbackfile = "res://recordings/drain_3_balls.record"
 
 [node name="MachineConfig" type="Node" parent="."]
@@ -55,13 +54,17 @@ _lamps = {
 _leds = {
 "shoot_again": 1
 }
-_ball_save_multiball_seconds = 12
 _ball_search_coils = PoolStringArray( "mball_saucer" )
 _ball_search_stop_switches = PoolStringArray( "mball_saucer", "trough_1", "trough_2", "trough_3", "trough_4" )
 
 [node name="Trough" parent="." instance=ExtResource( 4 )]
 
 [node name="AudioManager" parent="." instance=ExtResource( 6 )]
+SfxAssets = {
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
+"tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
+"warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+}
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
 layer = 128
