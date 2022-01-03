@@ -33,9 +33,7 @@ Button/styles/pressed = SubResource( 3 )
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_write_machine_states = true
-_read_machine_states = true
-_logging_level = 3
+_playback_game = true
 _playbackfile = "res://recordings/collect_bonus_screen.record"
 
 [node name="MachineConfig" type="Node" parent="."]
@@ -171,10 +169,6 @@ MusicAssets = {
 "pindar-5": "res://assets/music/pindar-5.ogg",
 "pindar-intro": "res://assets/music/pindar-intro.ogg"
 }
-VoiceAssets = {
-"meet_me": "res://assets/music/meet_me.ogg",
-"megotyou": "res://assets/music/me_got_you.ogg"
-}
 SfxAssets = {
 "bonus2": "res://assets/music/bonus2.wav",
 "bonus3": "res://assets/music/bonus3.wav",
@@ -183,6 +177,10 @@ SfxAssets = {
 "credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
 "tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
 "warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+}
+VoiceAssets = {
+"meet_me": "res://assets/music/meet_me.ogg",
+"megotyou": "res://assets/music/me_got_you.ogg"
 }
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]

@@ -42,6 +42,7 @@ transparent_bg = true
 msaa = 1
 hdr = false
 render_target_v_flip = true
+gui_disable_input = true
 
 [node name="ScoreScene" parent="Viewport" instance=ExtResource( 6 )]
 

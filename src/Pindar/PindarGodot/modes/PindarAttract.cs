@@ -18,6 +18,8 @@ public class PindarAttract : Attract
     {
         base.ChangeLayer(forward);
 
+        pinGod.LogInfo("attract change layer");
+
         played = !played;
         if(played)
             pinGod.PlayVoice("meet_me", "Voice");

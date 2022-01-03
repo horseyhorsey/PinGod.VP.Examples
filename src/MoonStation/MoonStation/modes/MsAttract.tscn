@@ -42,8 +42,8 @@ __meta__ = {
 
 [node name="moon-station-logo" type="Sprite" parent="."]
 modulate = Color( 1, 1, 0.921569, 1 )
-position = Vector2( 590.603, 185.817 )
-scale = Vector2( 1.25924, 1.25924 )
+position = Vector2( -79.1959, 180.161 )
+scale = Vector2( 1.4, 1.4 )
 texture = ExtResource( 6 )
 
 [node name="AttractLayers" type="Control" parent="."]

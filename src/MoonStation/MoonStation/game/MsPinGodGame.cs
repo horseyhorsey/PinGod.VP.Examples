@@ -80,7 +80,7 @@ public class MsPinGodGame : PinGodGame
     {
         //base setup
         base.Setup();
-        
+
         var set = GameSettings as MsGameSettings;
         if (set.MusicEnabled)
         {

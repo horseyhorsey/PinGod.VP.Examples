@@ -32,21 +32,21 @@ public class GameSettings
 
     public byte MaxHiScoresCount { get; set; } = 5;
 
-    public bool MusicEnabled { get; set; }
+    public bool MusicEnabled { get; set; } = true;
 
     /// <summary>
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
     public float MusicVolume { get; set; } = -6;
 
-    public bool SfxEnabled { get; set; }
+    public bool SfxEnabled { get; set; } = true;
 
     /// <summary>
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
     public float SfxVolume { get; set; } = -6;
 
-    public bool VoiceEnabled { get; set; }
+    public bool VoiceEnabled { get; set; } = true;
 
     /// <summary>
     /// Decibel volume. minus values. -80 lowest

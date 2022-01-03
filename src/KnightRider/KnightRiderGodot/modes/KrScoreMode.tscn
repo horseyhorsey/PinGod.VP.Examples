@@ -32,9 +32,7 @@
 size = 64
 font_data = ExtResource( 18 )
 
-[node name="ScoreMode" type="Control" groups=[
-"Mode",
-]]
+[node name="ScoreMode" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -147,8 +145,8 @@ margin_right = -9.0
 margin_bottom = 39.5
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "1,000,000,000"
 align = 2
 valign = 1
@@ -190,8 +188,8 @@ margin_right = -9.0
 margin_bottom = 39.5
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "1,000,000,000"
 align = 2
 valign = 1
@@ -233,8 +231,8 @@ margin_right = -9.0
 margin_bottom = 39.5
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "1,000,000,000"
 align = 2
 valign = 1
@@ -276,8 +274,8 @@ margin_right = -9.0
 margin_bottom = 39.5
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "1,000,000,000"
 align = 2
 valign = 1
@@ -379,14 +377,26 @@ rect_min_size = Vector2( 90, 75 )
 _colour = Color( 0.0196078, 0.619608, 0.027451, 1 )
 _text = "ON"
 
-[node name="Credits" parent="." instance=ExtResource( 4 )]
-margin_left = 72.0259
-margin_top = -360.061
-margin_right = -1644.97
-margin_bottom = -324.061
-custom_fonts/font = SubResource( 1 )
+[node name="Panel2" type="Panel" parent="."]
+margin_left = 30.1629
+margin_top = 701.0
+margin_right = 387.163
+margin_bottom = 760.0
+custom_styles/panel = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" parent="Panel2" instance=ExtResource( 4 )]
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 36.0
+margin_top = 0.0
+margin_right = 203.0
+margin_bottom = 36.0
 custom_colors/font_color = Color( 1, 0, 0, 1 )
-align = 0
+custom_fonts/font = SubResource( 1 )
 
 [node name="TvPanel" parent="." instance=ExtResource( 20 )]
 margin_left = 1041.33
@@ -429,8 +439,8 @@ anchor_bottom = 0.532
 margin_top = -34.5
 margin_right = 404.0
 margin_bottom = 34.5
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0.0352941, 0.72549, 0.0745098, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "Player: "
 align = 2
 __meta__ = {
@@ -448,8 +458,8 @@ margin_right = -22.0
 margin_bottom = 34.5
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0.0352941, 0.72549, 0.0745098, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "BALL: "
 __meta__ = {
 "_edit_use_anchors_": false

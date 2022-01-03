@@ -43,9 +43,9 @@ margin_left = -180.5
 margin_top = -61.5
 margin_right = 180.5
 margin_bottom = 61.5
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0.854902, 0.0823529, 0.0823529, 1 )
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "JAWS
 PUSH START"
 align = 1
@@ -62,8 +62,8 @@ visible = false
 
 [node name="Credits" parent="StaticLayers" instance=ExtResource( 3 )]
 margin_top = -33.0
-custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.72549, 0.584314, 0.0392157, 1 )
+custom_fonts/font = ExtResource( 7 )
 
 [node name="AttractLayerChangeTimer" type="Timer" parent="."]
 wait_time = 5.0

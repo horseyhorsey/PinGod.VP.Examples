@@ -25,15 +25,12 @@ _scoreLabelP3 = NodePath("ScoreP3")
 _scoreLabelP4 = NodePath("ScoreP4")
 
 [node name="SeaBG000" parent="." instance=ExtResource( 7 )]
-margin_right = 568.0
-margin_bottom = 240.0
 
 [node name="posterFace" type="TextureRect" parent="."]
-margin_left = 0.237579
-margin_top = 1.62817
-margin_right = 568.238
-margin_bottom = 241.628
+anchor_right = 1.0
+anchor_bottom = 1.0
 texture = ExtResource( 8 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
