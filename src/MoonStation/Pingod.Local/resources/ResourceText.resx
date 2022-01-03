@@ -141,6 +141,46 @@
   <data name="service_title" xml:space="preserve">
     <value>SERVICE MENU</value>
   </data>
+  <data name="setting_display_aspect_ratio" xml:space="preserve">
+    <value>Aspect ratio for when resizing the display</value>
+  </data>
+  <data name="setting_display_fps" xml:space="preserve">
+    <value>FPS</value>
+    <comment>frames per second limt</comment>
+  </data>
+  <data name="setting_display_fs" xml:space="preserve">
+    <value>FULL SCREEN</value>
+  </data>
+  <data name="setting_display_ontop" xml:space="preserve">
+    <value>ALWAYS ON TOP</value>
+  </data>
+  <data name="setting_display_vsync" xml:space="preserve">
+    <value>VSYNC</value>
+  </data>
+  <data name="setting_display_vsynccomp" xml:space="preserve">
+    <value>VSYNC COMPOSITE</value>
+  </data>
+  <data name="setting_game_balls" xml:space="preserve">
+    <value>BALLS PER GAME</value>
+  </data>
+  <data name="setting_game_ballsave_time" xml:space="preserve">
+    <value>BALL SAVE TIME</value>
+  </data>
+  <data name="setting_game_xb_max" xml:space="preserve">
+    <value>EXTRA BALLS MAX</value>
+  </data>
+  <data name="setting_volume_master" xml:space="preserve">
+    <value>MASTER VOLUME</value>
+  </data>
+  <data name="setting_volume_music" xml:space="preserve">
+    <value>MUSIC VOLUME</value>
+  </data>
+  <data name="setting_volume_sfx" xml:space="preserve">
+    <value>SFX VOLUME</value>
+  </data>
+  <data name="setting_volume_voice" xml:space="preserve">
+    <value>VOICE VOLUME</value>
+  </data>
   <data name="slam_tilt" xml:space="preserve">
     <value>SLAM TILT</value>
   </data>

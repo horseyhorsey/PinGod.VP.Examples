@@ -35,10 +35,10 @@ public class PinGodGame : PinGodGameBase
 		Setup();
 	}
 
-	/// <summary>
-	/// Save game data / settings / recordings before exit
-	/// </summary>
-	public override void _ExitTree()
+    /// <summary>
+    /// Save game data / settings / recordings before exit
+    /// </summary>
+    public override void _ExitTree()
 	{
 		base._ExitTree();
 		Quit(true);

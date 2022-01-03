@@ -50,6 +50,7 @@ public abstract class PinGodGameBase : Node
     /// Flag used for ball saving on the initial launch. If ball enters the shooterlane after a ball save then this is to stop the ballsave starting again
     /// </summary>
     public bool BallStarted { get; internal set; }
+    public byte BallsPerGame { get; set; }
     public byte CurrentPlayerIndex { get; set; }
     public GameData GameData { get; internal set; }
     public bool GameInPlay { get; set; }
@@ -79,7 +80,9 @@ public abstract class PinGodGameBase : Node
 	private ulong gameEndTime;
 	private ulong gameLoadTimeMsec;
 	private ulong gameStartTime;
-	public PinGodGameBase()
+    private RandomNumberGenerator randomNumGenerator = new RandomNumberGenerator();
+
+    public PinGodGameBase()
 	{
 		Players = new List<PinGodPlayer>();        
 	}
@@ -89,36 +92,27 @@ public abstract class PinGodGameBase : Node
 	{
         if (!Engine.EditorHint)
         {
-			LogInfo("pingod:enter tree");
+            LogInfo("pingod:enter tree");
 
-			CmdArgs = GetCommandLineArgs();
-			LoadDataFile();
-			LoadSettingsFile();
+            CmdArgs = GetCommandLineArgs();
+            LoadDataFile();
+            LoadSettingsFile();
 
-			PingodText.InitResourceManager(GameSettings.Language);
-			LogInfo("pingod:loaded language resources");
+            //get trough from tree
+            _trough = GetNode("Trough") as Trough;
+            if (_trough == null)
+                LogWarning("trough not found");
 
-			SetUpWindow();
+            //create and add ball search timer
+            BallSearchTimer = new Timer() { Autostart = false, OneShot = false };
+            BallSearchTimer.Connect("timeout", this, "OnBallSearchTimeout");
+            this.AddChild(BallSearchTimer);
 
-			AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
-			AudioServer.SetBusVolumeDb(1, GameSettings.MusicVolume);
+            SetupAudio();
 
-			//get trough from tree
-			_trough = GetNode("Trough") as Trough;
-			if (_trough == null)
-				LogWarning("trough not found");
-
-			//create and add ball search timer
-			BallSearchTimer = new Timer() { Autostart = false, OneShot = false };
-			BallSearchTimer.Connect("timeout", this, "OnBallSearchTimeout");
-			this.AddChild(BallSearchTimer);
-
-			AudioManager = GetNode<AudioManager>("AudioManager");
-			mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
-
-			gameLoadTimeMsec = OS.GetTicksMsec();
-		}		
-	}
+            gameLoadTimeMsec = OS.GetTicksMsec();
+        }
+    }
 
     public override void _ExitTree()
     {
@@ -176,8 +170,8 @@ public abstract class PinGodGameBase : Node
             }
         }
 
-        //Coin button. See PinGod.vbs for Standard switches
-        if (SwitchOn("coin1", @event) || SwitchOn("coin2", @event) || SwitchOn("coin3", @event))
+		//Coin button. See PinGod.vbs for Standard switches
+		if (SwitchOn("coin1", @event) || SwitchOn("coin2", @event) || SwitchOn("coin3", @event))
         {
             AudioManager.PlaySfx("credit");
             AddCredits(1);
@@ -232,7 +226,11 @@ public abstract class PinGodGameBase : Node
             }
         }
 
-		//pingod.vp controller coil 0, sets game running on the controller
+		mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
+
+		SetUpWindow();
+
+		//pingod.vp controller coil 0, sets GameRunning on the controller
 		SolenoidOn("died", 1);
 	}
 
@@ -395,7 +393,7 @@ public abstract class PinGodGameBase : Node
 
 				LogInfo("ball in play " + BallInPlay);
 				GameData.BallsPlayed++;
-				if (BallInPlay > GameSettings.BallsPerGame)
+				if (BallInPlay > BallsPerGame)
 				{
 					//signal that ball has ended
 					this.EmitSignal(nameof(BallEnded), true);
@@ -462,7 +460,10 @@ public abstract class PinGodGameBase : Node
 		LogError("don't use, already init in ready");
     }
 
-    public virtual void LoadSettingsFile() => GameSettings = GameSettings.Load();
+	/// <summary>
+	/// Override when using your own GameSettings
+	/// </summary>
+	public virtual void LoadSettingsFile() => GameSettings = GameSettings.Load();
 
     public virtual void LogDebug(params object[] what) => Logger.LogDebug(what);
     public virtual void LogError(string message = null, params object[] what) => Logger.LogError(message, what);
@@ -529,7 +530,7 @@ public abstract class PinGodGameBase : Node
 	/// </summary>
 	/// <param name="name"></param>
 	/// <param name="pos"></param>
-	public virtual void PlaySfx(string name, string bus = "Master")
+	public virtual void PlaySfx(string name, string bus = "Sfx")
 	{
 		AudioManager.PlaySfx(name, bus);
 	}
@@ -539,7 +540,7 @@ public abstract class PinGodGameBase : Node
 	/// </summary>
 	/// <param name="name"></param>
 	/// <param name="pos"></param>
-	public virtual void PlayVoice(string name, string bus = "Master")
+	public virtual void PlayVoice(string name, string bus = "Voice")
 	{
 		AudioManager.PlayVoice(name, bus);
 	}
@@ -556,11 +557,24 @@ public abstract class PinGodGameBase : Node
 			SaveGameSettings();
 		}
 
+        if (GetTree().Paused)
+        {
+			GetTree().Paused = false;
+		}
+
 		//send game ended, died
 		SolenoidOn("died", 0);
 
 		memMapping?.Dispose(); //dispose invokes stop as well		
 	}
+
+	/// <summary>
+	/// Use random number generator from range
+	/// </summary>
+	/// <param name="from"></param>
+	/// <param name="to"></param>
+	/// <returns></returns>
+	public int RandomNumber(int from, int to) => randomNumGenerator.RandiRange(from, to);
 
 	/// <summary>
 	/// Reset player warnings and tilt
@@ -569,7 +583,7 @@ public abstract class PinGodGameBase : Node
 	{
 		Tiltwarnings = 0;
 		IsTilted = false;
-	}
+	}	
 
 	public virtual void SaveGameData() => GameData.Save(GameData);
 
@@ -672,6 +686,21 @@ public abstract class PinGodGameBase : Node
 	}
 
 	/// <summary>
+	/// Gets the audiomanager reference from tree and sets up audio buses
+	/// </summary>
+	protected virtual void SetupAudio()
+	{
+		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
+		AudioServer.SetBusVolumeDb(1, GameSettings.MusicVolume);
+		AudioServer.SetBusVolumeDb(2, GameSettings.SfxVolume);
+		AudioServer.SetBusVolumeDb(3, GameSettings.VoiceVolume);
+		AudioManager = GetNode<AudioManager>("AudioManager");
+		AudioManager.MusicEnabled = GameSettings.MusicEnabled;
+		AudioManager.SfxEnabled = GameSettings.SfxEnabled;
+		AudioManager.VoiceEnabled = GameSettings.VoiceEnabled;
+	}
+
+	/// <summary>
 	/// Sets up recording or playback from a .recording file
 	/// </summary>
 	/// <param name="playbackEnabled"></param>
@@ -738,11 +767,21 @@ public abstract class PinGodGameBase : Node
     {
         if (!Engine.EditorHint)
         {
-            if (GameSettings.Display?.Width > 0)
+			Engine.TargetFps = (int)GameSettings.Display.FPS;
+			OS.VsyncEnabled = GameSettings.Display.Vsync;
+			OS.VsyncViaCompositor = GameSettings.Display.VsyncViaCompositor;
+
+			//assign the project settings width and height to defaults
+			GameSettings.Display.WidthDefault = (int)ProjectSettings.GetSetting("display/window/size/width");
+			GameSettings.Display.HeightDefault = (int)ProjectSettings.GetSetting("display/window/size/height");
+
+			if (GameSettings.Display?.Width > 0)
             {
-                if (!GameSettings.Display.NoWindow)
+				if (!GameSettings.Display.NoWindow)
                 {
-                    LogDebug("pingodbase: setting display settings");
+					SetMainSceneAspectRatio();
+
+					LogDebug("pingodbase: setting display settings");
                     if (GameSettings.Display.FullScreen)
                     {
 						OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
@@ -763,7 +802,16 @@ public abstract class PinGodGameBase : Node
         }
     }
 
-    public virtual void SolenoidOn(string name, byte state)
+	public void SetMainSceneAspectRatio()
+	{
+		var display = GameSettings.Display;
+		var minW = display.WidthDefault <= 50 ? 1024 : display.WidthDefault;
+		var minH = display.HeightDefault <= 50 ? 600 : display.HeightDefault;
+		GetNodeOrNull<MainScene>("/root/MainScene")?
+			.GetTree().SetScreenStretch(SceneTree.StretchMode.Mode2d, (SceneTree.StretchAspect)display.AspectOption, new Vector2(minW, minH));
+	}
+
+	public virtual void SolenoidOn(string name, byte state)
     {
 		if (!SolenoidExists(name)) return;
 		Machine.Coils[name].State = state;
@@ -810,6 +858,8 @@ public abstract class PinGodGameBase : Node
 
 			//remove a credit and add a new player
 			GameData.Credits--;
+			BallsPerGame = (byte)(GameSettings.BallsPerGame > 5 ? 5 : GameSettings.BallsPerGame);
+			_trough._ball_save_seconds =(byte)(GameSettings.BallSaveTime > 20 ? 20 : GameSettings.BallSaveTime);
 
 			CreatePlayer($"P{Players.Count + 1}");
 			CurrentPlayerIndex = 0;
@@ -855,7 +905,7 @@ public abstract class PinGodGameBase : Node
 		GameData.BallsStarted++;
 		ResetTilt();
 		Player = Players[CurrentPlayerIndex];
-		if (Player.ExtraBalls > 0)
+		if (Player.ExtraBalls > 0 && Player.ExtraBallsAwarded < GameSettings.MaxExtraBalls)
 		{
 			Player.ExtraBalls--;
 			Player.ExtraBallsAwarded++;
@@ -1027,5 +1077,5 @@ public abstract class PinGodGameBase : Node
 		}
 
 		return true;
-	}
+	}	
 }

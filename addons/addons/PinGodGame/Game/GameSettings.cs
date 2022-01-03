@@ -14,20 +14,44 @@ public class GameSettings
     /// </summary>
     [NotMapped]
     const string GAME_SETTINGS_FILE = "user://settings.save";
+
+    public byte BallSaveTime { get; set; } = 12;
+
     public byte BallsPerGame { get; set; } = 3;
+
     public DisplaySettings Display { get; set; } = new DisplaySettings();
+
+    public string Language { get; set; }
+
     /// <summary>
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
     public float MasterVolume { get; set; } = 0;
+
+    public byte MaxExtraBalls { get; set; } = 2;
+
     public byte MaxHiScoresCount { get; set; } = 5;
+
+    public bool MusicEnabled { get; set; }
 
     /// <summary>
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
     public float MusicVolume { get; set; } = -6;
 
-    public string Language { get; set; }
+    public bool SfxEnabled { get; set; }
+
+    /// <summary>
+    /// Decibel volume. minus values. -80 lowest
+    /// </summary>
+    public float SfxVolume { get; set; } = -6;
+
+    public bool VoiceEnabled { get; set; }
+
+    /// <summary>
+    /// Decibel volume. minus values. -80 lowest
+    /// </summary>
+    public float VoiceVolume { get; set; } = -6;
 
     /// <summary>
     /// De-serializes settings from json if Type is <see cref="GameSettings"/>

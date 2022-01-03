@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Themes/pingod_settings_theme.tres" type="Theme" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/GameSettingsScene.cs" type="Script" id=2]
+
+[node name="GameSettingsScene" type="MarginContainer"]
+margin_right = 1024.0
+margin_bottom = 143.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_constants/margin_right = 50
+custom_constants/margin_top = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 50
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 974.0
+margin_bottom = 187.0
+
+[node name="BallsPerGameSpinBox" type="SpinBox" parent="VBoxContainer"]
+margin_right = 924.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.6
+min_value = 1.0
+max_value = 5.0
+value = 1.0
+prefix = "BALLS PER GAME"
+
+[node name="BallSaveTimeSpinBox" type="SpinBox" parent="VBoxContainer"]
+margin_top = 47.0
+margin_right = 924.0
+margin_bottom = 90.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.6
+max_value = 20.0
+value = 1.0
+prefix = "BALL SAVE TIME"
+
+[node name="ExtraBallsSpinBox" type="SpinBox" parent="VBoxContainer"]
+margin_top = 94.0
+margin_right = 924.0
+margin_bottom = 137.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.6
+max_value = 5.0
+value = 2.0
+prefix = "EXTRA BALLS"
+
+[connection signal="changed" from="VBoxContainer/BallsPerGameSpinBox" to="." method="_on_BallsPerGameSpinBox_changed"]
+[connection signal="changed" from="VBoxContainer/BallSaveTimeSpinBox" to="." method="_on_BallSaveTimeSpinBox_changed"]
+[connection signal="changed" from="VBoxContainer/ExtraBallsSpinBox" to="." method="_on_ExtraBallsSpinBox_changed"]

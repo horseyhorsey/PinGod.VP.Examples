@@ -1,0 +1,25 @@
+[gd_resource type="Theme" load_steps=7 format=2]
+
+[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas32.tres" type="DynamicFont" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.396078, 0.466667, 0.568627, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.172549, 0.196078, 0.231373, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.144287, 0.161264, 0.1875, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.276642, 0.320075, 0.382813, 1 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+
+[resource]
+default_font = ExtResource( 1 )
+TabContainer/styles/panel = SubResource( 1 )
+TabContainer/styles/tab_bg = SubResource( 2 )
+TabContainer/styles/tab_disabled = SubResource( 3 )
+TabContainer/styles/tab_fg = SubResource( 4 )
+Tabs/styles/tab_bg = SubResource( 5 )

@@ -133,6 +133,123 @@ namespace Pingod.Local.resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aspect ratio for when resizing the display.
+        /// </summary>
+        public static string setting_display_aspect_ratio {
+            get {
+                return ResourceManager.GetString("setting_display_aspect_ratio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FPS.
+        /// </summary>
+        public static string setting_display_fps {
+            get {
+                return ResourceManager.GetString("setting_display_fps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FULL SCREEN.
+        /// </summary>
+        public static string setting_display_fs {
+            get {
+                return ResourceManager.GetString("setting_display_fs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ALWAYS ON TOP.
+        /// </summary>
+        public static string setting_display_ontop {
+            get {
+                return ResourceManager.GetString("setting_display_ontop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VSYNC.
+        /// </summary>
+        public static string setting_display_vsync {
+            get {
+                return ResourceManager.GetString("setting_display_vsync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VSYNC COMPOSITE.
+        /// </summary>
+        public static string setting_display_vsynccomp {
+            get {
+                return ResourceManager.GetString("setting_display_vsynccomp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BALLS PER GAME.
+        /// </summary>
+        public static string setting_game_balls {
+            get {
+                return ResourceManager.GetString("setting_game_balls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BALL SAVE TIME.
+        /// </summary>
+        public static string setting_game_ballsave_time {
+            get {
+                return ResourceManager.GetString("setting_game_ballsave_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EXTRA BALLS MAX.
+        /// </summary>
+        public static string setting_game_xb_max {
+            get {
+                return ResourceManager.GetString("setting_game_xb_max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MASTER VOLUME.
+        /// </summary>
+        public static string setting_volume_master {
+            get {
+                return ResourceManager.GetString("setting_volume_master", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MUSIC VOLUME.
+        /// </summary>
+        public static string setting_volume_music {
+            get {
+                return ResourceManager.GetString("setting_volume_music", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SFX VOLUME.
+        /// </summary>
+        public static string setting_volume_sfx {
+            get {
+                return ResourceManager.GetString("setting_volume_sfx", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VOICE VOLUME.
+        /// </summary>
+        public static string setting_volume_voice {
+            get {
+                return ResourceManager.GetString("setting_volume_voice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SLAM TILT.
         /// </summary>
         public static string slam_tilt {
