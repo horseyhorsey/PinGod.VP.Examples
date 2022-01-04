@@ -30,15 +30,14 @@ public abstract class PinGodGameBase : Node
 	#endregion
 
 	#region Public Properties - Standard Pinball / Players
+
 	public byte FlippersEnabled = 0;
 	public bool InBonusMode = false;
 	public bool IsMultiballRunning = false;
 	public byte MaxPlayers = 4;
 	const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
-    public AudioManager AudioManager { get; protected set; }
-
     private MainScene mainScene;
-
+    public AudioManager AudioManager { get; protected set; }
     public byte BallInPlay { get; set; }
     /// <summary>
     /// Is ball save active
@@ -46,11 +45,12 @@ public abstract class PinGodGameBase : Node
     public bool BallSaveActive { get; internal set; }
     public BallSearchOptions BallSearchOptions { get; set; }
     public Timer BallSearchTimer { get; set; }
+    public byte BallsPerGame { get; set; }
+
     /// <summary>
     /// Flag used for ball saving on the initial launch. If ball enters the shooterlane after a ball save then this is to stop the ballsave starting again
     /// </summary>
     public bool BallStarted { get; internal set; }
-    public byte BallsPerGame { get; set; }
     public byte CurrentPlayerIndex { get; set; }
     public GameData GameData { get; internal set; }
     public bool GameInPlay { get; set; }
@@ -97,6 +97,8 @@ public abstract class PinGodGameBase : Node
         if (!Engine.EditorHint)
         {
             LogInfo("pingod:enter tree");
+
+			LoadPatches();
 
             CmdArgs = GetCommandLineArgs();
             LoadDataFile();
@@ -240,42 +242,14 @@ public abstract class PinGodGameBase : Node
 		LogInfo("pingod base: ready, sent died coil on");
 	}
 
-    /// <summary>
-    /// Parses user command lines args in the --key=value format
-    /// </summary>
-    /// <returns></returns>
-    private Dictionary<string, string> GetCommandLineArgs()
-    {
-        var cmd = OS.GetCmdlineArgs();
-        LogInfo("cmd line available: ", cmd?.Length);
-        Dictionary<string, string> _args = new Dictionary<string, string>();
-        _args.Add("base_path", OS.GetExecutablePath());
-        foreach (var arg in cmd)
-        {
-            if (arg.Contains("="))
-            {
-                var keyValue = arg.Split("=");
-                if (keyValue.Length == 2)
-                {
-                    var key = keyValue[0].LStrip("--");
-                    if (!_args.ContainsKey(key))
-                    {
-                        _args.Add(key, keyValue[1]);
-                    }
-                }
-            }
-        }
-
-        return _args;
-    }
     #endregion
+
+    public Dictionary<string, string> CmdArgs { get; private set; }
 
     public virtual ulong GetElapsedGameTime => gameEndTime - gameStartTime;
 
-	public virtual long GetTopScorePoints => GameData?.HighScores?
+    public virtual long GetTopScorePoints => GameData?.HighScores?
 			.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
-
-    public Dictionary<string, string> CmdArgs { get; private set; }
 
     /// <summary>
     /// Adds bonus to the current player
@@ -430,12 +404,12 @@ public abstract class PinGodGameBase : Node
 		this.EmitSignal(nameof(GameEnded));
 	}
 
-	/// <summary>
-	/// Time in milliseconds
-	/// </summary>
-	/// <param name="sw"></param>
-	/// <returns></returns>
-	public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
+    /// <summary>
+    /// Time in milliseconds
+    /// </summary>
+    /// <param name="sw"></param>
+    /// <returns></returns>
+    public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
 
 	/// <summary>
 	/// Detect if the input `isAction` found in the given switchNames. Uses <see cref="SwitchOn(string, InputEvent)"/>
@@ -455,9 +429,24 @@ public abstract class PinGodGameBase : Node
 
 		return false;
 	}
+
     public virtual void LoadDataFile() => GameData = GameData.Load();
 
-    [Obsolete("override the other methods for loading data, settings and setting up window")]
+	/// <summary>
+	/// Exported games load patches from res://patch/patch_{patchNum}.pck . From 1. patch_1.pck, patch_2.pck
+	/// </summary>
+	public virtual void LoadPatches()
+	{
+		int patchNum = 1;
+		bool success;
+		while (success = ProjectSettings.LoadResourcePack($"res://patch/patch_{patchNum}.pck"))
+		{
+			LogInfo($"patch {patchNum} loaded");
+			patchNum++;
+		}
+	}
+
+	[Obsolete("override the other methods for loading data, settings and setting up window")]
     /// <summary>
     /// Runs <see cref="LoadSettingsFile"/>, <see cref="LoadDataFile"/>, <see cref="SetUpWindow"/>
     /// </summary>
@@ -475,6 +464,7 @@ public abstract class PinGodGameBase : Node
     public virtual void LogError(string message = null, params object[] what) => Logger.LogError(message, what);
 	public virtual void LogInfo(params object[] what) => Logger.LogInfo(what);
 	public virtual void LogWarning(string message = null, params object[] what) => Logger.LogWarning(message, what);
+
 	/// <summary>
 	/// Invokes OnBallDrained on all groups marked as Mode within the scene tree.
 	/// </summary>
@@ -482,6 +472,7 @@ public abstract class PinGodGameBase : Node
 	/// <param name="group"></param>
 	/// <param name="method"></param>
 	public virtual void OnBallDrained(SceneTree sceneTree, string group = "Mode", string method = "OnBallDrained") => sceneTree.CallGroup(group, method);
+
 	/// <summary>
 	/// Invokes OnBallSaved on all groups marked as Mode within the scene tree.
 	/// </summary>
@@ -489,6 +480,7 @@ public abstract class PinGodGameBase : Node
 	/// <param name="group"></param>
 	/// <param name="method"></param>
 	public virtual void OnBallSaved(SceneTree sceneTree, string group = "Mode", string method = "OnBallSaved") => sceneTree.CallGroup(group, method);
+
 	/// <summary>
 	/// Pulse coils in the SearchCoils when ball search times out
 	/// </summary>
@@ -516,11 +508,13 @@ public abstract class PinGodGameBase : Node
 			BallSearchTimer.Stop();
 		}
 	}
+
 	/// <summary>
 	/// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
 	/// </summary>
 	/// <param name="sceneTree"></param>
 	public virtual void OnBallStarted(SceneTree sceneTree, string group = "Mode", string method = "OnBallStarted") => sceneTree.CallGroup(group, method);
+
 	/// <summary>
 	/// Uses the <see cref="AudioManager.PlayMusic(string, float)"/>
 	/// </summary>
@@ -691,10 +685,335 @@ public abstract class PinGodGameBase : Node
 		SetLedState(name, state, ole);
 	}
 
-	/// <summary>
-	/// Gets the audiomanager reference from tree and sets up audio buses
-	/// </summary>
-	protected virtual void SetupAudio()
+    public void SetMainSceneAspectRatio()
+    {
+        var display = GameSettings.Display;
+        var minW = display.WidthDefault <= 50 ? 1024 : display.WidthDefault;
+        var minH = display.HeightDefault <= 50 ? 600 : display.HeightDefault;
+        GetNodeOrNull<MainScene>("/root/MainScene")?
+            .GetTree().SetScreenStretch(SceneTree.StretchMode.Mode2d, (SceneTree.StretchAspect)display.AspectOption, new Vector2(minW, minH));
+    }
+
+    /// <summary>
+    /// Sets up recording or playback from a .recording file
+    /// </summary>
+    /// <param name="playbackEnabled"></param>
+    /// <param name="recordingEnabled"></param>
+    /// <param name="playbackfile"></param>
+    public virtual void SetUpRecordingsOrPlayback(bool playbackEnabled, bool recordingEnabled, string playbackfile)
+    {
+        _recordPlayback = RecordPlaybackOption.Off;
+        if (playbackEnabled) _recordPlayback = RecordPlaybackOption.Playback;
+        else if (recordingEnabled) _recordPlayback = RecordPlaybackOption.Record;
+
+        LogDebug("pingodbase: setup playback?: ", _recordPlayback.ToString());
+        if (_recordPlayback == RecordPlaybackOption.Playback)
+        {
+            if (string.IsNullOrWhiteSpace(playbackfile))
+            {
+                LogWarning("set a playback file from user directory eg: user://recordings/26232613.record");
+                _recordPlayback = RecordPlaybackOption.Off;
+            }
+            else
+            {
+                LogInfo("running playback file: ", playbackfile);
+                try
+                {
+                    var pBackFile = new File();
+                    if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.FileNotFound)
+                    {
+                        _recordPlayback = RecordPlaybackOption.Off;
+                        LogError("playback file not found, set playback false");
+                    }
+                    else
+                    {
+                        string[] eventLine = null;
+                        _playbackQueue = new Queue<PlaybackEvent>();
+                        while ((eventLine = pBackFile.GetCsvLine("|"))?.Length == 3)
+                        {
+                            bool.TryParse(eventLine[1], out var state);
+                            uint.TryParse(eventLine[2], out var time);
+                            _playbackQueue.Enqueue(new PlaybackEvent(eventLine[0], state, time));
+                        }
+                        _playbackQueue.Reverse();
+                        LogInfo(_playbackQueue.Count, " playback events queued. first action: ", _playbackQueue.Peek().EvtName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogError($"playback file failed: " + ex.Message);
+                }
+            }
+        }
+        else if (_recordPlayback == RecordPlaybackOption.Record)
+        {
+            var userDir = CreateRecordingsDirectory();
+            _recordFile = new File();
+            _recordFile.Open(playbackfile, File.ModeFlags.WriteRead);
+            LogDebug("pingodbase: game recording on");
+        }
+    }
+
+    /// <summary>
+    /// Sets up the window size and position from saved machine settings. See <see cref="Godot.OS"/>
+    /// </summary>
+    public virtual void SetUpWindow()
+    {
+        if (!Engine.EditorHint)
+        {
+            Engine.TargetFps = (int)GameSettings.Display.FPS;
+
+            OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
+            OS.VsyncEnabled = GameSettings.Display.Vsync;
+            OS.VsyncViaCompositor = GameSettings.Display.VsyncViaCompositor;
+
+            //assign the project settings width and height to defaults
+            GameSettings.Display.WidthDefault = (int)ProjectSettings.GetSetting("display/window/size/width");
+            GameSettings.Display.HeightDefault = (int)ProjectSettings.GetSetting("display/window/size/height");
+
+            SetMainSceneAspectRatio();
+
+            OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
+
+            if (GameSettings.Display?.Width > 0)
+            {
+                if (!GameSettings.Display.NoWindow)
+                {
+                    LogDebug("pingodbase: setting display settings");
+                    if (GameSettings.Display.FullScreen)
+                    {
+                        OS.WindowFullscreen = true;
+                    }
+                    else
+                    {
+                        OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);
+                    }
+                }
+                else
+                {
+                    //todo: remove window
+                }
+            }
+        }
+    }
+
+    public virtual void SolenoidOn(string name, byte state)
+    {
+        if (!SolenoidExists(name)) return;
+        Machine.Coils[name].State = state;
+    }
+
+    public virtual async void SolenoidPulse(string name, byte pulse = 255)
+    {
+        if (!SolenoidExists(name)) return;
+
+        var coil = Machine.Coils[name];
+        await Task.Run(async () =>
+        {
+            coil.State = 1;
+            await Task.Delay(pulse);
+            coil.State = 0;
+        });
+    }
+
+    /// <summary>
+    /// Attempts to start a game. If games in play then add more players until <see cref="MaxPlayers"/> <para/>
+    /// </summary>
+    /// <returns>True if the game was started</returns>
+    public virtual bool StartGame()
+    {
+        LogInfo("base:start game");
+        if (IsTilted)
+        {
+            LogInfo("base: Cannot start game when game is tilted");
+            return false;
+        }
+
+        if (!GameInPlay && GameData.Credits > 0) //first player start game
+        {
+            LogInfo("starting game, checking trough...");
+            if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
+            {
+                LogInfo("Trough not ready. Can't start game with empty trough.");
+                BallSearchTimer.Start(1);
+                return false;
+            }
+
+            Players.Clear(); //clear any players from previous game
+            GameInPlay = true;
+
+            //remove a credit and add a new player
+            GameData.Credits--;
+            BallsPerGame = (byte)(GameSettings.BallsPerGame > 5 ? 5 : GameSettings.BallsPerGame);
+            _trough._ball_save_seconds = (byte)(GameSettings.BallSaveTime > 20 ? 20 : GameSettings.BallSaveTime);
+
+            CreatePlayer($"P{Players.Count + 1}");
+            CurrentPlayerIndex = 0;
+            Player = Players[CurrentPlayerIndex];
+            LogDebug("signal: player 1 added");
+            GameData.GamesStarted++;
+            gameStartTime = OS.GetTicksMsec();
+            EmitSignal(nameof(PlayerAdded));
+            EmitSignal(nameof(GameStarted));
+            return true;
+        }
+        //game started already, add more players until max
+        else if (BallInPlay <= 1 && GameInPlay && Players.Count < MaxPlayers && GameData.Credits > 0)
+        {
+            GameData.Credits--;
+            CreatePlayer($"P{Players.Count + 1}");
+            LogDebug($"signal: player added. {Players.Count}");
+            EmitSignal(nameof(PlayerAdded));
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Sets MultiBall running and trough to send a <see cref="MultiballStarted"/>
+    /// </summary>
+    /// <param name="numOfBalls">Number of balls to save. A 2 ball multiball would be 2</param>
+    /// <param name="ballSaveTime"></param>
+    public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime, float pulseTime = 0)
+    {
+        _trough.StartMultiball(numOfBalls, ballSaveTime, pulseTime);
+        IsMultiballRunning = true;
+        EmitSignal(nameof(MultiballStarted));
+    }
+
+    /// <summary>
+    /// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
+    /// </summary>
+    public virtual void StartNewBall()
+    {
+        IsBallStarted = true;
+        LogInfo("base:starting new ball");
+        GameData.BallsStarted++;
+        ResetTilt();
+        Player = Players[CurrentPlayerIndex];
+        if (Player.ExtraBalls > 0 && Player.ExtraBallsAwarded < GameSettings.MaxExtraBalls)
+        {
+            Player.ExtraBalls--;
+            Player.ExtraBallsAwarded++;
+            LogInfo("base: player shoot again");
+        }
+        _trough.PulseTrough();
+        EnableFlippers(1);
+    }
+
+    public virtual float StopMusic() => AudioManager.StopMusic();
+
+    /// <summary>
+    /// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
+    /// "coin", @event
+    /// </summary>
+    /// <param name="swName"></param>
+    /// <param name="inputEvent"></param>
+    /// <returns></returns>
+    public virtual bool SwitchOff(string swName, InputEvent inputEvent)
+    {
+        if (!SwitchExists(swName)) return false;
+        var sw = Machine.Switches[swName];
+        var result = sw.IsOff(inputEvent);
+        if (result)
+        {
+            LogDebug("swOff:" + swName);
+
+            if (_recordPlayback == RecordPlaybackOption.Record)
+            {
+                var recordLine = $"sw{sw.Num}|{false}|{OS.GetTicksMsec() - gameLoadTimeMsec}";
+                _recordFile?.StoreLine(recordLine);
+                LogDebug(recordLine);
+            }
+
+            if (BallSearchOptions.IsSearchEnabled && GameInPlay)
+            {
+                if (sw.BallSearch != BallSearchSignalOption.None)
+                {
+                    switch (sw.BallSearch)
+                    {
+                        case BallSearchSignalOption.Reset:
+                            SetBallSearchReset();
+                            break;
+                        case BallSearchSignalOption.Off:
+                            SetBallSearchStop();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Use in Godot _Input events. Checks a switches input event by friendly name from switch collection <para/>
+    /// "coin", @event
+    /// </summary>
+    /// <param name="swName"></param>
+    /// <param name="inputEvent"></param>
+    /// <returns></returns>
+    public virtual bool SwitchOn(string swName, InputEvent inputEvent)
+    {
+        if (!SwitchExists(swName)) return false;
+        var sw = Machine.Switches[swName];
+        var result = sw.IsOn(inputEvent);
+
+        //do something with ball search if switch needs to
+        if (result && BallSearchOptions.IsSearchEnabled && GameInPlay)
+        {
+            if (sw.BallSearch != BallSearchSignalOption.None)
+            {
+                switch (sw.BallSearch)
+                {
+                    case BallSearchSignalOption.Reset:
+                        SetBallSearchReset();
+                        break;
+                    case BallSearchSignalOption.Off:
+                        SetBallSearchStop();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        if (result) //record switch
+        {
+            LogDebug("swOn:" + swName);
+            if (_recordPlayback == RecordPlaybackOption.Record)
+            {
+                var switchTime = OS.GetTicksMsec() - gameLoadTimeMsec;
+                var recordLine = $"sw{sw.Num}|{true}|{switchTime}";
+                _recordFile?.StoreLine(recordLine);
+                LogDebug(recordLine);
+            }
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Checks a switches input event by friendly name. <para/>
+    /// If the "coin" switch is still held down then will return true
+    /// </summary>
+    /// <param name="swName"></param>
+    /// <returns>on / off</returns>
+    public virtual bool SwitchOn(string swName)
+    {
+        if (!SwitchExists(swName)) return false;
+        return Machine.Switches[swName].IsOn();
+    }
+
+    /// <summary>
+    /// Invokes UpdateLamps on all groups marked as Mode within the scene tree.
+    /// </summary>
+    /// <param name="sceneTree"></param>
+    public virtual void UpdateLamps(SceneTree sceneTree, string group = "Mode", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
+
+    /// <summary>
+    /// Gets the audiomanager reference from tree and sets up audio buses
+    /// </summary>
+    protected virtual void SetupAudio()
 	{
 		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
 		AudioServer.SetBusVolumeDb(1, GameSettings.MusicVolume);
@@ -705,331 +1024,6 @@ public abstract class PinGodGameBase : Node
 		AudioManager.SfxEnabled = GameSettings.SfxEnabled;
 		AudioManager.VoiceEnabled = GameSettings.VoiceEnabled;
 	}
-
-	/// <summary>
-	/// Sets up recording or playback from a .recording file
-	/// </summary>
-	/// <param name="playbackEnabled"></param>
-	/// <param name="recordingEnabled"></param>
-	/// <param name="playbackfile"></param>
-	public virtual void SetUpRecordingsOrPlayback(bool playbackEnabled, bool recordingEnabled, string playbackfile)
-	{
-		_recordPlayback = RecordPlaybackOption.Off;
-		if (playbackEnabled) _recordPlayback = RecordPlaybackOption.Playback;
-		else if (recordingEnabled) _recordPlayback = RecordPlaybackOption.Record;
-
-		LogDebug("pingodbase: setup playback?: ", _recordPlayback.ToString());
-		if (_recordPlayback == RecordPlaybackOption.Playback)
-		{
-			if (string.IsNullOrWhiteSpace(playbackfile))
-			{
-				LogWarning("set a playback file from user directory eg: user://recordings/26232613.record");
-				_recordPlayback = RecordPlaybackOption.Off;
-			}
-			else
-			{
-				LogInfo("running playback file: ", playbackfile);
-                try
-                {
-					var pBackFile = new File();
-					if (pBackFile.Open(playbackfile, File.ModeFlags.Read) == Error.FileNotFound)
-					{
-						_recordPlayback = RecordPlaybackOption.Off;
-						LogError("playback file not found, set playback false");
-					}
-					else
-					{
-						string[] eventLine = null;
-						_playbackQueue = new Queue<PlaybackEvent>();
-						while ((eventLine = pBackFile.GetCsvLine("|"))?.Length == 3)
-						{
-							bool.TryParse(eventLine[1], out var state);
-							uint.TryParse(eventLine[2], out var time);
-							_playbackQueue.Enqueue(new PlaybackEvent(eventLine[0], state, time));
-						}
-						_playbackQueue.Reverse();
-						LogInfo(_playbackQueue.Count, " playback events queued. first action: ", _playbackQueue.Peek().EvtName);
-					}
-				}
-                catch (Exception ex)
-                {
-					LogError($"playback file failed: " + ex.Message);
-                }
-			}
-		}
-		else if (_recordPlayback == RecordPlaybackOption.Record)
-		{
-            var userDir = CreateRecordingsDirectory();
-            _recordFile = new File();
-            _recordFile.Open(playbackfile, File.ModeFlags.WriteRead);
-            LogDebug("pingodbase: game recording on");
-        }
-	}
-
-    /// <summary>
-    /// Sets up the window size and position from saved machine settings. See <see cref="Godot.OS"/>
-    /// </summary>
-    public virtual void SetUpWindow()
-    {
-        if (!Engine.EditorHint)
-        {
-			Engine.TargetFps = (int)GameSettings.Display.FPS;
-			OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
-			OS.VsyncEnabled = GameSettings.Display.Vsync;
-			OS.VsyncViaCompositor = GameSettings.Display.VsyncViaCompositor;
-
-			//assign the project settings width and height to defaults
-			GameSettings.Display.WidthDefault = (int)ProjectSettings.GetSetting("display/window/size/width");
-			GameSettings.Display.HeightDefault = (int)ProjectSettings.GetSetting("display/window/size/height");
-
-			SetMainSceneAspectRatio();
-
-			OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
-
-			if (GameSettings.Display?.Width > 0)
-            {
-				if (!GameSettings.Display.NoWindow)
-                {				
-					LogDebug("pingodbase: setting display settings");
-                    if (GameSettings.Display.FullScreen)
-                    {
-						OS.WindowFullscreen = true;
-                    }
-                    else
-                    {
-                        OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);						
-                    }					
-				}
-                else
-                {
-					//todo: remove window
-                }
-            }
-        }
-    }
-
-	public void SetMainSceneAspectRatio()
-	{
-		var display = GameSettings.Display;
-		var minW = display.WidthDefault <= 50 ? 1024 : display.WidthDefault;
-		var minH = display.HeightDefault <= 50 ? 600 : display.HeightDefault;
-		GetNodeOrNull<MainScene>("/root/MainScene")?
-			.GetTree().SetScreenStretch(SceneTree.StretchMode.Mode2d, (SceneTree.StretchAspect)display.AspectOption, new Vector2(minW, minH));
-	}
-
-	public virtual void SolenoidOn(string name, byte state)
-    {
-		if (!SolenoidExists(name)) return;
-		Machine.Coils[name].State = state;
-	}
-
-	public virtual async void SolenoidPulse(string name, byte pulse = 255)
-	{
-		if (!SolenoidExists(name)) return;
-
-		var coil = Machine.Coils[name];
-		await Task.Run(async () =>
-		{
-			coil.State = 1;
-			await Task.Delay(pulse);
-			coil.State = 0;
-		});
-	}
-
-	/// <summary>
-	/// Attempts to start a game. If games in play then add more players until <see cref="MaxPlayers"/> <para/>
-	/// </summary>
-	/// <returns>True if the game was started</returns>
-	public virtual bool StartGame()
-	{
-		LogInfo("base:start game");
-		if (IsTilted)
-		{
-			LogInfo("base: Cannot start game when game is tilted");
-			return false;
-		}
-
-		if (!GameInPlay && GameData.Credits > 0) //first player start game
-		{
-			LogInfo("starting game, checking trough...");
-			if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
-			{
-				LogInfo("Trough not ready. Can't start game with empty trough.");
-				BallSearchTimer.Start(1);
-				return false;
-			}
-
-			Players.Clear(); //clear any players from previous game
-			GameInPlay = true;
-
-			//remove a credit and add a new player
-			GameData.Credits--;
-			BallsPerGame = (byte)(GameSettings.BallsPerGame > 5 ? 5 : GameSettings.BallsPerGame);
-			_trough._ball_save_seconds =(byte)(GameSettings.BallSaveTime > 20 ? 20 : GameSettings.BallSaveTime);
-
-			CreatePlayer($"P{Players.Count + 1}");
-			CurrentPlayerIndex = 0;
-			Player = Players[CurrentPlayerIndex];
-			LogDebug("signal: player 1 added");
-			GameData.GamesStarted++;
-			gameStartTime = OS.GetTicksMsec();
-			EmitSignal(nameof(PlayerAdded));
-			EmitSignal(nameof(GameStarted));
-			return true;
-		}
-		//game started already, add more players until max
-		else if (BallInPlay <= 1 && GameInPlay && Players.Count < MaxPlayers && GameData.Credits > 0)
-		{
-			GameData.Credits--;
-			CreatePlayer($"P{Players.Count + 1}");
-			LogDebug($"signal: player added. {Players.Count}");
-			EmitSignal(nameof(PlayerAdded));
-		}
-
-		return false;
-	}
-
-	/// <summary>
-	/// Sets MultiBall running and trough to send a <see cref="MultiballStarted"/>
-	/// </summary>
-	/// <param name="numOfBalls">Number of balls to save. A 2 ball multiball would be 2</param>
-	/// <param name="ballSaveTime"></param>
-	public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime, float pulseTime = 0)
-	{
-		_trough.StartMultiball(numOfBalls, ballSaveTime, pulseTime);
-		IsMultiballRunning = true;
-		EmitSignal(nameof(MultiballStarted));
-	}
-
-	/// <summary>
-	/// Starts a new ball, changing to next player, enabling flippers and ejecting trough and sending <see cref="BallStarted"/>
-	/// </summary>
-	public virtual void StartNewBall()
-	{
-		IsBallStarted = true;
-		LogInfo("base:starting new ball");
-		GameData.BallsStarted++;
-		ResetTilt();
-		Player = Players[CurrentPlayerIndex];
-		if (Player.ExtraBalls > 0 && Player.ExtraBallsAwarded < GameSettings.MaxExtraBalls)
-		{
-			Player.ExtraBalls--;
-			Player.ExtraBallsAwarded++;
-			LogInfo("base: player shoot again");
-		}
-		_trough.PulseTrough();
-		EnableFlippers(1);
-	}
-
-	public virtual float StopMusic() => AudioManager.StopMusic();
-
-	/// <summary>
-	/// Checks a switches input event by friendly name that is in the <see cref="Switches"/> <para/>
-	/// "coin", @event
-	/// </summary>
-	/// <param name="swName"></param>
-	/// <param name="inputEvent"></param>
-	/// <returns></returns>
-	public virtual bool SwitchOff(string swName, InputEvent inputEvent)
-	{
-		if (!SwitchExists(swName)) return false;
-		var sw = Machine.Switches[swName];
-		var result = sw.IsOff(inputEvent);
-		if (result)
-		{
-			LogDebug("swOff:" + swName);
-
-			if (_recordPlayback == RecordPlaybackOption.Record)
-			{
-				var recordLine = $"sw{sw.Num}|{false}|{OS.GetTicksMsec() - gameLoadTimeMsec}";
-				_recordFile?.StoreLine(recordLine);
-				LogDebug(recordLine);
-			}
-
-			if (BallSearchOptions.IsSearchEnabled && GameInPlay)
-			{
-				if (sw.BallSearch != BallSearchSignalOption.None)
-				{
-					switch (sw.BallSearch)
-					{
-						case BallSearchSignalOption.Reset:
-							SetBallSearchReset();
-							break;
-						case BallSearchSignalOption.Off:
-							SetBallSearchStop();
-							break;
-						default:
-							break;
-					}
-				}
-			}
-		}
-		return result;
-	}
-
-	/// <summary>
-	/// Use in Godot _Input events. Checks a switches input event by friendly name from switch collection <para/>
-	/// "coin", @event
-	/// </summary>
-	/// <param name="swName"></param>
-	/// <param name="inputEvent"></param>
-	/// <returns></returns>
-	public virtual bool SwitchOn(string swName, InputEvent inputEvent)
-	{
-		if (!SwitchExists(swName)) return false;
-		var sw = Machine.Switches[swName];
-		var result = sw.IsOn(inputEvent);
-
-		//do something with ball search if switch needs to
-		if (result && BallSearchOptions.IsSearchEnabled && GameInPlay)
-		{			
-			if (sw.BallSearch != BallSearchSignalOption.None)
-			{
-				switch (sw.BallSearch)
-				{
-					case BallSearchSignalOption.Reset:
-						SetBallSearchReset();
-						break;
-					case BallSearchSignalOption.Off:
-						SetBallSearchStop();
-						break;
-					default:
-						break;
-				}
-			}
-		}
-		if (result) //record switch
-		{
-			LogDebug("swOn:" + swName);
-			if (_recordPlayback == RecordPlaybackOption.Record)
-			{
-				var switchTime = OS.GetTicksMsec() - gameLoadTimeMsec;
-				var recordLine = $"sw{sw.Num}|{true}|{switchTime}";
-				_recordFile?.StoreLine(recordLine);
-				LogDebug(recordLine);
-			}
-		}
-		return result;
-	}
-
-	/// <summary>
-	/// Checks a switches input event by friendly name. <para/>
-	/// If the "coin" switch is still held down then will return true
-	/// </summary>
-	/// <param name="swName"></param>
-	/// <returns>on / off</returns>
-	public virtual bool SwitchOn(string swName)
-	{
-		if (!SwitchExists(swName)) return false;
-		return Machine.Switches[swName].IsOn();
-	}
-
-	/// <summary>
-	/// Invokes UpdateLamps on all groups marked as Mode within the scene tree.
-	/// </summary>
-	/// <param name="sceneTree"></param>
-	public virtual void UpdateLamps(SceneTree sceneTree, string group = "Mode", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
-
 	/// <summary>
 	/// Creates the recordings directory in the users folder
 	/// </summary>
@@ -1044,7 +1038,37 @@ public abstract class PinGodGameBase : Node
 
 		return dir;
 	}
-	private bool LampExists(string name)
+
+    /// <summary>
+    /// Parses user command lines args in the --key=value format
+    /// </summary>
+    /// <returns></returns>
+    private Dictionary<string, string> GetCommandLineArgs()
+    {
+        var cmd = OS.GetCmdlineArgs();
+        LogInfo("cmd line available: ", cmd?.Length);
+        Dictionary<string, string> _args = new Dictionary<string, string>();
+        _args.Add("base_path", OS.GetExecutablePath());
+        foreach (var arg in cmd)
+        {
+            if (arg.Contains("="))
+            {
+                var keyValue = arg.Split("=");
+                if (keyValue.Length == 2)
+                {
+                    var key = keyValue[0].LStrip("--");
+                    if (!_args.ContainsKey(key))
+                    {
+                        _args.Add(key, keyValue[1]);
+                    }
+                }
+            }
+        }
+
+        return _args;
+    }
+
+    private bool LampExists(string name)
 	{
 		if (!Machine.Lamps.ContainsKey(name))
 		{
@@ -1054,6 +1078,7 @@ public abstract class PinGodGameBase : Node
 
 		return true;
 	}
+
 	private bool LedExists(string name)
 	{
 		if (!Machine.Leds.ContainsKey(name))
@@ -1064,6 +1089,7 @@ public abstract class PinGodGameBase : Node
 
 		return true;
 	}
+
     private bool SolenoidExists(string name)
 	{
 		if (!Machine.Coils.ContainsKey(name))
@@ -1074,6 +1100,7 @@ public abstract class PinGodGameBase : Node
 
 		return true;
 	}
+
 	private bool SwitchExists(string name)
 	{
 		if (!Machine.Switches.ContainsKey(name))
