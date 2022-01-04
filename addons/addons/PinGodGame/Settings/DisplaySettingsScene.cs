@@ -66,7 +66,11 @@ public class DisplaySettingsScene : MarginContainer
     {
         if(_displaySettings.WidthDefault > 50 && _displaySettings.HeightDefault > 50)
         {
+            _displaySettings.Width = _displaySettings.WidthDefault;
+            _displaySettings.Height = _displaySettings.HeightDefault;
             OS.WindowSize = new Vector2(_displaySettings.WidthDefault, _displaySettings.HeightDefault);
+            _displaySettings.X = OS.WindowPosition.x;
+            _displaySettings.Y = OS.WindowPosition.y;
         }
     }
 

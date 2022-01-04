@@ -1,0 +1,80 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Themes/pingod_settings_theme.tres" type="Theme" id=1]
+[ext_resource path="res://addons/PinGodGame/Settings/PingodSettingsScene.cs" type="Script" id=2]
+
+[node name="GameSettingsScene" type="MarginContainer"]
+margin_right = 1024.0
+margin_bottom = 143.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+custom_constants/margin_right = 50
+custom_constants/margin_top = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 50
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 974.0
+margin_bottom = 235.0
+custom_constants/separation = 9
+
+[node name="WriteStatesCheckButton" type="CheckButton" parent="VBoxContainer"]
+margin_right = 924.0
+margin_bottom = 41.0
+text = "SETT_STATE_WRITE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReadStatesCheckButton" type="CheckButton" parent="VBoxContainer"]
+margin_top = 50.0
+margin_right = 924.0
+margin_bottom = 91.0
+text = "SETT_STATE_READ"
+
+[node name="StatesDelaySpinBox" type="SpinBox" parent="VBoxContainer"]
+margin_top = 100.0
+margin_right = 924.0
+margin_bottom = 143.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.6
+min_value = 1.0
+max_value = 5000.0
+value = 1.0
+prefix = "SETT_STATE_DELAY"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 152.0
+margin_right = 924.0
+margin_bottom = 185.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_right = 151.0
+margin_bottom = 33.0
+text = "SETT_LOG_LVL"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/HBoxContainer"]
+margin_left = 155.0
+margin_right = 800.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+max_value = 3.0
+value = 1.0
+tick_count = 4
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 804.0
+margin_right = 924.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 120, 33 )
+text = "INFO"
+
+[connection signal="toggled" from="VBoxContainer/WriteStatesCheckButton" to="." method="_on_WriteStatesCheckButton_toggled"]
+[connection signal="toggled" from="VBoxContainer/ReadStatesCheckButton" to="." method="_on_ReadStatesCheckButton_toggled"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]

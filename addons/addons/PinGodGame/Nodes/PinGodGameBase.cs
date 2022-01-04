@@ -88,6 +88,10 @@ public abstract class PinGodGameBase : Node
 	}
 
 	#region Godot overrides
+
+	/// <summary>
+	/// Gets user cmd line args, loads data and settings, creates trough, sets up ball search and audio manager
+	/// </summary>
 	public override void _EnterTree()
 	{
         if (!Engine.EditorHint)
@@ -768,6 +772,7 @@ public abstract class PinGodGameBase : Node
         if (!Engine.EditorHint)
         {
 			Engine.TargetFps = (int)GameSettings.Display.FPS;
+			OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
 			OS.VsyncEnabled = GameSettings.Display.Vsync;
 			OS.VsyncViaCompositor = GameSettings.Display.VsyncViaCompositor;
 
@@ -775,24 +780,23 @@ public abstract class PinGodGameBase : Node
 			GameSettings.Display.WidthDefault = (int)ProjectSettings.GetSetting("display/window/size/width");
 			GameSettings.Display.HeightDefault = (int)ProjectSettings.GetSetting("display/window/size/height");
 
+			SetMainSceneAspectRatio();
+
+			OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
+
 			if (GameSettings.Display?.Width > 0)
             {
 				if (!GameSettings.Display.NoWindow)
-                {
-					SetMainSceneAspectRatio();
-
+                {				
 					LogDebug("pingodbase: setting display settings");
                     if (GameSettings.Display.FullScreen)
                     {
-						OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
 						OS.WindowFullscreen = true;
                     }
                     else
                     {
-                        OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);
-						OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);						
-                    }
-					OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
+                        OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);						
+                    }					
 				}
                 else
                 {
