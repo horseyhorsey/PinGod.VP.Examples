@@ -23,8 +23,7 @@ public class ServiceMenu : Node
 
     public override void _Ready()
     {
-		menuNameLabel = GetNode("Label") as Label;
-		menuNameLabel.Text = Tr("SERVICE_TITLE");
+		menuNameLabel = GetNode("CenterContainer/Label") as Label;
 	}
 	/// <summary>
 	/// Fired with Down switch.
