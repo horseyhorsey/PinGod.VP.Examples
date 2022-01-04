@@ -155,13 +155,10 @@ public class MemoryMap : IDisposable
             case GameSyncState.quit:
                 ev.Action = GameSyncState.quit.ToString();
                 break;
-            case GameSyncState.pause:
-                ev.Action = GameSyncState.pause.ToString();
-                ev.Pressed = true;
-                break;
+            case GameSyncState.pause: //pause / resume on a toggle, not held down
             case GameSyncState.resume:
                 ev.Action = GameSyncState.pause.ToString();
-                ev.Pressed = false;
+                ev.Pressed = true;
                 break;
             case GameSyncState.None:
             default:
