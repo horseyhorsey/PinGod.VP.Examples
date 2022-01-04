@@ -10,7 +10,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv" />
     <None Include="export_presets.cfg" />
+    <None Include="local\ms_lang.csv" />
     <None Include="readme.md" />
     <None Include="_create_addons_link.bat" />
     <None Include="_open_appdata_dir.bat" />

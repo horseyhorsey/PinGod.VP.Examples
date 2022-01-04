@@ -39,11 +39,10 @@ margin_left = -120.0
 margin_top = -66.5
 margin_right = 120.0
 margin_bottom = 66.5
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.945098, 0.87451, 0.313726, 1 )
 custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
-text = "END OF BALL
-BONUS"
+custom_fonts/font = ExtResource( 1 )
+text = "BONUS_EOB"
 align = 1
 __meta__ = {
 "_edit_lock_": true,

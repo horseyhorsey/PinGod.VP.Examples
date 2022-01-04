@@ -58,18 +58,15 @@ public class MsPinGodGame : PinGodGame
     public void SetMusicOff()
     {
         var settings = GameSettings as MsGameSettings;
-        AudioManager.MusicEnabled = false;
-        settings.MusicEnabled = false;
+        settings.Music = "off";
         AudioManager.Bgm = "off";
     }
 
     public void SetMusicOn(string menu)
     {
         var settings = GameSettings as MsGameSettings;
-        settings.MusicEnabled = true;
         settings.Music = menu;
         AudioManager.Bgm = menu;
-        AudioManager.MusicEnabled = true;
         LogDebug("selected music", AudioManager.Bgm);
     }
 
@@ -82,11 +79,8 @@ public class MsPinGodGame : PinGodGame
         base.Setup();
 
         var set = GameSettings as MsGameSettings;
-        if (set.MusicEnabled)
-        {
-            var music = set.Music;
-            LogWarning("music ", music);
-            SetMusicOn(music);
-        }
+        var music = set.Music;
+        LogInfo("selected music ", music);
+        SetMusicOn(music);
     }
 }

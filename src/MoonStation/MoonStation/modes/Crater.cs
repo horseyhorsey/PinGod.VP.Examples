@@ -42,32 +42,37 @@ public class Crater : Control
 	public void OnCraterSaucerSwitchActive()
     {
 		if (pinGod.GameInPlay && !pinGod.IsTilted)
-		{
-			//create an instance of the moon lander scene and add to tree
-			moonLanderInstance = _moonLanderScene.Instance();
-			AddChild(moonLanderInstance);
+        {
+            //create an instance of the moon lander scene and add to tree
+            CallDeferred(nameof(AddMoonLanderInstance));
 
-			//make this crater scene visible
-			Visible = true;
+            //make this crater scene visible
+            Visible = true;
 
-			//play a lamp show and start time out
-			pinGod.SolenoidOn(LAMP_SHOW, 1);
-			saucer.Start(TIME_OUT);
+            //play a lamp show and start time out
+            pinGod.SolenoidOn(LAMP_SHOW, 1);
+            saucer.Start(TIME_OUT);
 
-			//show the scene and play the audio
-			this.Show();
-			AudioStream?.Play();
-		}
-		else
+            //show the scene and play the audio
+            this.Show();
+            AudioStream?.Play();
+        }
+        else
 		{
 			saucer.Start(1f); //kick the ball with time from the ballstack
 		}
 	}
 
-	/// <summary>
-	/// Timeout from saucer. Removes the video mode and kicks the ball
-	/// </summary>
-	private void OnCraterSaucer_timeout()
+    private void AddMoonLanderInstance()
+    {
+        moonLanderInstance = _moonLanderScene.Instance();
+        AddChild(moonLanderInstance);
+    }
+
+    /// <summary>
+    /// Timeout from saucer. Removes the video mode and kicks the ball
+    /// </summary>
+    private void OnCraterSaucer_timeout()
     {
 		pinGod.LogDebug("crater timed out, freeing video mode");
 		moonLanderInstance.QueueFree();

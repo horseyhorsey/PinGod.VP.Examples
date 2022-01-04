@@ -25,6 +25,7 @@ visible = false
 
 [node name="Bonus" parent="Modes" instance=ExtResource( 7 )]
 visible = false
+_display_for_seconds = 4.0
 
 [node name="Tilt" parent="Modes" instance=ExtResource( 5 )]
 visible = false

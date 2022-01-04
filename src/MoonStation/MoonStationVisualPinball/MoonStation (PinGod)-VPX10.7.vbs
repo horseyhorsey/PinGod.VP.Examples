@@ -34,9 +34,9 @@ Dim bsTrough, bsCraterSaucer, swSaucer : swSaucer = 27
 '**********************
 ' VP table display / controller events
 '**********************
-Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
-Sub Table1_UnPaused: Controller.Pause 0 : End Sub
+Sub Table1_Exit :    Controller.Stop : End Sub ' Closes the display window, sends the quit action
+Sub Table1_Paused:   Controller.Pause 1 : Controller.Pause 0 : End Sub
+Sub Table1_UnPaused: Controller.Pause 1 : End Sub
 
 '**********************
 ' VP init
@@ -133,12 +133,12 @@ Sub Table1_KeyDown(ByVal keycode)
 
 	If keycode = LeftFlipperKey Then
 		LeftFlipper.RotateToEnd
-		PlaySound SoundFX("gp-flip-up",DOFFlippers), 0, .67, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		PlaySoundAt "gp-flip-up", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey Then
 		RightFlipper.RotateToEnd
-		PlaySound SoundFX("gp-flip-up",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		PlaySoundAt "gp-flip-up", RightFlipper
 	End If
 
 	If vpmKeyDown(keycode) Then Exit Sub  ' This will handle machine switches and flippers etc
@@ -156,17 +156,21 @@ Sub Table1_KeyUp(ByVal keycode)
 
 	If keycode = LeftFlipperKey Then
 		LeftFlipper.RotateToStart
-		PlaySound SoundFX("gp-flip-down",DOFFlippers), 0, .3, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		PlaySoundAt "gp-flip-down", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey Then
 		RightFlipper.RotateToStart
-		PlaySound SoundFX("gp-flip-down",DOFFlippers), 0, .3, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		PlaySoundAt "gp-flip-down", RightFlipper
 	End If
 
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc
 End Sub
 '****************************
+' SWITCHES
+'************************
+Sub Bumper001_Hit : vpmTimer.PulseSw 29 : PlaySoundAt "fx_bumper1", Bumper001 : End Sub
+Sub Bumper002_Hit : vpmTimer.PulseSw 30 : PlaySoundAt "fx_bumper1", Bumper002 : End Sub
 
 '****************************
 ' Solenoids / Coils / Callbacks
@@ -225,7 +229,7 @@ Dim RStep, Lstep
 
 Sub RightSlingShot_Slingshot
 	vpmTimer.PulseSw 26 ' pulse switch same Controller.Switch 26, 1/0
-    PlaySound SoundFX("right_slingshot",DOFContactors), 0,1, 0.05,0.05 '0,1, AudioPan(RightSlingShot), 0.05,0,0,1,AudioFade(RightSlingShot)
+	PlaySoundAt "right_slingshot", RightFlipper
     RSling.Visible = 0
     RSling1.Visible = 1
     sling1.rotx = 20
@@ -243,7 +247,7 @@ End Sub
 
 Sub LeftSlingShot_Slingshot
 	vpmTimer.PulseSw 25
-    PlaySound SoundFX("left_slingshot",DOFContactors), 0,1, -0.05,0.05 '0,1, AudioPan(LeftSlingShot), 0.05,0,0,1,AudioFade(LeftSlingShot)
+    PlaySoundAt "left_slingshot", LeftFlipper
     LSling.Visible = 0
     LSling1.Visible = 1
     sling2.rotx = 20

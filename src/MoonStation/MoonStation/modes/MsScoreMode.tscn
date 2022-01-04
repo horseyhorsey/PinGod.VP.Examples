@@ -26,9 +26,7 @@ tracks/0/keys = {
 "values": [ Vector2( -79.1959, 180.161 ), Vector2( 590.603, 185.817 ) ]
 }
 
-[node name="ScoreMode" type="Control" groups=[
-"Mode",
-]]
+[node name="ScoreMode" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 7 )
@@ -76,7 +74,7 @@ anchor_bottom = 1.0
 margin_left = -123.0
 margin_top = -33.0
 custom_fonts/font = ExtResource( 6 )
-text = "Player: "
+text = "PLAYER"
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -89,7 +87,7 @@ margin_left = 13.0
 margin_top = -33.0
 margin_right = 59.0
 custom_fonts/font = ExtResource( 6 )
-text = "BALL: "
+text = "BALL"
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false

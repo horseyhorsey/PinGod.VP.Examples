@@ -6,6 +6,5 @@
     public class MsGameSettings : GameSettings
     {
         public string Music { get; set; } = "techno";
-        public bool MusicEnabled { get; set; } = true;
     }
 }

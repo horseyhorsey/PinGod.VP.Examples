@@ -75,7 +75,7 @@ public class Game : Node2D
 
 			//using CallDeferred here. When in Visual pinball the screen would disappear after adding a moon image.
 			//so it could be the more heavier the scene is you will need to CallDeferred. You won't notice this until playing with simulator.
-			endOfBallBonus.CallDeferred("StartBonusDisplay");
+			endOfBallBonus.StartBonusDisplay();
 			return;
 		}
 		else if (pinGod.IsTilted && lastBall)

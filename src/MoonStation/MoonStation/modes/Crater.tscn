@@ -32,6 +32,7 @@ texture = SubResource( 1 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 volume_db = -5.42
+bus = "Sfx"
 
 [node name="CraterSaucer" type="Timer" parent="."]
 one_shot = true
