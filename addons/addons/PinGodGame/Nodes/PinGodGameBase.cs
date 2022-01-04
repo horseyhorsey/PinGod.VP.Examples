@@ -191,7 +191,7 @@ public abstract class PinGodGameBase : Node
         if (_recordPlayback != RecordPlaybackOption.Playback)
         {
             SetProcess(false);
-            LogInfo("pingodbase: process loop ended recording playback");
+            LogInfo("pingodbase: _Process loop ended, recordings aren't being played back");
 			return;
         }
         else
@@ -236,6 +236,8 @@ public abstract class PinGodGameBase : Node
 
 		//pingod.vp controller coil 0, sets GameRunning on the controller
 		SolenoidOn("died", 1);
+
+		LogInfo("pingod base: ready, sent died coil on");
 	}
 
     /// <summary>

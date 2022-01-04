@@ -6,9 +6,7 @@ This would be the final step but isn't necessary when developing / debugging gam
 ### Pre Export Checklist - Project
 ---
 
-- Recordings / Playback switched off?
-- Logging levels at minimum? 
-- Write / Read states on for Visual Pinball
+- Recordings / Playback / Overlays switched off?
 
 ### Pre Export Checklist - Visual Pinball
 ---
