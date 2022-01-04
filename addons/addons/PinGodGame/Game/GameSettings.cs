@@ -23,6 +23,23 @@ public class GameSettings
 
     public string Language { get; set; }
 
+    public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Error;
+
+    /// <summary>
+    /// Read from memory map?
+    /// </summary>
+    public bool MachineStatesRead { get; set; } = true;
+
+    /// <summary>
+    /// Write states to memory map?
+    /// </summary>
+    public bool MachineStatesWrite { get; set; } = true;
+
+    /// <summary>
+    /// Delay to write to memory. 10 default, 1 high CPU, 500 too much...
+    /// </summary>
+    public int MachineStatesWriteDelay { get; set; } = 10;    
+
     /// <summary>
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
@@ -51,7 +68,7 @@ public class GameSettings
     /// <summary>
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
-    public float VoiceVolume { get; set; } = -6;
+    public float VoiceVolume { get; set; } = -6; 
 
     /// <summary>
     /// De-serializes settings from json if Type is <see cref="GameSettings"/>

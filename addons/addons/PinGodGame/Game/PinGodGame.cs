@@ -7,18 +7,12 @@ using System;
 /// </summary>
 public class PinGodGame : PinGodGameBase
 {
-	[Export] bool _write_machine_states = true;
-	[Export] bool _read_machine_states = true;
-	[Export] int _write_machine_states_delay = 10;
-
 	#region Exports
-	[Export] PinGodLogLevel _logging_level = PinGodLogLevel.Info;
 	[Export] bool _lamp_overlay_enabled = false;
 	[Export] bool _switch_overlay_enabled = false;
 	[Export] bool _record_game = false;
 	[Export] bool _playback_game = false;
 	[Export] string _playbackfile = null;
-
 	#endregion
 
 	/// <summary>
@@ -26,11 +20,8 @@ public class PinGodGame : PinGodGameBase
 	/// </summary>
 	public override void _EnterTree()
 	{
-		base._EnterTree(); //setup base for trough
-
-		Logger.LogLevel = _logging_level;
-
-		LogDebug("PinGod: entering tree. Setup");
+		//setup base for everything and trough etc
+		base._EnterTree();
 
 		Setup();
 	}
@@ -54,14 +45,17 @@ public class PinGodGame : PinGodGameBase
 	/// </summary>
 	public virtual void Setup()
 	{
+		Logger.LogLevel = GameSettings.LogLevel;
+		LogDebug("PinGod: entering tree. Setup");
+
 		Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");		
 
 		//setup and run writing memory states for other application to access
-		if (_write_machine_states || _read_machine_states)
+		if (GameSettings.MachineStatesWrite || GameSettings.MachineStatesRead)
 		{
 			LogInfo("pingod:writing machine states is enabled");
 			memMapping = new MemoryMap();
-			memMapping.Start(_write_machine_states_delay);
+			memMapping.Start(GameSettings.MachineStatesWriteDelay);
 		}
 
 		//set up recording / playback
