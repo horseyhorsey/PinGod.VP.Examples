@@ -1,2 +1,2 @@
-cd NightmareGodot
+cd BasicGameGodot
 godot --export "Windows Desktop"

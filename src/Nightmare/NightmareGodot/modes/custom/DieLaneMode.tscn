@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://modes/custom/DieLaneMode.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/Lanes/PinballLanesNode.cs" type="Script" id=2]
 
 [node name="DieLaneMode" type="Control"]
 anchor_right = 1.0
@@ -9,5 +10,9 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_lane_lamps = PoolStringArray( "Die", "dIe", "diE" )
-_lane_switches = PoolStringArray( "Die", "dIe", "diE" )
+
+[node name="PinballLanesNode" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[connection signal="LaneCompleted" from="PinballLanesNode" to="." method="_on_PinballLanesNode_LaneCompleted"]
+[connection signal="LanesCompleted" from="PinballLanesNode" to="." method="_on_PinballLanesNode_LanesCompleted"]

@@ -16,9 +16,13 @@ Sub LoadPinGoVpController ' PinGod.Vp.Controller. Requires modded Core Vbs for d
 	On Error Goto 0
 End Sub
 
+'Const IsDebug = False
+'Const GameDirectory = ".\PinGod.Nightmare.exe"
+
 'Debug builds
 Const IsDebug = True
 Const GameDirectory = "..\NightmareGodot"
+
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 0
 Const UseLamps = 1  ' Check for lamp states?

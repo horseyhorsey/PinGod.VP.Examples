@@ -1,15 +1,20 @@
 using Godot;
 
-public class RightTargetsMode : PinballTargetsControl
+public class RightTargetsMode : PinGodGameMode
 {
-	private Game game;
-	private NightmarePlayer player;
+    private PinballTargetsBank _targets;
+    private Game game;
+    private NightmarePlayer player;
+
 	public override void _EnterTree()
 	{
 		base._EnterTree();
 		//get game to resume music
 		game = GetParent().GetParent() as Game;
+
+		_targets = GetNode<PinballTargetsBank>(nameof(PinballTargetsBank));
 	}
+
 	/// <summary>
 	/// Just processes the target switches in the base
 	/// </summary>
@@ -21,6 +26,7 @@ public class RightTargetsMode : PinballTargetsControl
 
 		base._Input(@event);
 	}
+
 	/// <summary>
 	/// Advances the cross value for player if less than 6
 	/// </summary>
@@ -59,43 +65,19 @@ public class RightTargetsMode : PinballTargetsControl
 	}
 
 	/// <summary>
-	/// Adds score and bonus and checks if complete
-	/// </summary>
-	/// <param name="index"></param>
-	/// <returns></returns>
-	public override bool CheckTargetsCompleted(int index)
-	{
-		var completed = base.CheckTargetsCompleted(index);
-		if (!completed)
-			UpdateLamps();
-		return completed;
-	}
-
-	/// <summary>
 	/// reset cross value and targets
 	/// </summary>
-	public void OnBallStarted()
+	protected override void OnBallStarted()
 	{
-		player = ((NightmarePinGodGame)pinGod).GetPlayer();		
-		ResetTargets();
-		UpdateLamps();
-	}
-
-	/// <summary>
-	/// Advances cross value, resets targets and updates the lamps
-	/// </summary>
-	/// <param name="reset"></param>
-	public override void TargetsCompleted(bool reset = true)
-	{
-		base.TargetsCompleted(reset);
-		AdvanceCrossValue();
+		player = ((NightmarePinGodGame)pinGod).GetPlayer();
+		_targets.ResetTargets();
 		UpdateLamps();
 	}
 
 	/// <summary>
 	/// Updates the target lamps and cross stack
 	/// </summary>
-	public override void UpdateLamps()
+	protected override void UpdateLamps()
 	{
 		base.UpdateLamps();
 
@@ -106,11 +88,20 @@ public class RightTargetsMode : PinballTargetsControl
 		}
 	}
 
-    public override bool SetTargetComplete(int index)
+	void _on_PinballTargetsBank_OnTargetActivated(string swName, bool complete)
     {
 		pinGod.AddPoints(NightmareConstants.MED_SCORE);
 		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
 		pinGod.PlaySfx("snd_ough");
-		return base.SetTargetComplete(index);
-    }
+
+		if (!complete)
+			UpdateLamps();
+	}
+
+	void _on_PinballTargetsBank_OnTargetsCompleted()
+    {
+		_targets.TargetsCompleted(true);
+		AdvanceCrossValue();
+		UpdateLamps();
+	}
 }

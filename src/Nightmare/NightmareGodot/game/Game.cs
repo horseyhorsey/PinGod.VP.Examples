@@ -35,11 +35,11 @@ public class Game : PinGodGameNode
 
         _midnightModePacked = ResourceLoader.Load("res://modes/custom/Midnight.tscn") as PackedScene;
 
-        pinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
-        pinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
-        pinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
-        pinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
-        pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
+        pinGod.Connect(nameof(PinGodGame.BallDrained), this, "OnBallDrained");
+        pinGod.Connect(nameof(PinGodGame.BallEnded), this, "OnBallEnded");
+        pinGod.Connect(nameof(PinGodGame.BonusEnded), this, "OnBonusEnded");
+        pinGod.Connect(nameof(PinGodGame.MultiBallEnded), this, "EndMultiball");
+        pinGod.Connect(nameof(PinGodGame.ScoreEntryEnded), this, "OnScoreEntryEnded");
 
         scoreEntry = GetNode("Modes/ScoreEntry") as ScoreEntry;
         endOfBallBonus = GetNode("Modes/Bonus") as Bonus;

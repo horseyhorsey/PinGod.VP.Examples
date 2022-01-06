@@ -1,73 +1,67 @@
 /// <summary>
 /// RIP targets advance graveyard letters. Opens spin scoop
 /// </summary>
-public class GraveyardMode : PinballTargetsControl
+public class GraveyardMode : PinGodGameMode
 {
+    private PinballTargetsBank _targets;
     private Game game;
-    private NightmarePlayer player;
+    private NightmarePlayer player = null;
+
     public override void _EnterTree()
 	{
 		base._EnterTree();
 		game = GetParent().GetParent() as Game;
-	}
-	public override bool CheckTargetsCompleted(int index)
-	{
-		var result = base.CheckTargetsCompleted(index);
-		if (!result)
-			UpdateLamps();
-		return result;
+        _targets = GetNode<PinballTargetsBank>(nameof(PinballTargetsBank));
 	}
 
     /// <summary>
     /// Gets player from game. Resets targets RIP
     /// </summary>
-    public void OnBallStarted()
+    protected override void OnBallStarted()
     {
         player = ((NightmarePinGodGame)pinGod).GetPlayer();
-        ResetTargets();
-    }
-
-    /// <summary>
-    /// Targets complete lights mystery spin and advances graveyard
-    /// </summary>
-    /// <param name="reset"></param>
-    public override void TargetsCompleted(bool reset = true)
-	{
-		base.TargetsCompleted(reset);
-
-		player.MysterySpinLit = true;
-
-		AdvanceGraveyard();		
-		if (game != null)
-		{
-			game.PlayThenResumeMusic("mus_graveyardletter", 2f);
-			pinGod.UpdateLamps(game.GetTree());
-		}
-		pinGod.LogInfo("grave: mystery lit and graveyard advanced");
-	}
-
-    public override bool SetTargetComplete(int index)
-	{
-		pinGod.PlaySfx("snd_ough");
-		pinGod.AddPoints(NightmareConstants.MED_SCORE);
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
-		return base.SetTargetComplete(index);
+        _targets.ResetTargets();
     }
 
     /// <summary>
     /// Updates targets lamps and graveyard lamps center play-field
     /// </summary>
-    public override void UpdateLamps()
-	{
-		base.UpdateLamps();
+    protected override void UpdateLamps()
+    {
+        base.UpdateLamps();
 
-		for (int i = 0; i < 9; i++)
-		{
-			var lamp = "grave_" + i;
-			if (i + 1 > player.GraveYardValue) pinGod.SetLampState(lamp, 0);
-			else pinGod.SetLampState(lamp, 1);
-		}
+        for (int i = 0; i < 9; i++)
+        {
+            var lamp = "grave_" + i;
+            if (i + 1 > player.GraveYardValue) pinGod.SetLampState(lamp, 0);
+            else pinGod.SetLampState(lamp, 1);
+        }
+    }
+
+    void _on_PinballTargetsBank_OnTargetActivated(string swName, bool complete)
+    {
+        pinGod.PlaySfx("snd_ough");
+        pinGod.AddPoints(NightmareConstants.MED_SCORE);
+        pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
+
+        if (complete)
+			UpdateLamps();
 	}
+
+    void _on_PinballTargetsBank_OnTargetsCompleted()
+    {
+        _targets.TargetsCompleted(true);
+
+        player.MysterySpinLit = true;
+
+        AdvanceGraveyard();
+        if (game != null)
+        {
+            game.PlayThenResumeMusic("mus_graveyardletter", 2f);
+            pinGod.UpdateLamps(game.GetTree());
+        }
+        pinGod.LogInfo("grave: mystery lit and graveyard advanced");
+    }
 
 	/// <summary>
 	/// Advances the players graveyard value, resets to zero when 9

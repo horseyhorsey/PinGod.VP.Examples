@@ -12,8 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="export_presets.cfg" />
-    <None Include="_create_addons_link.bat" />
-    <None Include="_open_appdata_dir.bat" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

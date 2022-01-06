@@ -4,18 +4,20 @@ using System.Linq;
 /// <summary>
 /// Die rollover lanes. Increases player multiplier when completed.
 /// </summary>
-public class DieLaneMode : PinballSwitchLanesNode
+public class DieLaneMode : PinGodGameMode
 {
 	/// <summary>
 	/// Current player, populated when <see cref="OnBallStarted"/>
 	/// </summary>
 	private NightmarePlayer player;
     private Game game;
+    private PinballLanesNode _lanes;
 
     public override void _EnterTree()
     {
         base._EnterTree();
 		game = GetParent().GetParent() as Game;
+		_lanes = GetNode<PinballLanesNode>(nameof(PinballLanesNode));
 	}
 
     /// <summary>
@@ -31,61 +33,39 @@ public class DieLaneMode : PinballSwitchLanesNode
 		base._Input(@event);
 	}
 
-	/// <summary>
-	/// Advance multiplier when complete
-	/// </summary>
-	/// <returns></returns>
-	public override bool CheckLanes()
-	{
-		var result = base.CheckLanes();
-		if (result)
-		{
-			ResetLanesCompleted();
-			AdvanceMultiplier();			
-		}
-		
-		return result;
-	}
-
-	/// <summary>
-	/// Add score when switch hit
-	/// </summary>
-	/// <param name="i"></param>
-	/// <returns></returns>
-	public override bool LaneSwitchActivated(int i)
-	{
-		pinGod.AddPoints(NightmareConstants.MED_SCORE/2);
+	void _on_PinballLanesNode_LaneCompleted(string swName, bool completed)
+    {
+		pinGod.AddPoints(NightmareConstants.MED_SCORE / 2);
 		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
-
-		var complete = base.LaneSwitchActivated(i);
-		if (complete)
+		if (completed)
 		{
-			pinGod.PlaySfx("snd_inlane"); //todo: remix and completed sound?			
+			pinGod.PlaySfx("snd_inlane"); //todo: remix and completed sound?
 		}
-        else
-        {
+		else
+		{
 			pinGod.PlaySfx("snd_inlane"); //todo: remix			
 		}
-
-		return complete;
 	}
 
-	/// <summary>
-	/// Get the player and set multiplier to 1, reset lanes
-	/// </summary>
-	public void OnBallStarted()
-	{
+	void _on_PinballLanesNode_LanesCompleted()
+    {
+		AdvanceMultiplier();
+    }
+
+	protected override void OnBallStarted()
+    {
+        base.OnBallStarted();
 		player = ((NightmarePinGodGame)pinGod).GetPlayer();
 		player.Multiplier = 1;
 		player.Multipliers = new bool[5];
-		this.ResetLanesCompleted();
+		_lanes.ResetLanesCompleted();
 		this.UpdateLamps();
 	}
 
-	/// <summary>
-	/// Base updates the lanes and set the multiplier lamps here from player
-	/// </summary>
-	public override void UpdateLamps()
+    /// <summary>
+    /// Base updates the lanes and set the multiplier lamps here from player
+    /// </summary>
+    protected override void UpdateLamps()
 	{
 		base.UpdateLamps();
 		

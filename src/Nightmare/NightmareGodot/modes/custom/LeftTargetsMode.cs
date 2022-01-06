@@ -1,6 +1,6 @@
 using Godot;
 
-public class LeftTargetsMode : PinballTargetsControl
+public class LeftTargetsMode : PinGodGameMode
 {
 	private Game game;
 	private NightmarePlayer player;
@@ -20,31 +20,31 @@ public class LeftTargetsMode : PinballTargetsControl
 		base._Input(@event);
 	}
 
-	public override bool CheckTargetsCompleted(int index)
-	{
-		pinGod.AddPoints(NightmareConstants.MED_SCORE);
-		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
-		pinGod.PlaySfx("snd_squirk");
-
-		var completed = base.CheckTargetsCompleted(index);
-		UpdateLamps();
-		return completed;
-	}
-
-	public void OnBallStarted()
+	protected override void OnBallStarted()
 	{
 		player = ((NightmarePinGodGame)pinGod).GetPlayer();
 		player.LeftTargetsCompleted = 0;
 		player.SaucerBonus = false;
 		player.ExtraBallLit = false;
 		player.SuperJackpotLit = false;
-		ResetTargets();
+		//ResetTargets();
 	}
 
-	public override void TargetsCompleted(bool reset = true)
-	{
-		base.TargetsCompleted(reset);
+    protected override void UpdateLamps()
+    {
+        base.UpdateLamps();
+    }
 
+    void _on_PinballTargetsBank_OnTargetActivated(string swName, bool complete)
+    {
+		pinGod.AddPoints(NightmareConstants.MED_SCORE);
+		pinGod.AddBonus(NightmareConstants.SMALL_SCORE);
+		pinGod.PlaySfx("snd_squirk");
+		UpdateLamps();
+	}
+
+	void _on_PinballTargetsBank_OnTargetsCompleted()
+    {
 		player.LeftTargetsCompleted++;
 		switch (player.LeftTargetsCompleted)
 		{
@@ -61,7 +61,7 @@ public class LeftTargetsMode : PinballTargetsControl
 				player.LeftTargetsCompleted = 0;
 				game.OnDisplayMessage("SUPER JACKPOT\nIS LIT", 2f);
 				break;
-			default:				
+			default:
 				break;
 		}
 
@@ -70,7 +70,8 @@ public class LeftTargetsMode : PinballTargetsControl
 		if (game != null)
 		{
 			game.PlayThenResumeMusic("mus_alltriangles", 0.95f);
-			pinGod.SolenoidOn("vpcoil", 7); // lampshow vp
+			pinGod.SolenoidOn("vpcoil", 7); // lampshow vp 
+			
 			//run UpdateLamps in groups marked as Mode
 			pinGod.UpdateLamps(game?.GetTree());
 		}
@@ -78,10 +79,5 @@ public class LeftTargetsMode : PinballTargetsControl
 		{
 			UpdateLamps();
 		}
-	}
-
-	public override void UpdateLamps()
-	{
-		base.UpdateLamps();
-	}
+	}	
 }
