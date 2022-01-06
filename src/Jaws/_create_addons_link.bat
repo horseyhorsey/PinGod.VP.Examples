@@ -1,3 +1,4 @@
+cd JawsGodot
 SET cDir=%cd%
 cd ../../../addons/addons
 SET addDir=%cd%

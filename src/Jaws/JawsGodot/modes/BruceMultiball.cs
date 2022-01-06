@@ -22,7 +22,8 @@ public class BruceMultiball : Node
 
 	bool[] JackportTargets = new bool[2];
 	private bool _jackpotBusy;
-	const string MSG_LEFT_TARGET = "SHOOT\r\nLEFT TARGET";
+    private bool _hurryupReady;
+    const string MSG_LEFT_TARGET = "SHOOT\r\nLEFT TARGET";
 	const string MSG_RIGHT_TARGET = "SHOOT\r\nRIGHT TARGET";
 	const string MSG_SUPER_JACKPOT = "SUPER JACKPOT";
 	const string MSG_SUPER_RDY = "SUPER\r\nIS READY";
@@ -72,6 +73,16 @@ public class BruceMultiball : Node
 		{
 			BruceVukHit();
 		}
+
+		if (_hurryupReady)
+		{
+			if (pinGod.SwitchOn("inlane_r", @event))
+			{
+				_hurryupReady = false;
+				game.StartBruceHurryUp();
+			}
+		}
+		
 		//This is the Exit hole when hitting jaws's jaw 
 		if (pinGod.SwitchOn("jaws_kicker", @event))
 		{
@@ -107,7 +118,7 @@ public class BruceMultiball : Node
 				pinGod.EnableJawsToy(true);
 				pinGod.LogInfo("super jackpot");
 				_jackpotBusy = true;
-				superLabel.Text = MSG_SUPER_JACKPOT;
+				superLabel.Text = Tr(MSG_SUPER_JACKPOT);
 				superLabel.Visible = true;
 				pinGod.PlaySfx("brody_super_cheer");
 				CallDeferred("PlayScene", "brody_super_shot");
@@ -152,7 +163,7 @@ public class BruceMultiball : Node
 						JackportTargets[0] = true;
 						if (JackportTargets[1])
 						{
-							superLabel.Text = MSG_SUPER_RDY;
+							superLabel.Text = Tr(MSG_SUPER_RDY);
 							superLabel.Visible = true;
 							pinGod.EnableJawsToy(false);
 							CallDeferred("PlayScene", "brody_miss_01");
@@ -160,7 +171,7 @@ public class BruceMultiball : Node
 						}
 						else
 						{
-							superLabel.Text = MSG_RIGHT_TARGET;
+							superLabel.Text = Tr(MSG_RIGHT_TARGET);
 							superLabel.Visible = true;
 							CallDeferred("PlayScene", "brody_miss_01");
 							clearJackpotLayersTimer.Start();
@@ -180,7 +191,7 @@ public class BruceMultiball : Node
 						JackportTargets[1] = true;
 						if (JackportTargets[0])
 						{
-							superLabel.Text = MSG_SUPER_RDY;
+							superLabel.Text = Tr(MSG_SUPER_RDY);
 							superLabel.Visible = true;
 							pinGod.EnableJawsToy(false);							
 							CallDeferred("PlayScene", "brody_miss_01");
@@ -188,7 +199,7 @@ public class BruceMultiball : Node
 						}
 						else
 						{
-							superLabel.Text = MSG_LEFT_TARGET;
+							superLabel.Text = Tr(MSG_LEFT_TARGET);
 							superLabel.Visible = true;
 							CallDeferred("PlayScene", "brody_miss_02");
 							clearJackpotLayersTimer.Start();
@@ -337,6 +348,7 @@ public class BruceMultiball : Node
 		pinGod.SolenoidOn("flash_jaws", 1);
 		superLabel.Text = "\r\n\r\nSHOOT\r\nSHARK"; superLabel.Visible = true;
 		suspenseTimer.Start(3.2f);
+		_hurryupReady = true;
 		KickoutLock();
 		switch (lockNum)
 		{
@@ -375,8 +387,7 @@ public class BruceMultiball : Node
 		//todo: music		
 		superLabel.Visible = false;
 		game.UpdateLamps();
-		pinGod.PlayMusic("suspense_loop");
-		game.StartBruceHurryUp();
+		pinGod.PlayMusic("suspense_loop");		
 	}
 	/// <summary>
 	/// Activator locks for burce. Will return if multiball is running

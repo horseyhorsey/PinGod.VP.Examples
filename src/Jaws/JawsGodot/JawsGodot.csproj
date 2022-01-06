@@ -19,7 +19,6 @@
     <None Include="export_presets.cfg" />
     <None Include="project.godot" />
     <None Include="readme.md" />
-    <None Include="_create_addons_link.bat" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

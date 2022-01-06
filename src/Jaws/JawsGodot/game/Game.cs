@@ -37,12 +37,12 @@ public class Game : Node2D
 		//multiballPkd = ResourceLoader.Load(MULTIBALL_SCENE) as PackedScene;
 
 		pinGod = GetNode("/root/PinGodGame") as JawsPinGodGame;
-		pinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
-		pinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
-		pinGod.Connect(nameof(PinGodGameBase.BallSaved), this, "OnBallSaved");
-		pinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
-		pinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
-		pinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
+		pinGod.Connect(nameof(PinGodGame.BallDrained), this, "OnBallDrained");
+		pinGod.Connect(nameof(PinGodGame.BallEnded), this, "OnBallEnded");
+		pinGod.Connect(nameof(PinGodGame.BallSaved), this, "OnBallSaved");
+		pinGod.Connect(nameof(PinGodGame.BonusEnded), this, "OnBonusEnded");
+		pinGod.Connect(nameof(PinGodGame.MultiBallEnded), this, "EndMultiball");
+		pinGod.Connect(nameof(PinGodGame.ScoreEntryEnded), this, "OnScoreEntryEnded");
 
 		scoreEntry = GetNode("CanvasLayer/ScoreEntry") as ScoreEntry;
 		endOfBallBonus = GetNode("CanvasLayer/Bonus") as JawsBonus;
@@ -298,10 +298,12 @@ public class Game : Node2D
 		pinGod.SetLampState("gi_1", (byte)state);
 		pinGod.SetLampState("gi_2", (byte)state);
 	}
+
 	internal void StartBruceHurryUp()
 	{
 		_hurryUpMode.StartHurryUp();
 	}
+
 	#region Jaws Methods
 
 	public JawsPlayer currentPlayer;

@@ -17,7 +17,7 @@ public class BarrelTargetsMode : PinGodGameNode
 	{        
 		base._EnterTree(); // invoke this to get a PinGodGame node
 		game = GetParent().GetParent() as Game;
-		pinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
+		pinGod.Connect(nameof(PinGodGame.BallEnded), this, "OnBallEnded");
 		timer = (GetNode("DoublePlayfieldTimer") as Timer);
 	}
 	public override void _Input(InputEvent @event)
