@@ -16,12 +16,18 @@ public class PinballTargetsBank : Node
     /// </summary>
     [Signal] protected delegate void OnTargetsCompleted();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="swName"></param>
+    /// <param name="complete">will be true if the target was false beforehand, meaning it was just completed</param>
+
     [Signal] protected delegate void OnTargetActivated(string swName, bool complete);
     #endregion
 
     #region Fields
     public bool[] _targetValues;
-    protected PinGodGameBase pinGod;
+    protected PinGodGame pinGod;
     protected bool _targetsCompleted;
     #endregion
 
@@ -29,7 +35,7 @@ public class PinballTargetsBank : Node
     {
         if (!Engine.EditorHint)
         {
-            pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;
+            pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 
             if (_target_switches == null)
             {
@@ -120,7 +126,7 @@ public class PinballTargetsBank : Node
     }
 
     /// <summary>
-    /// Returns whether the target was set or not. Emits <see cref="OnTargetActivated"/>
+    /// Returns whether the target was set or not. Emits <see cref="OnTargetActivated"/>.
     /// </summary>
     /// <param name="index"></param>
     /// <returns></returns>
@@ -129,10 +135,14 @@ public class PinballTargetsBank : Node
         if (!_targetValues[index])
         {
             _targetValues[index] = true;
+            EmitSignal(nameof(OnTargetActivated), new object[] { _target_switches[index], true });
             UpdateLamps();
         }
+        else
+        {
+            EmitSignal(nameof(OnTargetActivated), new object[] { _target_switches[index], false });
+        }        
 
-        EmitSignal(nameof(OnTargetActivated), new object[] { _target_switches[index], _targetValues[index] });
         return _targetValues[index];
     }
 

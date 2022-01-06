@@ -108,6 +108,7 @@ public class MemoryMap : IDisposable
         }
         GC.SuppressFinalize(this);
     }
+
     /// <summary>
     /// Reads switch states
     /// </summary>
@@ -148,7 +149,6 @@ public class MemoryMap : IDisposable
 
     private string ProcessGameState(GameSyncState syncState)
     {
-        string action = string.Empty;
         var ev = new InputEventAction() { Action = "", Pressed = true };
         switch (syncState)
         {
@@ -184,7 +184,7 @@ public class MemoryMap : IDisposable
                 mutexCreated = System.Threading.Mutex.TryOpenExisting(MUTEX_NAME, out mutex);
                 if (!mutexCreated)
                 {
-                    Logger.LogDebug("Couldn't find mutex:", MUTEX_NAME, " creating new");
+                    Logger.LogDebug("couldn't find mutex:", MUTEX_NAME, " creating new");
                     mutex = new System.Threading.Mutex(true, MUTEX_NAME, out mutexCreated);
                 }
                 else

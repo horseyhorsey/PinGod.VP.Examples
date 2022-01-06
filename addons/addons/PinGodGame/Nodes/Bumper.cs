@@ -10,12 +10,12 @@ public class Bumper : Node
 	[Export] AudioStream _AudioStream = null;	
 	[Signal] delegate void BumperHit(string name);
 
-	private PinGodGameBase _pinGod;
+	private PinGodGame _pinGod;
 	public AudioStreamPlayer player;
 
 	public override void _Ready()
 	{
-		_pinGod = GetNode<PinGodGameBase>("/root/PinGodGame");
+		_pinGod = GetNode<PinGodGame>("/root/PinGodGame");
 		if (_pinGod == null) this.SetProcessInput(false);
 		if(string.IsNullOrWhiteSpace(_SwitchName)) this.SetProcessInput(false);
 

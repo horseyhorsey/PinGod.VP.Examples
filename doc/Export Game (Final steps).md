@@ -11,16 +11,32 @@ This would be the final step but isn't necessary when developing / debugging gam
 ### Pre Export Checklist - Visual Pinball
 ---
 
-- Script change to `Debug=False`
-- Script change path to `./GameExecutable` - If game is packaged with table in the same directory the player only has to run the game in Visual Pinball
+- VP Script change to `Debug=False`
+- VP Script change path to `./GameExecutable` - If game is packaged with table in the same directory the player only has to run the game in Visual Pinball
 
 *Helps to have a copy of the release table in the export path to test exports and keeping your debug table*
 
 ## Export on Command line
 ---
 
-- Running `godot --export "Windows Desktop"` will export the game to the `Exported` folder.
-- There's also a `.bat` in the project runs the command above
+Use the bat files export for steps. You only need to build the full export once. The executable will always be the same size, but the pack will be different.
+
+Executable can be packed using UPX - Ultimate Packer for eXecutables. 40mb > 10mb. Download and add UPX to your environment, the bat file will pack executables in the Exported directory.
+
+### _build_export_full.bat
+---
+
+Will build the exe and pack for the game. 
+
+### _build_export_pck.bat
+---
+
+Will build the pack part of your game. If you already have an exported executable you can just run this for updated version being faster.
+
+### _build_upx_shrink_executable.bat
+---
+
+Shrinks Godots exported executable. Will only need to be done after the first full export, see above
 
 ## Changing Windows Icons
 

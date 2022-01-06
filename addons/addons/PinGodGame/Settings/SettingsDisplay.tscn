@@ -80,7 +80,6 @@ __meta__ = {
 }
 
 [node name="GameSettingsScene" parent="TabContainer/Game/ScrollContainer" instance=ExtResource( 1 )]
-margin_right = 512.0
 margin_bottom = 237.0
 
 [node name="Pingod" type="Tabs" parent="TabContainer"]
@@ -101,7 +100,6 @@ __meta__ = {
 }
 
 [node name="GameSettingsScene" parent="TabContainer/Pingod/ScrollContainer" instance=ExtResource( 5 )]
-margin_right = 512.0
 margin_bottom = 285.0
 
 [node name="Panel" type="Panel" parent="."]

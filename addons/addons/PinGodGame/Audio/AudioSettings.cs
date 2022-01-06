@@ -5,7 +5,7 @@ using Godot;
 /// </summary>
 public class AudioSettings : MarginContainer
 {
-    private PinGodGameBase pinGod;
+    private PinGodGame pinGod;
     private HSlider _volMusSlider;
     private Label _volMusLabel;
     private CheckButton _musicCheck;
@@ -24,7 +24,7 @@ public class AudioSettings : MarginContainer
         {
             base._EnterTree();
 
-            pinGod = GetNode<PinGodGameBase>("/root/PinGodGame");
+            pinGod = GetNode<PinGodGame>("/root/PinGodGame");
 
             SetupMaster();
             SetupSfx();

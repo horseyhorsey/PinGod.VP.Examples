@@ -4,10 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public abstract class PinGodGameBase : Node
+public abstract class PinGodGame : Node
 {
-	#region Signals
-	[Signal] public delegate void BallDrained();
+    #region Exports
+    [Export] bool _lamp_overlay_enabled = false;
+    [Export] bool _switch_overlay_enabled = false;
+    [Export] bool _record_game = false;
+    [Export] bool _playback_game = false;
+    [Export] string _playbackfile = null;
+    #endregion
+
+    #region Signals
+    [Signal] public delegate void BallDrained();
 	[Signal] public delegate void BallEnded(bool lastBall);
 	[Signal] public delegate void BallSaved();
 	[Signal] public delegate void BallSaveEnded();
@@ -64,12 +72,14 @@ public abstract class PinGodGameBase : Node
     #endregion
 
     internal Trough _trough;
+
     /// <summary>
     /// Update lamps overlay
     /// </summary>
     protected LampMatrix _lampMatrixOverlay = null;
 
     protected MemoryMap memMapping;
+
     private Queue<PlaybackEvent> _playbackQueue;
 	/// <summary>
 	/// recording actions to file using godot
@@ -82,7 +92,7 @@ public abstract class PinGodGameBase : Node
 	private ulong gameStartTime;
     private RandomNumberGenerator randomNumGenerator = new RandomNumberGenerator();
 
-    public PinGodGameBase()
+    public PinGodGame()
 	{
 		Players = new List<PinGodPlayer>();        
 	}
@@ -98,11 +108,15 @@ public abstract class PinGodGameBase : Node
         {
             LogInfo("pingod:enter tree");
 
-			LoadPatches();
+            
+
+            LoadPatches();
 
             CmdArgs = GetCommandLineArgs();
             LoadDataFile();
             LoadSettingsFile();
+
+            OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
 
             //get trough from tree
             _trough = GetNode("Trough") as Trough;
@@ -116,6 +130,8 @@ public abstract class PinGodGameBase : Node
 
             SetupAudio();
 
+            Setup();
+
             gameLoadTimeMsec = OS.GetTicksMsec();
         }
     }
@@ -128,6 +144,8 @@ public abstract class PinGodGameBase : Node
             SaveRecording();
         }
         else LogInfo("pingodbase: exit tree");
+
+        Quit(true);
     }
 
     public override void _Input(InputEvent @event)
@@ -161,19 +179,7 @@ public abstract class PinGodGameBase : Node
 
         if (@event.IsActionPressed("toggle_border"))
         {
-            OS.WindowBorderless = !OS.WindowBorderless;
-            if (OS.WindowBorderless)
-            {
-                GameSettings.Display.X = OS.WindowPosition.x;
-                GameSettings.Display.Y = OS.WindowPosition.y;
-                GameSettings.Display.Width = OS.WindowSize.x;
-                GameSettings.Display.Height = OS.WindowSize.y;
-                OS.WindowResizable = false;
-            }
-            else
-            {
-                OS.WindowResizable = true;
-            }
+            ToggleWindowBorder();
         }
 
 		//Coin button. See PinGod.vbs for Standard switches
@@ -232,15 +238,19 @@ public abstract class PinGodGameBase : Node
             }
         }
 
-		mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
+        mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
 
-		SetUpWindow();
+        SetUpWindow();
 
-		//pingod.vp controller coil 0, sets GameRunning on the controller
-		SolenoidOn("died", 1);
 
-		LogInfo("pingod base: ready, sent died coil on");
-	}
+        //setup and run writing memory states for other application to access
+        if (GameSettings.MachineStatesWrite || GameSettings.MachineStatesRead)
+        {
+            LogInfo("pingod: writing machine states is enabled. delay: " + GameSettings.MachineStatesWriteDelay);
+            memMapping = new MemoryMap();
+            memMapping.Start(GameSettings.MachineStatesWriteDelay);
+        }
+    }
 
     #endregion
 
@@ -437,13 +447,20 @@ public abstract class PinGodGameBase : Node
 	/// </summary>
 	public virtual void LoadPatches()
 	{
-		int patchNum = 1;
-		bool success;
-		while (success = ProjectSettings.LoadResourcePack($"res://patch/patch_{patchNum}.pck"))
-		{
-			LogInfo($"patch {patchNum} loaded");
-			patchNum++;
-		}
+        try
+        {
+            int patchNum = 1;
+            bool success;
+            while (success = ProjectSettings.LoadResourcePack($"res://patch/patch_{patchNum}.pck"))
+            {
+                LogInfo($"patch {patchNum} loaded");
+                patchNum++;
+            }
+        }
+        catch (Exception ex)
+        {
+            LogError(ex.ToString());
+        }
 	}
 
 	[Obsolete("override the other methods for loading data, settings and setting up window")]
@@ -552,10 +569,13 @@ public abstract class PinGodGameBase : Node
 	public virtual void Quit(bool saveData = true)
 	{
 		if (saveData)
-		{
-			SaveGameData();
-			SaveGameSettings();
-		}
+        {            
+            SaveWindow();
+            ProjectSettings.SaveCustom("override.cfg");
+
+            SaveGameData();
+            SaveGameSettings();
+        }
 
         if (GetTree().Paused)
         {
@@ -568,13 +588,13 @@ public abstract class PinGodGameBase : Node
 		memMapping?.Dispose(); //dispose invokes stop as well		
 	}
 
-	/// <summary>
-	/// Use random number generator from range
-	/// </summary>
-	/// <param name="from"></param>
-	/// <param name="to"></param>
-	/// <returns></returns>
-	public int RandomNumber(int from, int to) => randomNumGenerator.RandiRange(from, to);
+    /// <summary>
+    /// Use random number generator from range
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="to"></param>
+    /// <returns></returns>
+    public int RandomNumber(int from, int to) => randomNumGenerator.RandiRange(from, to);
 
 	/// <summary>
 	/// Reset player warnings and tilt
@@ -598,7 +618,18 @@ public abstract class PinGodGameBase : Node
 		}
 	}
 
-	public virtual void SetBallSearchReset()
+    /// <summary>
+    /// Saves window position to game display settings as position isn't in PS? Use test_width and test_height for custom to keep the original project settings
+    /// </summary>
+    public virtual void SaveWindow()
+    {
+        GameSettings.Display.X = OS.WindowPosition.x;
+        GameSettings.Display.Y = OS.WindowPosition.y;
+        ProjectSettings.SetSetting("display/window/size/test_width", OS.WindowSize.x);
+        ProjectSettings.SetSetting("display/window/size/test_height", OS.WindowSize.y);
+    }
+
+    public virtual void SetBallSearchReset()
 	{
 		BallSearchTimer.Start(BallSearchOptions?.SearchWaitTime ?? 10);
 		LogDebug("ball search timer reset.");
@@ -687,11 +718,60 @@ public abstract class PinGodGameBase : Node
 
     public void SetMainSceneAspectRatio()
     {
-        var display = GameSettings.Display;
-        var minW = display.WidthDefault <= 50 ? 1024 : display.WidthDefault;
-        var minH = display.HeightDefault <= 50 ? 600 : display.HeightDefault;
+        var minW = (int)ProjectSettings.GetSetting("display/window/size/width");
+        var minH = (int)ProjectSettings.GetSetting("display/window/size/height");
+
+        var asp = Enum.Parse(typeof(PinGodStretchAspect),ProjectSettings.GetSetting("display/window/stretch/aspect").ToString());
+
         GetNodeOrNull<MainScene>("/root/MainScene")?
-            .GetTree().SetScreenStretch(SceneTree.StretchMode.Mode2d, (SceneTree.StretchAspect)display.AspectOption, new Vector2(minW, minH));
+            .GetTree().SetScreenStretch(SceneTree.StretchMode.Mode2d, (SceneTree.StretchAspect)(int)asp, 
+                new Vector2(minW, minH));
+    }
+
+    /// <summary>
+    /// Sets up machine items from the collections, starts memory mapping and recordings
+    /// </summary>
+    public virtual void Setup()
+    {
+        Logger.LogLevel = GameSettings.LogLevel;
+
+        LogDebug("pingod: entering tree. Setup");
+
+        Connect(nameof(ServiceMenuEnter), this, "OnServiceMenuEnter");
+
+        //set up recording / playback
+        SetUpRecordingsOrPlayback(_playback_game, _record_game, _playbackfile);
+
+        //remove the overlays if disabled
+        SetupDevOverlays();
+    }
+
+    /// <summary>
+    /// Sets up the DevOverlays Tree. Enables / Disable helper overlays for lamps and switches. SwitchOverlay and LampMatrix
+    /// </summary>
+    public virtual void SetupDevOverlays()
+    {         
+        var devOverlays = GetNode("DevOverlays");
+        if (devOverlays != null)
+        {
+            LogDebug("pingod: setting up overlays");
+            if (!_lamp_overlay_enabled)
+            {
+                LogInfo("pingod: removing lamp overlay");
+                devOverlays.GetNode("LampMatrix").QueueFree();
+            }
+            else
+            {
+                _lampMatrixOverlay = devOverlays.GetNode("LampMatrix") as LampMatrix;
+            }
+
+            if (!_switch_overlay_enabled)
+            {
+                LogInfo("pingod: removing switch overlay");
+                devOverlays.GetNode("SwitchOverlay").QueueFree();
+            }
+        }
+        else { LogDebug("pingod: overlays disabled"); }
     }
 
     /// <summary>
@@ -706,7 +786,7 @@ public abstract class PinGodGameBase : Node
         if (playbackEnabled) _recordPlayback = RecordPlaybackOption.Playback;
         else if (recordingEnabled) _recordPlayback = RecordPlaybackOption.Record;
 
-        LogDebug("pingodbase: setup playback?: ", _recordPlayback.ToString());
+        LogDebug("pingod: setup playback?: ", _recordPlayback.ToString());
         if (_recordPlayback == RecordPlaybackOption.Playback)
         {
             if (string.IsNullOrWhiteSpace(playbackfile))
@@ -750,7 +830,7 @@ public abstract class PinGodGameBase : Node
             var userDir = CreateRecordingsDirectory();
             _recordFile = new File();
             _recordFile.Open(playbackfile, File.ModeFlags.WriteRead);
-            LogDebug("pingodbase: game recording on");
+            LogDebug("pingod: game recording on");
         }
     }
 
@@ -761,39 +841,25 @@ public abstract class PinGodGameBase : Node
     {
         if (!Engine.EditorHint)
         {
-            Engine.TargetFps = (int)GameSettings.Display.FPS;
 
-            OS.SetWindowAlwaysOnTop(GameSettings.Display.AlwaysOnTop);
-            OS.VsyncEnabled = GameSettings.Display.Vsync;
-            OS.VsyncViaCompositor = GameSettings.Display.VsyncViaCompositor;
+            //OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
 
-            //assign the project settings width and height to defaults
-            GameSettings.Display.WidthDefault = (int)ProjectSettings.GetSetting("display/window/size/width");
-            GameSettings.Display.HeightDefault = (int)ProjectSettings.GetSetting("display/window/size/height");
-
-            SetMainSceneAspectRatio();
-
-            OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
-
-            if (GameSettings.Display?.Width > 0)
-            {
-                if (!GameSettings.Display.NoWindow)
-                {
-                    LogDebug("pingodbase: setting display settings");
-                    if (GameSettings.Display.FullScreen)
-                    {
-                        OS.WindowFullscreen = true;
-                    }
-                    else
-                    {
-                        OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);
-                    }
-                }
-                else
-                {
-                    //todo: remove window
-                }
-            }
+            //if (!GameSettings.Display.NoWindow)
+            //{
+            //    LogDebug("pingodbase: setting display settings");
+            //    if (GameSettings.Display.FullScreen)
+            //    {
+            //        OS.WindowFullscreen = true;
+            //    }
+            //    else
+            //    {
+            //        OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);
+            //    }
+            //}
+            //else
+            //{
+            //    //todo: remove window
+            //}
         }
     }
 
@@ -1005,6 +1071,15 @@ public abstract class PinGodGameBase : Node
     }
 
     /// <summary>
+    /// Toggles the border and resize of the window
+    /// </summary>
+    public void ToggleWindowBorder()
+    {
+        OS.WindowBorderless = !OS.WindowBorderless;
+        OS.WindowResizable = !OS.WindowBorderless;
+    }
+
+    /// <summary>
     /// Invokes UpdateLamps on all groups marked as Mode within the scene tree.
     /// </summary>
     /// <param name="sceneTree"></param>
@@ -1015,6 +1090,7 @@ public abstract class PinGodGameBase : Node
     /// </summary>
     protected virtual void SetupAudio()
 	{
+        LogInfo("setting up audio");
 		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
 		AudioServer.SetBusVolumeDb(1, GameSettings.MusicVolume);
 		AudioServer.SetBusVolumeDb(2, GameSettings.SfxVolume);
@@ -1089,6 +1165,16 @@ public abstract class PinGodGameBase : Node
 
 		return true;
 	}
+
+    /// <summary>
+    /// Stops any game in progress
+    /// </summary>
+    private void OnServiceMenuEnter()
+    {
+        GameInPlay = false;
+        ResetTilt();
+        EnableFlippers(0);
+    }
 
     private bool SolenoidExists(string name)
 	{

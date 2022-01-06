@@ -17,7 +17,7 @@ public class Bonus : Control
 	/// </summary>
 	public override void _EnterTree()
 	{
-		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+		pinGod = GetNode<PinGodGame>("/root/PinGodGame");
 		//get nodes from this scene tree
 		timer = GetNode("Timer") as Timer;
 		label = GetNode("Label") as Label;

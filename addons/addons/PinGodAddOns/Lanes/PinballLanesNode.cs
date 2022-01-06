@@ -1,9 +1,8 @@
 ﻿using Godot;
 
-public class PinballLanesNode : Node
+public class PinballLanesNode : PinGodGameMode
 {
     bool[] _lanesCompleted;
-    protected PinGodGameBase pinGod;
 
     #region Exports
     [Export] bool _flipper_changes_lanes = true;
@@ -24,6 +23,8 @@ public class PinballLanesNode : Node
 
     [Export] bool _resetOnLanesCompleted = true;
 
+    [Export] bool _resetOnBallStarted = true;
+
     #endregion
 
     #region Signals
@@ -35,7 +36,7 @@ public class PinballLanesNode : Node
     {
         if (!Engine.EditorHint)
         {
-            pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;
+            base._EnterTree();
 
             if (_lane_switches == null)
             {
@@ -132,6 +133,13 @@ public class PinballLanesNode : Node
         return result;
     }
 
+    protected override void OnBallStarted()
+    {
+        base.OnBallStarted();
+        if (_resetOnBallStarted)
+            ResetLanesCompleted();
+    }
+
     /// <summary>
     /// Resets <see cref="_lanesCompleted"/>
     /// </summary>
@@ -163,8 +171,10 @@ public class PinballLanesNode : Node
         pinGod.LogDebug("top_lanes: rot right: ", string.Join(",", _lanesCompleted));
     }
 
-    public virtual void UpdateLamps()
+    protected override void UpdateLamps()
     {
+        base.UpdateLamps();
+
         if (_lanesCompleted != null)
         {
             if (_lane_lamps?.Length > 0)

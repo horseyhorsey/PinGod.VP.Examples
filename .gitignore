@@ -383,3 +383,4 @@ FodyWeavers.xsd
 /src/DropTargets/DropTargetsGodot/addons
 /src/Motu/MotuGodot/addons
 /src/Motu/MotuGodot/assets/temp
+/src/BasicGame/BasicGameGodot/override.cfg

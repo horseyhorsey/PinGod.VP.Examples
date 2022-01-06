@@ -19,24 +19,30 @@ public class DisplaySettingsScene : MarginContainer
 
         GetNode<Label>("VBoxContainer/HBoxContainer/DefaultWindowSizeLabel").Text = $"ORIGINAL RESOLUTION: {_displaySettings.WidthDefault} X {_displaySettings.HeightDefault}";
 
-        GetNode<CheckButton>("VBoxContainer/CheckButtonFullScreen").Pressed = _displaySettings.FullScreen;
-        GetNode<CheckButton>("VBoxContainer/CheckButtonVsync").Pressed = _displaySettings.Vsync;
-        GetNode<CheckButton>("VBoxContainer/CheckButtonVsyncComp").Pressed = _displaySettings.VsyncViaCompositor;
-        GetNode<CheckButton>("VBoxContainer/CheckButtonAlwaysOnTop").Pressed = _displaySettings.AlwaysOnTop;
-        GetNode<SpinBox>("VBoxContainer/SpinBoxFPS").Value = _displaySettings.FPS;
+        GetNode<CheckButton>("VBoxContainer/CheckButtonFullScreen").Pressed = (bool)ProjectSettings.GetSetting("display/window/size/fullscreen");
+        GetNode<CheckButton>("VBoxContainer/CheckButtonVsync").Pressed = (bool)ProjectSettings.GetSetting("display/window/vsync/use_vsync");
+        GetNode<CheckButton>("VBoxContainer/CheckButtonVsyncComp").Pressed = (bool)ProjectSettings.GetSetting("display/window/vsync/vsync_via_compositor");
+        GetNode<CheckButton>("VBoxContainer/CheckButtonAlwaysOnTop").Pressed = (bool)ProjectSettings.GetSetting("display/window/size/always_on_top");
+
+        //force fps debug?
+        var fpsStr = ProjectSettings.GetSetting("debug/settings/fps/force_fps").ToString();
+        int.TryParse(fpsStr, out var fps);
+        GetNode<SpinBox>("VBoxContainer/SpinBoxFPS").Value = fps;        
 
         var stretchOption = GetNode<OptionButton>("VBoxContainer/StretchAspectOptionButton");
         foreach (SceneTree.StretchAspect item in Enum.GetValues(typeof(SceneTree.StretchAspect)))
         {
             stretchOption.AddItem(item.ToString(), (int)item);
         }
-        stretchOption.Selected = _displaySettings.AspectOption;
+        var val = ProjectSettings.GetSetting("display/window/stretch/aspect").ToString();
+        PinGodStretchAspect aspect = (PinGodStretchAspect)Enum.Parse(typeof(PinGodStretchAspect), val);
+        stretchOption.Selected = (int)aspect;
     }
 
     void _on_CheckButtonAlwaysOnTop_toggled(bool pressed)
     {
         OS.SetWindowAlwaysOnTop(pressed);
-        pinGod.GameSettings.Display.AlwaysOnTop = pressed;
+        ProjectSettings.SetSetting("display/window/size/always_on_top", pressed);
     }
 
     void _on_CheckButtonFullScreen_toggled(bool pressed)
@@ -47,42 +53,39 @@ public class DisplaySettingsScene : MarginContainer
     void _on_CheckButtonVsync_toggled(bool pressed)
     {
         OS.VsyncEnabled = pressed;
-        pinGod.GameSettings.Display.Vsync = pressed;
+        ProjectSettings.SetSetting("display/window/vsync/use_vsync", pressed);
     }
 
     void _on_CheckButtonVsyncComp_toggled(bool pressed)
     {
         OS.VsyncViaCompositor = pressed;
-        pinGod.GameSettings.Display.VsyncViaCompositor = pressed;
+        ProjectSettings.SetSetting("display/window/vsync/vsync_via_compositor", pressed);        
     }
 
     void _on_SpinBoxFPS_value_changed(float value)
     {
         Engine.TargetFps = (int)value;
-        pinGod.GameSettings.Display.FPS = Engine.TargetFps;
+        ProjectSettings.SetSetting("debug/settings/fps/force_fps", Engine.TargetFps);
     }
 
     void _on_ResetDefaultButton_button_up()
     {
         if(_displaySettings.WidthDefault > 50 && _displaySettings.HeightDefault > 50)
         {
-            _displaySettings.Width = _displaySettings.WidthDefault;
-            _displaySettings.Height = _displaySettings.HeightDefault;
-            OS.WindowSize = new Vector2(_displaySettings.WidthDefault, _displaySettings.HeightDefault);
-            _displaySettings.X = OS.WindowPosition.x;
-            _displaySettings.Y = OS.WindowPosition.y;
+            OS.WindowSize = new Vector2(_displaySettings.WidthDefault, _displaySettings.HeightDefault);                 
+            //don't save the project settings width / height as this will override in the settings. when changed here it will add it into the override.cfg
         }
     }
 
     void _on_StretchAspectOptionButton_item_selected(int index)
-    {
-        pinGod.GameSettings.Display.AspectOption = index;
-        pinGod.SetMainSceneAspectRatio();        
+    {         
+        ProjectSettings.SetSetting("display/window/stretch/aspect", ((PinGodStretchAspect)index).ToString());
+        pinGod.SetMainSceneAspectRatio();
     }
 
     private void SetFullScreen(bool pressed)
     {
         OS.WindowFullscreen = pressed;
-        pinGod.GameSettings.Display.FullScreen = pressed;
+        ProjectSettings.SetSetting("display/window/size/fullscreen", pressed);
     }
 }

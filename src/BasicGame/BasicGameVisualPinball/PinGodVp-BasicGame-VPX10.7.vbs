@@ -35,8 +35,8 @@ Dim bsTrough, bsSaucer, plungerIM, swSaucer : swSaucer = 27
 ' VP table display / controller events
 '**********************
 Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
-Sub Table1_UnPaused: Controller.Pause 0 : End Sub
+Sub Table1_Paused: Controller.Pause 1 :  Controller.Pause 0 : End Sub
+Sub Table1_UnPaused: Controller.Pause 1 : End Sub
 
 '**********************
 ' VP init
@@ -44,13 +44,6 @@ Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 '**********************
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 1920 - 512
-		.DisplayY			= 10
-		.DisplayWidth 		= 512 ' 1024 FS
-		.DisplayHeight 		= 300 ' 600  FS
-		.DisplayAlwaysOnTop = True
-		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
-		.DisplayLowDpi 		= False
 		.DisplayNoWindow 	= False
 	On Error Resume Next
 		if isDebug Then '
@@ -139,18 +132,15 @@ Sub Table1_KeyDown(ByVal keycode)
 	if Controller.GameRunning = 0 then Exit Sub 'exit because no display is available
 
 	If keycode = PlungerKey Then
-		Plunger.PullBack
-		PlaySound "plungerpull",0,1,AudioPan(Plunger),0.25,0,0,1,AudioFade(Plunger)
+		Plunger.PullBack : PlaySoundAt "plungerpull", Plunger
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
-		LeftFlipper.RotateToEnd
-		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		LeftFlipper.RotateToEnd : PlaySoundAt "fx_flipperup", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
-		RightFlipper.RotateToEnd
-		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		RightFlipper.RotateToEnd : PlaySoundAt "fx_flipperup", RightFlipper
 	End If
 
 	If vpmKeyDown(keycode) Then Exit Sub  ' This will handle machine switches and flippers etc
@@ -162,18 +152,15 @@ Sub Table1_KeyUp(ByVal keycode)
 	if Controller.GameRunning = 0 then Exit Sub 'exit because no display is available
 
 	If keycode = PlungerKey Then
-		Plunger.Fire
-		PlaySound "plunger",0,1,AudioPan(Plunger),0.25,0,0,1,AudioFade(Plunger)
+		Plunger.Fire : PlaySoundAt "plunger", Plunger
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
-		LeftFlipper.RotateToStart
-		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		LeftFlipper.RotateToStart : PlaySoundAt "fx_flipperdown", LeftFlipper
 	End If
 
-	If keycode = RightFlipperKey and FlippersOn Then
-		RightFlipper.RotateToStart
-		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+	If keycode = RightFlipperKey and FlippersOn Then		
+		RightFlipper.RotateToStart : PlaySoundAt "fx_flipperdown", RightFlipper
 	End If
 
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc
@@ -188,7 +175,6 @@ SolCallback(1) = "bsTrough.solOut" ' This exit is setup in the init
 SolCallback(2) = "FlippersEnabled"
 SolCallback(3) = "AutoPlunger"
 SolCallback(4) = "bsSaucer.solOut" ' This exit is setup in the init
-
 ' Lampshows (coils, fake innit)
 SolCallback(33) = "DisableLampShows"
 SolCallback(34) = "Lampshow1"
@@ -197,7 +183,7 @@ SolCallback(35) = "Lampshow2"
 Sub Died(Enabled)
 	'on error resume next	
 	If not enabled then
-		MsgBox "Game window unavailable." : Err.Raise 5
+		'MsgBox "Game window unavailable." : Err.Raise 5
 	End if
 End Sub
 
@@ -206,7 +192,7 @@ Dim FlippersOn : FlippersOn = 0
 Sub FlippersEnabled(Enabled)
 	'Debug.Print "flippers on coil " & Enabled
 	FlippersOn = Enabled
-	If not FlippersOn then LeftFlipper.RotateToStart : RightFlipper.RotateToStart
+	If not FlippersOn then LeftFlipper.RotateToStart : RightFlipper.RotateToStart : PlaySoundAt "fx_flipperdown", LeftFlipper
 End Sub
 
 Sub AutoPlunger(Enabled)
@@ -226,7 +212,6 @@ End Sub
 Sub DisableLampShows(Enabled)		
 	if Enabled then : LightSeq001.StopPlay : Debug.print "stopping lampshows"	
 End Sub
-''****************************
 
 '*****GI Lights On
 dim xx
@@ -239,7 +224,7 @@ Dim RStep, Lstep
 
 Sub RightSlingShot_Slingshot
 	vpmTimer.PulseSw 26 ' pulse switch same Controller.Switch 26, 1/0
-    PlaySound SoundFX("right_slingshot",DOFContactors), 0,1, 0.05,0.05 '0,1, AudioPan(RightSlingShot), 0.05,0,0,1,AudioFade(RightSlingShot)
+    PlaySoundAt "right_slingshot", RightFlipper
     RSling.Visible = 0
     RSling1.Visible = 1
     sling1.rotx = 20
@@ -258,7 +243,7 @@ End Sub
 
 Sub LeftSlingShot_Slingshot
 	vpmTimer.PulseSw 25
-    PlaySound SoundFX("left_slingshot",DOFContactors), 0,1, -0.05,0.05 '0,1, AudioPan(LeftSlingShot), 0.05,0,0,1,AudioFade(LeftSlingShot)
+    PlaySoundAt "left_slingshot", LeftFlipper
     LSling.Visible = 0
     LSling1.Visible = 1
     sling2.rotx = 20
@@ -394,44 +379,6 @@ End Sub
 Sub OnBallBallCollision(ball1, ball2, velocity)
 	PlaySound("fx_collide"), 0, Csng(velocity) ^2 / 2000, AudioPan(ball1), 0, Pitch(ball1), 0, 0, AudioFade(ball1)
 End Sub
-
-
-'************************************
-' What you need to add to your table
-'************************************
-
-' a timer called RollingTimer. With a fast interval, like 10
-' one collision sound, in this script is called fx_collide
-' as many sound files as max number of balls, with names ending with 0, 1, 2, 3, etc
-' for ex. as used in this script: fx_ballrolling0, fx_ballrolling1, fx_ballrolling2, fx_ballrolling3, etc
-
-
-'******************************************
-' Explanation of the rolling sound routine
-'******************************************
-
-' sounds are played based on the ball speed and position
-
-' the routine checks first for deleted balls and stops the rolling sound.
-
-' The For loop goes through all the balls on the table and checks for the ball speed and 
-' if the ball is on the table (height lower than 30) then then it plays the sound
-' otherwise the sound is stopped, like when the ball has stopped or is on a ramp or flying.
-
-' The sound is played using the VOL, AUDIOPAN, AUDIOFADE and PITCH functions, so the volume and pitch of the sound
-' will change according to the ball speed, and the AUDIOPAN & AUDIOFADE functions will change the stereo position
-' according to the position of the ball on the table.
-
-
-'**************************************
-' Explanation of the collision routine
-'**************************************
-
-' The collision is built in VP.
-' You only need to add a Sub OnBallBallCollision(ball1, ball2, velocity) and when two balls collide they 
-' will call this routine. What you add in the sub is up to you. As an example is a simple Playsound with volume and paning
-' depending of the speed of the collision.
-
 
 Sub Pins_Hit (idx)
 	PlaySound "pinhit_low", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 0, 0, AudioFade(ActiveBall)

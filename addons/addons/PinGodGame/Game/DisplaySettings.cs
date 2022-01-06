@@ -7,7 +7,7 @@
     /// </summary>
     public double FPS { get; set; } = 0;
     public bool FullScreen { get; set; } = false;
-    public float Height { get; set; }
+    public float Height { get; set; } = 600;
     /// <summary>
     /// Height game created in
     /// </summary>
@@ -16,7 +16,7 @@
     public bool NoWindow { get; set; }
     public bool Vsync { get; set; } = true;
     public bool VsyncViaCompositor { get; set; }
-    public float Width { get; set; }
+    public float Width { get; set; } = 1024;
     /// <summary>
     /// Width game created in
     /// </summary>

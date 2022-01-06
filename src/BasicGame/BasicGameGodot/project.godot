@@ -25,11 +25,21 @@ PinGodGame="*res://game/PinGodGame.tscn"
 [display]
 
 window/size/borderless=true
+window/size/always_on_top=true
 window/stretch/mode="2d"
+window/stretch/aspect="expand"
 
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/PinGodAddOns/plugin.cfg" )
+
+[importer_defaults]
+
+texture={
+"compress/mode": 1,
+"detect_3d": false,
+"process/fix_alpha_border": false
+}
 
 [input]
 
@@ -156,4 +166,5 @@ locale_filter=[ 0, [  ] ]
 
 [rendering]
 
+environment/default_clear_color=Color( 0.14902, 0.14902, 0.14902, 1 )
 quality/dynamic_fonts/use_oversampling=false

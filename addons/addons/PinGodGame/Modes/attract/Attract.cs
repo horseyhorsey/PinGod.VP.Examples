@@ -39,8 +39,7 @@ public class Attract : Node
 
 	public override void _Ready()
 	{
-		pinGod.LogInfo("Attract loaded");
-		pinGod.SolenoidOn("died", 1); //todo: change this to the VPCOIL, special coil number in core_vbs script
+		pinGod.LogInfo("Attract loaded");		
 	}
 
 	/// <summary>

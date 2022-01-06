@@ -20,7 +20,7 @@ public class MainScene : Node2D
 	public override void _EnterTree()
     {
         //save a reference to connect signals
-        pinGod = GetNode("/root/PinGodGame") as PinGodGame;
+        pinGod = GetNode<PinGodGame>("/root/PinGodGame");
         pinGod.LogDebug("Splash timer msecs", OS.GetSplashTickMsec());
 
         //try to catch anything unhandled here, not when ready
@@ -120,6 +120,9 @@ public class MainScene : Node2D
     public override void _Ready()
     {
         pauseLayer.Hide();
+        //pingod.vp controller coil 0, sets GameRunning on the controller
+        pinGod.SolenoidOn("died", 1);        
+        pinGod.LogInfo("pingod base: ready, sent died coil on");
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ using static Godot.GD;
 /// <summary>
 /// Simple simulation of a Pinball ball trough. Handles trough switches, ball saves <para/>
 /// Loaded as singleton on launch. Visual pinball uses the `bsTrough` in example.
-/// Emits <see cref="PinGodGameBase"/> signals for ball saves, ball end
+/// Emits <see cref="PinGodGame"/> signals for ball saves, ball end
 /// </summary>
 public class Trough : Node
 {
@@ -21,11 +21,11 @@ public class Trough : Node
 	[Export] public byte _ball_save_multiball_seconds = 8;
 	[Export] public byte _number_of_balls_to_save = 1;
 	/// <summary>
-	/// Sets the <see cref="PinGodGameBase.BallStarted"/>
+	/// Sets the <see cref="PinGodGame.BallStarted"/>
 	/// </summary>
 	[Export] public bool _set_ball_started_on_plunger_lane = true;
 	/// <summary>
-	/// Enables ball save when leaving plunger lane if ball is started, <see cref="PinGodGameBase.BallStarted"/>
+	/// Enables ball save when leaving plunger lane if ball is started, <see cref="PinGodGame.BallStarted"/>
 	/// </summary>
 
 	[Export] public bool _set_ball_save_on_plunger_lane = true;
@@ -38,7 +38,7 @@ public class Trough : Node
 	/// Ball saver timer. Setup in <see cref="_Ready"/>
 	/// </summary>
 	private Timer ballSaverTimer;
-	private PinGodGameBase pinGod;
+	private PinGodGame pinGod;
 	private Timer troughPulseTimer;
 	public TroughOptions TroughOptions { get; set; }
     public int BallsLocked { get; internal set; }
@@ -46,7 +46,7 @@ public class Trough : Node
     private int _mballSaveSecondsRemaining;
 	public override void _EnterTree()
 	{
-		pinGod = GetNode("/root/PinGodGame") as PinGodGameBase;
+		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
 		ballSaverTimer = GetNode("BallSaverTimer") as Timer;
 		troughPulseTimer = GetNode("TroughPulseTimer") as Timer;
 		pinGod.LogInfo("trough:_enter tree");
@@ -69,7 +69,7 @@ public class Trough : Node
 				if (pinGod.SwitchOn(TroughOptions.EarlySaveSwitches[i], @event))
 				{
 					FireEarlySave();
-					pinGod.EmitSignal(nameof(PinGodGameBase.BallSaved));
+					pinGod.EmitSignal(nameof(PinGodGame.BallSaved));
 					break;
 				}
 			}
@@ -85,12 +85,12 @@ public class Trough : Node
 				{
 					pinGod.LogDebug("trough: ball_saved");
 					pinGod.SolenoidPulse(TroughOptions.Coil);
-					pinGod.EmitSignal(nameof(PinGodGameBase.BallSaved));
+					pinGod.EmitSignal(nameof(PinGodGame.BallSaved));
 				}
 				else
 				{
 					pinGod.LogDebug("trough: ball_drained");
-					pinGod.EmitSignal(nameof(PinGodGameBase.BallDrained));
+					pinGod.EmitSignal(nameof(PinGodGame.BallDrained));
 				}
 			}
 			else if (pinGod.IsMultiballRunning && !pinGod.BallSaveActive)
@@ -100,7 +100,7 @@ public class Trough : Node
 				{
 					pinGod.IsMultiballRunning = false;
 					troughPulseTimer.Stop();
-					pinGod.EmitSignal(nameof(PinGodGameBase.MultiBallEnded));
+					pinGod.EmitSignal(nameof(PinGodGame.MultiBallEnded));
 				}
 			}
 		}
@@ -135,7 +135,7 @@ public class Trough : Node
 					if (saveStarted)
 					{
 						UpdateLamps(LightState.Blink);
-						pinGod.EmitSignal(nameof(PinGodGameBase.BallSaveStarted));
+						pinGod.EmitSignal(nameof(PinGodGame.BallSaveStarted));
 					}					
 				}				
 			}
@@ -227,7 +227,7 @@ public class Trough : Node
 	{
 		pinGod.LogDebug("trough:early ball_saved");
 		PulseTrough();
-		pinGod.EmitSignal(nameof(PinGodGameBase.BallSaved));
+		pinGod.EmitSignal(nameof(PinGodGame.BallSaved));
 	}
 	bool IsTroughSwitchOn(InputEvent input)
 	{
@@ -273,7 +273,7 @@ public class Trough : Node
 	void _on_BallSaverTimer_timeout()
 	{
 		DisableBallSave();
-		pinGod.EmitSignal(nameof(PinGodGameBase.BallSaveEnded));
+		pinGod.EmitSignal(nameof(PinGodGame.BallSaveEnded));
 	}
 	void _trough_pulse_timeout()
 	{

@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicGameGodot", "BasicGame
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{840906AF-391A-4A97-A5B2-1D42734DF272}"
 	ProjectSection(SolutionItems) = preProject
+		..\_build_export_full.bat = ..\_build_export_full.bat
+		..\_build_export_pck.bat = ..\_build_export_pck.bat
+		..\_create_addons_link.bat = ..\_create_addons_link.bat
+		..\_open_appdata_dir.bat = ..\_open_appdata_dir.bat
 		..\_run_godot_editor.bat = ..\_run_godot_editor.bat
 		..\_vp_edit.bat = ..\_vp_edit.bat
 		..\_vp_play.bat = ..\_vp_play.bat

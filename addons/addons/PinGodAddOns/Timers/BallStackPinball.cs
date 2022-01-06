@@ -17,7 +17,7 @@ public class BallStackPinball : Timer
     /// </summary>
     [Export] string _switch = null;
 
-    private PinGodGameBase pingod;
+    private PinGodGame pingod;
 
     /// <summary>
     /// Fired when switch is on
@@ -37,7 +37,7 @@ public class BallStackPinball : Timer
 	{
 		if (!Engine.EditorHint)
 		{
-			pingod = GetNode("/root/PinGodGame") as PinGodGameBase;
+			pingod = GetNode("/root/PinGodGame") as PinGodGame;
 			// Code to execute when in game.
 		}
 	}
