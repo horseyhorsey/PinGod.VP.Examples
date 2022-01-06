@@ -1,46 +1,38 @@
 using Godot;
 
-public class SpecialTargets : PinballTargetsControl
+public class SpecialTargets : PinGodGameMode
 {
 	private KnightRiderPlayer _player;
 	private AudioStreamPlayer _audio;
 
 	public override void _EnterTree()
 	{
-		
-		this._target_switches = new string[] { "special_0", "special_1", "special_2" };
-		this._target_lamps = new string[] { "special_0", "special_1", "special_2" };
-
 		base._EnterTree();
-
 		_audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 	}
 
-	void OnBallStarted()
+	protected override void OnBallStarted()
 	{
+		base.OnBallStarted();
 		_player = pinGod.Player as KnightRiderPlayer;
 	}
 
-	public override bool SetTargetComplete(int index)
-	{
-		var result = base.SetTargetComplete(index);
+	void _on_PinballTargetsBank_OnTargetActivated(string swName, bool completed)
+    {
 		pinGod.AddPoints(10000);
 		_audio.Play();
 
 		//target was set
-		if (result)
+		if (completed)
 		{
-			pinGod.AddPoints(Constant.SCORE_STD*2);
+			pinGod.AddPoints(Constant.SCORE_STD * 2);
 		}
-		return result;
 	}
 
-	public override void TargetsCompleted(bool reset = true)
-	{
-		base.TargetsCompleted(reset);
-
+	void _on_PinballTargetsBank_OnTargetsCompleted()
+    {
 		pinGod.LogDebug("enabled special lanes");
-		if(_player != null)
+		if (_player != null)
 		{
 			_player.SpecialLanes = new bool[2] { true, true };
 			var p = pinGod as KrPinGodGame;
@@ -51,11 +43,11 @@ public class SpecialTargets : PinballTargetsControl
 			{
 				p.PlayLampshowFlash();
 				p.PlayTvScene("kitt_dash", "KICKBACK AND SPECIAL\nLIT", loop: false);
-			}						
+			}
 		}
 	}
 
-	public override void UpdateLamps()
+	protected override void UpdateLamps()
 	{
 		base.UpdateLamps();
 

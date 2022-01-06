@@ -16,8 +16,6 @@
     <None Include="modes\video\EnemyCar.tscn" />
     <None Include="modes\video\Pickup.tscn" />
     <None Include="modes\video\PlayerCar.tscn" />
-    <None Include="_create_addons_link.bat" />
-    <None Include="_open_appdata_dir.bat" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

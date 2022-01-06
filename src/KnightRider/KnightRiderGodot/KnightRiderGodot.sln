@@ -7,10 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KnightRiderGodot", "KnightR
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E0AF3C9C-D5EC-4F2B-AAF9-1F0EC66C56E8}"
 	ProjectSection(SolutionItems) = preProject
-		..\_build_export.bat = ..\_build_export.bat
+		..\_build_export_full.bat = ..\_build_export_full.bat
+		..\_build_export_pck.bat = ..\_build_export_pck.bat
+		..\_create_addons_link.bat = ..\_create_addons_link.bat
+		..\_open_appdata_dir.bat = ..\_open_appdata_dir.bat
 		..\_run_godot_editor.bat = ..\_run_godot_editor.bat
 		..\_vp_edit.bat = ..\_vp_edit.bat
 		..\_vp_play.bat = ..\_vp_play.bat
+		..\KnightRiderVisualPinball\KnightRider(RomPin, HorsePin 2021)-PinGodVP-VPX10.7.vbs = ..\KnightRiderVisualPinball\KnightRider(RomPin, HorsePin 2021)-PinGodVP-VPX10.7.vbs
+		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject
 Global

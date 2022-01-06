@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://modes/common/score_entry/HighScores.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Modes/score_entry/HighScores.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/KR_Large.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/fonts/KR_72.tres" type="DynamicFont" id=3]
 
@@ -20,20 +20,20 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 544.0
+margin_left = 517.0
 margin_top = 352.0
-margin_right = 1375.0
+margin_right = 1402.0
 margin_bottom = 728.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label2" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_right = 831.0
+margin_right = 885.0
 margin_bottom = 262.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color = Color( 0.694118, 0.223529, 0.223529, 1 )
-text = "Hi-SCORES"
+text = "HI_SCORES"
 align = 1
 valign = 1
 __meta__ = {
@@ -42,12 +42,12 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_top = 266.0
-margin_right = 831.0
+margin_right = 885.0
 margin_bottom = 376.0
-custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 0.137255, 0.137255, 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "SCORE"
-align = 1
+align = 3
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
