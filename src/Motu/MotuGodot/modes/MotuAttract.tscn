@@ -22,7 +22,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 3.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 115, 319 ), Vector2( 115, -17 ) ]
+"values": [ Vector2( 142, 313 ), Vector2( 142, -16 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -72,34 +72,47 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="AttractLayers/horsepin-logo"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 306.0
-margin_right = 1716.04
-margin_bottom = 1371.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -341.5
+margin_top = 114.0
+margin_right = 8.50012
+margin_bottom = 411.0
+grow_horizontal = 2
+grow_vertical = 2
 rect_scale = Vector2( 1.36, 1.36 )
 texture = ExtResource( 6 )
+stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PushStart" type="CenterContainer" parent="AttractLayers"]
+[node name="Container" type="Control" parent="AttractLayers"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="TextureRect2" type="TextureRect" parent="AttractLayers/PushStart"]
-margin_right = 683.0
-margin_bottom = 384.0
+[node name="TextureRect2" type="TextureRect" parent="AttractLayers/Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource( 7 )
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PushStart" type="Label" parent="AttractLayers/PushStart"]
+[node name="PushStart" type="CenterContainer" parent="AttractLayers/Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PushStart" type="Label" parent="AttractLayers/Container/PushStart"]
 margin_left = 93.0
 margin_top = 144.0
 margin_right = 590.0
@@ -129,9 +142,13 @@ __meta__ = {
 
 [node name="TextureRect2" type="TextureRect" parent="AttractLayers/Credits"]
 modulate = Color( 0.0941176, 0.0941176, 0.0117647, 1 )
-margin_right = 683.0
-margin_bottom = 384.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource( 7 )
+expand = true
+stretch_mode = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

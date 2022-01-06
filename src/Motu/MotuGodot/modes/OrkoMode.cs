@@ -1,21 +1,13 @@
 ﻿using Godot;
-using System.Linq;
 
 public class OrkoMode : PinGodGameMode
 {
-    private MotuPlayer _player;
-    private int _modeTime;
-    private Timer _timer;
     private AnimationPlayer _animPlayer;
     private AudioStreamPlayer _audio;
     private Game _game;
-
-    protected override void OnBallStarted()
-    {
-        _player = (pinGod as MotuPinGodGame).CurrentPlayer();
-        _player.IsFastScoringRunning = false;        
-    }
-
+    private int _modeTime;
+    private MotuPlayer _player;
+    private Timer _timer;
     public override void _Ready()
     {
         base._Ready();
@@ -23,6 +15,47 @@ public class OrkoMode : PinGodGameMode
         _animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         _audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
         _game = GetParent().GetParent() as Game;
+    }
+
+    protected override void OnBallDrained()
+    {
+        _timer?.Stop();
+    }
+
+    protected override void OnBallStarted()
+    {
+        _player = (pinGod as MotuPinGodGame).CurrentPlayer();
+        _player.IsFastScoringRunning = false;        
+    }
+    void _on_PinballTargetsBank_OnTargetActivated(string swName, bool completed)
+    {
+        if (_player.IsSorceressRunning) return;
+        if (_player.IsMotuMultiballRunning) return;
+
+        if (!_player.IsFastScoringRunning)
+        {
+            if (completed)
+            {
+                pinGod.AddPoints(MotuConstant._75K);
+                _animPlayer.Play("just_orko");
+            }
+        }
+        else if (_player.IsFastScoringRunning)
+        {
+            pinGod.AddPoints(MotuConstant._75K);
+        }
+    }
+
+    void _on_PinballTargetsBank_OnTargetsCompleted()
+    {
+        pinGod.LogInfo("orko: targets completed");
+        CheckStartFastScoring();
+    }
+
+    void AwardRunningTargetScore()
+    {
+        _player.SetLadder("orko", MotuLadder.Complete);
+        pinGod.LogInfo("orko: fast scoring fully completed");
     }
 
     /// <summary>
@@ -61,17 +94,6 @@ public class OrkoMode : PinGodGameMode
         }
     }
 
-    void AwardRunningTargetScore()
-    {
-        _player.SetLadder("orko", MotuLadder.Complete);
-        pinGod.LogInfo("orko: fast scoring fully completed");
-    }
-
-    void Target_TargetComplete(int index)
-    {
-        _animPlayer.Play("just_orko");
-    }
-
     void StartFastScoring() 
     {
         pinGod.LogInfo("orko: fast scoring started");
@@ -97,16 +119,5 @@ public class OrkoMode : PinGodGameMode
             _game.StartSorceress();
             
         }
-    }
-
-    protected override void OnBallDrained()
-    {
-        _timer?.Stop();
-    }
-
-    void OrkoTargets_OnTargetsCompleted()
-    {
-        pinGod.LogInfo("orko: targets completed");
-        CheckStartFastScoring();
     }
 }

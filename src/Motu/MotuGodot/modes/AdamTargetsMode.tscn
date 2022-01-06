@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://modes/MotuAdamTargetsControl.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/Targets/PinballTargetsBank.cs" type="Script" id=1]
 [ext_resource path="res://modes/AdamTargetsMode.cs" type="Script" id=2]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas14.tres" type="DynamicFont" id=3]
 [ext_resource path="res://layers/animated_sprites/teela.tscn" type="PackedScene" id=4]
@@ -40,7 +40,7 @@ tracks/0/keys = {
 [node name="AdamTargetsMode" type="Node"]
 script = ExtResource( 2 )
 
-[node name="PinballTargetsControl" type="Node" parent="." groups=["Mode"]]
+[node name="PinballTargetsBank" type="Node" parent="."]
 script = ExtResource( 1 )
 _target_switches = PoolStringArray( "Adam", "aDam", "adAm", "adaM" )
 _target_lamps = PoolStringArray( "Adam", "aDam", "adAm", "adaM" )
@@ -122,5 +122,6 @@ __meta__ = {
 anims/RESET = SubResource( 1 )
 anims/TeelaRightLeft = SubResource( 2 )
 
-[connection signal="OnTargetsCompleted" from="PinballTargetsControl" to="." method="PinballTargetsControl_OnTargetsCompleted"]
+[connection signal="OnTargetActivated" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetActivated"]
+[connection signal="OnTargetsCompleted" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetsCompleted"]
 [connection signal="timeout" from="ModeTimer" to="." method="ModeTimer_timeout"]

@@ -226,6 +226,16 @@ animations = [ {
 "name": "roll",
 "speed": 20.0
 }, {
+"frames": [ ExtResource( 61 ), ExtResource( 61 ), ExtResource( 64 ), ExtResource( 67 ) ],
+"loop": true,
+"name": "ripper",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 197 ), ExtResource( 198 ), ExtResource( 199 ), ExtResource( 193 ), ExtResource( 194 ), ExtResource( 195 ), ExtResource( 196 ), ExtResource( 191 ), ExtResource( 166 ), ExtResource( 164 ), ExtResource( 167 ), ExtResource( 185 ), ExtResource( 186 ), ExtResource( 170 ), ExtResource( 168 ), ExtResource( 181 ), ExtResource( 187 ), ExtResource( 177 ), ExtResource( 183 ), ExtResource( 162 ), ExtResource( 173 ), ExtResource( 171 ), ExtResource( 169 ), ExtResource( 182 ), ExtResource( 163 ), ExtResource( 178 ), ExtResource( 176 ), ExtResource( 189 ), ExtResource( 165 ), ExtResource( 180 ), ExtResource( 190 ), ExtResource( 184 ), ExtResource( 192 ), ExtResource( 179 ), ExtResource( 188 ), ExtResource( 174 ), ExtResource( 172 ), ExtResource( 175 ) ],
+"loop": true,
+"name": "skillshot",
+"speed": 15.0
+}, {
 "frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 50 ), ExtResource( 49 ), ExtResource( 45 ), ExtResource( 36 ), ExtResource( 51 ), ExtResource( 46 ), ExtResource( 47 ), ExtResource( 44 ), ExtResource( 37 ), ExtResource( 48 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 43 ), ExtResource( 27 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 66 ), ExtResource( 62 ), ExtResource( 54 ), ExtResource( 52 ), ExtResource( 68 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 53 ), ExtResource( 56 ), ExtResource( 63 ), ExtResource( 69 ), ExtResource( 59 ), ExtResource( 65 ), ExtResource( 55 ), ExtResource( 60 ) ],
 "loop": true,
 "name": "man_talk",
@@ -235,16 +245,6 @@ animations = [ {
 "loop": true,
 "name": "grayskull",
 "speed": 15.0
-}, {
-"frames": [ ExtResource( 197 ), ExtResource( 198 ), ExtResource( 199 ), ExtResource( 193 ), ExtResource( 194 ), ExtResource( 195 ), ExtResource( 196 ), ExtResource( 191 ), ExtResource( 166 ), ExtResource( 164 ), ExtResource( 167 ), ExtResource( 185 ), ExtResource( 186 ), ExtResource( 170 ), ExtResource( 168 ), ExtResource( 181 ), ExtResource( 187 ), ExtResource( 177 ), ExtResource( 183 ), ExtResource( 162 ), ExtResource( 173 ), ExtResource( 171 ), ExtResource( 169 ), ExtResource( 182 ), ExtResource( 163 ), ExtResource( 178 ), ExtResource( 176 ), ExtResource( 189 ), ExtResource( 165 ), ExtResource( 180 ), ExtResource( 190 ), ExtResource( 184 ), ExtResource( 192 ), ExtResource( 179 ), ExtResource( 188 ), ExtResource( 174 ), ExtResource( 172 ), ExtResource( 175 ) ],
-"loop": true,
-"name": "skillshot",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 61 ), ExtResource( 61 ), ExtResource( 64 ), ExtResource( 67 ) ],
-"loop": true,
-"name": "ripper",
-"speed": 20.0
 } ]
 
 [node name="HeManScoop" type="Node"]

@@ -1,0 +1,2 @@
+cd Exported
+upx *.exe

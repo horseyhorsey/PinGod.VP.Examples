@@ -10,17 +10,44 @@
 /// </summary>
 public class AdamTargetsMode : PinGodGameMode
 {
-    private MotuPlayer _player;
-    int _doubleScoringTimeLeft = 30;
+    private AnimationPlayer _animTeela;
     int _bumpersTimeLeft = 30;
-    int _spinnersTimeLeft = 30;
-    private Timer _timer;
     private VBoxContainer _container;
-    private Label _labelDs;
+    int _doubleScoringTimeLeft = 30;
+    private MotuPinGodGame _game;
     private Label _labelBu;
+    private Label _labelDs;
     private Label _labelSp;
     private Label _labelTeela;
-    private AnimationPlayer _animTeela;
+    private MotuPlayer _player;
+    int _spinnersTimeLeft = 30;
+    private PinballTargetsBank _targetBank;
+    private Timer _timer;
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+
+        _game = (pinGod as MotuPinGodGame);
+        _targetBank = GetNode<PinballTargetsBank>(nameof(PinballTargetsBank));
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (!pinGod.GameInPlay || pinGod.IsTilted) return;
+        if (pinGod.IsMultiballRunning) return;
+
+        if (pinGod.SwitchOn("heman_lane", @event))
+        {
+            if (_player.TeelaCount < 3)
+            {
+                pinGod.AddPoints(42000);
+                _player.TeelaCount++;
+                DisplayTeela();
+                pinGod.LogInfo("adam: heman_lane increased teela to " + _player.TeelaCount);
+            }
+        }
+    }
 
     public override void _Ready()
     {
@@ -39,34 +66,6 @@ public class AdamTargetsMode : PinGodGameMode
         _animTeela = GetNode<AnimationPlayer>("TeelaNode/AnimationPlayer");
 
         pinGod.LogInfo("adam targets mode ready");
-    }
-
-    private void ResetLabels()
-    {
-        _labelDs.Text = "";
-        _labelBu.Text = "";
-        _labelSp.Text = "";
-    }
-
-    protected override void OnBallDrained()
-    {
-        base.OnBallDrained();
-        _container.Visible = false;
-        ResetLabels();
-        _timer.Stop();
-    }
-
-    void ResetModeTimes()
-    {
-        _doubleScoringTimeLeft = 30;
-        _bumpersTimeLeft = 30;
-        _spinnersTimeLeft = 30;
-    }
-
-    protected override void OnBallStarted()
-    {
-        _player = (pinGod as MotuPinGodGame).CurrentPlayer();
-        ResetModeTimes();
     }
 
     public void StartAdamBonusRound(MotuPlayer player, int ii)
@@ -115,19 +114,71 @@ public class AdamTargetsMode : PinGodGameMode
         }
     }
 
-    public override void _Input(InputEvent @event)
+    protected override void OnBallDrained()
     {
-        if (!pinGod.GameInPlay || pinGod.IsTilted) return;
-        if (pinGod.IsMultiballRunning) return;
+        base.OnBallDrained();
+        _container.Visible = false;
+        ResetLabels();
+        _timer.Stop();
+        _player.AdamTargets = _targetBank._targetValues;
+        pinGod.LogInfo("adam saved player targets");
+    }
 
-        if(pinGod.SwitchOn("heman_lane", @event))
+    protected override void OnBallStarted()
+    {
+        _player = (pinGod as MotuPinGodGame).CurrentPlayer();
+        _targetBank._targetValues = _player.AdamTargets;
+        ResetModeTimes();
+    }
+
+    protected override void UpdateLamps()
+    {
+        base.UpdateLamps();
+        var player = _game.CurrentPlayer();
+        //adam target bonuses
+        if (player.IsAdamDoubleScoring) pinGod.SetLampState("adam_double", 2);
+        else pinGod.SetLampState("adam_double", 0);
+        if (player.IsAdamSuperBumperRunning) pinGod.SetLampState("adam_bump", 2);
+        else pinGod.SetLampState("adam_bump", 0);
+        if (player.IsAdamSuperSpinnersRunning) pinGod.SetLampState("adam_spin", 2);
+        else pinGod.SetLampState("adam_spin", 0);
+    }
+
+    void _on_PinballTargetsBank_OnTargetActivated(string swName, bool complete)
+    {
+        if (!_player.IsRipperMultiballRunning && !_player.IsSorceressRunning)
         {
-            if(_player.TeelaCount < 3)
+            if (_player.TeelaCount >= 1)
             {
-                pinGod.AddPoints(42000);
-                _player.TeelaCount++;
-                DisplayTeela();
-                pinGod.LogInfo("adam: heman_lane increased teela to " + _player.TeelaCount);
+                AddAdamTargetsBonusRound(_player);
+                _player.TeelaCount = 0;
+            }
+
+            if(complete)
+                _player.SetLadder("adam", MotuLadder.PartComplete);
+        }
+    }
+
+    void _on_PinballTargetsBank_OnTargetsCompleted()
+    {
+        AddAdamTargetsBonusRound(_game.CurrentPlayer(), 1);
+    }
+
+    private void AddAdamTargetsBonusRound(MotuPlayer player, int numOfModesToStart = 1)
+    {
+        //todo: play seq AdamTargets
+        player.SetLadder("adam", MotuLadder.Complete);
+        pinGod.LogInfo($"starting ({numOfModesToStart}) adam bonus rounds");
+        for (int i = 0; i < numOfModesToStart; i++)
+        {
+            for (int ii = 0; ii < 3; ii++)
+            {
+                if (!player.AdamModesRunning[ii])
+                {
+                    player.AdamModesRunning[ii] = true;
+                    StartAdamBonusRound(player, ii);
+                    break;
+                }
             }
         }
     }
@@ -136,11 +187,6 @@ public class AdamTargetsMode : PinGodGameMode
     {
         _labelTeela.Text = "TEELA BANK " + _player.TeelaCount;
         _animTeela.Play("TeelaRightLeft");
-    }
-
-    void PinballTargetsControl_OnTargetsCompleted()
-    {
-        pinGod.LogInfo("adam: target bank completed");
     }
 
     void ModeTimer_timeout()
@@ -155,7 +201,7 @@ public class AdamTargetsMode : PinGodGameMode
                 _player.IsAdamDoubleScoring = false;
             }
             else
-                timeSet=true;
+                timeSet = true;
         }
         if (_player.IsAdamSuperBumperRunning)
         {
@@ -186,9 +232,28 @@ public class AdamTargetsMode : PinGodGameMode
             _timer.Stop();
             var game = GetParent().GetParent() as Game;
             game.StartSorceress();
-        }            
+        }
 
         UpdateDisplay();
+    }
+
+    void PinballTargetsControl_OnTargetsCompleted()
+    {
+        pinGod.LogInfo("adam: target bank completed");
+    }
+
+    private void ResetLabels()
+    {
+        _labelDs.Text = "";
+        _labelBu.Text = "";
+        _labelSp.Text = "";
+    }
+
+    void ResetModeTimes()
+    {
+        _doubleScoringTimeLeft = 30;
+        _bumpersTimeLeft = 30;
+        _spinnersTimeLeft = 30;
     }
 
     private void UpdateDisplay()

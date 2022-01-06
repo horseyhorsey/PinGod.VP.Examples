@@ -40,8 +40,8 @@ Set ttDisc1 = New myTurnTable
 ' VP table display / controller events
 '**********************
 Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
-Sub Table1_UnPaused: Controller.Pause 0 : End Sub
+Sub Table1_Paused: Controller.Pause 1 : Controller.Pause 0 : End Sub
+Sub Table1_UnPaused: Controller.Pause 1 : End Sub
 
 '**********************
 ' VP init
@@ -49,8 +49,8 @@ Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 '**********************
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 1920 - 512
-		.DisplayY			= 10
+		.DisplayX			= 0
+		.DisplayY			= 0
 		.DisplayWidth 		= 512 ' 1024 FS
 		.DisplayHeight 		= 300 ' 600  FS
 		.DisplayAlwaysOnTop = True

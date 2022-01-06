@@ -52,19 +52,39 @@ _scoreLabelP2 = NodePath("ScoreP2")
 _scoreLabelP3 = NodePath("ScoreP3")
 _scoreLabelP4 = NodePath("ScoreP4")
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 342, 192.798 )
-frames = SubResource( 1 )
-frame = 11
-
 [node name="CastleWallBackground" parent="." instance=ExtResource( 7 )]
-margin_right = 683.0
-margin_bottom = 384.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 0.0
+margin_bottom = 0.0
+expand = true
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Control"]
+position = Vector2( 87, 1 )
+frames = SubResource( 1 )
+frame = 3
+playing = true
+centered = false
 
 [node name="ScorePanel" type="TextureRect" parent="."]
-margin_right = 683.0
-margin_bottom = 384.0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -341.5
+margin_top = -384.0
+margin_right = 341.5
 texture = ExtResource( 8 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -29,24 +29,24 @@ Const GameDirectory = "..\SciFiGameGodot"
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 0
 Const UseLamps = 1  ' Check for lamp states?
-
-Dim bsTrough, bsLeft, bsTopRight, bsRight, plungerIM ', bsSaucer, plungerIM, 
-Dim bsLeftSw, bsRightSw, bsTopRightSw
+Dim bsTrough, bsLeft, bsTopRight, bsRight, plungerIM, bsLeftSw, bsRightSw, bsTopRightSw
 bsLeftSw=46:bsRightSw=34:bsTopRightSw=51
-
 '**********************
 ' VP table display / controller events
 '**********************
-Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
-Sub Table1_UnPaused: Controller.Pause 0 : End Sub
+Sub Table1_Exit :    Controller.Stop : End Sub ' Closes the display window, sends the quit action
+Sub Table1_Paused:   Controller.Pause 1 : Controller.Pause 0 : End Sub 'hacks bruv, working
+Sub Table1_UnPaused: Controller.Pause 1 : End Sub
 
+'**********************
+' VP init. Inits the controller then waits for the display to fully load into initial scene.
+'**********************
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 1920 - 640 ' Take the width of the display off the 1st display size
-		.DisplayY			= 10
+		.DisplayX			= 0
+		.DisplayY			= 0
 		.DisplayWidth 		= 1280 ' 1280 FS
-		.DisplayHeight 		= 720 ' 720  FS
+		.DisplayHeight 		= 720  ' 720  FS
 		.DisplayAlwaysOnTop = True
 		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
 		.DisplayLowDpi 		= False
@@ -70,7 +70,6 @@ Sub Table1_Init
 	LeftFlipper.TimerEnabled = 1		
 End Sub
 
-
 'Game ready checker from flipper timer
 Sub LeftFlipper_Timer
 	LeftFlipper.TimerEnabled = 0
@@ -84,9 +83,7 @@ End Sub
 '**********************
 Dim initialized : initialized = 0
 Sub InitGame
-
 	if initialized then exit sub ' prevent any chance of init twice if author decides to use LFlipper Timers
-
 	'init core vbs, vpm
 	vpmInit me
 	vpmMapLights AllLamps		'Auto lamps collection, lamp id in timerinterval
@@ -133,16 +130,14 @@ Sub InitGame
 		'.InitExitSnd "plunger2", "plunger"
     End With
 
-
-'    ' ### Nudging ###
+   ' ### Nudging ###
     vpmNudge.TiltSwitch = swTilt
     vpmNudge.Sensitivity = 0.8
 	vpmNudge.TiltObj = Array(LSling,RSling)
 
-
 	If Err Then MsgBox Err.Description
 	initialized = 1
-	LoadingText.Visible = false ' Hide the overlay (loading screen)
+	'LoadingText.Visible = false ' Hide the overlay (loading screen)
 	On Error Goto 0	
 	
 End Sub
@@ -156,17 +151,15 @@ Sub Table1_KeyDown(ByVal keycode)
 
 	If keycode = PlungerKey Then
 		Plunger.PullBack
-		PlaySound "plungerpull",0,1,AudioPan(Plunger),0.25,0,0,1,AudioFade(Plunger)
+		PlaySoundAt "plungerpull", Plunger
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
-		LeftFlipper.RotateToEnd
-		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		LeftFlipper.RotateToEnd: PlaySoundAt "fx_flipperup", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
-		RightFlipper.RotateToEnd
-		PlaySound SoundFX("fx_flipperup",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		RightFlipper.RotateToEnd: PlaySoundAt "fx_flipperup", RightFlipper
 	End If
 
 	If vpmKeyDown(keycode) Then Exit Sub  ' This will handle machine switches and flippers etc
@@ -179,22 +172,41 @@ Sub Table1_KeyUp(ByVal keycode)
 
 	If keycode = PlungerKey Then
 		Plunger.Fire
-		PlaySound "plunger",0,1,AudioPan(Plunger),0.25,0,0,1,AudioFade(Plunger)
+		PlaySoundAt "plunger", Plunger
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
-		LeftFlipper.RotateToStart
-		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		LeftFlipper.RotateToStart : PlaySoundAt "fx_flipperdown", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
 		RightFlipper.RotateToStart
-		PlaySound SoundFX("fx_flipperdown",DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		RightFlipper.RotateToStart : PlaySoundAt "fx_flipperdown", RightFlipper
 	End If
 
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc
 End Sub
+
 '****************************
+' SWITCHES todo:bumpers
+'************************
+Sub Bumper1_Hit : vpmTimer.PulseSw 40 : PlaySoundAt "fx_bumper1", Bumper1 : End Sub
+Sub Bumper2_Hit : vpmTimer.PulseSw 41 : PlaySoundAt "fx_bumper1", Bumper2 : End Sub
+Sub Bumper3_Hit : vpmTimer.PulseSw 42 : PlaySoundAt "fx_bumper1", Bumper3 : End Sub
+Sub FourBank1_Hit : Controller.Switch 27, 1 : End Sub
+Sub FourBank1_UnHit : Controller.Switch 27, 0 : End Sub
+Sub FourBank2_Hit : Controller.Switch 28, 1 : End Sub
+Sub FourBank2_UnHit : Controller.Switch 28, 0 : End Sub
+Sub FourBank3_Hit : Controller.Switch 29, 1 : End Sub
+Sub FourBank3_UnHit : Controller.Switch 29, 0 : End Sub
+Sub FourBank4_Hit : Controller.Switch 30, 1 : End Sub
+Sub FourBank4_UnHit : Controller.Switch 30, 0 : End Sub
+Sub ThreeBank1_Hit : Controller.Switch 31, 1 : End Sub
+Sub ThreeBank1_UnHit : Controller.Switch 31, 0 : End Sub
+Sub ThreeBank2_Hit : Controller.Switch 32, 1 : End Sub
+Sub ThreeBank2_UnHit : Controller.Switch 32, 0 : End Sub
+Sub ThreeBank3_Hit : Controller.Switch 33, 1 : End Sub
+Sub ThreeBank3_UnHit : Controller.Switch 33, 0 : End Sub
 
 '****************************
 ' Solenoids / Coils / Callbacks
@@ -214,13 +226,10 @@ SpecialSol = 16
 SolCallback(SpecialSol) = "SpecialSolCallback"
 
 Sub SpecialSolCallback(num)
-
 	'Select Case num
 	'	Case 0 : DisableAllLampSequencers
 	'End Select
-
 End Sub
-
 
 Sub Died(Enabled)
 	'on error resume next	
@@ -255,29 +264,6 @@ Sub Bank4Reset(Enabled)
 		FourBank1.IsDropped = 0 : FourBank2.IsDropped = 0 : FourBank3.IsDropped = 0 : FourBank4.IsDropped = 0
 	End If
 End Sub
-
-Sub FourBank1_Hit : Controller.Switch 27, 1 : End Sub
-Sub FourBank1_UnHit : Controller.Switch 27, 0 : End Sub
-Sub FourBank2_Hit : Controller.Switch 28, 1 : End Sub
-Sub FourBank2_UnHit : Controller.Switch 28, 0 : End Sub
-Sub FourBank3_Hit : Controller.Switch 29, 1 : End Sub
-Sub FourBank3_UnHit : Controller.Switch 29, 0 : End Sub
-Sub FourBank4_Hit : Controller.Switch 30, 1 : End Sub
-Sub FourBank4_UnHit : Controller.Switch 30, 0 : End Sub
-
-Sub ThreeBank1_Hit : Controller.Switch 31, 1 : End Sub
-Sub ThreeBank1_UnHit : Controller.Switch 31, 0 : End Sub
-Sub ThreeBank2_Hit : Controller.Switch 32, 1 : End Sub
-Sub ThreeBank2_UnHit : Controller.Switch 32, 0 : End Sub
-Sub ThreeBank3_Hit : Controller.Switch 33, 1 : End Sub
-Sub ThreeBank3_UnHit : Controller.Switch 33, 0 : End Sub
-
-
-''****************************
-
-
-'Example of manually setting switch handler. See AllSwitches for automatic
-
 
 '*****GI Lights On
 dim xx

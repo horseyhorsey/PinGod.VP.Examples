@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://assets/img/alien_face.svg" type="Texture" id=6]
 [ext_resource path="res://layers/LogoLabel.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=8]
-[ext_resource path="res://assets/videos/cosmic_1.ogv" type="VideoStream" id=9]
 
 [node name="Attract" type="Node"]
 script = ExtResource( 4 )
@@ -35,7 +34,6 @@ __meta__ = {
 pause_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
-stream = ExtResource( 9 )
 expand = false
 script = ExtResource( 8 )
 __meta__ = {

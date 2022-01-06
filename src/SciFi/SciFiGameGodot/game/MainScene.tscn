@@ -26,5 +26,6 @@ visible = false
 
 [node name="SettingsDisplay" parent="CanvasLayer" instance=ExtResource( 2 )]
 visible = false
+modulate = Color( 0.568627, 0.85098, 0.333333, 1 )
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]

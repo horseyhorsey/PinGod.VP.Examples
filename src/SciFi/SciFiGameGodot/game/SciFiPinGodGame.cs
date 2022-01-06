@@ -1,4 +1,6 @@
-﻿public class SciFiPinGodGame : PinGodGame
+﻿using Godot;
+
+public class SciFiPinGodGame : PinGodGame
 {
     /// <summary>
     /// override to create our own player type for this game
@@ -207,4 +209,5 @@
 
 	public bool SpecialLit { get; set; }
 	public bool KickbackEnabled { get; internal set; }
+
 }

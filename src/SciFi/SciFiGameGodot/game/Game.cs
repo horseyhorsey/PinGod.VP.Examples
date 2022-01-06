@@ -36,12 +36,12 @@ public class Game : PinGodGameNode
 		//get packed scene to create an instance of when a Multiball gets activated
 		multiballPkd = ResourceLoader.Load(MULTIBALL_SCENE) as PackedScene;
 
-		sciPinGod.Connect(nameof(PinGodGameBase.BallDrained), this, "OnBallDrained");
-		sciPinGod.Connect(nameof(PinGodGameBase.BallEnded), this, "OnBallEnded");
-		sciPinGod.Connect(nameof(PinGodGameBase.BallSaved), this, "OnBallSaved");
-		sciPinGod.Connect(nameof(PinGodGameBase.BonusEnded), this, "OnBonusEnded");
-		sciPinGod.Connect(nameof(PinGodGameBase.MultiBallEnded), this, "EndMultiball");
-		sciPinGod.Connect(nameof(PinGodGameBase.ScoreEntryEnded), this, "OnScoreEntryEnded");
+		sciPinGod.Connect(nameof(PinGodGame.BallDrained), this, "OnBallDrained");
+		sciPinGod.Connect(nameof(PinGodGame.BallEnded), this, "OnBallEnded");
+		sciPinGod.Connect(nameof(PinGodGame.BallSaved), this, "OnBallSaved");
+		sciPinGod.Connect(nameof(PinGodGame.BonusEnded), this, "OnBonusEnded");
+		sciPinGod.Connect(nameof(PinGodGame.MultiBallEnded), this, "EndMultiball");
+		sciPinGod.Connect(nameof(PinGodGame.ScoreEntryEnded), this, "OnScoreEntryEnded");
 
 		scoreEntry = GetNode("Modes/ScoreEntry") as ScoreEntry;
 		endOfBallBonus = GetNode("Modes/Bonus") as Bonus;

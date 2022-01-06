@@ -1,6 +1,6 @@
 using Godot;
 
-public class TopLanes : PinballSwitchLanesNode
+public class TopLanes : PinGodGameMode
 {
 	private SciFiPinGodGame pinGodSciFi;
 	private SciFiPlayer player;
@@ -15,12 +15,11 @@ public class TopLanes : PinballSwitchLanesNode
 		base._EnterTree();
 
 		pinGodSciFi = GetNode("/root/PinGodGame") as SciFiPinGodGame;
-		//rest the targets on new ball by listening for BallStarted
-		ResetLanesCompleted();
 
 		if (_logging_enabled)
-			GD.Print("top_lanes: enter tree");
+			pinGod.LogInfo("top_lanes: enter tree");
 	}
+
 	/// <summary>
 	/// Gets switch handler events for the given switches. Flippers change lanes
 	/// </summary>
@@ -31,48 +30,38 @@ public class TopLanes : PinballSwitchLanesNode
 		if (!pinGod.GameInPlay) return;
 	}
 
-	public override bool LaneSwitchActivated(int i)
-	{
-		var result = base.LaneSwitchActivated(i);
-		if (result)
+    protected override void OnBallStarted()
+    {
+        player = pinGodSciFi.GetSciFiPlayer();
+
+        base.OnBallStarted();
+    }
+
+    protected override void UpdateLamps()
+    {
+        base.UpdateLamps();
+        UpdateBonusLamps();
+    }
+
+    void _on_PinballLanesNode_LaneCompleted(string swName, bool complete)
+    {
+		if (complete)
 		{
 			pinGod.AddPoints(1000);
 			pinGodSciFi.GetSciFiPlayer().AddAlienBonus(1);
 			pinGod.PlaySfx("bonus_advance");
 		}
-		return result;
 	}
 
-	public override bool CheckLanes()
-	{
-		var complete = base.CheckLanes();
-		if (complete)
+	void _on_PinballLanesNode_LanesCompleted()
+    {
+		if (player.AddBonusMultiplier())
 		{
-			if (player.AddBonusMultiplier())
-			{
-				pinGod.PlaySfx("multiplier_award");
-				UpdateBonusLamps();
-			}
-		}
-		return complete;
-	}
-
-	void OnBallStarted()
-	{
-		player = pinGodSciFi.GetSciFiPlayer();
-		if (_reset_on_ball_started)
-		{
-			ResetLanesCompleted();
+			pinGod.PlaySfx("multiplier_award");
+			UpdateBonusLamps();
 		}
 	}
-
-	public override void UpdateLamps()
-	{
-		base.UpdateLamps();
-		UpdateBonusLamps();
-	}
-
-	private void UpdateBonusLamps()
+    private void UpdateBonusLamps()
 	{
 		if (player.BonusMultiplier == 1)
 		{

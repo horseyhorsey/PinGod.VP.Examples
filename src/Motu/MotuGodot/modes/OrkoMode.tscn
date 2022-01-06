@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://modes/OrkoMode.cs" type="Script" id=1]
-[ext_resource path="res://modes/MotuOrkoTargetsControl.cs" type="Script" id=2]
 [ext_resource path="res://layers/animated_sprites/orco.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas32.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/sound/voice/orko_magic_time.wav" type="AudioStream" id=5]
+[ext_resource path="res://addons/PinGodAddOns/Targets/PinballTargetsBank.cs" type="Script" id=6]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -82,9 +82,6 @@ script = ExtResource( 1 )
 [node name="Timer" type="Timer" parent="."]
 
 [node name="Targets" type="Node" parent="." groups=["Mode"]]
-script = ExtResource( 2 )
-_target_switches = PoolStringArray( "Orko", "oRko", "orKo", "orkO" )
-_target_lamps = PoolStringArray( "Orko", "oRko", "orKo", "orkO" )
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2( -29, 342 )
@@ -118,7 +115,7 @@ position = Vector2( 987, -11 )
 
 [node name="AnimatedSprite" parent="Node2D2" instance=ExtResource( 3 )]
 position = Vector2( -43, 329 )
-frame = 15
+frame = 6
 playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -130,6 +127,11 @@ anims/left_to_right = SubResource( 2 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 
+[node name="PinballTargetsBank" type="Node" parent="."]
+script = ExtResource( 6 )
+_target_switches = PoolStringArray( "Orko", "oRko", "orKo", "orkO" )
+_target_lamps = PoolStringArray( "Orko", "oRko", "orKo", "orkO" )
+
 [connection signal="timeout" from="Timer" to="." method="TimerTimeout"]
-[connection signal="OnTargetsCompleted" from="Targets" to="." method="OrkoTargets_OnTargetsCompleted"]
-[connection signal="TargetComplete" from="Targets" to="." method="Target_TargetComplete"]
+[connection signal="OnTargetActivated" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetActivated"]
+[connection signal="OnTargetsCompleted" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetsCompleted"]

@@ -9,7 +9,6 @@ public class ManAtArms : PinGodGameMode
     private Timer _clearDisplyTimer;
     private Control _control;
     private Label _label;
-    private PinballSwitchLanesNode _laneChangeScene;
     [Export] AudioStream _laneSfx = null;
     [Export] Godot.Collections.Array<AudioStream> _manCallouts = null;
     private AnimatedSprite _manSprite;
@@ -20,8 +19,7 @@ public class ManAtArms : PinGodGameMode
     public override void _Ready()
     {
         base._Ready();
-        pinGod.LogInfo("manatarms ready");
-        _laneChangeScene = GetNode<PinballSwitchLanesNode>("LaneChange");
+        pinGod.LogInfo("manatarms ready");        
 
         _modeTimer = GetNode<Timer>("ModeTimer");
         _manSprite = GetNode<AnimatedSprite>("ManSprite");
@@ -179,12 +177,11 @@ public class ManAtArms : PinGodGameMode
         }
     }
 
-    void LaneChange_LanesCompleted()
+    void _on_PinballLanesNode_LanesCompleted()
     {
         //if (_player.IsMotuMultiballRunning) return;
 
         pinGod.LogInfo("man at arms lanes completed");
-        _laneChangeScene.ResetLanesCompleted();
         _player.ManAtArmsBonusLevel += MotuConstant._5K;
 
         if (!_player.IsManAtArmsRunning && !_player.IsManAtArmsReady)

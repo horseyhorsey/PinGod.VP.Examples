@@ -309,6 +309,14 @@ settings={
  ]
 }
 
+[locale]
+
+translations=PoolStringArray( "res://addons/PinGodGame/Localization/pingod_default_lang.en.translation", "res://addons/PinGodGame/Localization/pingod_default_lang.fr.translation" )
+
+[logging]
+
+file_logging/log_path="./logs/godot.log"
+
 [rendering]
 
 environment/default_clear_color=Color( 0, 0, 0, 1 )

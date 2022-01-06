@@ -1,6 +1,6 @@
 [gd_scene load_steps=58 format=2]
 
-[ext_resource path="res://modes/MotuPinballSwitchLanesNode.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/Lanes/PinballLanesNode.cs" type="Script" id=1]
 [ext_resource path="res://modes/ManAtArms.cs" type="Script" id=2]
 [ext_resource path="res://layers/animated_sprites/manat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://layers/CastleWallBackground.tscn" type="PackedScene" id=4]
@@ -81,12 +81,6 @@ script = ExtResource( 2 )
 _laneSfx = ExtResource( 53 )
 _manCallouts = [ ExtResource( 54 ), ExtResource( 55 ), ExtResource( 56 ) ]
 
-[node name="LaneChange" type="Node" parent="."]
-script = ExtResource( 1 )
-_lane_lamps = PoolStringArray( "Man", "mAn", "maN" )
-_lane_switches = PoolStringArray( "inlane_l", "inlane_r", "inlane_rb" )
-_resetOnLanesCompleted = false
-
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -137,8 +131,12 @@ frame = 2
 wait_time = 2.0
 one_shot = true
 
-[connection signal="LaneCompleted" from="LaneChange" to="." method="LaneChange_LaneCompleted"]
-[connection signal="LanesCompleted" from="LaneChange" to="." method="LaneChange_LanesCompleted"]
+[node name="PinballLanesNode" type="Node" parent="."]
+script = ExtResource( 1 )
+_lane_lamps = PoolStringArray( "Man", "mAn", "maN" )
+_lane_switches = PoolStringArray( "inlane_l", "inlane_r", "inlane_r2" )
+
 [connection signal="animation_finished" from="ManSprite" to="." method="ManSprite_animation_finished"]
 [connection signal="timeout" from="ModeTimer" to="." method="ModeTimer_timeout"]
 [connection signal="timeout" from="ClearDisplayTimer" to="." method="ClearDisplayTimer_timeout"]
+[connection signal="LanesCompleted" from="PinballLanesNode" to="." method="_on_PinballLanesNode_LanesCompleted"]

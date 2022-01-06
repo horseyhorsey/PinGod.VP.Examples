@@ -1,3 +1,4 @@
+cd MotuGodot
 SET cDir=%cd%
 cd ../../../addons/addons
 SET addDir=%cd%
