@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://game/Game.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/MyScene.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/PinGodGame/Modes/score_entry/ScoreEntry.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/PinGodGame/Modes/bonus/Bonus.tscn" type="PackedScene" id=7]
+
+[node name="Game" type="Node2D"]
+pause_mode = 1
+script = ExtResource( 1 )
+_vpCommands = {
+2: "add_points,10000",
+3: "add_points,1000000",
+5: "scene,MyScene,3.5",
+254: "multiball,3"
+}
+
+[node name="Modes" type="CanvasLayer" parent="."]
+
+[node name="ScoreMode" parent="Modes" instance=ExtResource( 2 )]
+
+[node name="MyScene" parent="Modes" instance=ExtResource( 4 )]
+visible = false
+
+[node name="Bonus" parent="Modes" instance=ExtResource( 7 )]
+visible = false
+
+[node name="Tilt" parent="Modes" instance=ExtResource( 5 )]
+visible = false
+
+[node name="ScoreEntry" parent="Modes" instance=ExtResource( 6 )]
+visible = false

@@ -1,0 +1,2 @@
+cd BasicDisplay
+godot -e

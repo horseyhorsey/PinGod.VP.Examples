@@ -1,0 +1,31 @@
+﻿<Project Sdk="Godot.NET.Sdk/3.3.0">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="addons\PinGodGame\assets\audio\music\**" />
+    <Compile Remove="addons\PinGodGame\assets\audio\sfx\**" />
+    <Compile Remove="addons\PinGodGame\assets\audio\voice\**" />
+    <EmbeddedResource Remove="addons\PinGodGame\assets\audio\music\**" />
+    <EmbeddedResource Remove="addons\PinGodGame\assets\audio\sfx\**" />
+    <EmbeddedResource Remove="addons\PinGodGame\assets\audio\voice\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="addons\PinGodGame\assets\fonts\" />
+    <Folder Include="addons\PinGodGame\assets\audio\" />
+    <Folder Include="addons\PinGodGame\assets\img\" />
+    <Folder Include="recordings\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv" />
+    <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv.import" />
+    <None Include="export_presets.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
+</Project>
