@@ -68,7 +68,13 @@ public class GameSettings
     /// <summary>
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
-    public float VoiceVolume { get; set; } = -6; 
+    public float VoiceVolume { get; set; } = -6;
+
+    /// <summary>
+    /// A command switch number for the memory map so user can send a byte over a switch number <para/>
+    /// Set this id greater than > 0. 0 is default for game state
+    /// </summary>
+    public int VpCommandSwitchId { get; set; } = -1;
 
     /// <summary>
     /// De-serializes settings from json if Type is <see cref="GameSettings"/>

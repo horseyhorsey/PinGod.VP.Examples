@@ -23,7 +23,7 @@ public class Tilt : Control
 		Visible = false;
 
 		pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-		trough = pinGod.GetNode("Trough") as Trough;
+		trough = pinGod.GetNodeOrNull<Trough>("Trough");
 		//text layer to display warnings and tilted
 		blinkingLayer = GetNode("CenterContainer/BlinkingLabel") as BlinkingLabel;
 		blinkingLayer.Text = "";
@@ -53,7 +53,7 @@ public class Tilt : Control
 			{
 				pinGod.IsTilted = true;
 				pinGod.EnableFlippers(0);
-				trough.DisableBallSave();
+				trough?.DisableBallSave();
 				setText(Tr("TILT"));
 				pinGod.PlaySfx("tilt");
 				Visible = true;
@@ -78,7 +78,7 @@ public class Tilt : Control
 			pinGod.IsTilted = true;			
 			pinGod.EnableFlippers(0);
 			Visible = true;
-			trough.DisableBallSave();
+			trough?.DisableBallSave();
 		}
 	}
 

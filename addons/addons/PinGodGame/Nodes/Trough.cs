@@ -145,7 +145,9 @@ public class Trough : Node
 	{
 		pinGod.LogDebug("trough:_ready. switch_count: ", TroughOptions?.Switches.Length);
 	}
+
 	public int BallsInPlay() => TroughOptions.Switches.Length - BallsInTrough();
+
 	/// <summary>
 	/// Counts the number of trough switches currently active
 	/// </summary>
@@ -162,11 +164,13 @@ public class Trough : Node
 		}
 		return cnt;
 	}
+
 	public void DisableBallSave()
 	{
 		pinGod.BallSaveActive = false;
 		UpdateLamps(LightState.Off);
 	}
+
 	/// <summary>
 	/// Trough switches to check is full
 	/// </summary>
@@ -186,10 +190,12 @@ public class Trough : Node
 		}
 		return isFull;
 	}
+
 	public void PulseTrough()
 	{
 		pinGod.SolenoidPulse(TroughOptions.Coil);
 	}
+
 	/// <summary>
 	/// Activates the ball saver if not already running. Blinks the ball saver lamp
 	/// </summary>
@@ -203,6 +209,7 @@ public class Trough : Node
 		UpdateLamps(LightState.Blink);		
 		return pinGod.BallSaveActive;
 	}
+
 	/// <summary>
 	/// Starts multi-ball trough
 	/// </summary>
@@ -222,13 +229,16 @@ public class Trough : Node
 		
 		OnMultiballStarted();
 	}
+
 	void _startMballTrough(float delay) => troughPulseTimer.Start(delay);
+
 	private void FireEarlySave()
 	{
 		pinGod.LogDebug("trough:early ball_saved");
 		PulseTrough();
 		pinGod.EmitSignal(nameof(PinGodGame.BallSaved));
 	}
+
 	bool IsTroughSwitchOn(InputEvent input)
 	{
 		for (int i = 0; i < TroughOptions.Switches.Length; i++)
@@ -239,6 +249,7 @@ public class Trough : Node
 
 		return false;
 	}
+
 	bool IsTroughSwitchOff(InputEvent input)
 	{
 		for (int i = 0; i < TroughOptions.Switches.Length; i++)
@@ -249,11 +260,13 @@ public class Trough : Node
 
 		return false;
 	}
+
 	private void OnMultiballStarted()
 	{				
 		pinGod.LogDebug("trough: mball starting save for ", _mballSaveSecondsRemaining);
 		CallDeferred("_startMballTrough", 1f);
 	}
+
 	/// <summary>
 	/// Sets the shoot again lamp / or led state
 	/// </summary>
@@ -269,6 +282,7 @@ public class Trough : Node
 			pinGod.SetLedState(TroughOptions.BallSaveLed, (byte)state, ColorTranslator.ToOle(System.Drawing.Color.Yellow));
 		}
 	}
+
 	#region Timers
 	void _on_BallSaverTimer_timeout()
 	{

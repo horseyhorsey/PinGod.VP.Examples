@@ -35,11 +35,16 @@ public abstract class PinGodGame : Node
 	[Signal] public delegate void ScoresUpdated();
 	[Signal] public delegate void ServiceMenuEnter();
 	[Signal] public delegate void ServiceMenuExit();
-	#endregion
+    /// <summary>
+    /// Signal sent from memory map if <see cref="GameSettings.VpCommandSwitchId"/> was found while reading states
+    /// </summary>
+    /// <param name="index"></param>
+    [Signal] public delegate void VpCommand(byte index);
+    #endregion
 
-	#region Public Properties - Standard Pinball / Players
+    #region Public Properties - Standard Pinball / Players
 
-	public byte FlippersEnabled = 0;
+    public byte FlippersEnabled = 0;
 	public bool InBonusMode = false;
 	public bool IsMultiballRunning = false;
 	public byte MaxPlayers = 4;
@@ -107,9 +112,7 @@ public abstract class PinGodGame : Node
         if (!Engine.EditorHint)
         {
             LogInfo("pingod:enter tree");
-
-            
-
+                    
             LoadPatches();
 
             CmdArgs = GetCommandLineArgs();
@@ -119,7 +122,7 @@ public abstract class PinGodGame : Node
             OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
 
             //get trough from tree
-            _trough = GetNode("Trough") as Trough;
+            _trough = GetNodeOrNull<Trough>("Trough");
             if (_trough == null)
                 LogWarning("trough not found");
 
@@ -154,27 +157,9 @@ public abstract class PinGodGame : Node
         if (@event.IsActionPressed("quit"))
         {
             LogInfo("quit request");
-            SetGameResumed();            
-            if (mainScene != null)
-            {
-                try
-                {
-                    var tree = mainScene?.GetTree();
-                    tree.Paused = false;
-                    tree.Quit(0);
-                }
-                catch (Exception ex)
-				{ 
-					LogWarning("main scene disposed. " + ex.Message);
-					GetTree().Quit(0);
-				}
-            }
-            else
-            {
-                GetTree().Quit(0);
-            }
-
-			return;
+            SetGameResumed();
+            GetTree().Quit(0);
+            return;
         }
 
         if (@event.IsActionPressed("toggle_border"))
@@ -247,7 +232,7 @@ public abstract class PinGodGame : Node
         if (GameSettings.MachineStatesWrite || GameSettings.MachineStatesRead)
         {
             LogInfo("pingod: writing machine states is enabled. delay: " + GameSettings.MachineStatesWriteDelay);
-            memMapping = new MemoryMap();
+            memMapping = new MemoryMap(pinGodGame: this);
             memMapping.Start(GameSettings.MachineStatesWriteDelay);
         }
     }
@@ -410,7 +395,8 @@ public abstract class PinGodGame : Node
 		ResetTilt();
 		gameEndTime = OS.GetTicksMsec();
 		GameData.TimePlayed = gameEndTime - gameStartTime;
-		_trough.BallsLocked = 0;
+        if(_trough != null)
+		    _trough.BallsLocked = 0;
 		this.EmitSignal(nameof(GameEnded));
 	}
 
@@ -577,6 +563,8 @@ public abstract class PinGodGame : Node
             SaveGameSettings();
         }
 
+        LogInfo("saved game");
+
         if (GetTree().Paused)
         {
 			GetTree().Paused = false;
@@ -584,8 +572,9 @@ public abstract class PinGodGame : Node
 
 		//send game ended, died
 		SolenoidOn("died", 0);
+        LogInfo("sent game ended coil");
 
-		memMapping?.Dispose(); //dispose invokes stop as well		
+        memMapping?.Dispose(); //dispose invokes stop as well		
 	}
 
     /// <summary>
@@ -898,7 +887,7 @@ public abstract class PinGodGame : Node
         if (!GameInPlay && GameData.Credits > 0) //first player start game
         {
             LogInfo("starting game, checking trough...");
-            if (!_trough.IsTroughFull()) //return if trough isn't full. TODO: needs debug option to remove check
+            if (!_trough?.IsTroughFull() ?? false) //return if trough isn't full. TODO: needs debug option to remove check
             {
                 LogInfo("Trough not ready. Can't start game with empty trough.");
                 BallSearchTimer.Start(1);
@@ -911,7 +900,9 @@ public abstract class PinGodGame : Node
             //remove a credit and add a new player
             GameData.Credits--;
             BallsPerGame = (byte)(GameSettings.BallsPerGame > 5 ? 5 : GameSettings.BallsPerGame);
-            _trough._ball_save_seconds = (byte)(GameSettings.BallSaveTime > 20 ? 20 : GameSettings.BallSaveTime);
+
+            if(_trough != null)
+                _trough._ball_save_seconds = (byte)(GameSettings.BallSaveTime > 20 ? 20 : GameSettings.BallSaveTime);
 
             CreatePlayer($"P{Players.Count + 1}");
             CurrentPlayerIndex = 0;
@@ -940,9 +931,17 @@ public abstract class PinGodGame : Node
     /// </summary>
     /// <param name="numOfBalls">Number of balls to save. A 2 ball multiball would be 2</param>
     /// <param name="ballSaveTime"></param>
-    public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime, float pulseTime = 0)
+    public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime = 20, float pulseTime = 0)
     {
-        _trough.StartMultiball(numOfBalls, ballSaveTime, pulseTime);
+        if(_trough != null)
+        {
+            _trough.StartMultiball(numOfBalls, ballSaveTime, pulseTime);
+        }            
+        else
+        {
+
+        }
+
         IsMultiballRunning = true;
         EmitSignal(nameof(MultiballStarted));
     }
@@ -963,7 +962,12 @@ public abstract class PinGodGame : Node
             Player.ExtraBallsAwarded++;
             LogInfo("base: player shoot again");
         }
-        _trough.PulseTrough();
+
+        if(_trough != null)
+            _trough?.PulseTrough();
+        else
+            SolenoidPulse("trough");
+
         EnableFlippers(1);
     }
 

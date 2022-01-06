@@ -138,7 +138,7 @@ public class ScoreMode : Node
             if (playerInfoLabel != null)
             {
                 playerInfoLabel.Text = $"{Tr("PLAYER")}: {pinGod.CurrentPlayerIndex + 1}";
-                ballInfolabel.Text = Tr("PLAYER") + " " + (pinGod.CurrentPlayerIndex + 1).ToString();
+                ballInfolabel.Text = Tr("BALL") + " " + (pinGod.BallInPlay).ToString();
             }
 
         }

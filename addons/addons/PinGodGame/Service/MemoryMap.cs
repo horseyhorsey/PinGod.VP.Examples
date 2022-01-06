@@ -24,6 +24,7 @@ public class MemoryMap : IDisposable
     int SWITCH_COUNT = 64 * 2;
     private readonly bool writeStates;
     private readonly bool readStates;
+    private readonly PinGodGame pinGodGame;
     byte[] switchBuffer = new byte[64 * 2];
     private CancellationTokenSource tokenSource;
     private MemoryMappedViewAccessor viewAccessor;
@@ -35,7 +36,7 @@ public class MemoryMap : IDisposable
     /// <param name="lampCount"></param>
     /// <param name="ledCount"></param>
     /// <param name="switchCount"></param>
-    public MemoryMap(byte coilCount = 32, byte lampCount = 64, byte ledCount = 64, byte switchCount = 64, bool writeStates = true, bool readStates = true)
+    public MemoryMap(byte coilCount = 32, byte lampCount = 64, byte ledCount = 64, byte switchCount = 64, bool writeStates = true, bool readStates = true, PinGodGame pinGodGame = null)
     {
         this.COIL_COUNT = coilCount * 2;
         this.LAMP_COUNT = lampCount * 2;
@@ -43,6 +44,7 @@ public class MemoryMap : IDisposable
         this.SWITCH_COUNT = switchCount;
         this.writeStates = writeStates;
         this.readStates = readStates;
+        this.pinGodGame = pinGodGame;
         _offsetLamps = COIL_COUNT;
         _offsetLeds = COIL_COUNT + LAMP_COUNT;
         _offsetSwitches = _offsetLeds + (LED_COUNT * sizeof(int));
@@ -98,13 +100,14 @@ public class MemoryMap : IDisposable
     protected virtual void Dispose(bool disposing)
     {
         if (disposing)
-        {
-            Stop();
+        {            
             mmf?.Dispose();
             if (mutexCreated)
             {
                 try { mutex?.ReleaseMutex(); } catch { }
             }
+
+            Stop();
         }
         GC.SuppressFinalize(this);
     }
@@ -114,21 +117,21 @@ public class MemoryMap : IDisposable
     /// </summary>
     private void ReadStates()
     {
-        //GD.Print("read switches");
         byte[] buffer = new byte[64 * 2];
         _switchMapping.ReadArray(0, buffer, 0, buffer.Length);
-
-        //var result = string.Join(",", buffer);
-        //GD.Print(result);
-        //GD.Print(buffer.Length);
 
         if (switchBuffer != buffer)
         {
             for (int i = 0; i < buffer.Length; i++)
             {
                 if (buffer[i] != switchBuffer[i])
-                {                    
-                    if (i > 0)
+                {                   
+                    //override sending switch if this is a visual pinball command
+                    if(pinGodGame?.GameSettings?.VpCommandSwitchId == i && pinGodGame?.GameSettings?.VpCommandSwitchId > 0)
+                    {
+                        pinGodGame?.EmitSignal("VpCommand", buffer[i]);
+                    }
+                    else if (i > 0)
                     {
                         bool actionState = (bool)GD.Convert(buffer[i], Variant.Type.Bool);
                         var ev = new InputEventAction() { Action = $"sw{i}", Pressed = actionState };
