@@ -1,15 +1,19 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://modes/DropTargets.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/Targets/PinballTargetsBank.cs" type="Script" id=2]
 
-[node name="DropTargets" type="Control" groups=[
-"Mode",
-]]
+[node name="DropTargets" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PinballTargetsBank" type="Node" parent="."]
+script = ExtResource( 2 )
 _target_switches = PoolStringArray( "drop_target_0", "drop_target_1", "drop_target_2", "drop_target_3", "drop_target_4" )
-_target_lamps = PoolStringArray(  )
+
+[connection signal="OnTargetActivated" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetActivated"]
+[connection signal="OnTargetsCompleted" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetsCompleted"]

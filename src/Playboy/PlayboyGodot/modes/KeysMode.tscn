@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://modes/KeysMode.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodAddOns/Targets/PinballTargetsBank.cs" type="Script" id=2]
 [ext_resource path="res://assets/img/screenborder.png" type="Texture" id=4]
 
 [node name="KeysMode" type="Control"]
@@ -23,3 +24,11 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
+[node name="PinballTargetsBank" type="Node" parent="."]
+script = ExtResource( 2 )
+_target_switches = PoolStringArray( "lane_0", "lane_1", "lane_2", "lane_3", "target_key" )
+_target_lamps = PoolStringArray( "key_0", "key_1", "key_2", "key_3", "key_4" )
+
+[connection signal="OnTargetActivated" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetActivated"]
+[connection signal="OnTargetsCompleted" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetsCompleted"]

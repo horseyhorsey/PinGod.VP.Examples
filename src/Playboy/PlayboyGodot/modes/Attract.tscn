@@ -34,13 +34,29 @@ __meta__ = {
 _loop = true
 _pause_when_hidden = true
 
-[node name="GirlLeft" type="Sprite" parent="."]
-position = Vector2( 197.888, 559.841 )
+[node name="GirlLeft" type="TextureRect" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 5.65686
+margin_top = -490.515
+margin_right = 425.657
+margin_bottom = 8.48523
 texture = ExtResource( 9 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="GirlRight" type="Sprite" parent="."]
-position = Vector2( 1040.56, 506.908 )
+[node name="GirlRight" type="TextureRect" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -486.0
+margin_top = -500.0
 texture = ExtResource( 10 )
+stretch_mode = 4
 
 [node name="AttractLayers" type="Control" parent="."]
 anchor_right = 1.0
@@ -64,13 +80,13 @@ __meta__ = {
 }
 
 [node name="PushStart" type="Label" parent="AttractLayers/Push Start/CenterContainer"]
-margin_left = 200.0
+margin_left = 23.0
 margin_top = 296.0
-margin_right = 1080.0
+margin_right = 1257.0
 margin_bottom = 424.0
 custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 2 )
-text = "PUSH START"
+text = "ATTRACT_TITLE_1"
 align = 1
 valign = 1
 script = ExtResource( 1 )
@@ -103,15 +119,26 @@ HORSEPIN"
 align = 1
 valign = 1
 
-[node name="M-1508-76-G" type="Sprite" parent="AttractLayers"]
+[node name="M-1508-76-G" type="TextureRect" parent="AttractLayers"]
 visible = false
-position = Vector2( 653.19, 281.993 )
-scale = Vector2( 0.44, 0.44 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -886.0
+margin_top = -472.5
+margin_right = 886.0
+margin_bottom = 472.5
+rect_scale = Vector2( 0.446414, 0.446414 )
+rect_pivot_offset = Vector2( 851.65, 478.073 )
 texture = ExtResource( 11 )
+stretch_mode = 5
 
 [node name="StaticLayers" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 2.24493
+margin_bottom = 2.24493
 __meta__ = {
 "_edit_use_anchors_": false
 }

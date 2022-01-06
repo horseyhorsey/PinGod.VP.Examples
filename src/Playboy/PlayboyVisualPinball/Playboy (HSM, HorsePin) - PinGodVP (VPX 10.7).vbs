@@ -44,8 +44,8 @@ Const rLoop = 45, swSaucer = 27, swXtraBall  = 46, swKeyTarget  = 47
 ' VP table display / controller events
 '**********************
 Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
-Sub Table1_UnPaused: Controller.Pause 0 : End Sub
+Sub Table1_Paused: Controller.Pause 1 :  Controller.Pause 0 : End Sub
+Sub Table1_UnPaused: Controller.Pause 1 : End Sub
 
 '**********************
 ' VP init
@@ -177,13 +177,11 @@ Sub Table1_KeyDown(ByVal keycode)
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
-		LeftFlipper.RotateToEnd
-		PlaySound SoundFX("FlipperUp",DOFFlippers), 0, .67, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		LeftFlipper.RotateToEnd : PlaySoundAt "FlipperUp", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
-		RightFlipper.RotateToEnd
-		PlaySound SoundFX("FlipperUp",DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		RightFlipper.RotateToEnd : PlaySoundAt "FlipperUp", RightFlipper
 	End If
 
 	If vpmKeyDown(keycode) Then Exit Sub  ' This will handle machine switches and flippers etc
@@ -200,13 +198,11 @@ Sub Table1_KeyUp(ByVal keycode)
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
-		LeftFlipper.RotateToStart
-		PlaySound SoundFX("FlipperDown",DOFFlippers), 0, 1, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		LeftFlipper.RotateToStart : PlaySoundAt "FlipperDown", LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
-		RightFlipper.RotateToStart
-		PlaySound SoundFX("FlipperDown",DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		RightFlipper.RotateToStart : PlaySoundAt "FlipperDown", RightFlipper		
 	End If
 
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc

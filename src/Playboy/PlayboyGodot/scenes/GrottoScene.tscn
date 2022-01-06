@@ -74,8 +74,8 @@ margin_top = 135.0
 margin_right = 414.5
 margin_bottom = 259.0
 rect_rotation = 0.0327042
-custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.294118, 0.109804, 0.211765, 1 )
+custom_fonts/font = ExtResource( 9 )
 text = "25,000
 ADVANCED BONUS * 1"
 align = 1
@@ -90,7 +90,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="pb_grottogirl" type="Sprite" parent="."]
-position = Vector2( 703.562, 337.481 )
+position = Vector2( 1072.37, 396.032 )
 texture = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="pb_grottogirl"]
@@ -102,23 +102,33 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 3 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="InfoLayer" type="Node2D" parent="."]
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoLayer" type="Node2D" parent="Control"]
 position = Vector2( 561.77, -254.22 )
 
-[node name="pb_pinball" type="Sprite" parent="InfoLayer"]
+[node name="pb_pinball" type="Sprite" parent="Control/InfoLayer"]
 position = Vector2( 90, 210 )
 texture = ExtResource( 4 )
 
-[node name="Title" parent="InfoLayer" instance=ExtResource( 5 )]
-custom_fonts/font = ExtResource( 6 )
+[node name="Title" parent="Control/InfoLayer" instance=ExtResource( 5 )]
 custom_colors/font_color = Color( 1, 0.458824, 0.635294, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 6 )
 text = "Playboy
 grotto"
 uppercase = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="InfoLayer"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/InfoLayer"]
 autoplay = "SuckDown"
 anims/SuckDown = SubResource( 2 )
 

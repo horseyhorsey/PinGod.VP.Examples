@@ -1,26 +1,36 @@
-public class DropTargets : PinballTargetsControl
+public class DropTargets : PinGodGameMode
 {
 	private PlayboyPlayer _player;
+    private PinballTargetsBank _targets;
 
-	public override void _EnterTree()
+    public override void _EnterTree()
 	{
-		base._EnterTree();		
+		base._EnterTree();
+		_targets = GetNode<PinballTargetsBank>(nameof(PinballTargetsBank));
 	}
 
-	public override bool SetTargetComplete(int index)
-	{
-		bool result = base.SetTargetComplete(index);
-		pinGod.AddPoints(Game.MINSCORE);
-		pinGod.AddBonus(Game.MINBONUS);
-		pinGod.PlaySfx("horse-disco-pop");
-		return result;
-	}
+    protected override void OnBallStarted()
+    {
+        _player = pinGod.Player as PlayboyPlayer;
+        _targets.ResetTargets();
+        pinGod.SolenoidPulse("drop_bank");
+    }
 
-	public override void TargetsCompleted(bool reset = true)
-	{
-		base.TargetsCompleted(reset);
+    protected override void UpdateLamps()
+    {
+        base.UpdateLamps();
+    }
 
-		if(_player != null)
+    void _on_PinballTargetsBank_OnTargetActivated(string swName, bool complete)
+    {
+        pinGod.AddPoints(Game.MINSCORE);
+        pinGod.AddBonus(Game.MINBONUS);
+        pinGod.PlaySfx("horse-disco-pop");
+    }
+
+    void _on_PinballTargetsBank_OnTargetsCompleted()
+    {
+		if (_player != null)
 		{
 			pinGod.PlaySfx("horse-disco-laser");
 			_player.DropsCompleted++;
@@ -31,7 +41,7 @@ public class DropTargets : PinballTargetsControl
 			}
 
 			else if (_player.DropsCompleted >= 2)
-			{				
+			{
 				pinGod.AddPoints(50000);
 			}
 
@@ -40,17 +50,5 @@ public class DropTargets : PinballTargetsControl
 
 			pinGod.SolenoidPulse("drop_bank");
 		}
-	}
-
-	void OnBallStarted()
-	{
-		_player = pinGod.Player as PlayboyPlayer;
-		ResetTargets();
-		pinGod.SolenoidPulse("drop_bank");
-	}
-
-	public override void UpdateLamps()
-	{
-		base.UpdateLamps();
 	}
 }

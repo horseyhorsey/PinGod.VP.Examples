@@ -1,3 +1,4 @@
+cd PlayboyGodot
 SET cDir=%cd%
 cd ../../../addons/addons
 SET addDir=%cd%

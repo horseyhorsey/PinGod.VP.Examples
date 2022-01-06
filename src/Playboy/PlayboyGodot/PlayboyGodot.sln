@@ -7,10 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayboyGodot", "PlayboyGodo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E6BE33C-3F33-4EAE-9CB2-D22EC15A631A}"
 	ProjectSection(SolutionItems) = preProject
-		..\_build_export.bat = ..\_build_export.bat
+		..\_build_export_full.bat = ..\_build_export_full.bat
+		..\_build_export_pck.bat = ..\_build_export_pck.bat
+		..\_create_addons_link.bat = ..\_create_addons_link.bat
+		..\_open_appdata_dir.bat = ..\_open_appdata_dir.bat
 		..\_run_godot_editor.bat = ..\_run_godot_editor.bat
 		..\_vp_edit.bat = ..\_vp_edit.bat
 		..\_vp_play.bat = ..\_vp_play.bat
+		..\PlayboyVisualPinball\Playboy (HSM, HorsePin) - PinGodVP (VPX 10.7).vbs = ..\PlayboyVisualPinball\Playboy (HSM, HorsePin) - PinGodVP (VPX 10.7).vbs
 		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject

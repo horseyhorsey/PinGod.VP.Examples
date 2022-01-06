@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://modes/PlaymateTargets.cs" type="Script" id=1]
 [ext_resource path="res://assets/img/miss-complete.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/fonts/pb_64.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/img/pb_key.png" type="Texture" id=5]
 [ext_resource path="res://assets/fonts/pb_28.tres" type="DynamicFont" id=6]
+[ext_resource path="res://addons/PinGodAddOns/Targets/PinballTargetsBank.cs" type="Script" id=7]
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -41,10 +42,15 @@ tracks/0/keys = {
 [node name="PlaymateTargets" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PinballTargetsBank" type="Node" parent="."]
+script = ExtResource( 7 )
 _target_switches = PoolStringArray( "target_l_0", "target_l_1", "target_l_2", "target_l_3", "target_l_4" )
 _target_lamps = PoolStringArray( "pm0", "pm1", "pm2", "pm3", "pm4" )
 
@@ -125,4 +131,7 @@ __meta__ = {
 }
 
 [node name="Audio" type="AudioStreamPlayer" parent="."]
-bus = "Vox"
+bus = "Voice"
+
+[connection signal="OnTargetActivated" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetActivated"]
+[connection signal="OnTargetsCompleted" from="PinballTargetsBank" to="." method="_on_PinballTargetsBank_OnTargetsCompleted"]

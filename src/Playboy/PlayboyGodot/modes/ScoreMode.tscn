@@ -39,27 +39,31 @@ __meta__ = {
 _loop = true
 _play_when_visible = true
 
-[node name="BackgroundColour" type="ColorRect" parent="."]
+[node name="BackgroundColour2" type="ColorRect" parent="."]
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 664.0
+margin_top = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+rect_min_size = Vector2( 0, 130 )
 size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0.956863, 0.498039, 0.960784, 1 )
+size_flags_vertical = 5
+color = Color( 1, 0.423529, 0.815686, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BackgroundColour2" type="ColorRect" parent="."]
+[node name="BackgroundColour" type="ColorRect" parent="."]
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 3.41406
-margin_top = 592.0
-margin_right = 3.41406
-margin_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-color = Color( 1, 0.423529, 0.815686, 1 )
+color = Color( 0.956863, 0.498039, 0.960784, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -157,12 +161,11 @@ margin_right = -73.0
 margin_bottom = -126.0
 
 [node name="Pillars" type="TextureRect" parent="."]
-margin_left = 2.0
-margin_right = 1282.0
-margin_bottom = 720.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 texture = ExtResource( 5 )
+expand = true
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
