@@ -7,10 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PindarGodot", "PindarGodot.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6B29E97-56BD-4BCA-B4A7-5BF677F2D324}"
 	ProjectSection(SolutionItems) = preProject
-		..\_build_export.bat = ..\_build_export.bat
+		..\_build_export_full.bat = ..\_build_export_full.bat
+		..\_build_export_pack.bat = ..\_build_export_pack.bat
+		..\_build_upx_shrink_executable.bat = ..\_build_upx_shrink_executable.bat
+		..\_create_addons_link.bat = ..\_create_addons_link.bat
+		..\_open_appdata_dir.bat = ..\_open_appdata_dir.bat
 		..\_run_godot_editor.bat = ..\_run_godot_editor.bat
-		..\PindarVisualPinball\_vp_edit.bat = ..\PindarVisualPinball\_vp_edit.bat
-		..\PindarVisualPinball\_vp_play.bat = ..\PindarVisualPinball\_vp_play.bat
+		..\_vp_edit.bat = ..\_vp_edit.bat
+		..\_vp_play.bat = ..\_vp_play.bat
 		..\PindarVisualPinball\Pindar (Horsepin 2022).vbs = ..\PindarVisualPinball\Pindar (Horsepin 2022).vbs
 	EndProjectSection
 EndProject

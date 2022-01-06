@@ -33,7 +33,6 @@ Button/styles/pressed = SubResource( 3 )
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_playback_game = true
 _playbackfile = "res://recordings/collect_bonus_screen.record"
 
 [node name="MachineConfig" type="Node" parent="."]

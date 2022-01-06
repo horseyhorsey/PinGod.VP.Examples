@@ -25,6 +25,8 @@ PinGodGame="*res://game/PinGodGame.tscn"
 [display]
 
 window/size/borderless=true
+window/size/test_width=1024.0
+window/size/test_height=600.0
 window/stretch/mode="2d"
 
 [editor_plugins]
@@ -68,24 +70,9 @@ sw22={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":89,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
-sw81={
+sw85={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-sw82={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-sw83={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-sw84={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 pause={
@@ -148,6 +135,10 @@ settings={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777244,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[locale]
+
+translations=PoolStringArray( "res://addons/PinGodGame/Localization/pingod_default_lang.en.translation", "res://addons/PinGodGame/Localization/pingod_default_lang.fr.translation" )
 
 [rendering]
 
