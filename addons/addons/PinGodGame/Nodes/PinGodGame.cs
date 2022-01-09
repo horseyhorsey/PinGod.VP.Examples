@@ -112,14 +112,15 @@ public abstract class PinGodGame : Node
         if (!Engine.EditorHint)
         {
             LogInfo("pingod:enter tree");
-                    
+
             LoadPatches();
 
             CmdArgs = GetCommandLineArgs();
             LoadDataFile();
             LoadSettingsFile();
 
-            OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
+            OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);            
+            
 
             //get trough from tree
             _trough = GetNodeOrNull<Trough>("Trough");
@@ -131,10 +132,10 @@ public abstract class PinGodGame : Node
             BallSearchTimer.Connect("timeout", this, "OnBallSearchTimeout");
             this.AddChild(BallSearchTimer);
 
+            Setup();
             SetupAudio();
 
-            Setup();
-
+            LogInfo("pingod:enter tree setup complete");
             gameLoadTimeMsec = OS.GetTicksMsec();
         }
     }
@@ -225,9 +226,6 @@ public abstract class PinGodGame : Node
 
         mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
 
-        SetUpWindow();
-
-
         //setup and run writing memory states for other application to access
         if (GameSettings.MachineStatesWrite || GameSettings.MachineStatesRead)
         {
@@ -241,10 +239,7 @@ public abstract class PinGodGame : Node
 
     public Dictionary<string, string> CmdArgs { get; private set; }
 
-    public virtual ulong GetElapsedGameTime => gameEndTime - gameStartTime;
-
-    public virtual long GetTopScorePoints => GameData?.HighScores?
-			.OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
+    public virtual ulong GetElapsedGameTime => gameEndTime - gameStartTime;    
 
     /// <summary>
     /// Adds bonus to the current player
@@ -407,13 +402,25 @@ public abstract class PinGodGame : Node
     /// <returns></returns>
     public virtual ulong GetLastSwitchChangedTime(string sw) => Machine.Switches[sw].TimeSinceChange();
 
-	/// <summary>
-	/// Detect if the input `isAction` found in the given switchNames. Uses <see cref="SwitchOn(string, InputEvent)"/>
-	/// </summary>
-	/// <param name="switchNames"></param>
-	/// <param name="input"></param>
-	/// <returns></returns>
-	public virtual bool IsSwitch(string[] switchNames, InputEvent input)
+    /// <summary>
+    /// Gets the Resources autoloaded scene at "/root/Resources"
+    /// </summary>
+    /// <returns></returns>
+    public virtual Resources GetResources() => GetNodeOrNull<Resources>("/root/Resources");
+
+    /// <summary>
+    /// Gets the highest score made
+    /// </summary>
+    public virtual long GetTopScorePoints => GameData?.HighScores?
+            .OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
+
+    /// <summary>
+    /// Detect if the input `isAction` found in the given switchNames. Uses <see cref="SwitchOn(string, InputEvent)"/>
+    /// </summary>
+    /// <param name="switchNames"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public virtual bool IsSwitch(string[] switchNames, InputEvent input)
 	{
 		for (int i = 0; i < switchNames.Length; i++)
 		{
@@ -821,36 +828,7 @@ public abstract class PinGodGame : Node
             _recordFile.Open(playbackfile, File.ModeFlags.WriteRead);
             LogDebug("pingod: game recording on");
         }
-    }
-
-    /// <summary>
-    /// Sets up the window size and position from saved machine settings. See <see cref="Godot.OS"/>
-    /// </summary>
-    public virtual void SetUpWindow()
-    {
-        if (!Engine.EditorHint)
-        {
-
-            //OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
-
-            //if (!GameSettings.Display.NoWindow)
-            //{
-            //    LogDebug("pingodbase: setting display settings");
-            //    if (GameSettings.Display.FullScreen)
-            //    {
-            //        OS.WindowFullscreen = true;
-            //    }
-            //    else
-            //    {
-            //        OS.WindowSize = new Vector2(GameSettings.Display.Width, GameSettings.Display.Height);
-            //    }
-            //}
-            //else
-            //{
-            //    //todo: remove window
-            //}
-        }
-    }
+    }   
 
     public virtual void SolenoidOn(string name, byte state)
     {
@@ -869,6 +847,37 @@ public abstract class PinGodGame : Node
             await Task.Delay(pulse);
             coil.State = 0;
         });
+    }
+
+    /// <summary>
+    /// Creates a timer and removes it rather than new tasks. Need more testing if working 100%, todo: send multiple times see what it does.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="pulse"></param>
+    public virtual void SolenoidPulseTimer(string name, float pulse = 0.255f)
+    {
+        if (!SolenoidExists(name)) return;
+
+        var coil = Machine.Coils[name];
+
+        var timer = new Timer() { Autostart = false, OneShot = true, Name = $"pulsetimer_{name}", WaitTime = pulse };
+        timer.Connect("timeout", this, nameof(OnSolenoidPulseTimeout), new Godot.Collections.Array(new object[] { name }), (uint)ConnectFlags.Oneshot);
+        coil.State = 1;
+        AddChild(timer);
+        timer.Start();
+    }
+
+    private void OnSolenoidPulseTimeout(string name)
+    {        
+        var pinObj = Machine.Coils[name];
+        if (pinObj != null)
+        {
+            pinObj.State = 0;
+            var timer = GetNodeOrNull<Timer>($"pulsetimer_{name}");
+            //LogInfo(timer.GetSignalConnectionList("timeout"));
+            //timer.Disconnect("timeout", this, nameof(OnSolenoidPulseTimeout));
+            timer?.QueueFree();
+        }        
     }
 
     /// <summary>

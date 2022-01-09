@@ -85,6 +85,7 @@ public class ScoreMode : Node
     /// </summary>
     public virtual void OnScoresUpdated()
     {
+        //Logger.LogDebug("scores updated");
         if (pinGod.Players?.Count > 0)
         {
             //main score display if "ScoreMain" available

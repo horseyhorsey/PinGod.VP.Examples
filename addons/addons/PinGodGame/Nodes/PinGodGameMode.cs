@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// A base mode added to the groups named Mode. Gameplay events
+/// A base mode added to the groups named Mode. GamePlay events
 /// </summary>
 public abstract class PinGodGameMode : PinGodGameNode
 {

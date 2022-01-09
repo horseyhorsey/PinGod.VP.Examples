@@ -51,6 +51,8 @@ public class AudioManager : Node
             SfxPlayer = GetNode("SfxPlayer") as AudioStreamPlayer;
             VoicePlayer = GetNode("VoicePlayer") as AudioStreamPlayer;
 
+            Logger.LogInfo($"sound pack loaded...{ProjectSettings.LoadResourcePack("res://pingod.snd.pck")}");
+
             Music = new Dictionary<string, AudioStream>();
             Sfx = new Dictionary<string, AudioStream>();
             Voice = new Dictionary<string, AudioStream>();

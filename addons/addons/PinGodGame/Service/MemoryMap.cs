@@ -127,7 +127,7 @@ public class MemoryMap : IDisposable
                 if (buffer[i] != switchBuffer[i])
                 {                   
                     //override sending switch if this is a visual pinball command
-                    if(pinGodGame?.GameSettings?.VpCommandSwitchId == i && pinGodGame?.GameSettings?.VpCommandSwitchId > 0)
+                    if(pinGodGame?.GameSettings?.VpCommandSwitchId > 0 && pinGodGame?.GameSettings?.VpCommandSwitchId == i)
                     {
                         pinGodGame?.EmitSignal("VpCommand", buffer[i]);
                     }

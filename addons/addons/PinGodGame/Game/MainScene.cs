@@ -8,11 +8,11 @@ public class MainScene : Node2D
 	[Export] protected string _game_scene_path = "res://game/Game.tscn";
 	[Export] protected string _service_menu_scene_path = "res://addons/PinGodGame/Modes/service_menu/ServiceMenu.tscn";
 	
-	private ResourcePreloader _resourcePreLoader;
+	internal ResourcePreloader _resourcePreLoader;
 	private Node attractnode;
 	Mutex m = new Mutex();
 	private Control pauseLayer;
-    private Control settingsDisplay;
+    private Control settingsDisplay;    
 
     public bool InServiceMenu { get; private set; }
 	public PinGodGame pinGod { get; private set; }
@@ -30,7 +30,6 @@ public class MainScene : Node2D
         //load preloader
         _resourcePreLoader = GetNode("ResourcePreloader") as ResourcePreloader;
         PreloadServiceMenu();
-
         pinGod.Connect("GameStarted", this, "OnGameStarted");
         pinGod.Connect("GameEnded", this, "OnGameEnded");
         pinGod.Connect("ServiceMenuExit", this, "OnServiceMenuExit");
@@ -122,7 +121,7 @@ public class MainScene : Node2D
         pauseLayer.Hide();
         //pingod.vp controller coil 0, sets GameRunning on the controller
         pinGod.SolenoidOn("died", 1);        
-        pinGod.LogInfo("pingod base: ready, sent died coil on");
+        pinGod.LogInfo("pingod base: ready, sent died coil on");        
     }
 
     /// <summary>
@@ -252,6 +251,7 @@ public class MainScene : Node2D
 			_resourcePreLoader.AddResource(_service_menu_scene_path.BaseName(), sMenu);
 		}        
     }
+
 	void Reload() => GetTree().ReloadCurrentScene();
 
 	private void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
