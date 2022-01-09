@@ -5,14 +5,14 @@ public class KittRampMode : Node
 {
 	private KrPinGodGame _pinGod;
 	private KnightRiderPlayer _player;
-	[Export] Godot.Collections.Array<AudioStreamSample> _voices = new Godot.Collections.Array<AudioStreamSample>();
 	private AudioStreamPlayer _audio;
 
 	public override void _EnterTree()
 	{
 		base._EnterTree();
 		_pinGod = GetNode<KrPinGodGame>("/root/PinGodGame");
-		_audio = GetNode<AudioStreamPlayer>(nameof(AudioStreamPlayer));		
+		_audio = GetNode<AudioStreamPlayer>(nameof(AudioStreamPlayer));
+		_audio.Stream = _pinGod.AudioManager.Sfx["turbo"];
 	}
 
 	public override void _Input(InputEvent @event)
@@ -53,19 +53,18 @@ public class KittRampMode : Node
 						}
 						else
 						{
-							//play kitt05 sound
-							_audio.Stream = _voices[1]; _audio.Play();
+							_pinGod.PlayVoice("KITT05");
 
 							if (_player.KittCompleteCount > 0)
 							{								
 								var points = Constant.SCORE_1MIL * _player.KittCompleteCount+1;
 								_pinGod.AddPoints(points);
-								_pinGod.PlayTvScene("kitt_intro_headon", $"RAMP VALUE\n{_player.KittCompleteCount+1} MILLION", loop: false);
+								_pinGod.PlayTvScene("kitt_intro_headon", Tr("RAMP_VAL").Replace("{VAL}",$"\n{_player.KittCompleteCount + 1}"), loop: false);
 							}
 							else
 							{
 								_pinGod.AddPoints(Constant.SCORE_250K);
-								_pinGod.PlayTvScene("kitt_intro_headon", "RAMP VALUE\n250K", loop: false);
+								_pinGod.PlayTvScene("kitt_intro_headon", Tr("RAMP_VAL_250"), loop: false);
 							}
 
 							GetParent().GetNode("UpperPF").GetNode<AudioStreamPlayer2D>("KittRampMusic").Stop();
@@ -78,28 +77,28 @@ public class KittRampMode : Node
 	}
 
 	private void AwardScoreForRamp(int i)
-	{		
-		_audio.Stream = _voices[0];_audio.Play();
+	{
+		_audio.Play();
 		switch (i)
 		{
 			case 0:
 				_pinGod.AddPoints(Constant.SCORE_1MIL * 10);
 				ResetKittActive();
 				_pinGod.LogInfo("ramp: 10 million");
-				_pinGod.PlayTvScene("kitt_turboboost", "TURBO 10 MILL", 6.5f, loop: false);
+				_pinGod.PlayTvScene("kitt_turboboost", Tr("TURBO_VAL").Replace("{VAL}", "10"), 6.5f, loop: false);
 				break;
 			case 1:
 				_pinGod.AddPoints(Constant.SCORE_1MIL * 15);
 				ResetKittActive();
 				_pinGod.LogInfo("ramp: 15 million");
-				_pinGod.PlayTvScene("kitt_turboboost", "TURBO 15 MILL", 5.5f, loop: false);
+				_pinGod.PlayTvScene("kitt_turboboost", Tr("TURBO_VAL").Replace("{VAL}", "15"), 5.5f, loop: false);
 				break;
 			case 2:
 				_pinGod.AddPoints(Constant.SCORE_1MIL * 20);
 				ResetKittActive();
 				_pinGod.LogInfo("ramp: 20 million");
 				_pinGod.PlaySfx("KITT08");
-				_pinGod.PlayTvScene("kitt_turboboost", "TURBO 20 MILL\nVIDEO MODE LIT", 5.5f, loop: false);
+				_pinGod.PlayTvScene("kitt_turboboost", Tr("TURBO_VAL").Replace("{VAL}", "20") + " " + Tr("VIDEO_LIT"), 5.5f, loop: false);
 				_player.IsVideoModeLit = true;
 				_pinGod.UpdateLamps((GetParent().GetParent() as Game).GetTree());
 				break;
@@ -107,12 +106,12 @@ public class KittRampMode : Node
 				_pinGod.AddPoints(Constant.SCORE_1MIL * 100);
 				ResetKittActive();
 				_pinGod.LogInfo("ramp: 100 million");
-				_pinGod.PlayTvScene("kitt_turboboost", "TURBO 100 MILL", 5.5f, loop: false);
+				_pinGod.PlayTvScene("kitt_turboboost", Tr("TURBO_VAL").Replace("{VAL}", "100"), 5.5f, loop: false);
 				break;
 			case 4:
 				_pinGod.AddPoints(Constant.SCORE_1MIL * 100);
 				_pinGod.LogInfo("ramp: 100 million");
-				_pinGod.PlayTvScene("kitt_turboboost", "TURBO 100 MILL - COMPLETE", 5.5f, loop: false);
+				_pinGod.PlayTvScene("kitt_turboboost", Tr("TURBO_VAL").Replace("{VAL}", "100") + $" {Tr("COMPLETE")}", 5.5f, loop: false);
 				_player.KittCompleteReady = true;
 				_player.IsKittRunning = false;
 				_player.KittCompleteCount++;

@@ -1,8 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://modes/KittRampMode.cs" type="Script" id=1]
-[ext_resource path="res://assets/audio/sfx/turbo.wav" type="AudioStream" id=2]
-[ext_resource path="res://assets/audio/voice/kitt/KITT05.wav" type="AudioStream" id=3]
 
 [node name="KittRampMode" type="Control" groups=[
 "Mode",
@@ -13,7 +11,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_voices = [ ExtResource( 2 ), ExtResource( 3 ) ]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -4.968

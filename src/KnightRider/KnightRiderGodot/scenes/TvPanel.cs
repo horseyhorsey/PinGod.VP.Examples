@@ -5,21 +5,46 @@ public class TvPanel : Control
 {
 	private VideoStream _defaultStream;
 	private PinGodGame _pinGod;
-	[Export] Godot.Collections.Dictionary<string, VideoStreamTheora> _streams = null;
+	Godot.Collections.Dictionary<string, VideoStreamTheora> _streams = null;
 	private Timer _timer;
 	private Label _Label;
 	private VideoPlayerPinball _video;
 	public override void _EnterTree()
-	{
-		base._EnterTree();
-		_video = GetNode<VideoPlayerPinball>("TvPanel/VideoPlayerPinball");
-		_defaultStream = _video.Stream;
-		_pinGod = GetNode<PinGodGame>("/root/PinGodGame");
-		_timer = GetNode<Timer>("Timer");
-		_Label = GetNode<Label>("Panel/CenterContainer/Label");
+    {
+        base._EnterTree();
+        _video = GetNode<VideoPlayerPinball>("TvPanel/VideoPlayerPinball");
+        _defaultStream = _video.Stream;
+        _pinGod = GetNode<PinGodGame>("/root/PinGodGame");
+        _timer = GetNode<Timer>("Timer");
+        _Label = GetNode<Label>("Panel/CenterContainer/Label");
+
+        GetResources();
+    }
+
+    private void GetResources()
+    {
+		var res = _pinGod.GetResources();
+        _streams = new Godot.Collections.Dictionary<string, VideoStreamTheora>();
+		_streams.Add("kitt_dash", res.GetResource("kitt_dash") as VideoStreamTheora);
+		_streams.Add("karr_start", res.GetResource("karr_start") as VideoStreamTheora);
+		_streams.Add("kitt_birds", res.GetResource("kitt_birds") as VideoStreamTheora);
+		_streams.Add("kitt_bonnet", res.GetResource("kitt_bonnet") as VideoStreamTheora);
+		_streams.Add("kitt_corn", res.GetResource("kitt_corn") as VideoStreamTheora);
+		_streams.Add("kitt_dark", res.GetResource("kitt_dark") as VideoStreamTheora);
+		_streams.Add("karr_dash", res.GetResource("karr_dash") as VideoStreamTheora);
+		_streams.Add("kitt_intro_headon", res.GetResource("kitt_intro_headon") as VideoStreamTheora);
+		_streams.Add("kitt_jump", res.GetResource("kitt_jump") as VideoStreamTheora);
+		_streams.Add("kitt_turboboost", res.GetResource("kitt_turboboost") as VideoStreamTheora);
+		_streams.Add("kitt_two_wheel", res.GetResource("kitt_two_wheel") as VideoStreamTheora);
+		_streams.Add("kr_pursuit_mode", res.GetResource("kr_pursuit_mode") as VideoStreamTheora);
+		_streams.Add("mikes_finger", res.GetResource("mikes_finger") as VideoStreamTheora);
+		_streams.Add("truck_entry", res.GetResource("truck_entry") as VideoStreamTheora);
+		_streams.Add("truck_side", res.GetResource("truck_side") as VideoStreamTheora);
+		_streams.Add("kr_wheel", res.GetResource("kr_wheel") as VideoStreamTheora);
+
 	}
 
-	public override void _Ready()
+    public override void _Ready()
 	{
 		base._Ready();
 

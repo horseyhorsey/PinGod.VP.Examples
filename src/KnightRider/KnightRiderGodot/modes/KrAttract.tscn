@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/KR_Large.tres" type="DynamicFont" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://modes/KrAttract.cs" type="Script" id=4]
 [ext_resource path="res://modes/KrHighScores.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=6]
-[ext_resource path="res://assets/videos/kitt_bonnet.ogv" type="VideoStream" id=7]
 [ext_resource path="res://assets/fonts/KR_72.tres" type="DynamicFont" id=8]
 [ext_resource path="res://assets/fonts/KR_42.tres" type="DynamicFont" id=9]
 
@@ -22,7 +21,6 @@ __meta__ = {
 pause_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
-stream = ExtResource( 7 )
 autoplay = true
 script = ExtResource( 6 )
 __meta__ = {
@@ -84,9 +82,9 @@ margin_right = 1821.0
 margin_bottom = 803.0
 custom_colors/font_color = Color( 0.352941, 0.352941, 0.352941, 1 )
 custom_colors/font_outline_modulate = Color( 0.568627, 0.227451, 0.227451, 1 )
-custom_colors/font_color_shadow = Color( 0.0588235, 0.737255, 0, 1 )
-custom_constants/shadow_offset_x = -3
-custom_constants/shadow_offset_y = 8
+custom_colors/font_color_shadow = Color( 0.105882, 0.521569, 0.113725, 1 )
+custom_constants/shadow_offset_x = -1
+custom_constants/shadow_offset_y = 0
 custom_fonts/font = ExtResource( 2 )
 text = "WINNERS
 DON'T USE THE HORSE"
@@ -107,17 +105,24 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="AttractLayers/PushStart3"]
-margin_left = 598.0
+margin_left = 438.0
 margin_top = 202.0
-margin_right = 1321.0
+margin_right = 1482.0
 margin_bottom = 877.0
 custom_fonts/font = ExtResource( 8 )
-text = "PLAYFIELD: ROMPIN
-MODELS:      ROMPIN
-SCRIPT:         ROMPIN
-VP TABLE:    HORSEPIN
-PINGOD:         HORSEPIN
-TESTERS:     HORSEPIN"
+text = "PLAYFIELD:     ROMPIN
+MODELS:           ROMPIN
+RULES:               ROMPIN
+VPX:                    HORSEPIN, EMBEE
+PINGOD:             HORSEPIN
+TESTERS:         HORSEPIN"
+
+[node name="ItemList" type="ItemList" parent="AttractLayers/PushStart3"]
+visible = false
+margin_left = 960.0
+margin_top = 540.0
+margin_right = 960.0
+margin_bottom = 540.0
 
 [node name="StaticLayers" type="Control" parent="."]
 anchor_right = 1.0

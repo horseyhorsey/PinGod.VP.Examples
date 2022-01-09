@@ -2,31 +2,16 @@
 
 [ext_resource path="res://modes/KrScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://scenes/DashLamp.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/videos/kitt_bonnet.ogv" type="VideoStream" id=3]
 [ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/videos/kitt_dark.ogv" type="VideoStream" id=6]
-[ext_resource path="res://assets/videos/kitt_dash.ogv" type="VideoStream" id=7]
 [ext_resource path="res://assets/img/dash_stylebox_texture.tres" type="StyleBox" id=8]
 [ext_resource path="res://scenes/Header.tscn" type="PackedScene" id=9]
 [ext_resource path="res://assets/fonts/KR_42.tres" type="DynamicFont" id=10]
-[ext_resource path="res://assets/videos/kitt_jump.ogv" type="VideoStream" id=11]
 [ext_resource path="res://assets/fonts/Digital64.tres" type="DynamicFont" id=12]
-[ext_resource path="res://assets/videos/mikes_finger.ogv" type="VideoStream" id=13]
 [ext_resource path="res://assets/img/dash_1.jpg" type="Texture" id=14]
 [ext_resource path="res://assets/img/dash_7.jpg" type="Texture" id=15]
 [ext_resource path="res://assets/img/kr_panelrounded.tres" type="StyleBox" id=16]
-[ext_resource path="res://assets/videos/kitt_two_wheel.ogv" type="VideoStream" id=17]
 [ext_resource path="res://assets/fonts/digital-7.ttf" type="DynamicFontData" id=18]
-[ext_resource path="res://assets/videos/kitt_corn.ogv" type="VideoStream" id=19]
 [ext_resource path="res://scenes/TvPanel.tscn" type="PackedScene" id=20]
-[ext_resource path="res://assets/videos/karr_start.ogv" type="VideoStream" id=21]
-[ext_resource path="res://assets/videos/kitt_turboboost.ogv" type="VideoStream" id=22]
-[ext_resource path="res://assets/videos/karr_dash.ogv" type="VideoStream" id=23]
-[ext_resource path="res://assets/videos/truck_entry.ogv" type="VideoStream" id=24]
-[ext_resource path="res://assets/videos/truck_side.ogv" type="VideoStream" id=25]
-[ext_resource path="res://assets/videos/kr_pursuit_mode.ogv" type="VideoStream" id=26]
-[ext_resource path="res://assets/videos/kitt_intro_headon.ogv" type="VideoStream" id=27]
-[ext_resource path="res://assets/videos/kitt_birds.ogv" type="VideoStream" id=28]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -403,23 +388,6 @@ margin_left = 1041.33
 margin_top = 159.617
 margin_right = -878.67
 margin_bottom = -920.383
-_streams = {
-"karr_dash": ExtResource( 23 ),
-"karr_start": ExtResource( 21 ),
-"kitt_birds": ExtResource( 28 ),
-"kitt_bonnet": ExtResource( 3 ),
-"kitt_corn": ExtResource( 19 ),
-"kitt_dark": ExtResource( 6 ),
-"kitt_dash": ExtResource( 7 ),
-"kitt_intro_headon": ExtResource( 27 ),
-"kitt_jump": ExtResource( 11 ),
-"kitt_turboboost": ExtResource( 22 ),
-"kitt_two_wheel": ExtResource( 17 ),
-"kr_pursuit_mode": ExtResource( 26 ),
-"mikes_finger": ExtResource( 13 ),
-"truck_entry": ExtResource( 24 ),
-"truck_side": ExtResource( 25 )
-}
 
 [node name="Panel" type="Panel" parent="."]
 margin_left = 1044.0

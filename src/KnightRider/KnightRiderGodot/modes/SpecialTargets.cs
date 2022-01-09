@@ -9,6 +9,7 @@ public class SpecialTargets : PinGodGameMode
 	{
 		base._EnterTree();
 		_audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		_audio.Stream = pinGod.AudioManager.Sfx["gun01"];
 	}
 
 	protected override void OnBallStarted()
@@ -42,7 +43,7 @@ public class SpecialTargets : PinGodGameMode
 			if (!p.IsMultiballRunning)
 			{
 				p.PlayLampshowFlash();
-				p.PlayTvScene("kitt_dash", "KICKBACK AND SPECIAL\nLIT", loop: false);
+				p.PlayTvScene("kitt_dash", Tr("KICKBACK_LIT"), loop: false);
 			}
 		}
 	}

@@ -119,7 +119,7 @@ public class KrPinGodGame : PinGodGame
 		AddPoints(score);
 		PlayLampshow();
 		PlayLampshowFlash();
-		PlayTvScene("kitt_bonnet", $"JACKPOT {score.ToScoreString()}", loop: false);
+		PlayTvScene("kitt_bonnet", Tr("JACKPOT") + $" {score.ToScoreString()}", loop: false);
 		LogInfo($"jackpot {score}");
 		return score;
 	}

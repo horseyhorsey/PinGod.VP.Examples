@@ -6,11 +6,9 @@ using System.Linq;
 /// </summary>
 public class SuperPursuitMode : Node
 {
-	private AudioStreamPlayer _audio;
 	private string[] _lockLamps = new string[] { "truck_ball_1", "truck_ball_2", "truck_ball_3" };
 	private KnightRiderPlayer _player;    
 	private Timer _truckLockSwitchTimer;
-	[Export] Godot.Collections.Array<AudioStreamSample> _voices = new Godot.Collections.Array<AudioStreamSample>();
 	private int currentLock = 0;
 	private KrPinGodGame pinGod;
 	[Export] int _mballTimeout = 11;
@@ -19,7 +17,6 @@ public class SuperPursuitMode : Node
 	{
 		base._EnterTree();
 		pinGod = GetNode<KrPinGodGame>("/root/PinGodGame");
-		_audio = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 		_truckLockSwitchTimer = GetNode<Timer>("Timer");		
 	}
 
@@ -41,7 +38,7 @@ public class SuperPursuitMode : Node
 				else
 				{
 					var points = pinGod.AwardJackpot(true);
-					_audio.Stream = _voices[7]; _audio.Play(); //nice kitt
+					pinGod.PlayVoice("nice_kit"); //todo: show jackpot??
 					//pinGod.PlayTvScene("kitt_jump", "JACKPOT\n" + points.ToScoreString(), 1.5f, loop: false); //todo: use somewhere else
 				}
 			}
@@ -126,7 +123,7 @@ public class SuperPursuitMode : Node
 			{
 				pinGod.LogInfo($"pursuit: mode already running exiting saucer");
 				pinGod.SolenoidPulse("saucer_truck");
-				_audio.Stream = _voices[6]; _audio.Play(); //for gods sake
+				pinGod.PlayVoice("stop_this");
 				return;
 			}
 
@@ -147,27 +144,27 @@ public class SuperPursuitMode : Node
 				if (_player.TruckLocks[0] == 0)
 				{
 					_player.TruckLocks[0] = 2;
-					_audio.Stream = _voices[0]; _audio.Play();
+					pinGod.PlayVoice("Micheal03");
 					pinGod.AddPoints(Constant.SCORE_250K);
 					_player.IsTruckRampReady = true;
 					pinGod.LogInfo($"pursuit: truck lock 1, opening ramp");
-					pinGod.PlayTvScene("truck_entry", "ROLL INTO TRUCK\nLOCK 1", 2f, loop: false);
+					pinGod.PlayTvScene("truck_entry", Tr("TRUCK_LOCK").Replace("{VAL}","1"), 2f, loop: false);
 				}
 				else if (_player.TruckLocks[1] == 2)
 				{
-					_audio.Stream = _voices[2]; _audio.Play();
+					pinGod.PlayVoice("DEVONstrongestcar");
 					pinGod.AddPoints(Constant.SCORE_500K);
 					_player.IsTruckRampReady = true;
 					pinGod.LogInfo($"pursuit: truck lock 2, opening ramp");
-					pinGod.PlayTvScene("truck_entry", "ROLL INTO TRUCK\nLOCK 2", 2f, loop: false);
+					pinGod.PlayTvScene("truck_entry", Tr("TRUCK_LOCK").Replace("{VAL}", "2"), 2f, loop: false);
 				}
 				else if (_player.TruckLocks[2] == 2)
 				{
-					_audio.Stream = _voices[1]; _audio.Play();
+					pinGod.PlayVoice("Micheal09");
 					pinGod.AddPoints(Constant.SCORE_1MIL);
 					_player.IsTruckRampReady = true;
 					pinGod.LogInfo($"pursuit: truck lock 3, opening ramp");
-					pinGod.PlayTvScene("truck_entry", "ROLL INTO TRUCK\nLOCK 3", 2f, loop: false);
+					pinGod.PlayTvScene("truck_entry", Tr("TRUCK_LOCK").Replace("{VAL}", "3"), 2f, loop: false);
 				}
 				else
 				{
@@ -180,7 +177,7 @@ public class SuperPursuitMode : Node
 			}
 			else
 			{
-				_audio.Stream = _voices[6]; _audio.Play(); //for gods sake
+				pinGod.PlayVoice("stop_this");
 			}
 
 			pinGod.SolenoidPulse("saucer_truck");
@@ -208,7 +205,7 @@ public class SuperPursuitMode : Node
 		{
 			pinGod.LogInfo("quick lock shot.");
 			pinGod.AddPoints(Constant.SCORE_1MIL * 2);
-			_audio.Stream = _voices[7]; _audio.Play(); //nice kitt
+			pinGod.PlayVoice("nice_kit");
 		}
 
 		//disable ramp
@@ -241,13 +238,13 @@ public class SuperPursuitMode : Node
 		}
 		else
 		{
-			var lockMsg = $"BALL {currentLock} LOCKED";
+			var lockMsg = Tr("BALL_LOCKED").Replace("{VAL}", currentLock.ToString());
 			pinGod.LogInfo(lockMsg);
 			pinGod.PlayTvScene("truck_entry", lockMsg, 2f, loop: false);
 
 			//play voice
-			if (currentLock == 1) { _audio.Stream = _voices[4]; _audio.Play(); }
-			else if (currentLock == 2) { _audio.Stream = _voices[5]; _audio.Play(); }
+			if (currentLock == 1) { pinGod.PlayVoice("Bonnie02"); }
+			else if (currentLock == 2) { pinGod.PlayVoice("Micheal05"); }
 
 			if (pinGod.SwitchOn("truck_3") && pinGod.SwitchOn("truck_2") && pinGod.SwitchOn("truck_1") && pinGod.SwitchOn("truck_0"))
 			{
@@ -268,8 +265,7 @@ public class SuperPursuitMode : Node
 
 	private void StartMultiball(Game game)
 	{
-		_audio.Stream = _voices[3];
-		_audio.Play();		
+		pinGod.PlayVoice("kr_pursuit_mode");
 		game.StartSuperPursuitMultiball();
 		UpdateLamps();
 	}

@@ -19,6 +19,9 @@ public class Pickup : Area2D
 		_tween.InterpolateProperty(label, "rect_scale:x", 1, 2, 1);
 		_tween.InterpolateProperty(label, "rect_scale:y", 1, 2, 1);
 		_tween.InterpolateProperty(label, "modulate", label.Modulate, Colors.Transparent, 1);
+
+		var _pinGod = GetNode<PinGodGame>("/root/PinGodGame");
+		GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stream = _pinGod.AudioManager.Sfx["Beep"];
 	}
 
 	public override void _Process(float delta)

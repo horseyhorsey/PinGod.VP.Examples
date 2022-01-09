@@ -2,12 +2,6 @@
 
 [ext_resource path="res://modes/KarrMode.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/KR_42.tres" type="DynamicFont" id=2]
-[ext_resource path="res://assets/audio/voice/karr/KARR03.wav" type="AudioStream" id=3]
-[ext_resource path="res://assets/audio/voice/karr/KARR04.wav" type="AudioStream" id=4]
-[ext_resource path="res://assets/audio/voice/karr/KARR01.wav" type="AudioStream" id=5]
-[ext_resource path="res://assets/audio/voice/karr/karr_start.wav" type="AudioStream" id=6]
-[ext_resource path="res://assets/audio/voice/karr/KARR02.wav" type="AudioStream" id=7]
-[ext_resource path="res://assets/audio/voice/kitt/KITT04.wav" type="AudioStream" id=8]
 
 [node name="KarrMode" type="Control" groups=[
 "Mode",
@@ -17,14 +11,6 @@ anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
-}
-_voices = {
-"karr1": ExtResource( 5 ),
-"karr2": ExtResource( 7 ),
-"karr3": ExtResource( 3 ),
-"karr4": ExtResource( 4 ),
-"karr5": ExtResource( 6 ),
-"kitt4": ExtResource( 8 )
 }
 
 [node name="Timer" type="Timer" parent="."]
@@ -38,8 +24,5 @@ text = "30"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -6.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

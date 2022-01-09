@@ -11,7 +11,7 @@ public class KrBonus : Bonus
 		pinGod.DisableAllLamps();
 		pinGod.PlayMusic("kr_theme_end");
 		var kr = pinGod as KrPinGodGame;
-		kr.PlayTvScene("kitt_birds", "END OF BALL\nBONUS", _display_for_seconds, loop: false);
+		kr.PlayTvScene("kitt_birds", Tr("BONUS_EOB"), _display_for_seconds, loop: false);
 	}
 
     public override void OnTimedOut()

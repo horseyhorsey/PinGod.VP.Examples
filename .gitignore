@@ -387,3 +387,5 @@ FodyWeavers.xsd
 /src/Pindar/PindarGodot/override.cfg
 /src/KnightRider/KnightRiderGodot/override.cfg
 /src/Motu/MotuGodot/override.cfg
+/src/KnightRider/KnightRiderGodot/pingod.snd.pck
+/src/KnightRider/KnightRiderGodot/pingod.gfx.pck

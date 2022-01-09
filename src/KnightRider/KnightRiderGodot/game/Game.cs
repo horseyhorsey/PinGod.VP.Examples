@@ -137,7 +137,7 @@ public class Game : Node2D
 		pinGod.SolenoidOn("show_pursuit", 1);
 		pinGod.SolenoidPulse("kit_pursuit"); //car model
 		pinGod.LogInfo("starting super pursuit mball..todo");
-		pinGod.PlayTvScene("kr_pursuit_mode", "SUPER PURSUIT MULTIBALL\nBALL COUNT\nINCREASES JACKPOTS", 10f);
+		pinGod.PlayTvScene("kr_pursuit_mode", Tr("SUPER_PURS_MULTI"), 10f);
 		_mballStartTimer.Start();
 	}
 

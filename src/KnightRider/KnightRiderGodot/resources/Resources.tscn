@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Game/Resources.cs" type="Script" id=1]
+
+[node name="ResourcePreloader" type="ResourcePreloader"]
+script = ExtResource( 1 )
+_loadResourcesParallel = false
+_resources = {
+"kitt_corn": "res://assets/videos/kitt_corn.ogv",
+"kr_wheel": "res://assets/videos/kr_wheel.ogv",
+"kitt_dash": "res://assets/videos/kitt_dash.ogv",
+"karr_start": "res://assets/videos/karr_start.ogv",
+"kitt_dark": "res://assets/videos/kitt_dark.ogv",
+"kitt_bonnet": "res://assets/videos/kitt_bonnet.ogv",
+"kitt_turboboost": "res://assets/videos/kitt_turboboost.ogv",
+"karr_dash": "res://assets/videos/karr_dash.ogv",
+"truck_entry": "res://assets/videos/truck_entry.ogv",
+"truck_side": "res://assets/videos/truck_side.ogv",
+"kr_pursuit_mode": "res://assets/videos/kr_pursuit_mode.ogv",
+"kitt_intro_headon": "res://assets/videos/kitt_intro_headon.ogv",
+"kitt_birds": "res://assets/videos/kitt_birds.ogv",
+"kitt_jump": "res://assets/videos/kitt_jump.ogv",
+"kitt_two_wheel": "res://assets/videos/kitt_two_wheel.ogv",
+"mikes_finger": "res://assets/videos/mikes_finger.ogv",
+"kitt_speedo": "res://assets/videos/kitt_speedo.ogv",
+"kitt_wipe": "res://assets/videos/kitt_wipe.ogv",
+}

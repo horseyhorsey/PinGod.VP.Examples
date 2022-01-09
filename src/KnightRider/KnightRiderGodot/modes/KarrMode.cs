@@ -12,15 +12,11 @@ public class KarrMode : Node
 	private KrPinGodGame _pinGod;
 	private KnightRiderPlayer _player;
 
-	[Export] Dictionary<string, AudioStreamSample> _voices = new Dictionary<string, AudioStreamSample>();
-	private AudioStreamPlayer _AudioStreamPlayer;
-
 	public override void _EnterTree()
 	{
 		base._EnterTree();
 		_pinGod = GetNode<KrPinGodGame>("/root/PinGodGame");		
 		_label = GetNode<Label>("Label"); _label.Visible = false;
-		_AudioStreamPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 	}
 
 	public override void _Input(InputEvent @event)
@@ -58,8 +54,8 @@ public class KarrMode : Node
 				else
 				{
 					_pinGod.AddPoints(Constant.SCORE_STD * 3);
-				}
-				_pinGod.PlaySfx("motor01");
+					_pinGod.PlaySfx("motor01");
+				}				
 			}
 
 			//left orbit
@@ -101,7 +97,7 @@ public class KarrMode : Node
 					_pinGod.SolenoidPulse("flash_top_l", 190);
 					_pinGod.SolenoidPulse("flash_top_r", 190);
 					PlaySfx(4);
-					_pinGod.PlayTvScene("kitt_two_wheel", $"TWO WHEELS\n{points.ToScoreString()}", 1.5f, loop: false);
+					_pinGod.PlayTvScene("kitt_two_wheel", Tr("TWO_WHEELS") + $"\n{points.ToScoreString()}", 1.5f, loop: false);
 				}
 				else
 				{
@@ -119,7 +115,7 @@ public class KarrMode : Node
 					_pinGod.SolenoidPulse("flash_top_r", 81);
 					_pinGod.SolenoidPulse("flash_mid_r", 162);
 					_pinGod.SolenoidPulse("scoop_ramp");
-					_pinGod.PlayTvScene("kitt_jump", $"JUMP SCORED\n{points.ToScoreString()}", 1.5f, loop: false);
+					_pinGod.PlayTvScene("kitt_jump", Tr("JUMP_SCORED") + $"\n{points.ToScoreString()}", 1.5f, loop: false);
 
 					if (_player != null)
 					{
@@ -133,7 +129,7 @@ public class KarrMode : Node
 				else
 				{
 					var points = _pinGod.AwardJackpot();
-					_pinGod.PlayTvScene("kitt_jump", "JACKPOT\n"+ points.ToScoreString(), 1.5f, loop: false);
+					_pinGod.PlayTvScene("kitt_jump", Tr("JACKPOT") + $"\n{points.ToScoreString()}", 1.5f, loop: false);
 					_pinGod.SolenoidPulse("scoop_ramp");
 				}
 			}
@@ -178,14 +174,13 @@ public class KarrMode : Node
 		_karrModeTimeTotal = time;
 		_karrModeCurrentTime = time;
 		_label.Text = Math.Round(time, 0).ToString(); _label.Visible = true;
-		_AudioStreamPlayer.Stream = _voices["karr4"]; _AudioStreamPlayer.Play();
+		_pinGod.PlayVoice("KARR04");
 		_pinGod.EnableTruckRamp();
 		GetNode<Timer>("Timer").Start();
 	}
 
 	public void StopTimer()
 	{
-		_AudioStreamPlayer.Stop();
 		GetNode<Timer>("Timer").Stop();
 		_label.Visible = false;
 	}
@@ -198,8 +193,8 @@ public class KarrMode : Node
 			_player.ResetKarrActive();
 			_label.Visible = false;
 			StopTimer();
-			_pinGod.PlayTvScene("kitt_corn", "KARR FAILED", 2f, loop: false);
-			_AudioStreamPlayer.Stream = _voices["karr3"]; _AudioStreamPlayer.Play();
+			_pinGod.PlayTvScene("kitt_corn", Tr("KARR_FAILED"), 2f, loop: false);
+			_pinGod.PlayVoice("KARR03");
 			_pinGod.EnableTruckRamp();
 			UpdateLamps();
 		}
@@ -217,9 +212,9 @@ public class KarrMode : Node
 		StopTimer();
 		_pinGod.PlayLampshow();
 		_pinGod.PlayLampshowFlash();
-		_AudioStreamPlayer.Stream = _voices["kitt4"]; _AudioStreamPlayer.Play();
+		_pinGod.PlayVoice("KITT04");
 		_pinGod.LogDebug($"karr mode awarded. todo: KarrDefeated");
-		_pinGod.PlayTvScene("kitt_dash", "KARR DEFEATED", 2f, loop: false);
+		_pinGod.PlayTvScene("kitt_dash", Tr("KARR_DEFEATED"), 2f, loop: false);
 		_player.ResetKarrActive();		
 	}
 
@@ -284,8 +279,8 @@ public class KarrMode : Node
 			}
 			else
 			{
-				_pinGod.PlayTvScene("karr_dash", "KARR LANE COMPLETE", 2f, loop: false);
-				_AudioStreamPlayer.Stream = _voices["karr2"]; _AudioStreamPlayer.Play();
+				_pinGod.PlayTvScene("karr_dash", Tr("KARR LANE COMPLETE"), 2f, loop: false);
+				_pinGod.PlayVoice("KARR02");
 				_pinGod.PlaySfx("krfx08");
 				UpdateLamps();
 			}

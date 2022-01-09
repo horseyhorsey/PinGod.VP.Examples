@@ -21,12 +21,12 @@ Sub LoadPinGoVpController
 End Sub
 
 'Release
-'Const IsDebug = False ' set false to load an export
-'Const GameDirectory = ".\PinGod.KnightRider.exe" 'exported game
+Const IsDebug = False ' set false to load an export
+Const GameDirectory = "PinGod.KnightRider.exe" 'exported game
 
 'Debug
-Const IsDebug = True
-Const GameDirectory = "..\KnightRiderGodot" ' Loads the godot pingod game project
+'Const IsDebug = True
+'Const GameDirectory = "..\KnightRiderGodot" ' Loads the godot pingod game project
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 0  ' use led (color)
 Const UseLamps = 1  ' Check for lamp states?
@@ -41,7 +41,7 @@ Dim kickbackIM 'Kickback'
 ' VP table display / controller events
 '**********************
 Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
+Sub Table1_Paused: Controller.Pause 1 : Controller.Pause 0 : End Sub
 Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 
 '**********************
@@ -50,14 +50,8 @@ Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 '**********************
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 0 ' Position X, Y: If using full screen change this to your other monitor
-		.DisplayY			= 0 ' 
-		.DisplayWidth 		= 1920 ' 1024 FS
-		.DisplayHeight 		= 1080 ' 600  FS
-		.DisplayAlwaysOnTop = True
-		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
-		.DisplayLowDpi 		= False
 		.DisplayNoWindow 	= False
+
 	On Error Resume Next
 		if isDebug Then '
 			.RunDebug GetPlayerHWnd, GameDirectory ' Load game from Godot folder with Godot exe

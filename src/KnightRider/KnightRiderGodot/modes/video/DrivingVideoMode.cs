@@ -49,6 +49,7 @@ public class DrivingVideoMode : Node2D
 	{
 		_label = GetNode<Label>("CanvasLayer/CenterContainer/Label");
 		_player = GetNode<PlayerCar>("CanvasLayer/PlayerCar");
+		GetNodeOrNull<PinGodGame>("/root/PinGodGame")?.PlayMusic("kr_video_mode");
 		AddEnemy(0); AddEnemy(1, -4900f); AddEnemy(2, -3900f); AddEnemy(3, -1550f);
 		AddPickup();
 	}

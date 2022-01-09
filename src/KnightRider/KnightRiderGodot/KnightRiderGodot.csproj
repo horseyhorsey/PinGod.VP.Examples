@@ -12,10 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="export_presets.cfg" />
+    <None Include="local\kr_lang.csv" />
+    <None Include="local\kr_lang.csv.import" />
+    <None Include="local\kr_lang.en.translation" />
     <None Include="modes\video\DrivingVideoMode.tscn" />
     <None Include="modes\video\EnemyCar.tscn" />
     <None Include="modes\video\Pickup.tscn" />
     <None Include="modes\video\PlayerCar.tscn" />
+    <None Include="resources\Resources.tscn" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

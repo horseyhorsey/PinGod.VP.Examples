@@ -39,7 +39,7 @@ public class BaseMode : Control
 				{					
 					_player.SpecialLanes[0] = false;
 					pinGod.AddPoints(Constant.SCORE_1MIL*10);
-					pinGod.PlayTvScene("kitt_birds", "SPECIAL 10 MILLION", loop: false);
+					pinGod.PlayTvScene("kitt_birds", Tr("SPEC_10_MIL"), loop: false);
 					pinGod.PlaySfx("mike_laughs");
                 }
                 else

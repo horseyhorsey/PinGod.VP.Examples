@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://game/Game.cs" type="Script" id=1]
 [ext_resource path="res://modes/KrScoreMode.tscn" type="PackedScene" id=2]
@@ -11,12 +11,6 @@
 [ext_resource path="res://modes/SpecialTargets.tscn" type="PackedScene" id=9]
 [ext_resource path="res://modes/KittRampMode.tscn" type="PackedScene" id=10]
 [ext_resource path="res://modes/KarrMode.tscn" type="PackedScene" id=11]
-[ext_resource path="res://assets/audio/voice/karr/KARR03.wav" type="AudioStream" id=12]
-[ext_resource path="res://assets/audio/voice/karr/KARR04.wav" type="AudioStream" id=13]
-[ext_resource path="res://assets/audio/voice/karr/KARR01.wav" type="AudioStream" id=14]
-[ext_resource path="res://assets/audio/voice/karr/karr_start.wav" type="AudioStream" id=15]
-[ext_resource path="res://assets/audio/voice/karr/KARR02.wav" type="AudioStream" id=16]
-[ext_resource path="res://assets/audio/voice/kitt/KITT04.wav" type="AudioStream" id=17]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -43,14 +37,6 @@ margin_left = 1436.29
 margin_top = 584.66
 margin_right = -483.713
 margin_bottom = -495.34
-_voices = {
-"karr1": ExtResource( 14 ),
-"karr2": ExtResource( 16 ),
-"karr3": ExtResource( 12 ),
-"karr4": ExtResource( 13 ),
-"karr5": ExtResource( 15 ),
-"kitt4": ExtResource( 17 )
-}
 
 [node name="SuperPursuitMode" parent="Modes" instance=ExtResource( 8 )]
 

@@ -9,7 +9,7 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_playbackfile = "res://recordings/truck_locks.record"
+_playbackfile = "res://recordings/karr_mode_start.record"
 
 [node name="MachineConfig" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -148,21 +148,54 @@ MusicAssets = {
 "KRsuspense": "res://assets/audio/music/KRsuspense.ogg",
 "KRtheme": "res://assets/audio/music/KRtheme.ogg",
 "boogie": "res://assets/audio/music/BoogieHiScore.ogg",
+"kitt_fx": "res://assets/audio/music/KRfx12.ogg",
 "kr_gameplay": "res://assets/audio/music/kr_gameplay.ogg",
-"kr_theme_end": "res://assets/audio/music/KRthemeEnd.ogg"
+"kr_theme_end": "res://assets/audio/music/KRthemeEnd.ogg",
+"kr_video_mode": "res://assets/audio/music/KRVideoMode.ogg"
 }
 SfxAssets = {
+"Beep": "res://assets/audio/sfx/Beep.wav",
+"Beep02": "res://assets/audio/sfx/Beep02.wav",
 "DEVONhighscore": "res://assets/audio/voice/devon/DEVONhighscore.wav",
 "Gun03": "res://assets/audio/sfx/gun03.wav",
 "KITT08": "res://assets/audio/voice/kitt/KITT08.wav",
+"TurboBoostShort": "res://assets/audio/sfx/TurboBoostShort.wav",
 "credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
 "dev_welcome": "res://assets/audio/voice/devon/DEVONwelcomeaboard.wav",
+"explosion": "res://assets/audio/sfx/explosion.wav",
+"gun01": "res://assets/audio/sfx/gun01.wav",
 "gun02": "res://assets/audio/sfx/gun02.wav",
+"krfx04": "res://assets/audio/sfx/KRfx04.wav",
 "krfx08": "res://assets/audio/sfx/KRfx08.wav",
 "micheal": "res://assets/audio/voice/kitt/micheal.wav",
 "mike_laughs": "res://assets/audio/voice/mike/MichealLaughs.wav",
+"motor01": "res://assets/audio/sfx/motor01.ogg",
 "tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
+"turbo": "res://assets/audio/sfx/turbo.wav",
+"tuuut": "res://assets/audio/sfx/tuuut.wav",
 "warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+}
+VoiceAssets = {
+"Bonnie02": "res://assets/audio/voice/Bonnie02.wav",
+"DEVONstrongestcar": "res://assets/audio/voice/devon/DEVONstrongestcar.wav",
+"KARR01": "res://assets/audio/voice/karr/KARR01.wav",
+"KARR02": "res://assets/audio/voice/karr/KARR02.wav",
+"KARR03": "res://assets/audio/voice/karr/KARR03.wav",
+"KARR04": "res://assets/audio/voice/karr/KARR04.wav",
+"KARRSTART": "res://assets/audio/voice/karr/karr_start.wav",
+"KITT01": "res://assets/audio/voice/kitt/KITT01.wav",
+"KITT04": "res://assets/audio/voice/kitt/KITT04.wav",
+"KITT05": "res://assets/audio/voice/kitt/KITT05.wav",
+"KITT06": "res://assets/audio/voice/kitt/KITT06.wav",
+"KITT09": "res://assets/audio/voice/kitt/KITT09.wav",
+"KITTclutch": "res://assets/audio/voice/kitt/KITTclutch.wav",
+"Micheal03": "res://assets/audio/voice/mike/Micheal03.wav",
+"Micheal04": "res://assets/audio/voice/mike/Micheal04.wav",
+"Micheal05": "res://assets/audio/voice/mike/Micheal05.wav",
+"Micheal09": "res://assets/audio/voice/mike/Micheal09.wav",
+"kr_pursuit_mode": "res://assets/audio/voice/truck/kr_pursuit_mode.wav",
+"nice_kit": "res://assets/audio/voice/mike/nice_kit.wav",
+"stop_this": "res://assets/audio/voice/devon/stop_this.wav"
 }
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
