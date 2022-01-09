@@ -112,15 +112,15 @@ public abstract class PinGodGame : Node
         if (!Engine.EditorHint)
         {
             LogInfo("pingod:enter tree");
+            CmdArgs = GetCommandLineArgs();
+
+            LoadSettingsFile();
+
+            SetupWindow();
 
             LoadPatches();
 
-            CmdArgs = GetCommandLineArgs();
             LoadDataFile();
-            LoadSettingsFile();
-
-            OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);            
-            
 
             //get trough from tree
             _trough = GetNodeOrNull<Trough>("Trough");
@@ -137,6 +137,18 @@ public abstract class PinGodGame : Node
 
             LogInfo("pingod:enter tree setup complete");
             gameLoadTimeMsec = OS.GetTicksMsec();
+        }
+    }
+
+    private void SetupWindow()
+    {
+        OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
+
+        var ontop = (bool)ProjectSettings.GetSetting("display/window/size/always_on_top");
+        OS.SetWindowAlwaysOnTop(false);
+        if (ontop)
+        {            
+            OS.SetWindowAlwaysOnTop(true);
         }
     }
 
@@ -211,9 +223,9 @@ public abstract class PinGodGame : Node
 
     public override void _Ready()
     {
-        base._Ready();
+        base._Ready();        
 
-		BallSearchOptions = GetNode<MachineConfig>("MachineConfig")?.BallSearchOptions;
+        BallSearchOptions = GetNode<MachineConfig>("MachineConfig")?.BallSearchOptions;
 
         //name the lamp matrix
         if (_lampMatrixOverlay != null)
@@ -232,7 +244,7 @@ public abstract class PinGodGame : Node
             LogInfo("pingod: writing machine states is enabled. delay: " + GameSettings.MachineStatesWriteDelay);
             memMapping = new MemoryMap(pinGodGame: this);
             memMapping.Start(GameSettings.MachineStatesWriteDelay);
-        }
+        }        
     }
 
     #endregion

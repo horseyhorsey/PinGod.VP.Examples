@@ -19,10 +19,12 @@ public class DisplaySettingsScene : MarginContainer
 
         GetNode<Label>("VBoxContainer/HBoxContainer/DefaultWindowSizeLabel").Text = $"ORIGINAL RESOLUTION: {_displaySettings.WidthDefault} X {_displaySettings.HeightDefault}";
 
-        GetNode<CheckButton>("VBoxContainer/CheckButtonFullScreen").Pressed = (bool)ProjectSettings.GetSetting("display/window/size/fullscreen");
-        GetNode<CheckButton>("VBoxContainer/CheckButtonVsync").Pressed = (bool)ProjectSettings.GetSetting("display/window/vsync/use_vsync");
-        GetNode<CheckButton>("VBoxContainer/CheckButtonVsyncComp").Pressed = (bool)ProjectSettings.GetSetting("display/window/vsync/vsync_via_compositor");
-        GetNode<CheckButton>("VBoxContainer/CheckButtonAlwaysOnTop").Pressed = (bool)ProjectSettings.GetSetting("display/window/size/always_on_top");
+        GetNode<CheckButton>("VBoxContainer/CheckButtonFullScreen").SetPressedNoSignal((bool)ProjectSettings.GetSetting("display/window/size/fullscreen"));
+        GetNode<CheckButton>("VBoxContainer/CheckButtonVsync").SetPressedNoSignal((bool)ProjectSettings.GetSetting("display/window/vsync/use_vsync"));
+        GetNode<CheckButton>("VBoxContainer/CheckButtonVsyncComp").SetPressedNoSignal((bool)ProjectSettings.GetSetting("display/window/vsync/vsync_via_compositor"));
+
+        var top = (bool)ProjectSettings.GetSetting("display/window/size/always_on_top");
+        GetNode<CheckButton>("VBoxContainer/CheckButtonAlwaysOnTop").SetPressedNoSignal(top);
 
         //force fps debug?
         var fpsStr = ProjectSettings.GetSetting("debug/settings/fps/force_fps").ToString();
@@ -36,11 +38,12 @@ public class DisplaySettingsScene : MarginContainer
         }
         var val = ProjectSettings.GetSetting("display/window/stretch/aspect").ToString();
         PinGodStretchAspect aspect = (PinGodStretchAspect)Enum.Parse(typeof(PinGodStretchAspect), val);
-        stretchOption.Selected = (int)aspect;
+        stretchOption.Selected = (int)aspect;        
     }
 
     void _on_CheckButtonAlwaysOnTop_toggled(bool pressed)
     {
+        Logger.LogInfo("on top pressed " + pressed);
         OS.SetWindowAlwaysOnTop(pressed);
         ProjectSettings.SetSetting("display/window/size/always_on_top", pressed);
     }
