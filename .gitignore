@@ -389,3 +389,9 @@ FodyWeavers.xsd
 /src/Motu/MotuGodot/override.cfg
 /src/KnightRider/KnightRiderGodot/pingod.snd.pck
 /src/KnightRider/KnightRiderGodot/pingod.gfx.pck
+/src/KnightRider/KnightRiderVisualPinball/data_KnightRiderGodot/Mono/etc/mono
+/src/KnightRider/KnightRiderVisualPinball/pingod.snd.pck
+/src/KnightRider/KnightRiderVisualPinball/PinGod.KnightRider.pck
+/src/KnightRider/KnightRiderVisualPinball/PinGod.KnightRider.exe
+/src/KnightRider/KnightRiderVisualPinball/pingod.gfx.pck
+/src/KnightRider/KnightRiderVisualPinball/override.cfg

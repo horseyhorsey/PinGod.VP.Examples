@@ -162,7 +162,7 @@ SfxAssets = {
 "TurboBoostShort": "res://assets/audio/sfx/TurboBoostShort.wav",
 "credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
 "dev_welcome": "res://assets/audio/voice/devon/DEVONwelcomeaboard.wav",
-"explosion": "res://assets/audio/sfx/explosion.wav",
+"explosion": "res://assets/audio/sfx/explosion01.wav",
 "gun01": "res://assets/audio/sfx/gun01.wav",
 "gun02": "res://assets/audio/sfx/gun02.wav",
 "krfx04": "res://assets/audio/sfx/KRfx04.wav",

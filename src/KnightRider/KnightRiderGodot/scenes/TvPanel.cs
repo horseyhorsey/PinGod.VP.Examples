@@ -12,8 +12,7 @@ public class TvPanel : Control
 	public override void _EnterTree()
     {
         base._EnterTree();
-        _video = GetNode<VideoPlayerPinball>("TvPanel/VideoPlayerPinball");
-        _defaultStream = _video.Stream;
+        _video = GetNode<VideoPlayerPinball>("TvPanel/VideoPlayerPinball");        
         _pinGod = GetNode<PinGodGame>("/root/PinGodGame");
         _timer = GetNode<Timer>("Timer");
         _Label = GetNode<Label>("Panel/CenterContainer/Label");
@@ -42,6 +41,7 @@ public class TvPanel : Control
 		_streams.Add("truck_side", res.GetResource("truck_side") as VideoStreamTheora);
 		_streams.Add("kr_wheel", res.GetResource("kr_wheel") as VideoStreamTheora);
 
+		_defaultStream = _streams["kr_wheel"];
 	}
 
     public override void _Ready()
@@ -50,6 +50,7 @@ public class TvPanel : Control
 
 		_pinGod.Connect(nameof(KrPinGodGame.ChangeTvScene), this, nameof(OnTvSceneChanged));
 		_Label.Text = string.Empty;
+		_on_Timer_timeout(); //loop the drivers hands
 	}
 
 	private void _on_Timer_timeout()
