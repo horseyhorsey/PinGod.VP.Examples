@@ -243,8 +243,8 @@ SolCallback(24) = "LampshowAttract"
 Sub Died(Enabled)
 	'on error resume next	
 	If not enabled then
-		LoadingText.Visible = false
-		MsgBox "Game window unavailable." ' : Err.Raise 5
+		'LoadingText.Visible = false
+		'MsgBox "Game window unavailable." ' : Err.Raise 5
 	End if
 End Sub
 
