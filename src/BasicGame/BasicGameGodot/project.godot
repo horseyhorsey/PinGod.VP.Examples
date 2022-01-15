@@ -20,6 +20,7 @@ config/windows_native_icon="res://addons/PinGodGame/assets/img/pingod.ico"
 
 [autoload]
 
+Resources="*res://resources/Resources.tscn"
 PinGodGame="*res://game/PinGodGame.tscn"
 
 [display]
@@ -161,7 +162,7 @@ settings={
 
 [locale]
 
-translations=PoolStringArray( "res://addons/PinGodGame/Localization/pingod_default_lang.en.translation" )
+translations=PoolStringArray( "res://addons/PinGodGame/Localization/pingod_default_lang.en.translation", "res://local/BasicGameLang.en.translation" )
 locale_filter=[ 0, [  ] ]
 
 [rendering]

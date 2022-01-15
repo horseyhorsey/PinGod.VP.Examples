@@ -1,2 +1,2 @@
-cd Exported
+cd BasicGameVisualPinball
 upx *.exe
