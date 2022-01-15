@@ -13,6 +13,7 @@ Sub LoadPinGoVpController
 	On Error Resume Next
 		If ScriptEngineMajorVersion<5 Then MsgBox "VB Script Engine 5.0 or higher required"
 		ExecuteGlobal GetTextFile("PinGod.vbs")
+		ExecuteGlobal GetTextFile("SciFi-Lampshows.vbs")		
 		If Err Then MsgBox "Unable to open " & VBSfile & ". Ensure that it is in the same folder as this table. " & vbNewLine & Err.Description
 		Set Controller=CreateObject("PinGod.VP.Controller")		
 		If Err Then MsgBox "Failed to initialize PinGod.VP controller, is it registered?" : Exit Sub
@@ -20,12 +21,12 @@ Sub LoadPinGoVpController
 End Sub
 
 'Release builds
-'Const IsDebug = False
-'Const GameDirectory = ".\PinGod.SciFiClassic.exe"
+Const IsDebug = False
+Const GameDirectory = "PinGod.SciFiClassic.exe"
 
 'Debug builds
-Const IsDebug = True
-Const GameDirectory = "..\SciFiGameGodot"
+'Const IsDebug = True
+'Const GameDirectory = "..\SciFiGameGodot"
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 0
 Const UseLamps = 1  ' Check for lamp states?
@@ -43,15 +44,8 @@ Sub Table1_UnPaused: Controller.Pause 1 : End Sub
 '**********************
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 0
-		.DisplayY			= 0
-		.DisplayWidth 		= 1280 ' 1280 FS
-		.DisplayHeight 		= 720  ' 720  FS
-		.DisplayAlwaysOnTop = True
-		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
-		.DisplayLowDpi 		= False
 		.DisplayNoWindow 	= False
-		'.LampCount			= 80
+		.LampCount			= 80 'When this changed it also needs to be added to memory machine config in PinGodGame.tscn
 	On Error Resume Next
 		if isDebug Then '
 			.RunDebug GetPlayerHWnd, GameDirectory ' Load game from Godot folder with Godot exe
@@ -96,7 +90,7 @@ Sub InitGame
 	On Error Resume Next
 	Set bsTrough = New cvpmTrough
 	bsTrough.Size = 4
-	bsTrough.Balls = 4
+	'bsTrough.Balls = 4
 	bsTrough.InitSwitches Array(81,82,83,84) ' trough switches
 	bsTrough.InitExit BallRelease, 90, 8	
 	bsTrough.CreateEvents "bsTrough",  Drain
@@ -139,7 +133,8 @@ Sub InitGame
 	initialized = 1
 	'LoadingText.Visible = false ' Hide the overlay (loading screen)
 	On Error Goto 0	
-	
+
+	bsTrough.Balls = 4
 End Sub
 
 '****************************
@@ -193,20 +188,6 @@ End Sub
 Sub Bumper1_Hit : vpmTimer.PulseSw 40 : PlaySoundAt "fx_bumper1", Bumper1 : End Sub
 Sub Bumper2_Hit : vpmTimer.PulseSw 41 : PlaySoundAt "fx_bumper1", Bumper2 : End Sub
 Sub Bumper3_Hit : vpmTimer.PulseSw 42 : PlaySoundAt "fx_bumper1", Bumper3 : End Sub
-Sub FourBank1_Hit : Controller.Switch 27, 1 : End Sub
-Sub FourBank1_UnHit : Controller.Switch 27, 0 : End Sub
-Sub FourBank2_Hit : Controller.Switch 28, 1 : End Sub
-Sub FourBank2_UnHit : Controller.Switch 28, 0 : End Sub
-Sub FourBank3_Hit : Controller.Switch 29, 1 : End Sub
-Sub FourBank3_UnHit : Controller.Switch 29, 0 : End Sub
-Sub FourBank4_Hit : Controller.Switch 30, 1 : End Sub
-Sub FourBank4_UnHit : Controller.Switch 30, 0 : End Sub
-Sub ThreeBank1_Hit : Controller.Switch 31, 1 : End Sub
-Sub ThreeBank1_UnHit : Controller.Switch 31, 0 : End Sub
-Sub ThreeBank2_Hit : Controller.Switch 32, 1 : End Sub
-Sub ThreeBank2_UnHit : Controller.Switch 32, 0 : End Sub
-Sub ThreeBank3_Hit : Controller.Switch 33, 1 : End Sub
-Sub ThreeBank3_UnHit : Controller.Switch 33, 0 : End Sub
 
 '****************************
 ' Solenoids / Coils / Callbacks
@@ -235,6 +216,8 @@ Sub Died(Enabled)
 	'on error resume next	
 	If not enabled then
 		'MsgBox "Game window unavailable." : Err.Raise 5
+	Else
+		
 	End if
 End Sub
 

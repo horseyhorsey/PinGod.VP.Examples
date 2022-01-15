@@ -7,7 +7,6 @@ public class TopLanes : PinGodGameMode
 
 	#region Exports
 	[Export] bool _logging_enabled = false;
-	[Export] bool _reset_on_ball_started = true;
 	#endregion
 
 	public override void _EnterTree()

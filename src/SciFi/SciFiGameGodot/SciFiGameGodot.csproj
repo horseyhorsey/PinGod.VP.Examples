@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Include="export_presets.cfg" />
     <None Include="readme.md" />
+    <None Include="resources\Resources.tscn" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

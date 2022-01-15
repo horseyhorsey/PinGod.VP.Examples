@@ -1,2 +1,2 @@
-cd Exported
+cd SciFiVisualPinball
 upx *.exe

@@ -20,6 +20,7 @@ public class SciFiBonus : Bonus
     public override void StartBonusDisplay(bool visible = true)
 	{
 		_totalBonus = 1000;
+		label.Text = string.Empty;
 		Visible = true;
 		player = ((SciFiPinGodGame)pinGod).GetSciFiPlayer();
 		pinGod.AddPoints(1000);
@@ -70,7 +71,7 @@ public class SciFiBonus : Bonus
     public override string SetBonusText(string text = "")
     {
 		text = "END OF BALL" + System.Environment.NewLine;
-		text += "DEFENDER AND ALIEN BONUS" + System.Environment.NewLine;
-		return base.SetBonusText(text);
+		text += "DEFENDER AND ALIEN BONUS" + System.Environment.NewLine + _totalBonus.ToScoreString();
+		return text;
     }
 }

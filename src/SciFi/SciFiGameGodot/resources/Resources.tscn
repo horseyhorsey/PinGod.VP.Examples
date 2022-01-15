@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Game/Resources.cs" type="Script" id=1]
+
+[node name="ResourcePreloader" type="ResourcePreloader"]
+script = ExtResource( 1 )
+_resources = {
+"cosmic_1" : "res://assets/videos/cosmic_1.ogv",
+"cosmic_2" : "res://assets/videos/cosmic_2.ogv",
+"cosmic_3" : "res://assets/videos/cosmic_3.ogv",
+"cosmic_4" : "res://assets/videos/cosmic_4.ogv",
+"cosmic_5" : "res://assets/videos/cosmic_5.ogv",
+"cosmic_6" : "res://assets/videos/cosmic_6.ogv",
+"cosmic_7" : "res://assets/videos/cosmic_7.ogv"
+}

@@ -1,4 +1,6 @@
-﻿public enum GameOption
+﻿using System;
+
+public enum GameOption
 {
     Off,
     Complete,
@@ -118,5 +120,13 @@ public class SciFiPlayer : PinGodPlayer
         DefenderBonus = 0;
         SciFiAwardLevel = 0;
         ExtraBallsAwarded = 0;
+    }
+
+    internal void ResetModes()
+    {
+        SpawnEnabled = GameOption.Off;
+        InvasionEnabled = GameOption.Off;
+        ArmadaEnabled = GameOption.Off;
+        AlienBaneEnabled = GameOption.Off;
     }
 }

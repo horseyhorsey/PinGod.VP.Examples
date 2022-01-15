@@ -25,7 +25,6 @@ public class Game : PinGodGameNode
 	private PackedScene multiballPkd;
 	private SciFiPinGodGame sciPinGod;
 	private ScoreEntry scoreEntry;
-	public Kickback Kickback { get; private set; }
 	public bool KickbackEnabled { get; internal set; }
 
 	public override void _EnterTree()
@@ -71,8 +70,6 @@ public class Game : PinGodGameNode
 		sciPinGod.StartNewBall();
 		sciPinGod.OnBallStarted(GetTree());
 	}
-	
-	public void EnableKickback(bool enable = true) => Kickback.EnableKickback(enable);
 
 	/// <summary>
 	/// Add a display at end of ball
@@ -124,11 +121,14 @@ public class Game : PinGodGameNode
 		sciPinGod.DisableAllLamps();
 
 		var player = sciPinGod.GetSciFiPlayer();
-		player.ResetNewBall();
-		sciPinGod.ResetTargets();
+		player.ResetNewBall();		
 
+		if (player.AlienBaneEnabled == GameOption.Complete)
+        {
+			player.ResetModes();
+        }
 		SetupMode();
-
+		sciPinGod.UpdateLamps(this.GetTree());
 		//EnableKickback(true); //TODO: broken?
 	}
 
@@ -149,6 +149,9 @@ public class Game : PinGodGameNode
 		}
 	}
 
+	/// <summary>
+	/// plays music for the mode
+	/// </summary>
 	public void SetupMode()
 	{
 		sciPinGod.LogInfo("game: setting up mode");
@@ -248,4 +251,10 @@ public class Game : PinGodGameNode
 			CallDeferred("OnStartNewBall");
 		}
 	}
+
+    internal void EnableKickback()
+    {
+		KickbackEnabled = true;
+		sciPinGod?.UpdateLamps(GetTree());
+    }
 }

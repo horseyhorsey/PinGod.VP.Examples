@@ -10,10 +10,11 @@
 
 [node name="PinGodGame" type="Node"]
 script = ExtResource( 1 )
-_playbackfile = "res://recordings/bank_targets.record"
+_playbackfile = "res://recordings/complete_banks.record"
 
 [node name="MachineConfig" type="Node" parent="."]
 script = ExtResource( 5 )
+_memLampCount = 80
 _coils = {
 "bank3": 7,
 "bank4": 8,
@@ -157,7 +158,6 @@ _ball_search_stop_switches = PoolStringArray( "plunger_lane" )
 [node name="Trough" parent="." instance=ExtResource( 4 )]
 _auto_plunge_solenoid = ""
 _ball_save_lamp = "shoot_again"
-_ball_save_led = ""
 
 [node name="AudioManager" parent="." instance=ExtResource( 6 )]
 MusicAssets = {

@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://game/Game.cs" type="Script" id=1]
 [ext_resource path="res://modes/ScoreMode.tscn" type="PackedScene" id=2]
-[ext_resource path="res://modes/Targets.tscn" type="PackedScene" id=3]
 [ext_resource path="res://modes/TopLanes.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.tscn" type="PackedScene" id=5]
 [ext_resource path="res://modes/ScoreEntry.tscn" type="PackedScene" id=6]
@@ -10,7 +9,6 @@
 [ext_resource path="res://modes/Dock.tscn" type="PackedScene" id=8]
 [ext_resource path="res://modes/LockShot.tscn" type="PackedScene" id=9]
 [ext_resource path="res://modes/JackpotShot.tscn" type="PackedScene" id=10]
-[ext_resource path="res://modes/Kickback.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/img/bg.jpg" type="Texture" id=12]
 [ext_resource path="res://modes/BaseMode.tscn" type="PackedScene" id=13]
 
@@ -45,26 +43,16 @@ __meta__ = {
 
 [node name="BaseMode" parent="Modes" instance=ExtResource( 13 )]
 
-[node name="Kickback" parent="Modes" instance=ExtResource( 11 )]
-
 [node name="TopLanes" parent="Modes" groups=["Mode"] instance=ExtResource( 4 )]
 
 [node name="JackpotShot" parent="Modes" instance=ExtResource( 10 )]
-visible = false
 
 [node name="LockShot" parent="Modes" instance=ExtResource( 9 )]
-visible = false
-
-[node name="Targets" parent="Modes" instance=ExtResource( 3 )]
-process_priority = 1
-visible = false
 
 [node name="Dock" parent="Modes" instance=ExtResource( 8 )]
-visible = false
 
 [node name="Bonus" parent="Modes" instance=ExtResource( 7 )]
 visible = false
-_display_for_seconds = 2
 
 [node name="Tilt" parent="Modes" instance=ExtResource( 5 )]
 visible = false

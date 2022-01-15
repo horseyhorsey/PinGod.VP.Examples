@@ -6,14 +6,16 @@ public class BaseMode : Control
 
 	private SciFiPinGodGame pinGod;
 	private Game game;
-	private PackedScene _ballSaveScene;	
+	private PackedScene _ballSaveScene;
+    private Timer _timer;
 
-	public override void _EnterTree()
+    public override void _EnterTree()
 	{
 		pinGod = GetNode("/root/PinGodGame") as SciFiPinGodGame;
 		game = GetParent().GetParent() as Game;
 
 		_ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);
+		_timer = GetNode<Timer>("KickbackTimer");
 	}
 
 	/// <summary>
@@ -42,20 +44,33 @@ public class BaseMode : Control
 		//Outlane Kickbacks
 		if (pinGod.SwitchOn("outlane_l", @event))
 		{
-			if (currentPlayer.DockSpecial == GameOption.Complete)
+			if (game.KickbackEnabled)
 			{
-				pinGod.AddPoints(5000); pinGod.AwardSpecial();
-				currentPlayer.DockSpecial = GameOption.Off;
-				pinGod.SetLampState("outlane_l", 0);
-				pinGod.SetLampState("outlane_r", 0);
+				_timer.Stop();
+				_timer.Start(2f);
+				pinGod.SetLampState("kickback", 2);
+				pinGod.SolenoidPulse("kickback");
+				pinGod.PlaySfx("bumper_2"); //TODO: Should be random sound bumper.
 			}
 			else
 			{
-				pinGod.AddPoints(3000);
-			}
+				if (currentPlayer.DockSpecial == GameOption.Complete)
+				{
+					pinGod.AddPoints(5000); pinGod.AwardSpecial();
+					currentPlayer.DockSpecial = GameOption.Off;
+					pinGod.SetLampState("outlane_l", 0);
+					pinGod.SetLampState("outlane_r", 0);
+				}
+				else
+				{
+					pinGod.AddPoints(3000);
+				}
 
-			currentPlayer.AddAlienBonus(2);
+				currentPlayer.AddAlienBonus(2);
+				pinGod.PlaySfx("drain");
+			}			
 		}
+
 		if (pinGod.SwitchOn("inlane_l", @event))
 		{
 			if (currentPlayer.InvasionEnabled == GameOption.Complete)
@@ -126,9 +141,22 @@ public class BaseMode : Control
 		}
 	}
 
+	private void _on_Timer_timeout()
+	{
+		pinGod.LogInfo("kickback: timed_out");
+		EnableKickback(false);
+		UpdateLamps();
+	}
+
+	public void EnableKickback(bool enable)
+	{
+		game.KickbackEnabled = enable;
+		UpdateLamps();
+	}
+
 	private void SlingHit()
 	{
-		if (pinGod?.GetSciFiPlayer().SpawnEnabled == GameOption.Complete)
+		if (pinGod?.GetSciFiPlayer().SpawnEnabled == GameOption.Ready)
 		{
 			pinGod.AddPoints(500);
 		}
@@ -170,7 +198,13 @@ public class BaseMode : Control
 		}
 	}
 	public void OnBallStarted() { }
-	public void UpdateLamps() { }
+	public void UpdateLamps() 
+	{
+		if (!game.KickbackEnabled)
+			pinGod.SetLampState("kickback", 0);
+		else
+			pinGod.SetLampState("kickback", 1);
+	}
 
 	/// <summary>
 	/// Adds a ball save scene to the tree and removes
