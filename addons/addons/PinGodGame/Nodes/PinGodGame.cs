@@ -150,6 +150,9 @@ public abstract class PinGodGame : Node
         {            
             OS.SetWindowAlwaysOnTop(true);
         }
+
+        if (GameSettings.Display.FullScreen)
+            OS.WindowFullscreen = true;
     }
 
     public override void _ExitTree()
@@ -242,7 +245,8 @@ public abstract class PinGodGame : Node
         if (GameSettings.MachineStatesWrite || GameSettings.MachineStatesRead)
         {
             LogInfo("pingod: writing machine states is enabled. delay: " + GameSettings.MachineStatesWriteDelay);
-            memMapping = new MemoryMap(pinGodGame: this);
+            var mConfig = GetNode<MachineConfig>(nameof(MachineConfig));
+            memMapping = new MemoryMap(mConfig._memCoilCount, mConfig._memLampCount, mConfig._memLedCount, mConfig._memSwitchCount, pinGodGame: this);
             memMapping.Start(GameSettings.MachineStatesWriteDelay);
         }        
     }
@@ -576,7 +580,12 @@ public abstract class PinGodGame : Node
 		if (saveData)
         {            
             SaveWindow();
-            ProjectSettings.SaveCustom("override.cfg");
+
+            //save override.cfg when not running editor
+            if (!OS.HasFeature("editor"))
+            {
+                ProjectSettings.SaveCustom(Resources.WorkingDirectory + "/override.cfg");
+            }            
 
             SaveGameData();
             SaveGameSettings();

@@ -19,7 +19,7 @@ public class DisplaySettingsScene : MarginContainer
 
         GetNode<Label>("VBoxContainer/HBoxContainer/DefaultWindowSizeLabel").Text = $"ORIGINAL RESOLUTION: {_displaySettings.WidthDefault} X {_displaySettings.HeightDefault}";
 
-        GetNode<CheckButton>("VBoxContainer/CheckButtonFullScreen").SetPressedNoSignal((bool)ProjectSettings.GetSetting("display/window/size/fullscreen"));
+        GetNode<CheckButton>("VBoxContainer/CheckButtonFullScreen").SetPressedNoSignal(pinGod.GameSettings.Display.FullScreen);
         GetNode<CheckButton>("VBoxContainer/CheckButtonVsync").SetPressedNoSignal((bool)ProjectSettings.GetSetting("display/window/vsync/use_vsync"));
         GetNode<CheckButton>("VBoxContainer/CheckButtonVsyncComp").SetPressedNoSignal((bool)ProjectSettings.GetSetting("display/window/vsync/vsync_via_compositor"));
 
@@ -89,6 +89,6 @@ public class DisplaySettingsScene : MarginContainer
     private void SetFullScreen(bool pressed)
     {
         OS.WindowFullscreen = pressed;
-        ProjectSettings.SetSetting("display/window/size/fullscreen", pressed);
+        pinGod.GameSettings.Display.FullScreen = pressed;
     }
 }

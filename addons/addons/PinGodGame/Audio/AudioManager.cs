@@ -51,7 +51,7 @@ public class AudioManager : Node
             SfxPlayer = GetNode("SfxPlayer") as AudioStreamPlayer;
             VoicePlayer = GetNode("VoicePlayer") as AudioStreamPlayer;
 
-            Logger.LogInfo($"sound pack loaded...{ProjectSettings.LoadResourcePack("res://pingod.snd.pck")}");
+            LoadSoundPckResources();
 
             Music = new Dictionary<string, AudioStream>();
             Sfx = new Dictionary<string, AudioStream>();
@@ -71,6 +71,25 @@ public class AudioManager : Node
             {
                 AddMusic(music.Value, music.Key);
             }
+        }
+    }
+
+    private static void LoadSoundPckResources()
+    {
+        if (!ProjectSettings.LoadResourcePack("res://pingod.snd.pck"))
+        {
+            if(!ProjectSettings.LoadResourcePack(System.IO.Path.Combine(Resources.WorkingDirectory, "pingod.snd.pck")))
+            {
+                Logger.LogInfo("no sound resource pcks found");
+            }
+            else
+            {
+                Logger.LogInfo("sound resource pack loaded from " + Resources.WorkingDirectory);
+            }
+        }
+        else
+        {
+            Logger.LogInfo("sound resource pack loaded local res://");
         }
     }
 
@@ -187,10 +206,17 @@ public class AudioManager : Node
             Logger.LogWarning($"play voice: '{name}' not found");
         else
         {
-            VoicePlayer.Bus = bus;
-            VoicePlayer.Stream = Voice[name];
-            VoicePlayer.Play();
+            PlayVoice(Voice[name], bus);
         }
+    }
+
+    public void PlayVoice(AudioStream voice, string bus = "Voice")
+    {
+        if (!VoiceEnabled || Voice == null) return;
+
+        VoicePlayer.Bus = bus;
+        VoicePlayer.Stream = voice;
+        VoicePlayer.Play();
     }
 
     /// <summary>

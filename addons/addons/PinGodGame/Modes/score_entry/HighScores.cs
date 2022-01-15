@@ -3,7 +3,7 @@ using System.Linq;
 
 public class HighScores : Control
 {
-	private PinGodGame pinGod;
+	internal PinGodGame pinGod;
 	private Label Label;
 
     public override void _EnterTree()

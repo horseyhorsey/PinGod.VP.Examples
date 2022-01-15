@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 public static class PinGodExtensions
 {
-    public static string ToScoreString(this long points) => points.ToString("N0");
-    public static string ToScoreString(this int points) => points.ToString("N0");
+    public static string ToScoreString(this long points) => points.ToString("N0", CultureInfo.InvariantCulture);
+    public static string ToScoreString(this int points) => points.ToString("N0", CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Randomizes an array and returns a given length

@@ -4,6 +4,23 @@ using System.Linq;
 
 public class MachineConfig : Node
 {
+	/// <summary>
+	/// Must reflect VP controller counts
+	/// </summary>
+	[Export] public byte _memCoilCount = 32;
+	/// <summary>
+	/// Must reflect VP controller counts
+	/// </summary>
+	[Export] public byte _memLampCount = 64;
+	/// <summary>
+	/// Must reflect VP controller counts
+	/// </summary>
+	[Export] public byte _memLedCount = 64;
+	/// <summary>
+	/// Must reflect VP controller counts
+	/// </summary>
+	[Export] public byte _memSwitchCount = 64;
+
 	[Export] Dictionary<string, byte> _coils = new Dictionary<string, byte>();
 	[Export] Dictionary<string, byte> _switches = new Dictionary<string, byte>();
 	[Export] Dictionary<string, byte> _lamps = new Dictionary<string, byte>();

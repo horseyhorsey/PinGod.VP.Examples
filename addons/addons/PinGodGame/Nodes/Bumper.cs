@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 /// <summary>
 /// sends BumperHit signal, plays sound and coil if given
@@ -13,22 +14,33 @@ public class Bumper : Node
 	private PinGodGame _pinGod;
 	public AudioStreamPlayer player;
 
-	public override void _Ready()
-	{
-		_pinGod = GetNode<PinGodGame>("/root/PinGodGame");
-		if (_pinGod == null) this.SetProcessInput(false);
-		if(string.IsNullOrWhiteSpace(_SwitchName)) this.SetProcessInput(false);
+    public override void _EnterTree()
+    {
+		base._EnterTree();
 
-		//update the player stream remove the player from the scene if dev hasn't loaded a stream
-		player = GetNode<AudioStreamPlayer>(nameof(AudioStreamPlayer));
-		if (_AudioStream != null)
-		{
-			player.Stream = _AudioStream;
+		if (!Engine.EditorHint)
+        {			
+			_pinGod = GetNode<PinGodGame>("/root/PinGodGame");
+			if (_pinGod == null) this.SetProcessInput(false);
+			if (string.IsNullOrWhiteSpace(_SwitchName)) this.SetProcessInput(false);
+
+			//update the player stream remove the player from the scene if dev hasn't loaded a stream
+			player = GetNode<AudioStreamPlayer>(nameof(AudioStreamPlayer));
+			if (_AudioStream != null)
+			{
+				player.Stream = _AudioStream;
+			}
+			//else { this.RemoveChild(player); player.QueueFree(); player = null; }
 		}
-		else { this.RemoveChild(player); player.QueueFree(); player = null; }		
 	}
 
-	public override void _Input(InputEvent @event)
+    internal void SetAudioStream(AudioStream audioStream)
+    {
+		this._AudioStream = audioStream;
+		player.Stream = this._AudioStream;
+    }
+
+    public override void _Input(InputEvent @event)
 	{
 		//exit no game in play or tilted
 		if (!_pinGod.GameInPlay || _pinGod.IsTilted) return;

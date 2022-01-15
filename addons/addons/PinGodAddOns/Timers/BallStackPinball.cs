@@ -76,7 +76,7 @@ public class BallStackPinball : Timer
 	}
     public void SolenoidPulse()
     {
-		pingod.SolenoidPulse(_coil);
+		pingod.SolenoidPulseTimer(_coil);
     }
 
     #endregion

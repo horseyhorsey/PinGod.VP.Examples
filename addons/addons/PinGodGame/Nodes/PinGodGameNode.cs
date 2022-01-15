@@ -12,6 +12,6 @@ public abstract class PinGodGameNode : Node
 
     public override void _EnterTree()
     {
-        pinGod = GetNode("/root/PinGodGame") as PinGodGame;        
+        pinGod = GetNodeOrNull("/root/PinGodGame") as PinGodGame;        
     }
 }
