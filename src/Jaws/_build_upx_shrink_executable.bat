@@ -1,2 +1,2 @@
-cd Exported
+cd JawsVisualPinball
 upx *.exe

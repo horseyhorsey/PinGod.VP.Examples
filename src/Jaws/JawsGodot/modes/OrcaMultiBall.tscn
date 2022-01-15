@@ -2,13 +2,10 @@
 
 [ext_resource path="res://addons/PinGodAddOns/VideoPlayers/VideoPlayerPinball.cs" type="Script" id=1]
 [ext_resource path="res://modes/OrcaMultiBall.cs" type="Script" id=2]
-[ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/fonts/Jaws54.tres" type="DynamicFont" id=3]
 [ext_resource path="res://layers/SeaBG000.tscn" type="PackedScene" id=4]
 
-[node name="OrcaMultiball" type="Control" groups=[
-"Mode",
-]]
-visible = false
+[node name="OrcaMultiball" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -17,8 +14,7 @@ __meta__ = {
 }
 
 [node name="SeaBG000" parent="." instance=ExtResource( 4 )]
-margin_right = 568.0
-margin_bottom = 240.0
+frame = 2
 
 [node name="VideoPlayerPinball" type="VideoPlayer" parent="."]
 pause_mode = 1
@@ -28,8 +24,8 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_pause_when_hidden = true
 _play_when_visible = true
+_pause_when_hidden = true
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -39,12 +35,12 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="CenterContainer"]
-margin_left = 111.0
-margin_top = 58.0
-margin_right = 457.0
-margin_bottom = 181.0
+margin_left = 137.0
+margin_top = 68.0
+margin_right = 431.0
+margin_bottom = 171.0
+custom_colors/font_color = Color( 0.164706, 0.870588, 0.905882, 1 )
 custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color = Color( 0.133333, 0.796078, 0.831373, 1 )
 text = "ORCA RAMP
 OPEN"
 align = 1

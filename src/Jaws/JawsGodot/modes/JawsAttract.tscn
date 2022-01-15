@@ -9,10 +9,14 @@
 [ext_resource path="res://assets/fonts/Jaws20.tres" type="DynamicFont" id=7]
 
 [node name="Attract" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SeaBG000" parent="." instance=ExtResource( 6 )]
 
 [node name="AttractLayers" type="CanvasLayer" parent="."]
 
@@ -22,8 +26,6 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="SeaBG000" parent="AttractLayers/Push Start" instance=ExtResource( 6 )]
 
 [node name="Background" type="ColorRect" parent="AttractLayers/Push Start"]
 visible = false
@@ -57,6 +59,30 @@ _blinking = 0.5
 
 [node name="HighScores" parent="AttractLayers" instance=ExtResource( 5 )]
 visible = false
+
+[node name="Credits" type="CenterContainer" parent="AttractLayers"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="AttractLayers/Credits"]
+margin_left = 179.0
+margin_top = 52.0
+margin_right = 388.0
+margin_bottom = 187.0
+custom_colors/font_color = Color( 0.858824, 0.937255, 0.160784, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "PLAYFIELD:     ROMPIN
+MODELS:         ROMPIN
+RULES:           ROMPIN
+VPX:           HORSEPIN
+PINGOD:       HORSEPIN
+TESTERS:     HORSEPIN"
+align = 1
+valign = 1
 
 [node name="StaticLayers" type="CanvasLayer" parent="."]
 

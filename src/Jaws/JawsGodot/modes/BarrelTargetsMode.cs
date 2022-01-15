@@ -58,7 +58,7 @@ public class BarrelTargetsMode : PinGodGameNode
 				if (!game.IsMultiballScoringStarted)
 				{
 					pinGod.PlaySfx("barrel_target");
-					pinGod.SolenoidPulse("flash_jaws");
+					pinGod.SolenoidPulseTimer("flash_jaws");
 				}
 			}
 			if (pinGod.SwitchOn("jaws_target_right", @event))
@@ -68,7 +68,7 @@ public class BarrelTargetsMode : PinGodGameNode
 				if (!game.IsMultiballScoringStarted)
 				{
 					pinGod.PlaySfx("barrel_target");
-					pinGod.SolenoidPulse("flash_jaws");
+					pinGod.SolenoidPulseTimer("flash_jaws");
 				}
 			}
 		}		
@@ -110,7 +110,6 @@ public class BarrelTargetsMode : PinGodGameNode
 			game.DoublePlayfield = true;
 			pinGod.LogInfo("barrel targets completed. Double PF active");
 			game.AddPoints(50000);			
-			//todo: barrel bonus, bonus
 			game.currentPlayer.BonusBarrel += game.DoublePlayfield ? 2750 * 2 : 2750;
 			game.currentPlayer.BarrelTargetsComplete++;
 			timer.Start();
@@ -119,30 +118,14 @@ public class BarrelTargetsMode : PinGodGameNode
 		}
 		else
 		{
-			DisplayTargetInfo();
+			//todo: show info of targets to enable 2x?
+			//DisplayTargetInfo();
 		}
 
 		UpdateLamps();
 		return false;
 	}
 
-	/// <summary>
-	/// TODO
-	/// </summary>
-	void DisplayTargetInfo() { }
-
-	/// <summary>
-	/// TODO
-	/// </summary>
-	void HideInfoLayers() { }
-	/// <summary>
-	/// TODO
-	/// </summary>
-	void ResetBarrelTargets() { }
-	/// <summary>
-	/// TODO
-	/// </summary>
-	void SetUpTextLayers() { }
 	bool TargetHit(int index) 
 	{
 		game.AddPoints(20000);

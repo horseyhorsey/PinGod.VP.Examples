@@ -36,7 +36,7 @@ public class OrcaMultiBall : Control
 	}
 	public override void _Input(InputEvent @event)
 	{
-		if (pinGod.IsTilted || !pinGod.GameInPlay) return;
+		if (pinGod.IsTilted || !pinGod.GameInPlay || game.currentPlayer == null) return;
 
 		if (pinGod.SwitchOn("orca_magnet", @event))
 		{
@@ -54,12 +54,12 @@ public class OrcaMultiBall : Control
 					game.AddPoints(5000);
 					game.currentPlayer.BonusSkipper += game.DoublePlayfield ? Game.BONUS_SKIPPER_VALUE * 2 : Game.BONUS_SKIPPER_VALUE;					
 					BallLocked();
+					pinGod.SolenoidOn("vpcoil", 2);
 				}
 			}
 		}		
-
-		//TODO skip scenes
-		//game.currentPlayer.BonusSkipper += game.DoublePlayfield ? 1000 * 2 : 1000;
+		
+		game.currentPlayer.BonusSkipper += game.DoublePlayfield ? 1000 * 2 : 1000;
 		if (pinGod.SwitchOn("orca_target", @event))
 		{
 			OrcaTargetHit();
@@ -160,7 +160,7 @@ public class OrcaMultiBall : Control
 	}
 	private void EndMultiball()
 	{
-		if (IsMultiballRunning)
+		if (pinGod.IsMultiballRunning)
 		{
 			IsMultiballRunning = false;			
 			DisableOrcaLamps();
@@ -186,16 +186,27 @@ public class OrcaMultiBall : Control
 			game.AddPoints(20000);
 			game.ReleaseOrcaMagnet(false);
 			game.currentPlayer.Bonus += Game.BONUS_VALUE;
-			this.label.Text = "RAMP\r\nACTIVE";			
+			pinGod.SolenoidOn("vpcoil", 4); //todo: vp lamps
 
-			if (game.currentPlayer.OrcaCount == 3) //multi-ball start
+			this.label.Text = Tr("ORCA_ACTIVE");			
+
+			if (game.currentPlayer.OrcaCount == game.currentPlayer.OrcaRampTarget) //multi-ball start
 			{
 				StartMultiball();
 			}
 			else
 			{				
 				game.currentPlayer.OrcaCount++;
-				this.label.Text = $"\r\n\r\n\n\rORCA LOCK{game.currentPlayer.OrcaCount}";
+
+				if(game.currentPlayer.OrcaCount > 0)
+                {
+					this.label.Text = $"\r\n\r\n\n\r{Tr("ORCA_LOCK")} {game.currentPlayer.OrcaCount}";
+				}
+                else
+                {
+					this.label.Text = $"\r\n\r\n\n\r{Tr("ORCA_RAMPS")} {(game.currentPlayer.OrcaCount -1).ToString().Replace(" - ","")}";
+				}
+				
 				this.Visible = true;
 				clearTimer.Stop();
 				ballLockedTimer.Start(4f);
@@ -210,7 +221,7 @@ public class OrcaMultiBall : Control
 		}
 		else
 		{
-			this.label.Text = "TARGET\r\nACTIVATES ORCA";
+			this.label.Text = Tr("ORCA_INFO");
 			this.Visible = true;
 			clearTimer.Stop();clearTimer.Start(2);
 		}
@@ -228,7 +239,7 @@ public class OrcaMultiBall : Control
 		multiballReady = true;
 		ballLockedTimer.Start(3.6f);
 		game.currentPlayer.OrcaCount++;
-		this.label.Text = $"\n\r\n\rORCA\r\nMULTIBALL";
+		this.label.Text = $"\n\r\n\r{Tr("ORCA_MBALL")}";
 		CallDeferred("PlayScene", "orca_mball_start");
 		game.UpdateProgress();
 	}
@@ -242,7 +253,7 @@ public class OrcaMultiBall : Control
 		if (!pinGod.IsMultiballRunning && !pinGod.GetJawsPlayer().OrcaLocksActive)
 		{
 			pinGod.GetJawsPlayer().OrcaLocksActive = true;
-			label.Text = "\r\nORCA RAMP\r\nOPEN";
+			label.Text = Tr("ORCA_OPEN");
 			this.Visible = true;
 			clearTimer.Start(2.6f);
 			UpdateLamps();

@@ -9,7 +9,7 @@ public class JawsPlayer : PinGodPlayer
     public int BarrelMballCompleteCount { get; set; }
     public long BarrelMballCurrentScore { get; set; }
     public bool BarrelsOn { get; set; }
-    public int BarrelStage { get; set; }
+    public int BarrelStage { get; set; } = 1;
     public bool[] BarrelTargets { get; private set; }
     public int BarrelTargetsComplete { get; set; }
     public bool BarrelTargetsUp { get; internal set; }
@@ -33,6 +33,13 @@ public class JawsPlayer : PinGodPlayer
     public int QuintLocksComplete { get; set; }
     public bool SharkLockEnabled { get; set; }
     public int SharkLocksComplete { get; set; }
+    public int BarrelsHitTotal { get; internal set; }
+    public int OrcaRampTarget { get; set; } = 3;
+
+    /// <summary>
+    /// default 25 million
+    /// </summary>
+    public long SuperjackpotValue { get; set; } = 25000000;
     #endregion
 
     public JawsPlayer()
@@ -79,6 +86,7 @@ public class JawsPlayer : PinGodPlayer
     {
         OrcaMballCurrentScore = 0;
         OrcaCount = 0;
+        OrcaCount -= OrcaMballCompleteCount * 2;
         OrcaLocksActive = false;       
     }
 }

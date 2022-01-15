@@ -22,12 +22,19 @@ public class HurryUpMode : Control
 		//StartHurryUp(); //TESTING
 	}
 
+	void OnBallDrained()
+    {
+		timer.Stop();
+		Visible = false;
+    }
+
 	public bool IsRunning() => !timer.IsStopped();
 
 	public long AwardHurryUp()
 	{
 		timer.Stop();
-		awardLabel.Text = "AWARDED\r\n" + _current_award.ToScoreString();
+		awardLabel.Text = Tr("AWARDED") + _current_award.ToScoreString();
+		pinGod.SolenoidOn("vpcoil", 3);
 		return _current_award;
 	}
 

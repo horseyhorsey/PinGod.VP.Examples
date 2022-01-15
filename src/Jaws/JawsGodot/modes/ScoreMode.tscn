@@ -1,15 +1,15 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://modes/JawsScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://assets/fonts/Jaws20.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/fonts/Jaws54.tres" type="DynamicFont" id=3]
 [ext_resource path="res://layers/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
 [ext_resource path="res://modes/GameProgress.tscn" type="PackedScene" id=6]
 [ext_resource path="res://layers/SeaBG000.tscn" type="PackedScene" id=7]
-[ext_resource path="res://assets/img/posterFace.png" type="Texture" id=8]
+[ext_resource path="res://layers/SharkFace.tscn" type="PackedScene" id=8]
 
-[node name="ScoreMode" type="Control"]
+[node name="ScoreMode" type="Control" groups=["Mode"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -25,15 +25,10 @@ _scoreLabelP3 = NodePath("ScoreP3")
 _scoreLabelP4 = NodePath("ScoreP4")
 
 [node name="SeaBG000" parent="." instance=ExtResource( 7 )]
+frame = 2
 
-[node name="posterFace" type="TextureRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 8 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="SharkFace" parent="." instance=ExtResource( 8 )]
+margin_bottom = 0.0
 
 [node name="ScoreMain" type="Label" parent="."]
 anchor_top = 0.5

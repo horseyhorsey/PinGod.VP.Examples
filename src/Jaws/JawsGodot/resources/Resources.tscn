@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/PinGodGame/Game/Resources.cs" type="Script" id=1]
+
+[node name="ResourcePreloader" type="ResourcePreloader"]
+script = ExtResource( 1 )
+_loadResourcesParallel = false
+_resources = {
+"brody_bruce_start": "res://assets/videos/brody_bruce_start.ogv",
+"brody_miss_01": "res://assets/videos/brody_miss_01.ogv",
+"brody_miss_02": "res://assets/videos/brody_miss_02.ogv",
+"brody_slow_ahead": "res://assets/videos/brody_slow_ahead.ogv",
+"brody_super_shot": "res://assets/videos/brody_super_shot.ogv",
+"death_boy": "res://assets/videos/death_boy.ogv",
+"death_chrissy": "res://assets/videos/death_chrissy.ogv",
+"death_leg": "res://assets/videos/death_leg.ogv",
+"hoop_arse": "res://assets/videos/hoop_arse.ogv",
+"hoop_fist": "res://assets/videos/hoop_fist.ogv",
+"hoop_letit_go": "res://assets/videos/hoop_letit_go.ogv",
+"jaws_jump": "res://assets/videos/jaws_jump.ogv",
+"orca_down_ramp": "res://assets/videos/orca_down_ramp.ogv",
+"orca_mball_start": "res://assets/videos/orca_mball_start.ogv",
+"orca_quint": "res://assets/videos/orca_quint.ogv",
+"orca_sail": "res://assets/videos/orca_sail.ogv",
+"orca_sail": "res://assets/videos/orca_sail.ogv",
+"quint_dead": "res://assets/videos/quint_dead.ogv",
+"quint_home": "res://assets/videos/quint_home.ogv",
+"quint_hoop_drives": "res://assets/videos/quint_hoop_drives.ogv",
+"quint_lock_1a": "res://assets/videos/quint_lock_1a.ogv",
+"quint_lock_1b": "res://assets/videos/quint_lock_1b.ogv",
+"quint_lock_2a": "res://assets/videos/quint_lock_2a.ogv",
+"quint_lock_2b": "res://assets/videos/quint_lock_2b.ogv",
+"quint_lock_3a": "res://assets/videos/quint_lock_3a.ogv",
+"quint_lock_3b": "res://assets/videos/quint_lock_3b.ogv",
+"barrel_hook_me_up": "res://assets/videos/barrels/barrel_hook_me_up.ogv",
+"barrel_round_complete": "res://assets/videos/barrels/barrel_round_complete.ogv",
+"barrel_shot_1": "res://assets/videos/barrels/barrel_shot_1.ogv",
+"barrel_shot_2": "res://assets/videos/barrels/barrel_shot_2.ogv",
+"barrel_start": "res://assets/videos/barrels/barrel_start.ogv",
+"barrel_tie_it_on": "res://assets/videos/barrels/barrel_tie_it_on.ogv",
+"brody_barrel_1": "res://assets/videos/barrels/brody_barrel_1.ogv",
+"brody_barrel_2": "res://assets/videos/barrels/brody_barrel_2.ogv",
+"quint_3_barrels": "res://assets/videos/barrels/quint_3_barrels.ogv",
+}

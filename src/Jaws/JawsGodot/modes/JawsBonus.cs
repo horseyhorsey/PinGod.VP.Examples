@@ -15,7 +15,8 @@ public class JawsBonus : Control
 	private Label bonusBarrel;
 	private Label bonusSkipper;
 	private float _default_display_for_seconds;
-	private JawsPinGodGame pinGod;
+    private TextureRect shark;
+    private JawsPinGodGame pinGod;
 	private JawsPlayer player;
 	private long total;
 
@@ -40,6 +41,8 @@ public class JawsBonus : Control
 		bonusBarrel = GetNode("CenterContainer/VBoxContainer/barrelbonus") as Label;
 		bonusSkipper = GetNode("CenterContainer/VBoxContainer/skipperbonus") as Label;
 		_default_display_for_seconds = _display_for_seconds;
+
+		shark = GetNode<TextureRect>("SharkFace");
 	}
 
 	public override void _Ready()
@@ -53,6 +56,8 @@ public class JawsBonus : Control
 
 	public void StartBonusDisplay()
 	{
+		shark.GetNodeOrNull<AnimationPlayer>(nameof(AnimationPlayer))?.Play("default_reverse");
+
 		//test
 		//player = new JawsPlayer() { Bonus = 2234, BonusBruce = 23324, BonusSkipper = 23214, BonusBarrel = 4454 };
 		pinGod.DisableAllLamps();
@@ -112,7 +117,7 @@ public class JawsBonus : Control
 		//pinGod.LogInfo("bonus: timer ", _display_for_seconds);
 		if (_display_for_seconds <= 0)
 		{
-			pinGod.AudioManager.StopMusic();
+			pinGod.StopMusic();
 			pinGod.AddPoints(1000);
 			HideAndRestLabels();
 			pinGod.LogInfo("bonus: BonusEnded");

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/fonts/Jaws20.tres" type="DynamicFont" id=1]
 [ext_resource path="res://modes/JawsBonus.cs" type="Script" id=2]
 [ext_resource path="res://layers/SeaBG000.tscn" type="PackedScene" id=3]
+[ext_resource path="res://layers/SharkFace.tscn" type="PackedScene" id=4]
 
 [node name="Bonus" type="Control"]
 anchor_right = 1.0
@@ -14,8 +15,8 @@ __meta__ = {
 _display_for_seconds = 4.0
 
 [node name="SeaBG000" parent="." instance=ExtResource( 3 )]
-margin_right = 568.0
-margin_bottom = 240.0
+
+[node name="SharkFace" parent="." instance=ExtResource( 4 )]
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -34,8 +35,8 @@ margin_bottom = 120.0
 visible = false
 margin_right = 143.0
 margin_bottom = 20.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.996078, 0.0705882, 0.0705882, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "skipper bonus"
 align = 1
 __meta__ = {
@@ -46,8 +47,8 @@ __meta__ = {
 visible = false
 margin_right = 138.0
 margin_bottom = 20.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.996078, 0.0705882, 0.0705882, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "barrel bonus"
 align = 1
 __meta__ = {
@@ -56,11 +57,10 @@ __meta__ = {
 
 [node name="bruceybonus" type="Label" parent="CenterContainer/VBoxContainer"]
 visible = false
-margin_top = 24.0
-margin_right = 138.0
-margin_bottom = 44.0
-custom_fonts/font = ExtResource( 1 )
+margin_right = 136.0
+margin_bottom = 20.0
 custom_colors/font_color = Color( 0.996078, 0.0705882, 0.0705882, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "brucey bonus"
 align = 1
 __meta__ = {
@@ -72,8 +72,8 @@ visible = false
 margin_top = 48.0
 margin_right = 138.0
 margin_bottom = 68.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.996078, 0.0705882, 0.0705882, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "bonus"
 align = 1
 uppercase = true

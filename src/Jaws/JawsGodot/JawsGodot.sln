@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\_vp_edit.bat = ..\_vp_edit.bat
 		..\_vp_play.bat = ..\_vp_play.bat
 		..\JawsVisualPinball\Jaws (RomPin, HorsePin 2021)(PinGodVP)-VPX10.7.vbs = ..\JawsVisualPinball\Jaws (RomPin, HorsePin 2021)(PinGodVP)-VPX10.7.vbs
+		..\JawsVisualPinball\Lampshows.vbs = ..\JawsVisualPinball\Lampshows.vbs
 	EndProjectSection
 EndProject
 Global

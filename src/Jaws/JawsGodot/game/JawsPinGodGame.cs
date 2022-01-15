@@ -12,7 +12,7 @@ public class JawsPinGodGame : PinGodGame
     }
 
 	public JawsPlayer GetJawsPlayer() => Player as JawsPlayer;
-	public int JawsToyState { get; private set; }
+	public int JawsToyState { get; set; }
 
     internal void EnableJawsToy(bool enable)
     {

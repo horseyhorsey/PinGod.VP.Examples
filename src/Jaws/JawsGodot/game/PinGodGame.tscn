@@ -12,7 +12,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": ""
 }
-_logging_level = 2
 _playbackfile = "res://recordings/drain_3_balls.record"
 
 [node name="MachineConfig" type="Node" parent="."]
@@ -46,7 +45,8 @@ _coils = {
 "kickback": 8,
 "orca_magnet": 10,
 "orca_toy": 9,
-"trough": 1
+"trough": 1,
+"vpcoil": "29"
 }
 _switches = {
 "ball_shooter": 28,
@@ -158,32 +158,37 @@ _ball_search_coils = PoolStringArray( "bruce_vuk", "barrel_kicker", "jaws_kicker
 _ball_search_stop_switches = PoolStringArray( "bruce_vuk", "barrel_kicker", "jaws_kicker" )
 
 [node name="Trough" parent="." instance=ExtResource( 4 )]
+_early_save_switches = PoolStringArray( "outlane_r" )
 _ball_save_lamp = "shoot_again"
 _ball_save_led = ""
 
 [node name="AudioManager" parent="." instance=ExtResource( 6 )]
 MusicAssets = {
-"bgmmusic": "res://assets/audio/music/orca_leaves_port.ogg",
 "barrel_start": "res://assets/audio/music/barrel_start.ogg",
 "barrels_loop": "res://assets/audio/music/barrels_loop.ogg",
+"bgmmusic": "res://assets/audio/music/orca_leaves_port.ogg",
+"complete": "res://assets/audio/music/complete.ogg",
 "dundun_1": "res://assets/audio/music/dundun_1.ogg",
 "dundun_2": "res://assets/audio/music/dundun_2.ogg",
-"orca_mball": "res://assets/audio/music/orca_mball.ogg",
-"complete": "res://assets/audio/music/complete.ogg",
-"suspense_loop": "res://assets/audio/music/suspense_loop.ogg",
-"music_suspense_end": "res://assets/audio/music/music_suspense_end.ogg",
 "end_music_final": "res://assets/audio/music/end_music_final.ogg",
+"music_suspense_end": "res://assets/audio/music/music_suspense_end.ogg",
+"orca_mball": "res://assets/audio/music/orca_mball.ogg",
+"suspense_loop": "res://assets/audio/music/suspense_loop.ogg"
 }
 SfxAssets = {
-"bell": "res://assets/audio/sfx/bell.wav",
-"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
 "barrel_target": "res://assets/audio/sfx/barrel_target.wav",
-"shark_hit_fx": "res://assets/audio/sfx/shark_hit_fx.wav",
-"short_fx_03": "res://assets/audio/sfx/short_fx_03.wav",
+"bell": "res://assets/audio/sfx/bell.wav",
 "brody_super_cheer": "res://assets/audio/voice/brody_super_cheer.wav",
+"credit": "res://addons/PinGodGame/assets/audio/sfx/credit.wav",
+"shark_hit_fx": "res://assets/audio/sfx/shark_hit_fx.wav",
 "shoot": "res://assets/audio/voice/shoot.wav",
+"short_fx_03": "res://assets/audio/sfx/short_fx_03.wav",
 "tilt": "res://addons/PinGodGame/assets/audio/sfx/tilt.wav",
 "warning": "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"
+}
+VoiceAssets = {
+"jackpot": "res://assets/audio/voice/jackpot.ogg",
+"quint_slow_ahead": "res://assets/audio/voice/quint_slow_ahead.ogg"
 }
 
 [node name="DevOverlays" type="CanvasLayer" parent="."]
@@ -199,3 +204,4 @@ margin_right = 0.0
 margin_bottom = 0.0
 
 [node name="SwitchOverlay" parent="DevOverlays" instance=ExtResource( 2 )]
+columns = 6

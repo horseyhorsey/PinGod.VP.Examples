@@ -4,27 +4,24 @@
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="assets\videos\**" />
+    <EmbeddedResource Remove="assets\videos\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\videos\barrels\barrel_hook_me_up.ogv" />
-    <None Include="assets\videos\barrels\barrel_round_complete.ogv" />
-    <None Include="assets\videos\barrels\barrel_shot_1.ogv" />
-    <None Include="assets\videos\barrels\barrel_shot_2.ogv" />
-    <None Include="assets\videos\barrels\barrel_start.ogv" />
-    <None Include="assets\videos\barrels\barrel_tie_it_on.ogv" />
-    <None Include="assets\videos\barrels\brody_barrel_1.ogv" />
-    <None Include="assets\videos\barrels\brody_barrel_2.ogv" />
-    <None Include="assets\videos\barrels\quint_3_barrels.ogv" />
     <None Include="export_presets.cfg" />
+    <None Include="local\jaws_lang.csv" />
     <None Include="project.godot" />
     <None Include="readme.md" />
+    <None Include="resources\Resources.tscn" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <!--<ProjectReference Include="..\..\..\..\PinGod.VP.Examples\addons\PinGodAddOns.csproj" />-->
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="assets\" />
     <Folder Include="layers\" />
   </ItemGroup>
 </Project>

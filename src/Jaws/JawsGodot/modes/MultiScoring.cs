@@ -34,12 +34,6 @@ public class MultiScoring : Control
 
 	public override void _Input(InputEvent @event)
 	{
-		//TODO: Remove, testing T key
-		//if (pinGod.SwitchOn("lock_activate_0", @event))
-		//{
-		//	PlayScoreScene(_sharkTexture);
-		//}
-
 		if (IsScoreModeRunning)
 		{
 			if (pinGod.SwitchOn("bumper_0", @event))
@@ -63,7 +57,9 @@ public class MultiScoring : Control
 					var score = game.AddPoints(GetScore(false));
 					_label.Text = PinGodExtensions.ToScoreString(score);
 					game.currentPlayer.Bonus += game.DoublePlayfield ? Game.BONUS_VALUE * 2 : Game.BONUS_VALUE;
+					game.currentPlayer.SuperjackpotValue += 100000;
 					PlayScoreScene(_orcaTexture);
+					pinGod.SolenoidOn("vpcoil", 1);
 				}
 			}
 
@@ -72,7 +68,9 @@ public class MultiScoring : Control
 				var score = game.AddPoints(GetScore(false));
 				_label.Text = PinGodExtensions.ToScoreString(score);
 				game.currentPlayer.Bonus += game.DoublePlayfield ? Game.BONUS_VALUE * 2 : Game.BONUS_VALUE;
+				game.currentPlayer.SuperjackpotValue += 100000;
 				PlayScoreScene(_orcaTexture);
+				pinGod.SolenoidOn("vpcoil", 2);
 			}
 
 			if (pinGod.SwitchOn("bruce_vuk", @event))
@@ -80,7 +78,9 @@ public class MultiScoring : Control
 				var score = game.AddPoints(GetScore(false));
 				_label.Text = PinGodExtensions.ToScoreString(score);
 				game.currentPlayer.BonusBruce += game.DoublePlayfield ? Game.BONUS_BRUCEY_VALUE * 2 : Game.BONUS_BRUCEY_VALUE;
+				game.currentPlayer.SuperjackpotValue += 100000;
 				PlayScoreScene(_sharkTexture);
+				pinGod.SolenoidOn("vpcoil", 1);
 			}
 
 			if (pinGod.SwitchOn("barrel_kicker", @event))
@@ -88,7 +88,9 @@ public class MultiScoring : Control
 				var score = game.AddPoints(GetScore(false));
 				_label.Text = PinGodExtensions.ToScoreString(score);
 				game.currentPlayer.BonusBarrel += game.DoublePlayfield ? Game.BONUS_BARREL_VALUE * 2 : Game.BONUS_BARREL_VALUE;
+				game.currentPlayer.SuperjackpotValue += 100000;
 				PlayScoreScene(_barrelTexture);
+				pinGod.SolenoidOn("vpcoil", 3);
 			}
 		}
 	}
@@ -167,8 +169,11 @@ public class MultiScoring : Control
 	}
 	private void EndMultiball()
 	{
-		pinGod.LogInfo("mscoring: end multiball");
-		StopScoringMode();
+        if (IsScoreModeRunning)
+        {
+			pinGod.LogInfo("mscoring: end multiball");
+			StopScoringMode();
+		}		
 	}
 
 	/// <summary>
@@ -187,6 +192,7 @@ public class MultiScoring : Control
 
 	private void PlayScoreScene(Texture _texture)
 	{
+		pinGod.PlayVoice("jackpot");
 		if (!_displayBusy)
 		{
 			if (!_tween.IsActive())

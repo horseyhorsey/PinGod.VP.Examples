@@ -13,20 +13,20 @@ Sub LoadPinGoVpController
 	On Error Resume Next
 		If ScriptEngineMajorVersion<5 Then MsgBox "VB Script Engine 5.0 or higher required"
 		ExecuteGlobal GetTextFile("PinGod.vbs")
+		ExecuteGlobal GetTextFile("Jaws-Lampshows.vbs") 'load lampshow methods
 		If Err Then MsgBox "Unable to open " & VBSfile & ". Ensure that it is in the same folder as this table. " & vbNewLine & Err.Description
 		Set Controller=CreateObject("PinGod.VP.Controller")		
 		If Err Then MsgBox "Failed to initialize PinGod.VP controller, is it registered?" : Exit Sub
 	On Error Goto 0
 End Sub
 
-
 'Release builds
-'Const IsDebug = False
-'Const GameDirectory = "./PinGod.Jaws.exe"
+Const IsDebug = False
+Const GameDirectory = "PinGod.Jaws.exe"
 
 'Debug builds
-Const IsDebug = True
-Const GameDirectory = "..\JawsGodot"
+'Const IsDebug = True
+'Const GameDirectory = "..\JawsGodot"
 Const UseSolenoids = 1 ' Check for solenoid states?
 Const UsePdbLeds = 0
 Const UseLamps = 1  ' Check for lamp states?
@@ -43,7 +43,7 @@ Dim bsBarrelStack, bsVUK, bsJawsHole, mMagnet
 ' VP table display / controller events
 '**********************
 Sub Table1_Exit : Controller.Stop : End Sub ' Closes the display window, sends the quit action
-Sub Table1_Paused: Controller.Pause 1 : End Sub
+Sub Table1_Paused: Controller.Pause 1 : Controller.Pause 0 : End Sub
 Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 
 '**********************
@@ -52,14 +52,8 @@ Sub Table1_UnPaused: Controller.Pause 0 : End Sub
 '**********************
 Sub Table1_Init	
 	With Controller
-		.DisplayX			= 1920 - 578
-		.DisplayY			= 10
-		.DisplayWidth 		= 568 ' 568 FS
-		.DisplayHeight 		= 240 ' 240  FS
-		.DisplayAlwaysOnTop = True
-		.DisplayFullScreen 	= False 'Providing the position is on another display it should fullscreen to window
-		.DisplayLowDpi 		= False
 		.DisplayNoWindow 	= False
+		
 	On Error Resume Next
 		if isDebug Then '
 			.RunDebug GetPlayerHWnd, GameDirectory ' Load game from Godot folder with Godot exe
@@ -102,15 +96,16 @@ Sub InitGame
 	bsTrough.Reset		
 	
 	'Barrel Kicker
-	set bsBarrelStack = new cvpmBallStack
-      With bsBarrelStack
-      .InitSw 0, 57, 0, 0, 0, 0, 0, 0
-      .InitKick bsBarrel2, 210, 10
-      .Balls = 0
-      .InitEntrySnd "Scoop", "SolenoidOn"
-      .InitExitSnd "popper_ball", "SolenoidOn"
-    End With
-	
+     Set bsBarrelStack = New cvpmBallStack
+     With bsBarrelStack
+         .InitSw 0, 57, 0, 0, 0, 0, 0, 0
+         .InitKick bsBarrel2, 210, 10
+         .KickZ = 0.4         
+         .KickBalls = 4 ' Kick all balls that go into scoop 
+		 '.InitEntrySnd "Scoop", ""
+		 .InitExitSnd "popper_ball", ""		 
+     End With
+
 	'Bruce VUK
     Set bsVUK = New cvpmBallStack
     With bsVUK
@@ -127,7 +122,7 @@ Sub InitGame
       .InitKick JawsKickOut, 210, 30
       .Balls = 0
 	  .CreateEvents "bsJawsHole",  JawsHole
-	  .InitEntrySnd "Scoop", "SolenoidOn"
+	  .InitEntrySnd "solenoidleft", "SolenoidOn"
       .InitExitSnd "popper_ball", "SolenoidOn"
     End With
 	
@@ -187,13 +182,11 @@ Sub Table1_KeyDown(ByVal keycode)
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
-		LeftFlipper.RotateToEnd
-		PlaySound SoundFX(SFlipperOn,DOFFlippers), 0, .67, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		LeftFlipper.RotateToEnd : PlaySoundAt SFlipperOn, LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
-		RightFlipper.RotateToEnd
-		PlaySound SoundFX(SFlipperOn,DOFFlippers), 0, .67, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		RightFlipper.RotateToEnd : PlaySoundAt SFlipperOn, RightFlipper
 	End If
 
 	If vpmKeyDown(keycode) Then Exit Sub  ' This will handle machine switches and flippers etc
@@ -209,13 +202,11 @@ Sub Table1_KeyUp(ByVal keycode)
 	End If
 
 	If keycode = LeftFlipperKey and FlippersOn Then
-		LeftFlipper.RotateToStart
-		PlaySound SoundFX(SFlipperOff,DOFFlippers), 0, 1, AudioPan(LeftFlipper), 0.05,0,0,1,AudioFade(LeftFlipper)
+		LeftFlipper.RotateToStart : PlaySoundAt SFlipperOff, LeftFlipper
 	End If
 
 	If keycode = RightFlipperKey and FlippersOn Then
-		RightFlipper.RotateToStart
-		PlaySound SoundFX(SFlipperOff,DOFFlippers), 0, 1, AudioPan(RightFlipper), 0.05,0,0,1,AudioFade(RightFlipper)
+		RightFlipper.RotateToStart : PlaySoundAt SFlipperOff, RightFlipper
 	End If
 
 	If vpmKeyUp(keycode) Then Exit Sub ' This will handle machine switches and flippers etc
@@ -261,44 +252,15 @@ Sub Died(Enabled)
 	End if
 End Sub
 
-'Color grade GI
-Dim i 
-Sub ColGradeGI_Timer
-    if i=1 Then 
-      ColGradeGI.Enabled = False
-    Else
-      Table1.ColorGradeImage = "ColorGrade_BrightCurve0" & i
-      i = i-1
-    End If
-End Sub
-
-Sub ColGradeGIOff_Timer
-    if i=5 Then 
-      ColGradeGI.Enabled = False
-    Else
-      Table1.ColorGradeImage = "ColorGrade_BrightCurve0" & i
-      i = i+1
-    End If      
-End Sub
-
-
 Sub SolBarrelEject(enabled)
      If Enabled Then
-    bsBarrelStack.ExitSol_On
-    bsBarrel1.TimerInterval=1000
-    bsBarrel1.TimerEnabled=True
+		bsBarrelStack.ExitSol_On
      End If
 End Sub
 
-SUb bsBarrel1_Hit:PlaySoundAt "Scoop" , bsBarrel :End Sub
 SUb bsBarrel_Hit
-    bsBarrel1.Enabled=False
+	PlaySoundAt "Scoop", bsBarrel
     bsBarrelStack.AddBall Me
-End Sub
-
-Sub bsBarrel1_Timer
-  bsBarrel1.TimerEnabled=False
-  bsBarrel1.Enabled=True
 End Sub
 
 'Do it like this as one on/off, will make it faster
@@ -341,18 +303,12 @@ Sub SolJawsTargetD(enabled) : sw41.IsDropped = not enabled : End Sub
 Sub SolJawsTargetE(enabled) : sw42.IsDropped = not enabled : End Sub
 Sub SolJawsTargetF(enabled) : sw43.IsDropped = not enabled : End Sub
 
-'************************************
-' Uncle Willy - Lamps intensity
-'*************************************
-Dim slider, xx
-slider = (100 - Table1.nightday)/2
-for each xx in GI: xx.intensity = xx.intensity + slider: next
-
 '##################################
 ' Jaws Toy
 '##################################
 Sub SolJaws(enabled)
 	DOF 104, 2
+	PlaySoundAt "motor-short", bottom_jaw
 	If enabled Then
 		JawsMouthWall.IsDropped=False
 		JawsDown.enabled=False
@@ -360,7 +316,7 @@ Sub SolJaws(enabled)
 	Else
 		JawsMouthWall.IsDropped=True
 		JawsUp.enabled = False
-		JawsDown.enabled = True
+		JawsDown.enabled = True		
 	End If
 End Sub
 
@@ -440,6 +396,7 @@ End Sub
 
 Sub JawsHole_Hit()
 	bsJawsHole.AddBall Me
+	PlaySoundAt "solenoidleft", JawsHole
 End Sub
 
 '#####################################
@@ -805,9 +762,9 @@ End Sub
 
 Sub Bumpers_Hit (idx)
 	Select Case Int(Rnd*3)+1
-		Case 1 : PlaySound "fx_bumperacreat1", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
-		Case 2 : PlaySound "bumper_2", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
-		Case 3 : PlaySound "fx_bumperacreat1", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
+		Case 1 : PlaySoundAt "fx_bumperacreat1", Bumper1
+		Case 2 : PlaySoundAt "fx_bumperacreat1", Bumper2
+		Case 3 : PlaySoundAt "fx_bumperacreat1", Bumper3
 	End Select
 End Sub
 
@@ -823,6 +780,14 @@ End Sub
 
 Sub Pins_Hit (idx)
 	PlaySound "pinhit_low", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 0, 0, AudioFade(ActiveBall)
+End Sub
+
+Sub DropTargets_Hit (idx)
+	PlaySound "DropTargetDropped", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 0, 0, AudioFade(ActiveBall)
+End Sub
+
+Sub Triggers_Hit (idx)
+	PlaySound "sensor", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 0, 0, AudioFade(ActiveBall)
 End Sub
 
 Sub Targets_Hit (idx)
@@ -853,9 +818,9 @@ Sub Rubbers_Hit(idx)
  	dim finalspeed
   	finalspeed=SQR(activeball.velx * activeball.velx + activeball.vely * activeball.vely)
  	If finalspeed > 20 then 
-		PlaySound "fx_rubber2", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
+		PlaySound "fx_rubber2", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0
 	End if
-	If finalspeed >= 6 AND finalspeed <= 20 then
+	If finalspeed >= 1 AND finalspeed <= 20 then
  		RandomSoundRubber()
  	End If
 End Sub
@@ -863,10 +828,10 @@ End Sub
 Sub Posts_Hit(idx)
  	dim finalspeed
   	finalspeed=SQR(activeball.velx * activeball.velx + activeball.vely * activeball.vely)
- 	If finalspeed > 16 then 
+ 	If finalspeed > 20 then 
 		PlaySound "fx_rubber2", 0, Vol(ActiveBall), AudioPan(ActiveBall), 0, Pitch(ActiveBall), 1, 0, AudioFade(ActiveBall)
 	End if
-	If finalspeed >= 6 AND finalspeed <= 16 then
+	If finalspeed >= 6 AND finalspeed <= 20 then
  		RandomSoundRubber()
  	End If
 End Sub

@@ -80,8 +80,8 @@ public class Game : Node2D
 		{
 			if (pinGod.SwitchOn("plunger_lane"))
 			{
-				pinGod.SolenoidPulse("auto_plunger");
-				pinGod.SolenoidPulse("flash_wire");
+				pinGod.SolenoidPulseTimer("auto_plunger");
+				pinGod.SolenoidPulseTimer("flash_wire");
 			}
 		}
 		
@@ -280,8 +280,8 @@ public class Game : Node2D
         }
         else
         {
-            pinGod.PlayMusic(pinGod.AudioManager.Bgm);
-        }
+			pinGod.PlayMusic("bgmmusic");
+		}
     }
 
     internal void ResetBarrelDropsRound()

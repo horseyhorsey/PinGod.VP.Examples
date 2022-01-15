@@ -14,7 +14,7 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.662745, 0.678431, 0.152941, 1 )
+color = Color( 0.168627, 0.556863, 0.843137, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -60,6 +60,7 @@ __meta__ = {
 margin_top = 102.0
 margin_right = 194.0
 margin_bottom = 135.0
+custom_colors/font_color = Color( 0.886275, 0.0862745, 0.0862745, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "A"
 align = 1
