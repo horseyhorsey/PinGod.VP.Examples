@@ -15,21 +15,39 @@ public class AudioManager : Node
     [Export] public string Bgm { get; set; }
 
     [Export] public Dictionary<string, string> MusicAssets { get; private set; } = new Dictionary<string, string>();
+
+    /// <summary>
+    /// Assets dictionary with some default sounds
+    /// </summary>
     [Export]
     public Dictionary<string, string> SfxAssets { get; private set; } = new Dictionary<string, string>() {
         { "credit" , "res://addons/PinGodGame/assets/audio/sfx/credit.wav"},
         { "tilt" , "res://addons/PinGodGame/assets/audio/sfx/tilt.wav"},
         { "warning" , "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"}
     };
+
     [Export] public Dictionary<string, string> VoiceAssets { get; private set; } = new Dictionary<string, string>();
 
     #endregion
 
+    /// <summary>
+    /// Current music stream name
+    /// </summary>
     public string CurrentMusic { get; set; }
+
+    /// <summary>
+    /// Collection of music audiostream resources
+    /// </summary>
     public Dictionary<string, AudioStream> Music { get; private set; }
 
+    /// <summary>
+    /// Disable / Enable music
+    /// </summary>
     public bool MusicEnabled { get; set; }
 
+    /// <summary>
+    /// Music player
+    /// </summary>
     public AudioStreamPlayer MusicPlayer { get; private set; }
 
     public Dictionary<string, AudioStream> Sfx { get; private set; }
@@ -43,6 +61,9 @@ public class AudioManager : Node
 
     public AudioStreamPlayer VoicePlayer { get; private set; }
 
+    /// <summary>
+    /// Initializes the AudioStreamPlayers. Loads sound pack resources and adds any assets found into the dictionaries
+    /// </summary>
     public override void _EnterTree()
     {
         if (!Engine.EditorHint)
@@ -74,13 +95,16 @@ public class AudioManager : Node
         }
     }
 
+    /// <summary>
+    /// Loads a pingod.snd.pck sounds file, Tries res:// first then the working directory
+    /// </summary>
     private static void LoadSoundPckResources()
     {
         if (!ProjectSettings.LoadResourcePack("res://pingod.snd.pck"))
         {
             if(!ProjectSettings.LoadResourcePack(System.IO.Path.Combine(Resources.WorkingDirectory, "pingod.snd.pck")))
             {
-                Logger.LogInfo("no sound resource pcks found");
+                Logger.LogInfo("no sound resource Pcks found");
             }
             else
             {
@@ -94,7 +118,7 @@ public class AudioManager : Node
     }
 
     /// <summary>
-    /// Adds a music resource
+    /// Loads and adds a music resource to the <see cref="Music"/> dictionary
     /// </summary>
     /// <param name="resource"></param>
     /// <param name="key"></param>
@@ -113,7 +137,7 @@ public class AudioManager : Node
     }
 
     /// <summary>
-    /// Adds a SFX resource
+    /// Loads and adds a sfx resource stream to the <see cref="Sfx"/> dictionary
     /// </summary>
     /// <param name="resource"></param>
     /// <param name="key"></param>
@@ -132,7 +156,7 @@ public class AudioManager : Node
     }
 
     /// <summary>
-    /// Adds a Voice resource
+    /// Loads and adds a voice resource stream to the <see cref="Voice"/> dictionary
     /// </summary>
     /// <param name="resource"></param>
     /// <param name="key"></param>
@@ -150,13 +174,25 @@ public class AudioManager : Node
         }
     }
 
+    /// <summary>
+    /// Just logs debug music player finished
+    /// </summary>
     public void MusicPlayer_finished()
     {
         Logger.LogDebug($"{MusicPlayer.Stream?.ResourceName} - music player finished");
     }
 
+    /// <summary>
+    /// Pauses the stream loaded into the <see cref="MusicPlayer"/>
+    /// </summary>
+    /// <param name="paused"></param>
     public void PauseMusic(bool paused) => MusicPlayer.StreamPaused = paused;
 
+    /// <summary>
+    /// Sets the <see cref="MusicPlayer"/> stream and plays the music from name
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="pos"></param>
     public void PlayMusic(string name, float pos = 0f)
     {
         if (string.IsNullOrWhiteSpace(name) || !MusicEnabled || Music == null) return;
@@ -172,6 +208,11 @@ public class AudioManager : Node
         }
     }
 
+    /// <summary>
+    /// Sets the <see cref="MusicPlayer"/> stream and plays the music from stream
+    /// </summary>
+    /// <param name="audio"></param>
+    /// <param name="pos"></param>
     public void PlayMusic(AudioStream audio, float pos = 0f)
     {
         if (audio == null || !MusicEnabled || Music == null) return;
@@ -184,6 +225,11 @@ public class AudioManager : Node
         Logger.LogDebug("playing music stream: ", name);
     }
 
+    /// <summary>
+    /// Plays sfx on the <see cref="SfxPlayer"/> with optional bus
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="bus"></param>
     public void PlaySfx(string name, string bus = "Sfx")
     {
         if (!SfxEnabled || string.IsNullOrWhiteSpace(name) || Sfx == null) return;
@@ -198,6 +244,11 @@ public class AudioManager : Node
         }
     }
 
+    /// <summary>
+    /// Plays a voice from name on the <see cref="VoicePlayer"/>
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="bus"></param>
     public void PlayVoice(string name, string bus = "Voice")
     {
         if (!VoiceEnabled || string.IsNullOrWhiteSpace(name) || Voice == null) return;
@@ -210,6 +261,11 @@ public class AudioManager : Node
         }
     }
 
+    /// <summary>
+    /// Plays a voice from stream on the <see cref="VoicePlayer"/>
+    /// </summary>
+    /// <param name="voice"></param>
+    /// <param name="bus"></param>
     public void PlayVoice(AudioStream voice, string bus = "Voice")
     {
         if (!VoiceEnabled || Voice == null) return;
@@ -236,17 +292,32 @@ public class AudioManager : Node
         return lastPos;
     }
 
+    /// <summary>
+    /// Get the current <see cref="MusicPlayer"/> stream
+    /// </summary>
+    /// <returns></returns>
     internal AudioStream GetCurrentMusic() => MusicPlayer.Stream;
 
+    /// <summary>
+    /// Returns true if <see cref="MusicPlayer.Playing"/>
+    /// </summary>
+    /// <returns></returns>
     internal bool IsMusicPlaying() => MusicPlayer.Playing;
+
+    /// <summary>
+    /// Plays the BGM stream name if set in <see cref="Bgm"/>
+    /// </summary>
+    /// <param name="pos"></param>
     internal void PlayBgm(float pos = 0)
     {
         if (!string.IsNullOrWhiteSpace(Bgm))
             PlayMusic(Bgm, pos);
     }
 
-    internal void SetMusicVolume(float musicVolume)
-    {
-		Godot.AudioServer.SetBusVolumeDb(1, musicVolume);
-    }
+    /// <summary>
+    /// Set bus volume. 1 = music
+    /// </summary>
+    /// <param name="busId"></param>
+    /// <param name="musicVolume"></param>
+    internal void SetMusicVolume(int busId, float musicVolume) => Godot.AudioServer.SetBusVolumeDb(busId, musicVolume);
 }

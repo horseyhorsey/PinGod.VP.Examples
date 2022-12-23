@@ -155,5 +155,5 @@ public class ScoreMode : Node
         }
     }
 
-    void OnBallStarted() => OnScoresUpdated();
+    public virtual void OnBallStarted() => OnScoresUpdated();
 }

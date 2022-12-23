@@ -35,6 +35,11 @@ public static class Logger
             Print(what);
         }
     }
+    /// <summary>
+    /// Logs warnings and also pushes warnings to Godot
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="what"></param>
     public static void LogWarning(string message = null, params object[] what)
     {
         if (LogLevel <= PinGodLogLevel.Warning)

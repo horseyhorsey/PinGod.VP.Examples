@@ -25,7 +25,6 @@ public class AudioSettings : MarginContainer
             base._EnterTree();
 
             pinGod = GetNode<PinGodGame>("/root/PinGodGame");
-
             SetupMaster();
             SetupSfx();
             SetupMusic();
@@ -36,10 +35,10 @@ public class AudioSettings : MarginContainer
     private void SetupMaster()
     {
         _volMasterSlider = GetNode<HSlider>("VBoxContainer/MasterContainer/HSlider");
-        _volMasterSlider.Value = pinGod.GameSettings.MasterVolume;
+        _volMasterSlider.Value = pinGod.GameSettings?.MasterVolume ?? 0;
 
         _volMasterLabel = GetNode<Label>("VBoxContainer/MasterContainer/Label");
-        _volMasterLabel.Text = $"{pinGod.GameSettings.MasterVolume}";
+        _volMasterLabel.Text = $"{pinGod.GameSettings?.MasterVolume}";
     }
 
     private void SetupVoice()

@@ -13,11 +13,14 @@ public class Tilt : Control
 
 	private Timer timer;
 	float displayForSecs = 2f;
-	private PinGodGame pinGod;
+	protected PinGodGame pinGod;
 	private Trough trough;
 	private BlinkingLabel blinkingLayer;
 
-	public override void _Ready()
+    /// <summary>
+    /// Gets access to the game and the trough. Gets the timer and label to show if tilted
+    /// </summary>
+    public override void _Ready()
 	{
 		//hide this mode
 		Visible = false;
@@ -53,13 +56,10 @@ public class Tilt : Control
 			{
 				pinGod.IsTilted = true;
 				pinGod.EnableFlippers(0);
-				trough?.DisableBallSave();
-				setText(Tr("TILT"));
-				pinGod.PlaySfx("tilt");
+				trough?.DisableBallSave();				
 				Visible = true;
 				pinGod.LogInfo("game tilted");
-				//stop the timer for showing tilt information
-				CallDeferred("setText", "TILTED");
+				ShowTilt();
 			}
 			//show warnings
 			else
@@ -85,13 +85,23 @@ public class Tilt : Control
 	void _on_Timer_timeout() => Visible = false;
 
 	/// <summary>
+	/// Sets a blinking layer text label using the translate message TILT to languages available
+	/// </summary>
+	public virtual void ShowTilt()
+    {
+		pinGod.PlaySfx("tilt");
+		//stop the timer for showing tilt information
+		CallDeferred("setText", Tr("TILT"));
+	}
+
+	/// <summary>
 	/// Show the player how many tilt warnings
 	/// </summary>
-	void ShowWarning()
+	public virtual void ShowWarning()
 	{
 		timer.Start(displayForSecs);
 		pinGod.PlaySfx("warning");
-		CallDeferred("setText", "Danger" + System.Environment.NewLine + $"Warnings {pinGod.Tiltwarnings}");
+		CallDeferred("setText", $"{Tr("TILT_WARN")} {pinGod.Tiltwarnings}");
 		Visible = true;
 	}
 

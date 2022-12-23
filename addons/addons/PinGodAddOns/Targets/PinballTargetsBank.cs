@@ -1,12 +1,30 @@
 ﻿using Godot;
 
+/// <summary>
+/// Handles a bank of targets
+/// </summary>
 public class PinballTargetsBank : Node
 {
     #region Exports
+    /// <summary>
+    /// Switch Names
+    /// </summary>
     [Export] protected string[] _target_switches;
+    /// <summary>
+    /// Lamp names
+    /// </summary>
     [Export] protected string[] _target_lamps;
+    /// <summary>
+    /// Led names
+    /// </summary>
     [Export] protected string[] _target_leds;
+    /// <summary>
+    /// Inverse the booleans?
+    /// </summary>
     [Export] protected bool _inverse_lamps;
+    /// <summary>
+    /// Reset targets when complete
+    /// </summary>
     [Export] protected bool _reset_when_completed = true;
     #endregion
 
@@ -26,11 +44,23 @@ public class PinballTargetsBank : Node
     #endregion
 
     #region Fields
+    /// <summary>
+    /// Array of booleans if target is complete same length as <see cref="_target_switches"/>
+    /// </summary>
     public bool[] _targetValues;
+    /// <summary>
+    /// pinGodGame Scene
+    /// </summary>
     protected PinGodGame pinGod;
+    /// <summary>
+    /// All targets completed?
+    /// </summary>
     protected bool _targetsCompleted;
     #endregion
 
+    /// <summary>
+    /// Initializes <see cref="pinGod"/> and removes this node if no <see cref="_target_switches"/> have been set
+    /// </summary>
     public override void _EnterTree()
     {
         if (!Engine.EditorHint)
@@ -51,6 +81,10 @@ public class PinballTargetsBank : Node
         }
     }
 
+    /// <summary>
+    /// <see cref="ProcessTargetSwitchInputs"/>
+    /// </summary>
+    /// <param name="event"></param>
     public override void _Input(InputEvent @event)
     {
         if (!Engine.EditorHint)
@@ -60,7 +94,7 @@ public class PinballTargetsBank : Node
     }
 
     /// <summary>
-    /// Processes the <see cref="_target_switches"/>. 
+    /// Processes the <see cref="_target_switches"/> 
     /// </summary>
     /// <param name="event"></param>
     public virtual void ProcessTargetSwitchInputs(InputEvent @event)
@@ -81,6 +115,10 @@ public class PinballTargetsBank : Node
                     }
                 }
             }
+        }
+        else
+        {
+            SetProcessInput(false);
         }
     }
 
@@ -119,6 +157,9 @@ public class PinballTargetsBank : Node
         return true;
     }
 
+    /// <summary>
+    /// Reset target booleans and <see cref="_targetsCompleted"/>
+    /// </summary>
     public void ResetTargets()
     {
         _targetValues = new bool[_target_switches.Length];

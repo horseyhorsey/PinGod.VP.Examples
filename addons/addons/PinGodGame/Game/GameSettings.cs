@@ -1,5 +1,6 @@
 ﻿using Godot;
 using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Godot.GD;
 
@@ -88,7 +89,7 @@ public class GameSettings
     {
         var settingsSave = new File();
         var err = settingsSave.Open(GAME_SETTINGS_FILE, File.ModeFlags.Read);        
-        T gS = default(T);
+        T gS = Activator.CreateInstance<T>();
         if (err != Error.FileNotFound)
         {
             gS = DeserializeSettings<T>(settingsSave.GetLine());
@@ -97,8 +98,9 @@ public class GameSettings
         }
         else
         {
-            Save(gS);
-            Print("new game settings created");
+
+            Save<T>(gS);
+            Print("new game settings created " + gS.BallsPerGame);
         }
 
         return gS;

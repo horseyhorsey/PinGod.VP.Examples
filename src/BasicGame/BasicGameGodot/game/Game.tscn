@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/Game.cs" type="Script" id=1]
-[ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Scenes/ScoreMode.tscn" type="PackedScene" id=2]
 [ext_resource path="res://modes/BaseMode.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/PinGodGame/Modes/score_entry/ScoreEntry.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/PinGodGame/Modes/bonus/Bonus.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/PinGodGame/Scenes/Tilt.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/PinGodGame/Scenes/ScoreEntry.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/PinGodGame/Scenes/Bonus.tscn" type="PackedScene" id=7]
 
 [node name="Game" type="Node2D"]
 pause_mode = 1

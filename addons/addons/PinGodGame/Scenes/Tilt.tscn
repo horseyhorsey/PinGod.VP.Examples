@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
-[ext_resource path="res://addons/PinGodGame/Modes/tilt/Tilt.cs" type="Script" id=2]
+[ext_resource path="res://addons/PinGodGame/Modes/Tilt.cs" type="Script" id=2]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=3]
+
 
 [node name="Tilt" type="Control" groups=[
 "Mode",

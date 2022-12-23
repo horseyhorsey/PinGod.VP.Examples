@@ -2,6 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+	<DocumentationFile>../../../addons/pingod_basicgame.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="addons\PinGodGame\assets\audio\music\**" />
@@ -24,8 +26,12 @@
     <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv" />
     <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv.import" />
     <None Include="export_presets.cfg" />
+    <None Include="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />
-  </ItemGroup>
+  </ItemGroup>	
 </Project>

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 /// <summary>
-/// Game data for the machine. <para/>
-/// %AppData%\Godot\app_userdata
+/// Game data for the machine. %AppData%\Godot\app_userdata <para/>
+/// You can inherit this class and use the generic save, load so should work for all games.
 /// </summary>
 public class GameData
 {
@@ -15,13 +15,25 @@ public class GameData
 	[NotMapped]
 	const string GAME_DATA_FILE = "user://gamedata.save";
 
+	/// <summary>
+	/// Total Balls played
+	/// </summary>
 	public int BallsPlayed { get; set; }
+	/// <summary>
+	/// Total Balls started
+	/// </summary>
 	public int BallsStarted { get; set; }
+	/// <summary>
+	/// Credits saved in machine
+	/// </summary>
 	public byte Credits { get; set; }
 	public int GamesFinished { get; set; }
 	public int GamesPlayed { get; set; }
 	public int GamesStarted { get; set; }
 	public List<HighScore> HighScores { get; set; } = new List<HighScore>();
+	/// <summary>
+	/// Total times tilted
+	/// </summary>
 	public int Tilted { get; set; }
 	public ulong TimePlayed { get; set; }
 
@@ -30,7 +42,11 @@ public class GameData
 	/// </summary>
 	public static T DeserializeGameData<T>(string gameSettingsJson) where T : GameData => JsonConvert.DeserializeObject<T>(gameSettingsJson);
 
-	public static GameData Load()
+    /// <summary>
+    /// Loads the <see cref="GAME_DATA_FILE"/>
+    /// </summary>
+    /// <returns></returns>
+    public static GameData Load()
 	{
 		var saveGame = new File();
 		var err = saveGame.Open(GAME_DATA_FILE, File.ModeFlags.Read);
@@ -60,12 +76,12 @@ public class GameData
 		{
 			gD = DeserializeGameData<T>(dataSave.GetLine());
 			dataSave.Close();
-			GD.Print("gamedata loaded from file");
+			GD.Print("GameData loaded from file");
 		}
 		else
 		{
 			Save(gD);
-			GD.Print("new gamedata created");
+			GD.Print("new GameData created");
 		}
 
 		return gD;

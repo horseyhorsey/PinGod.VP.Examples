@@ -1,7 +1,7 @@
 using Godot;
 
 /// <summary>
-/// SwitchOverlayGridContainer. Creates buttons from Machine.Switches and connects to button events to fire switches
+/// SwitchOverlay GridContainer. Creates buttons from Machine.Switches and connects to button events to fire switches off
 /// </summary>
 public class SwitchOverlay : GridContainer
 {
@@ -9,6 +9,9 @@ public class SwitchOverlay : GridContainer
 
 	PinGodGame pingod;
 
+	/// <summary>
+	/// 
+	/// </summary>
 	public override void _EnterTree()
 	{
 		_switches = Machine.Switches;

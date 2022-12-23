@@ -2,9 +2,9 @@
 
 [ext_resource path="res://addons/PinGodAddOns/Labels/BlinkingLabel.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
-[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/PinGodGame/Modes/attract/Attract.cs" type="Script" id=4]
-[ext_resource path="res://addons/PinGodGame/Modes/score_entry/HighScores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/PinGodGame/Scenes/CreditsLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/PinGodGame/Modes/Attract.cs" type="Script" id=4]
+[ext_resource path="res://addons/PinGodGame/Scenes/HighScores.tscn" type="PackedScene" id=5]
 
 [node name="Attract" type="Control"]
 anchor_right = 1.0

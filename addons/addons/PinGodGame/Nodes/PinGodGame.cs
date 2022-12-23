@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Create class inheriting this and use the PinGodGame.tscn. <para/>
+/// This should be set to AutoLoad with the corresponding scene for games, see Project Settings <para/>
+/// Has <see cref="Trough"/>
+/// </summary>
 public abstract class PinGodGame : Node
 {
     #region Exports
@@ -15,7 +20,14 @@ public abstract class PinGodGame : Node
     #endregion
 
     #region Signals
+    /// <summary>
+    /// Emitted signal
+    /// </summary>
     [Signal] public delegate void BallDrained();
+    /// <summary>
+    /// Emitted signal
+    /// </summary>
+    /// <param name="lastBall">Is this last ball?</param>
 	[Signal] public delegate void BallEnded(bool lastBall);
 	[Signal] public delegate void BallSaved();
 	[Signal] public delegate void BallSaveEnded();
@@ -56,33 +68,72 @@ public abstract class PinGodGame : Node
     /// Is ball save active
     /// </summary>
     public bool BallSaveActive { get; internal set; }
+
+    /// <summary>
+    /// Set options for game ball search
+    /// </summary>
     public BallSearchOptions BallSearchOptions { get; set; }
+    /// <summary>
+    /// Timer node
+    /// </summary>
     public Timer BallSearchTimer { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
     public byte BallsPerGame { get; set; }
 
     /// <summary>
     /// Flag used for ball saving on the initial launch. If ball enters the shooterlane after a ball save then this is to stop the ballsave starting again
     /// </summary>
     public bool BallStarted { get; internal set; }
+
+    /// <summary>
+    /// Number of current player
+    /// </summary>
     public byte CurrentPlayerIndex { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
     public GameData GameData { get; internal set; }
+    /// <summary>
+    /// Game is in play?
+    /// </summary>
     public bool GameInPlay { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
     public GameSettings GameSettings { get; internal set; }
+    /// <summary>
+    /// Is Ball Started?
+    /// </summary>
     public bool IsBallStarted { get; internal set; }
+    /// <summary>
+    /// Is Game tilted?
+    /// </summary>
     public bool IsTilted { get; set; }
+    /// <summary>
+    /// Logging levels
+    /// </summary>
     public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Info;
+    /// <summary>
+    /// Base <see cref="PinGodPlayer"/>
+    /// </summary>
     public PinGodPlayer Player { get; private set; }
+    /// <summary>
+    /// <see cref="PinGodPlayer"/> Players List for current Game
+    /// </summary>
     public List<PinGodPlayer> Players { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
     public byte Tiltwarnings { get; set; }
     #endregion
 
     internal Trough _trough;
-
     /// <summary>
-    /// Update lamps overlay
+    /// Update lamps overlay. <see cref="LampMatrix"/>
     /// </summary>
     protected LampMatrix _lampMatrixOverlay = null;
-
     protected MemoryMap memMapping;
 
     private Queue<PlaybackEvent> _playbackQueue;
@@ -90,13 +141,15 @@ public abstract class PinGodGame : Node
 	/// recording actions to file using godot
 	/// </summary>
 	private File _recordFile;
-
 	private RecordPlaybackOption _recordPlayback;
 	private ulong gameEndTime;
 	private ulong gameLoadTimeMsec;
 	private ulong gameStartTime;
     private RandomNumberGenerator randomNumGenerator = new RandomNumberGenerator();
 
+    /// <summary>
+    /// Initializes and creates empty player list
+    /// </summary>
     public PinGodGame()
 	{
 		Players = new List<PinGodPlayer>();        
@@ -142,7 +195,10 @@ public abstract class PinGodGame : Node
 
     private void SetupWindow()
     {
-        OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
+        if(GameSettings?.Display != null)
+        {
+            OS.WindowPosition = new Vector2(GameSettings.Display.X, GameSettings.Display.Y);
+        }        
 
         var ontop = (bool)ProjectSettings.GetSetting("display/window/size/always_on_top");
         OS.SetWindowAlwaysOnTop(false);
@@ -151,10 +207,16 @@ public abstract class PinGodGame : Node
             OS.SetWindowAlwaysOnTop(true);
         }
 
-        if (GameSettings.Display.FullScreen)
-            OS.WindowFullscreen = true;
+        if (GameSettings?.Display != null)
+        {
+            if (GameSettings.Display.FullScreen)
+                OS.WindowFullscreen = true;
+        }        
     }
 
+    /// <summary>
+    /// Saves recordings if enabled and runs <see cref="Quit(bool)"/>
+    /// </summary>
     public override void _ExitTree()
     {
         if (_recordPlayback == RecordPlaybackOption.Record)
@@ -167,6 +229,10 @@ public abstract class PinGodGame : Node
         Quit(true);
     }
 
+    /// <summary>
+    /// Listens for any escape action preses. Handles coin switches, adds credits. Toggle border F2 default
+    /// </summary>
+    /// <param name="event"></param>
     public override void _Input(InputEvent @event)
     {
         //quits the game. ESC
@@ -224,11 +290,19 @@ public abstract class PinGodGame : Node
         }
     }
 
+    /// <summary>
+    /// Game initialized. Memory map is created here if read and write is enabled. <para/>  Gets <see cref="BallSearchOptions"/>, sets up a <see cref="_lampMatrixOverlay"/> <para/>
+    /// Gets hold of the <see cref="MainScene"/> to control window size, stretch
+    /// </summary>
     public override void _Ready()
     {
         base._Ready();        
 
+        //Get the BallSearchOptions from the MachineConfig
         BallSearchOptions = GetNode<MachineConfig>("MachineConfig")?.BallSearchOptions;
+
+        //main scene
+        mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
 
         //name the lamp matrix
         if (_lampMatrixOverlay != null)
@@ -237,9 +311,7 @@ public abstract class PinGodGame : Node
             {
                 _lampMatrixOverlay.SetLabel(item.Value.Num, item.Key);
             }
-        }
-
-        mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
+        }        
 
         //setup and run writing memory states for other application to access
         if (GameSettings.MachineStatesWrite || GameSettings.MachineStatesRead)
@@ -251,10 +323,25 @@ public abstract class PinGodGame : Node
         }        
     }
 
+    /// <summary>
+    /// Starts the <see cref="_trough"/> ball saver
+    /// </summary>
+    /// <param name="secs"></param>
+    internal void BallSaveEnabled(float secs)
+    {
+        _trough?.StartBallSaver(secs);
+    }
+
     #endregion
 
+    /// <summary>
+    /// Commands args incoming from <see cref="GetCommandLineArgs"/>
+    /// </summary>
     public Dictionary<string, string> CmdArgs { get; private set; }
 
+    /// <summary>
+    /// Total game time
+    /// </summary>
     public virtual ulong GetElapsedGameTime => gameEndTime - gameStartTime;    
 
     /// <summary>
@@ -296,6 +383,10 @@ public abstract class PinGodGame : Node
 		return points;
 	}
 
+    /// <summary>
+    /// Gets balls in play from the <see cref="_trough"/>
+    /// </summary>
+    /// <returns></returns>
 	public virtual int BallsInPlay() => _trough?.BallsInPlay() ?? 0;
 
 	/// <summary>
@@ -335,6 +426,10 @@ public abstract class PinGodGame : Node
 		}
 	}
 
+    /// <summary>
+    /// Sets flippers solenoid on, saves state
+    /// </summary>
+    /// <param name="enabled"></param>
 	public virtual void EnableFlippers(byte enabled)
 	{
 		FlippersEnabled = enabled;
@@ -425,7 +520,7 @@ public abstract class PinGodGame : Node
     public virtual Resources GetResources() => GetNodeOrNull<Resources>("/root/Resources");
 
     /// <summary>
-    /// Gets the highest score made
+    /// Gets the highest score made from the <see cref="GameData.HighScores"/>
     /// </summary>
     public virtual long GetTopScorePoints => GameData?.HighScores?
             .OrderByDescending(x => x.Scores).FirstOrDefault().Scores ?? 0;
@@ -449,6 +544,9 @@ public abstract class PinGodGame : Node
 		return false;
 	}
 
+    /// <summary>
+    /// <see cref="GameData.Load"/>
+    /// </summary>
     public virtual void LoadDataFile() => GameData = GameData.Load();
 
 	/// <summary>
@@ -486,6 +584,10 @@ public abstract class PinGodGame : Node
 	/// </summary>
 	public virtual void LoadSettingsFile() => GameSettings = GameSettings.Load();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="what"></param>
     public virtual void LogDebug(params object[] what) => Logger.LogDebug(what);
     public virtual void LogError(string message = null, params object[] what) => Logger.LogError(message, what);
 	public virtual void LogInfo(params object[] what) => Logger.LogInfo(what);
@@ -622,10 +724,19 @@ public abstract class PinGodGame : Node
 		IsTilted = false;
 	}	
 
+    /// <summary>
+    /// Invokes <see cref="GameData.Save(GameData)"/>
+    /// </summary>
 	public virtual void SaveGameData() => GameData.Save(GameData);
 
+    /// <summary>
+    /// Invokes <see cref="GameSettings.Save(GameSettings)"/>
+    /// </summary>
 	public virtual void SaveGameSettings() => GameSettings.Save(GameSettings);
 
+    /// <summary>
+    /// Saves a recording file if <see cref="RecordPlaybackOption.Record"/> is set
+    /// </summary>
 	public virtual void SaveRecording()
 	{
 		if (_recordPlayback == RecordPlaybackOption.Record)
@@ -646,12 +757,17 @@ public abstract class PinGodGame : Node
         ProjectSettings.SetSetting("display/window/size/test_height", OS.WindowSize.y);
     }
 
+    /// <summary>
+    /// Resets the time for ball searching from <see cref="BallSearchOptions?.SearchWaitTime"/>
+    /// </summary>
     public virtual void SetBallSearchReset()
 	{
 		BallSearchTimer.Start(BallSearchOptions?.SearchWaitTime ?? 10);
 		LogDebug("ball search timer reset.");
 	}
-
+    /// <summary>
+    /// Stops the <see cref="BallSearchTimer"/>
+    /// </summary>
 	public virtual void SetBallSearchStop()
 	{
 		BallSearchTimer.Stop();
@@ -668,6 +784,11 @@ public abstract class PinGodGame : Node
 	/// </summary>
 	public virtual void SetGameResumed() => EmitSignal(nameof(GameResumed));
 
+    /// <summary>
+    /// Sets lamp state and state inside the <see cref="_lampMatrixOverlay"/>
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="state"></param>
 	public virtual void SetLampState(string name, byte state)
 	{
 		if (!LampExists(name)) return;
@@ -681,7 +802,7 @@ public abstract class PinGodGame : Node
 		if (!LedExists(name)) return;
 		var led = Machine.Leds[name];
 		led.State = state;
-		led.Colour = color > 0 ? color : led.Colour;
+		led.Color = color > 0 ? color : led.Color;
 		if (_lampMatrixOverlay != null) { _lampMatrixOverlay.SetState(led.Num, state); }
 	}
 
@@ -696,7 +817,7 @@ public abstract class PinGodGame : Node
 	{
 		if (!LedExists(name)) return;
 		var c = colour.HasValue ?
-			System.Drawing.ColorTranslator.ToOle(colour.Value) : Machine.Leds[name].Colour;
+			System.Drawing.ColorTranslator.ToOle(colour.Value) : Machine.Leds[name].Color;
 		SetLedState(name, state, c);
 	}
 
@@ -712,7 +833,7 @@ public abstract class PinGodGame : Node
 		if (!LedExists(name)) return;
 		var c = colour.HasValue ?
 			System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.FromArgb(colour.Value.r8, colour.Value.g8, colour.Value.b8))
-			: Machine.Leds[name].Colour;
+			: Machine.Leds[name].Color;
 		SetLedState(name, state, c);
 	}
 
@@ -733,6 +854,9 @@ public abstract class PinGodGame : Node
 		SetLedState(name, state, ole);
 	}
 
+    /// <summary>
+    /// Sets the Width and Height of the window from `display/window/size` settings. Sets SetScreenStretch from aspect ratio settings in `display/window/stretch/aspect`
+    /// </summary>
     public void SetMainSceneAspectRatio()
     {
         var minW = (int)ProjectSettings.GetSetting("display/window/size/width");
@@ -750,7 +874,7 @@ public abstract class PinGodGame : Node
     /// </summary>
     public virtual void Setup()
     {
-        Logger.LogLevel = GameSettings.LogLevel;
+        Logger.LogLevel = GameSettings?.LogLevel ?? PinGodLogLevel.Warning;
 
         LogDebug("pingod: entering tree. Setup");
 
@@ -851,12 +975,22 @@ public abstract class PinGodGame : Node
         }
     }   
 
+    /// <summary>
+    /// Sets a solenoid state
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="state"></param>
     public virtual void SolenoidOn(string name, byte state)
     {
         if (!SolenoidExists(name)) return;
         Machine.Coils[name].State = state;
     }
 
+    /// <summary>
+    /// Pulses a <see cref="Machine.Coils"/> by name. Creates a new task?
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="pulse"></param>
     public virtual async void SolenoidPulse(string name, byte pulse = 255)
     {
         if (!SolenoidExists(name)) return;
@@ -888,6 +1022,10 @@ public abstract class PinGodGame : Node
         timer.Start();
     }
 
+    /// <summary>
+    /// Queue frees a `pulsetimer_name` solenoid Timer from using <see cref="Machine.Coils"/>
+    /// </summary>
+    /// <param name="name"></param>
     private void OnSolenoidPulseTimeout(string name)
     {        
         var pinObj = Machine.Coils[name];
@@ -957,19 +1095,16 @@ public abstract class PinGodGame : Node
     }
 
     /// <summary>
-    /// Sets MultiBall running and trough to send a <see cref="MultiballStarted"/>
+    /// Sets MultiBall running in the trough and Emits <see cref="MultiballStarted"/>
     /// </summary>
     /// <param name="numOfBalls">Number of balls to save. A 2 ball multiball would be 2</param>
     /// <param name="ballSaveTime"></param>
+    /// <param name="pulseTime">Delay for the trough in multi-ball</param>
     public virtual void StartMultiBall(byte numOfBalls, byte ballSaveTime = 20, float pulseTime = 0)
     {
         if(_trough != null)
         {
             _trough.StartMultiball(numOfBalls, ballSaveTime, pulseTime);
-        }            
-        else
-        {
-
         }
 
         IsMultiballRunning = true;
@@ -1001,6 +1136,10 @@ public abstract class PinGodGame : Node
         EnableFlippers(1);
     }
 
+    /// <summary>
+    /// Stop music <see cref="AudioManager.StopMusic"/>
+    /// </summary>
+    /// <returns></returns>
     public virtual float StopMusic() => AudioManager.StopMusic();
 
     /// <summary>
@@ -1125,14 +1264,15 @@ public abstract class PinGodGame : Node
     protected virtual void SetupAudio()
 	{
         LogInfo("setting up audio");
-		AudioServer.SetBusVolumeDb(0, GameSettings.MasterVolume);
-		AudioServer.SetBusVolumeDb(1, GameSettings.MusicVolume);
-		AudioServer.SetBusVolumeDb(2, GameSettings.SfxVolume);
-		AudioServer.SetBusVolumeDb(3, GameSettings.VoiceVolume);
-		AudioManager = GetNode<AudioManager>("AudioManager");
-		AudioManager.MusicEnabled = GameSettings.MusicEnabled;
-		AudioManager.SfxEnabled = GameSettings.SfxEnabled;
-		AudioManager.VoiceEnabled = GameSettings.VoiceEnabled;
+        AudioManager = GetNode<AudioManager>("AudioManager");
+
+        AudioServer.SetBusVolumeDb(0, GameSettings?.MasterVolume ?? 0);
+		AudioServer.SetBusVolumeDb(1, GameSettings?.MusicVolume ?? -6);
+		AudioServer.SetBusVolumeDb(2, GameSettings?.SfxVolume ?? -6);
+		AudioServer.SetBusVolumeDb(3, GameSettings?.VoiceVolume ?? -6);		
+		AudioManager.MusicEnabled = GameSettings?.MusicEnabled ?? true;
+		AudioManager.SfxEnabled = GameSettings?.SfxEnabled ?? true;
+		AudioManager.VoiceEnabled = GameSettings?.VoiceEnabled ?? true;
 	}
 	/// <summary>
 	/// Creates the recordings directory in the users folder

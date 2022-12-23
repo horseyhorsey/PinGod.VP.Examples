@@ -4,7 +4,7 @@
 public abstract class PinGodGameMode : PinGodGameNode
 {
     /// <summary>
-    /// adds the mode to a group named Mode
+    /// Adds the mode to a group named Mode
     /// </summary>
     public override void _Ready()
     {
@@ -12,7 +12,7 @@ public abstract class PinGodGameMode : PinGodGameNode
 
         AddToGroup("Mode");
     }
-
+    
     protected virtual void OnBallDrained() { }
     protected virtual void OnBallSaved() { }
     protected virtual void OnBallStarted() { }

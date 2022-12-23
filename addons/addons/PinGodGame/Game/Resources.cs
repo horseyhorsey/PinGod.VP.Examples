@@ -1,11 +1,17 @@
 using Godot;
 
+/// <summary>
+/// Resources, graphic packs. Set to AutoLoad with a Resources.tsn in ProjectSettings
+/// </summary>
 public class Resources : ResourcePreloader
 {
     [Export] Godot.Collections.Dictionary<string, string> _resources = new Godot.Collections.Dictionary<string, string>();
 
     public static string WorkingDirectory = string.Empty;
 
+    /// <summary>
+    /// Looks for a pingod.gfx.pck file to load
+    /// </summary>
     public override void _EnterTree()
     {
         base._EnterTree();

@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// A scene timer to display time left. Set mode name and mode title in scene file and initial time
+/// </summary>
 public class ModeTimer : Timer
 {
 	private Label titleLabel;
@@ -9,6 +12,9 @@ public class ModeTimer : Timer
 	[Export] string _ModeName = "ModeName";
 	[Export] string _ModeTitle = "Mode Title";
 
+	/// <summary>
+	/// Sets up the labels
+	/// </summary>
 	public override void _Ready()
 	{
 		titleLabel = GetNode("VBoxContainer/Title") as Label;
@@ -16,7 +22,10 @@ public class ModeTimer : Timer
 		timeLeftLabel = GetNode("VBoxContainer/TimeLeftLabel") as Label;
 	}
 
-	private void _on_ModeTimer_timeout()
+    /// <summary>
+    /// Updates time left text. When time runs out a ModeTimedOut signal with the mode name is emitted
+    /// </summary>
+    private void _on_ModeTimer_timeout()
 	{		
 		timeLeftLabel.Text = _ModeTime.ToString();
 		_ModeTime--;

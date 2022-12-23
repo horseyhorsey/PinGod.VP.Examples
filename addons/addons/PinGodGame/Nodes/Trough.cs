@@ -10,7 +10,13 @@ using static Godot.GD;
 /// </summary>
 public class Trough : Node
 {
+	/// <summary>
+	/// Switch names, defaults trough_1 -- trough_4
+	/// </summary>
 	[Export] public string[] _trough_switches = { "trough_1", "trough_2", "trough_3", "trough_4" };
+	/// <summary>
+	/// Early switch ball save names. outlane_l outlane_r
+	/// </summary>
 	[Export] public string[] _early_save_switches = { "outlane_l", "outlane_r" };
 	[Export] public string _trough_solenoid = "trough";
 	[Export] public string _auto_plunge_solenoid = "auto_plunger";
@@ -115,13 +121,12 @@ public class Trough : Node
 			//auto plunge the ball if in ball save or game is tilted to get the balls back
 			if (pinGod.BallSaveActive || pinGod.IsTilted || pinGod.IsMultiballRunning)
 			{
-				pinGod.SolenoidPulse(TroughOptions.AutoPlungerCoil, 225);
+				pinGod.SolenoidPulseTimer(TroughOptions.AutoPlungerCoil, 500);
 				pinGod.LogDebug("trough: auto saved");
 			}
 		}
-
 		//reset the ball search when leaving the switch
-		if (pinGod.SwitchOff(TroughOptions.PlungerLaneSw, @event))
+		else if (pinGod.SwitchOff(TroughOptions.PlungerLaneSw, @event))
 		{			
 			//start a ball saver if game in play
 			if (pinGod.GameInPlay && !pinGod.BallStarted && !pinGod.IsTilted && !pinGod.IsMultiballRunning)
@@ -168,6 +173,7 @@ public class Trough : Node
 	public void DisableBallSave()
 	{
 		pinGod.BallSaveActive = false;
+		troughPulseTimer.Stop();
 		UpdateLamps(LightState.Off);
 	}
 
@@ -294,8 +300,7 @@ public class Trough : Node
 		_mballSaveSecondsRemaining--;
 		if (_mballSaveSecondsRemaining < 1)
 		{
-			DisableBallSave();
-			troughPulseTimer.Stop();
+			DisableBallSave();			
 			pinGod.LogDebug("trough: ended mball trough pulse timer");
 		}
 

@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// PinGod menu settings. Like log levels and machine read write
+/// </summary>
 public class PingodSettingsScene : MarginContainer
 {
     private PinGodGame pinGod;

@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/PinGodGame/Modes/multiball/Multiball.cs" type="Script" id=1]
-[ext_resource path="res://addons/PinGodGame/Nodes/ModeTimer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/PinGodGame/Modes/Multiball.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Scenes/ModeTimer.tscn" type="PackedScene" id=2]
+
+
 
 [node name="Multiball" type="Control" groups=[
 "Multiball",

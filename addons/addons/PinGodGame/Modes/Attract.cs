@@ -11,6 +11,8 @@ public class Attract : Node
 	/// </summary>
 	[Export] byte _scene_change_secs = SceneChangeTime;
 
+	[Export] float[] _sceneTimes;
+
 	#region Fields
 	const byte SceneChangeTime = 5;
 	int _currentScene = 0;
@@ -24,6 +26,7 @@ public class Attract : Node
 	{
 		pinGod = (GetNode("/root/PinGodGame") as PinGodGame);
 		timer = (GetNode("AttractLayerChangeTimer") as Timer);
+		timer.WaitTime = _scene_change_secs;
 
 		var nodes = GetNode("AttractLayers").GetChildren();
 		//add as canvas items as they are able to Hide / Show
@@ -34,7 +37,9 @@ public class Attract : Node
 			{
 				Scenes.Add(cItem);
 			}
-		}		
+		}
+
+		pinGod.SetBallSearchStop();
 	}
 
 	public override void _Ready()
@@ -49,30 +54,35 @@ public class Attract : Node
 	public override void _Input(InputEvent @event)
 	{
 		if (pinGod.SwitchOn("start", @event))
+        {
+			CallDeferred(nameof(StartGame));
+        }
+        if (pinGod.SwitchOn("flipper_l", @event))
 		{
-			var started = pinGod.StartGame();
-			if (started)
-			{				
-				OnGameStartedFromAttract();
-			}
-			pinGod.LogInfo("attract: starting game. started?", started);
-		}
-		if (pinGod.SwitchOn("flipper_l", @event))
-		{
-			CallDeferred("ChangeLayer", false);
+			CallDeferred("ChangeLayer", true);
 		}
 		if (pinGod.SwitchOn("flipper_r", @event))
 		{
-
-			CallDeferred("ChangeLayer", true);
+			CallDeferred("ChangeLayer", false);
 		}
 	}
 
-	public int GetCurrentSceneIndex() => _currentScene;
+    private void StartGame()
+    {
+        var started = pinGod.StartGame();
+        if (started)
+        {
+            OnGameStartedFromAttract();
+        }
+        pinGod.LogInfo("attract: starting game. started?", started);
+    }
+
+    public int GetCurrentSceneIndex() => _currentScene;
 
     public virtual void OnGameStartedFromAttract() 
 	{
 		pinGod.LogInfo("attract: game started");
+		timer.Stop();
 	}
 
     /// <summary>
@@ -80,22 +90,22 @@ public class Attract : Node
     /// </summary>
     private void _on_Timer_timeout()
 	{
-		CallDeferred(nameof(ChangeLayer), true);
+		CallDeferred("ChangeLayer", false);
 	}
 
 	/// <summary>
 	/// Changes the attract layer. Cycles the AttractLayers in the scene
 	/// </summary>
 	/// <param name="forward"></param>
-	public virtual void ChangeLayer(bool forward = false)
+	public virtual void ChangeLayer(bool reverse = false)
 	{
 		if (Scenes?.Count < 1) return;
 
 		timer.Stop();
 
 		//check if lower higher than our attract layers
-		_currentScene = forward ? _currentScene + 1 : _currentScene - 1;
-		pinGod.LogDebug("change layer forward: ", forward, " scene", _currentScene);
+		_currentScene = reverse ? _currentScene - 1 : _currentScene + 1;
+		pinGod.LogDebug("change layer reverse: ", reverse, " scene", _currentScene);
 
 		_currentScene = _currentScene > Scenes?.Count - 1 ? 0 : _currentScene;
 		_currentScene = _currentScene < 0 ? Scenes?.Count - 1 ?? 0 : _currentScene;
@@ -106,6 +116,15 @@ public class Attract : Node
 
 		_lastScene = _currentScene;
 
-		timer.Start(_scene_change_secs);
+		float delay = _scene_change_secs;
+		if (_sceneTimes?.Length > 0)
+        {
+			if(_currentScene <= _sceneTimes.Length)
+            {
+				delay = _sceneTimes[_currentScene];
+            }
+        }
+
+		timer.Start(delay);
 	}
 }

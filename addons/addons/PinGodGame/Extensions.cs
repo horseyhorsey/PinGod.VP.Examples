@@ -2,9 +2,23 @@
 using System.Globalization;
 using System.Linq;
 
+/// <summary>
+/// C# Extensions for int, string
+/// </summary>
 public static class PinGodExtensions
 {
+    /// <summary>
+    /// Formats the score
+    /// </summary>
+    /// <param name="points"></param>
+    /// <returns></returns>
     public static string ToScoreString(this long points) => points.ToString("N0", CultureInfo.InvariantCulture);
+
+    /// <summary>
+    /// Formats the score
+    /// </summary>
+    /// <param name="points"></param>
+    /// <returns></returns>
     public static string ToScoreString(this int points) => points.ToString("N0", CultureInfo.InvariantCulture);
 
     /// <summary>

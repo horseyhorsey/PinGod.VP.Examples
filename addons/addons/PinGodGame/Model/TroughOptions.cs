@@ -18,8 +18,14 @@
     public string Coil { get; }
     public string PlungerLaneSw { get; }
     public string AutoPlungerCoil { get; }
+    /// <summary>
+    /// Switches like out-lanes to early save
+    /// </summary>
     public string[] EarlySaveSwitches { get; }
     public int BallSaveSeconds { get; set; }
+    /// <summary>
+    /// Seconds left in a multi-ball
+    /// </summary>
     public int MballSaveSeconds { get; set; }
     public string BallSaveLamp { get; }
     public string BallSaveLed { get; }

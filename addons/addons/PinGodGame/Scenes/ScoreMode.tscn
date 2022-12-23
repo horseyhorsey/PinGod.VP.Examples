@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://addons/PinGodGame/Modes/score_mode/ScoreMode.cs" type="Script" id=1]
+[ext_resource path="res://addons/PinGodGame/Modes/ScoreMode.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas128.tres" type="DynamicFont" id=2]
 [ext_resource path="res://addons/PinGodGame/assets/fonts/Bebas32.tres" type="DynamicFont" id=3]
-[ext_resource path="res://addons/PinGodGame/Nodes/CreditsLayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/PinGodGame/Scenes/CreditsLayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/PinGodGame/assets/img/pingod-logo.png" type="Texture" id=5]
 
 [node name="ScoreMode" type="Node" groups=["Mode"]]
@@ -37,18 +37,17 @@ __meta__ = {
 }
 
 [node name="pingod-logo" type="TextureRect" parent="CenterContainer"]
-margin_left = 287.0
-margin_top = 55.0
-margin_right = 737.0
-margin_bottom = 544.0
+margin_left = 54.0
+margin_right = 504.0
+margin_bottom = 489.0
 texture = ExtResource( 5 )
 stretch_mode = 5
 
 [node name="ScoreMain" type="Label" parent="CenterContainer"]
-margin_left = 486.0
-margin_top = 235.0
-margin_right = 537.0
-margin_bottom = 364.0
+margin_left = 253.0
+margin_top = 180.0
+margin_right = 304.0
+margin_bottom = 309.0
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 align = 1

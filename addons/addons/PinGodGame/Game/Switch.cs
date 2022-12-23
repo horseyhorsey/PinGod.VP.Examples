@@ -1,11 +1,13 @@
 ﻿using Godot;
-using System;
 
 public class Switch
 {
     public Switch(byte num) { this.Num = num; }
     public Switch(byte num, BallSearchSignalOption ballSearch) { this.Num = num; this.BallSearch = ballSearch; }
     public byte Num { get; set; }
+    /// <summary>
+    /// Ball search options
+    /// </summary>
     public BallSearchSignalOption BallSearch { get; set; }
     public ulong Time { get; set; }
 
@@ -55,7 +57,7 @@ public class Switch
     public bool IsOn() => Input.IsActionPressed(ToString());
 
     /// <summary>
-    /// Time in milliseconds
+    /// Time in milliseconds since switch used
     /// </summary>
     /// <returns></returns>
     public ulong TimeSinceChange()

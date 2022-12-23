@@ -3,12 +3,17 @@ using System;
 using System.Threading.Tasks;
 using static Godot.GD;
 
+/// <summary>
+/// Main Scene. The Entry point
+/// </summary>
 public class MainScene : Node2D
 {
-	[Export] protected string _game_scene_path = "res://game/Game.tscn";
-	[Export] protected string _service_menu_scene_path = "res://addons/PinGodGame/Modes/service_menu/ServiceMenu.tscn";
-	
-	internal ResourcePreloader _resourcePreLoader;
+    internal ResourcePreloader _resourcePreLoader;
+    /// <summary>
+    /// Path to the Game.tscn. 
+    /// </summary>
+    [Export] protected string _game_scene_path = "res://game/Game.tscn";
+    [Export] protected string _service_menu_scene_path = "res://addons/PinGodGame/Scenes/ServiceMenu.tscn";
 	private Node attractnode;
 	Mutex m = new Mutex();
 	private Control pauseLayer;
@@ -104,24 +109,12 @@ public class MainScene : Node2D
         }
     }
 
-    private void TogglePause()
-    {
-        if (GetTree().Paused)
-        {
-            OnResumeGame();
-        }
-        else
-        {
-            OnPauseGame();
-        }
-    }
-
     public override void _Ready()
     {
         pauseLayer.Hide();
         //pingod.vp controller coil 0, sets GameRunning on the controller
-        pinGod.SolenoidOn("died", 1);        
-        pinGod.LogInfo("pingod base: ready, sent died coil on");        
+        pinGod.SolenoidOn("died", 1);
+        pinGod.LogInfo("pingod base: ready, sent died coil on");
     }
 
     /// <summary>
@@ -215,7 +208,7 @@ public class MainScene : Node2D
 
     void OnGameStarted()
     {
-        StartGame();
+        CallDeferred(nameof(StartGame));
     }
 
     private void OnPauseGame()
@@ -247,13 +240,24 @@ public class MainScene : Node2D
     {
         if (!string.IsNullOrWhiteSpace(_service_menu_scene_path))
         {
-			var sMenu = Load(_service_menu_scene_path) as PackedScene;
-			_resourcePreLoader.AddResource(_service_menu_scene_path.BaseName(), sMenu);
-		}        
+            var sMenu = Load(_service_menu_scene_path) as PackedScene;
+            _resourcePreLoader.AddResource(_service_menu_scene_path.BaseName(), sMenu);
+        }
     }
 
-	void Reload() => GetTree().ReloadCurrentScene();
+    void Reload() => GetTree().ReloadCurrentScene();
 
+    private void TogglePause()
+    {
+        if (GetTree().Paused)
+        {
+            OnResumeGame();
+        }
+        else
+        {
+            OnPauseGame();
+        }
+    }
 	private void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs e)
 	{
 		pinGod.LogError($"Unhandled exception {e.ExceptionObject}");
