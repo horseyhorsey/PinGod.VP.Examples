@@ -3,7 +3,7 @@
     <TargetFramework>net472</TargetFramework>
     <Platforms>AnyCPU;x86</Platforms>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-	<DocumentationFile>../../../addons/pingod_basicgame.xml</DocumentationFile>
+	<DocumentationFile>pingod_basicgame.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="addons\PinGodGame\assets\audio\music\**" />
@@ -25,6 +25,29 @@
   <ItemGroup>
     <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv" />
     <None Include="addons\PinGodGame\Localization\pingod_default_lang.csv.import" />
+    <None Include="addons\PinGodGame\Scenes\Attract.tscn" />
+    <None Include="addons\PinGodGame\Scenes\AudioManager.tscn" />
+    <None Include="addons\PinGodGame\Scenes\BallSave.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Bonus.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Bumper.tscn" />
+    <None Include="addons\PinGodGame\Scenes\CreditsLayer.tscn" />
+    <None Include="addons\PinGodGame\Scenes\HighScores.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Lamp.tscn" />
+    <None Include="addons\PinGodGame\Scenes\LampMatrix.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\AudioSettings.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\DisplaySettings.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\GameSettingsScene.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\PingodSettingsScene.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\SettingsDisplay.tscn" />
+    <None Include="addons\PinGodGame\Scenes\ModeTimer.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Multiball.tscn" />
+    <None Include="addons\PinGodGame\Scenes\PauseLayer.tscn" />
+    <None Include="addons\PinGodGame\Scenes\ScoreEntry.tscn" />
+    <None Include="addons\PinGodGame\Scenes\ScoreMode.tscn" />
+    <None Include="addons\PinGodGame\Scenes\ServiceMenu.tscn" />
+    <None Include="addons\PinGodGame\Scenes\SwitchOverlay.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Tilt.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Trough.tscn" />
     <None Include="export_presets.cfg" />
     <None Include="readme.md">
       <Pack>True</Pack>

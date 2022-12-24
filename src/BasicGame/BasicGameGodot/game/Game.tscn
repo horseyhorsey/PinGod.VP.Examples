@@ -19,7 +19,6 @@ script = ExtResource( 1 )
 
 [node name="Bonus" parent="Modes" instance=ExtResource( 7 )]
 visible = false
-_display_for_seconds = 2
 
 [node name="Tilt" parent="Modes" instance=ExtResource( 5 )]
 visible = false

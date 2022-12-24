@@ -29,23 +29,77 @@ public abstract class PinGodGame : Node
     /// </summary>
     /// <param name="lastBall">Is this last ball?</param>
 	[Signal] public delegate void BallEnded(bool lastBall);
+    /// <summary>
+    /// Emitted signal when a ball is saved
+    /// </summary>
 	[Signal] public delegate void BallSaved();
+    /// <summary>
+    /// Emitted signal when ball save is ended
+    /// </summary>
 	[Signal] public delegate void BallSaveEnded();
-	[Signal] public delegate void BallSaveStarted();
-	[Signal] public delegate void BonusEnded();
-	[Signal] public delegate void CreditAdded();
-	[Signal] public delegate void GameEnded();
-	[Signal] public delegate void GamePaused();
-	[Signal] public delegate void GameResumed();
-	[Signal] public delegate void GameStarted();
-	[Signal] public delegate void GameTilted();
-	[Signal] public delegate void ModeTimedOut(string title);
-	[Signal] public delegate void MultiBallEnded();
-	[Signal] public delegate void MultiballStarted();
-	[Signal] public delegate void PlayerAdded();
-	[Signal] public delegate void ScoreEntryEnded();
-	[Signal] public delegate void ScoresUpdated();
-	[Signal] public delegate void ServiceMenuEnter();
+    /// <summary>
+    /// Emitted signal when ball save starts
+    /// </summary>
+    [Signal] public delegate void BallSaveStarted();
+    /// <summary>
+    /// Emitted signal when bonus is ended
+    /// </summary>
+    [Signal] public delegate void BonusEnded();
+    /// <summary>
+    /// Emitted signal when a credit is added to game
+    /// </summary>
+    [Signal] public delegate void CreditAdded();
+    /// <summary>
+    /// Emitted signal when game ends
+    /// </summary>
+    [Signal] public delegate void GameEnded();
+    /// <summary>
+    /// Emitted signal when game is paused
+    /// </summary>
+    [Signal] public delegate void GamePaused();
+    /// <summary>
+    /// Emitted signal when game is resumed
+    /// </summary>
+    [Signal] public delegate void GameResumed();
+    /// <summary>
+    /// Emitted signal when game starts
+    /// </summary>
+    [Signal] public delegate void GameStarted();
+    /// <summary>
+    /// Emitted signal when game is tilted
+    /// </summary>
+    [Signal] public delegate void GameTilted();
+    /// <summary>
+    /// Emitted signal when a mode times out
+    /// </summary>
+    [Signal] public delegate void ModeTimedOut(string title);
+    /// <summary>
+    /// Emitted signal when multi-ball ends
+    /// </summary>
+    [Signal] public delegate void MultiBallEnded();
+    /// <summary>
+    /// Emitted signal when multi-ball starts
+    /// </summary>
+    [Signal] public delegate void MultiballStarted();
+    /// <summary>
+    /// Emitted signal when a player is added to the game
+    /// </summary>
+    [Signal] public delegate void PlayerAdded();
+    /// <summary>
+    /// Emitted signal when player has finished entering their scores
+    /// </summary>
+    [Signal] public delegate void ScoreEntryEnded();
+    /// <summary>
+    /// Emitted signal each time score is updated
+    /// </summary>
+    [Signal] public delegate void ScoresUpdated();
+    /// <summary>
+    /// Emitted signal when player enters the service menu
+    /// </summary>
+    [Signal] public delegate void ServiceMenuEnter();
+    /// <summary>
+    /// Emitted signal when player exits the service menu
+    /// </summary>
 	[Signal] public delegate void ServiceMenuExit();
     /// <summary>
     /// Signal sent from memory map if <see cref="GameSettings.VpCommandSwitchId"/> was found while reading states
@@ -55,14 +109,31 @@ public abstract class PinGodGame : Node
     #endregion
 
     #region Public Properties - Standard Pinball / Players
-
+    /// <summary>
+    /// 
+    /// </summary>
     public byte FlippersEnabled = 0;
+    /// <summary>
+    /// Is the game in bonus mode
+    /// </summary>
 	public bool InBonusMode = false;
+    /// <summary>
+    /// Any multi-ball running?
+    /// </summary>
 	public bool IsMultiballRunning = false;
+    /// <summary>
+    /// Maximum players on machine
+    /// </summary>
 	public byte MaxPlayers = 4;
 	const string AUDIO_MANAGER = "res://addons/PinGodGame/Audio/AudioManager.tscn";
     private MainScene mainScene;
+    /// <summary>
+    /// 
+    /// </summary>
     public AudioManager AudioManager { get; protected set; }
+    /// <summary>
+    /// Current number of the ball in play
+    /// </summary>
     public byte BallInPlay { get; set; }
     /// <summary>
     /// Is ball save active
@@ -134,6 +205,9 @@ public abstract class PinGodGame : Node
     /// Update lamps overlay. <see cref="LampMatrix"/>
     /// </summary>
     protected LampMatrix _lampMatrixOverlay = null;
+    /// <summary>
+    /// The memory map used to communicate states between software
+    /// </summary>
     protected MemoryMap memMapping;
 
     private Queue<PlaybackEvent> _playbackQueue;
@@ -389,11 +463,11 @@ public abstract class PinGodGame : Node
     /// <returns></returns>
 	public virtual int BallsInPlay() => _trough?.BallsInPlay() ?? 0;
 
-	/// <summary>
-	/// Creates a new <see cref="PlayerBasicGame"/>. Override this for your own players
-	/// </summary>
-	/// <param name="name"></param>
-	public virtual void CreatePlayer(string name)
+    /// <summary>
+    /// Creates a new <see cref="PinGodPlayer"/>. Override this for your own custom players
+    /// </summary>
+    /// <param name="name"></param>
+    public virtual void CreatePlayer(string name)
 	{
 		Players.Add(new PinGodPlayer() { Name = name, Points = 0 });
 	}
@@ -438,7 +512,7 @@ public abstract class PinGodGame : Node
 
 	/// <summary>
 	/// Ends the current ball. Changes the player <para/>
-	/// Sends <see cref="BallEnded"/> signal
+	/// Emits <see cref="BallEnded"/> signal
 	/// </summary>
 	/// <returns>True if all balls finished, game is finished</returns>
 	public virtual bool EndBall()
@@ -570,10 +644,10 @@ public abstract class PinGodGame : Node
         }
 	}
 
-	[Obsolete("override the other methods for loading data, settings and setting up window")]
     /// <summary>
-    /// Runs <see cref="LoadSettingsFile"/>, <see cref="LoadDataFile"/>, <see cref="SetUpWindow"/>
+    /// Does nothing, obsolete
     /// </summary>
+    [Obsolete("override the other methods for loading data, settings and setting up window")]
     public virtual void LoadSettingsAndData()
     {
 		LogError("don't use, already init in ready");
@@ -589,8 +663,22 @@ public abstract class PinGodGame : Node
     /// </summary>
     /// <param name="what"></param>
     public virtual void LogDebug(params object[] what) => Logger.LogDebug(what);
+    /// <summary>
+    /// Uses static <see cref="Logger.LogError(string, object[])"/>
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="what"></param>
     public virtual void LogError(string message = null, params object[] what) => Logger.LogError(message, what);
+    /// <summary>
+    /// Uses static <see cref="Logger.LogInfo(object[])"/>
+    /// </summary>
+    /// <param name="what"></param>
 	public virtual void LogInfo(params object[] what) => Logger.LogInfo(what);
+    /// <summary>
+    /// Uses static <see cref="Logger.LogWarning(string, object[])"/>
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="what"></param>
 	public virtual void LogWarning(string message = null, params object[] what) => Logger.LogWarning(message, what);
 
 	/// <summary>
@@ -637,11 +725,13 @@ public abstract class PinGodGame : Node
 		}
 	}
 
-	/// <summary>
-	/// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
-	/// </summary>
-	/// <param name="sceneTree"></param>
-	public virtual void OnBallStarted(SceneTree sceneTree, string group = "Mode", string method = "OnBallStarted") => sceneTree.CallGroup(group, method);
+    /// <summary>
+    /// Invokes OnBallStarted on all groups marked as Mode within the scene tree.
+    /// </summary>
+    /// <param name="sceneTree"></param>
+    /// <param name="group"></param>
+    /// <param name="method"></param>
+    public virtual void OnBallStarted(SceneTree sceneTree, string group = "Mode", string method = "OnBallStarted") => sceneTree.CallGroup(group, method);
 
 	/// <summary>
 	/// Uses the <see cref="AudioManager.PlayMusic(string, float)"/>
@@ -653,22 +743,22 @@ public abstract class PinGodGame : Node
 		AudioManager.PlayMusic(name, pos);
 	}
 
-	/// <summary>
-	/// Uses the <see cref="AudioManager.PlaySfx(string)"/>
-	/// </summary>
-	/// <param name="name"></param>
-	/// <param name="pos"></param>
-	public virtual void PlaySfx(string name, string bus = "Sfx")
+    /// <summary>
+    /// Uses the <see cref="AudioManager.PlaySfx(string, string)"/>
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="bus">defaults to bus named Sfx</param>
+    public virtual void PlaySfx(string name, string bus = "Sfx")
 	{
 		AudioManager.PlaySfx(name, bus);
 	}
 
-	/// <summary>
-	///  <see cref="AudioManager.PlayVoice(string, string)"/>
-	/// </summary>
-	/// <param name="name"></param>
-	/// <param name="pos"></param>
-	public virtual void PlayVoice(string name, string bus = "Voice")
+    /// <summary>
+    ///  <see cref="AudioManager.PlayVoice(string, string)"/>
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="bus">Plays on bus name</param>
+    public virtual void PlayVoice(string name, string bus = "Voice")
 	{
 		AudioManager.PlayVoice(name, bus);
 	}
@@ -758,7 +848,7 @@ public abstract class PinGodGame : Node
     }
 
     /// <summary>
-    /// Resets the time for ball searching from <see cref="BallSearchOptions?.SearchWaitTime"/>
+    /// Resets the time for ball searching from <see cref="BallSearchOptions.SearchWaitTime"/>
     /// </summary>
     public virtual void SetBallSearchReset()
 	{
@@ -797,6 +887,12 @@ public abstract class PinGodGame : Node
 		lamp.State = state;
 	}
 
+    /// <summary>
+    /// Sets state of led
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="state"></param>
+    /// <param name="color"></param>
 	public virtual void SetLedState(string name, byte state, int color = 0)
 	{
 		if (!LedExists(name)) return;
@@ -812,7 +908,6 @@ public abstract class PinGodGame : Node
 	/// <param name="name"></param>
 	/// <param name="state"></param>
 	/// <param name="colour"></param>
-	/// <param name="sendUpdate"></param>
 	public virtual void SetLedState(string name, byte state, System.Drawing.Color? colour = null)
 	{
 		if (!LedExists(name)) return;
@@ -827,7 +922,6 @@ public abstract class PinGodGame : Node
 	/// <param name="name"></param>
 	/// <param name="state"></param>
 	/// <param name="colour"></param>
-	/// <param name="sendUpdate"></param>
 	public virtual void SetLedState(string name, byte state, Color? colour = null)
 	{
 		if (!LedExists(name)) return;
@@ -845,7 +939,6 @@ public abstract class PinGodGame : Node
 	/// <param name="r"></param>
 	/// <param name="g"></param>
 	/// <param name="b"></param>
-	/// <param name="sendUpdate"></param>
 	public virtual void SetLedState(string name, byte state, byte r, byte g, byte b)
 	{
 		if (!LedExists(name)) return;
@@ -1253,9 +1346,11 @@ public abstract class PinGodGame : Node
     }
 
     /// <summary>
-    /// Invokes UpdateLamps on all groups marked as Mode within the scene tree.
+    /// Invokes UpdateLamps on all groups marked as Mode within the scene tree. scene tree CallGroup
     /// </summary>
     /// <param name="sceneTree"></param>
+    /// <param name="group"></param>
+    /// <param name="method"></param>
     public virtual void UpdateLamps(SceneTree sceneTree, string group = "Mode", string method = "UpdateLamps") => sceneTree.CallGroup(group, method);
 
     /// <summary>

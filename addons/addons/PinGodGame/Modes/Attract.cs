@@ -11,17 +11,26 @@ public class Attract : Node
 	/// </summary>
 	[Export] byte _scene_change_secs = SceneChangeTime;
 
-	[Export] float[] _sceneTimes;
+	/// <summary>
+	/// 
+	/// </summary>
+	[Export] float[] _sceneTimes = null;
 
 	#region Fields
 	const byte SceneChangeTime = 5;
 	int _currentScene = 0;
 	int _lastScene = 0;
+	/// <summary>
+	/// access to the <see cref="PinGodGame"/> singleton
+	/// </summary>
 	protected PinGodGame pinGod;
 	List<CanvasItem> Scenes = new List<CanvasItem>();
 	private Timer timer;
 	#endregion
 
+	/// <summary>
+	/// Sets up timer for cycling scenes in the AttractLayers tree. Stops ball searching
+	/// </summary>
 	public override void _EnterTree()
 	{
 		pinGod = (GetNode("/root/PinGodGame") as PinGodGame);
@@ -42,6 +51,9 @@ public class Attract : Node
 		pinGod.SetBallSearchStop();
 	}
 
+	/// <summary>
+	/// Just logs attract loaded
+	/// </summary>
 	public override void _Ready()
 	{
 		pinGod.LogInfo("Attract loaded");		
@@ -77,8 +89,15 @@ public class Attract : Node
         pinGod.LogInfo("attract: starting game. started?", started);
     }
 
+	/// <summary>
+	/// What scene index are we on
+	/// </summary>
+	/// <returns></returns>
     public int GetCurrentSceneIndex() => _currentScene;
 
+	/// <summary>
+	/// stops the attract cycle timer
+	/// </summary>
     public virtual void OnGameStartedFromAttract() 
 	{
 		pinGod.LogInfo("attract: game started");
@@ -93,11 +112,11 @@ public class Attract : Node
 		CallDeferred("ChangeLayer", false);
 	}
 
-	/// <summary>
-	/// Changes the attract layer. Cycles the AttractLayers in the scene
-	/// </summary>
-	/// <param name="forward"></param>
-	public virtual void ChangeLayer(bool reverse = false)
+    /// <summary>
+    /// Changes the attract layer. Cycles the AttractLayers in the scene
+    /// </summary>
+    /// <param name="reverse">Cycling in reverse?</param>
+    public virtual void ChangeLayer(bool reverse = false)
 	{
 		if (Scenes?.Count < 1) return;
 

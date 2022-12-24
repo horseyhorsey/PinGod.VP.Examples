@@ -1,20 +1,40 @@
 ﻿using Godot;
 
+/// <summary>
+/// Represents a Switch in a pinball machine
+/// </summary>
 public class Switch
 {
+    /// <summary>
+    /// Initialize with number only
+    /// </summary>
+    /// <param name="num"></param>
     public Switch(byte num) { this.Num = num; }
+    /// <summary>
+    /// Initialize with number and options for ball searching
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="ballSearch"></param>
     public Switch(byte num, BallSearchSignalOption ballSearch) { this.Num = num; this.BallSearch = ballSearch; }
+    /// <summary>
+    /// Initialize
+    /// </summary>
+    public Switch()
+    {
+        Time = OS.GetSystemTimeMsecs();
+    }
+    /// <summary>
+    /// NUmber of the switch
+    /// </summary>
     public byte Num { get; set; }
     /// <summary>
     /// Ball search options
     /// </summary>
     public BallSearchSignalOption BallSearch { get; set; }
+    /// <summary>
+    /// Time last active
+    /// </summary>
     public ulong Time { get; set; }
-
-    public Switch()
-    {
-        Time = OS.GetSystemTimeMsecs();
-    }
 
     /// <summary>
     /// Sets a switch manually, pushes an InputEventAction to the queue

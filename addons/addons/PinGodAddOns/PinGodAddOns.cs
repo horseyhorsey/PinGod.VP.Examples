@@ -1,15 +1,18 @@
 #if TOOLS
 using Godot;
 
+/// <summary>
+/// This add custom types to use in the Godot editor
+/// </summary>
 [Tool]
 public class PinGodAddOns : EditorPlugin
 {
 	const string ROOT_DIR = "addons/PinGodAddOns/";
 
-	/// <summary>
-	/// Initialization of the plugin goes here. Add the new type with a name, a parent type, a script and an icon.
-	/// </summary>
-	public override void _EnterTree()
+    /// <summary>
+    /// Initialization of the PlugIn. Adds CustomTypes new type with a name, a parent type, a script and an icon.
+    /// </summary>
+    public override void _EnterTree()
 	{
 		var script = GD.Load<Script>(ROOT_DIR+"Labels/BlinkingLabel.cs");
 		AddCustomType(nameof(BlinkingLabel), nameof(Label), script, null);
@@ -28,7 +31,7 @@ public class PinGodAddOns : EditorPlugin
 	}
 
 	/// <summary>
-	/// Clean-up of the plugin goes here. Always remember to remove it from the engine when deactivated.
+	/// Clean-up of the PlugIn goes here. Always remember to remove it from the engine when deactivated.
 	/// </summary>
 	public override void _ExitTree()
 	{

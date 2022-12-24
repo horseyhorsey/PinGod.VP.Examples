@@ -6,10 +6,22 @@ using Godot;
 /// </summary>
 public class Bonus : Control
 {
+	/// <summary>
+	/// Text to use of none set in translation files under BONUS_EOB
+	/// </summary>
     [Export] protected string _defaultText = string.Empty;
+	/// <summary>
+	/// Display for, default 5 secs
+	/// </summary>
     [Export] protected float _display_for_seconds = 5;
     internal Label label;
+	/// <summary>
+	/// <see cref="PinGodGame"/> singleton
+	/// </summary>
 	protected PinGodGame pinGod;
+	/// <summary>
+	/// Timer for bonus expire
+	/// </summary>
 	protected Timer timer;
 
 	/// <summary>
@@ -26,21 +38,24 @@ public class Bonus : Control
 			_defaultText = Tr("BONUS_EOB");
 	}
 
+	/// <summary>
+	/// Stops the <see cref="timer"/> is isn't stopped already
+	/// </summary>
 	public override void _Ready()
 	{
 		if (!timer.IsStopped())
 			timer.Stop();
 	}
 
-	/// <summary>
-	/// Stops the timer and emits the BonusEnded signal when complete
-	/// </summary>
-	public virtual void OnTimedOut()
+    /// <summary>
+    /// Stops the timer and emits the <see cref="PinGodGame.BonusEnded"/> signal when complete
+    /// </summary>
+    public virtual void OnTimedOut()
     {
         pinGod.LogInfo("bonus: BonusEnded");
         timer.Stop();
         this.Visible = false;
-        pinGod.EmitSignal("BonusEnded");
+        pinGod.EmitSignal(nameof(PinGodGame.BonusEnded));
     }
 
     /// <summary>

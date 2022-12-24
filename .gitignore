@@ -397,3 +397,4 @@ FodyWeavers.xsd
 /src/KnightRider/KnightRiderVisualPinball/override.cfg
 /src/Jaws/JawsGodot/pingod.snd.pck
 /src/Jaws/JawsGodot/pingod.gfx.pck
+/src/BasicGame/BasicGameGodot/pingod_basicgame.xml

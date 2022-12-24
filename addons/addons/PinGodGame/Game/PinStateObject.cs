@@ -6,8 +6,17 @@ using System.Collections.Generic;
 /// </summary>
 public class PinStateObject
 {
+    /// <summary>
+    /// Number
+    /// </summary>
     public byte Num { get; set; }
+    /// <summary>
+    /// Light state
+    /// </summary>
     public byte State { get; set; }
+    /// <summary>
+    /// Led color
+    /// </summary>
     public int Color { get; set; } = 255;
     /// <summary>
     /// 

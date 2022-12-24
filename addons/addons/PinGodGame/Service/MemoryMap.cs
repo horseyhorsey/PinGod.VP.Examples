@@ -40,6 +40,9 @@ public class MemoryMap : IDisposable
     /// <param name="lampCount"></param>
     /// <param name="ledCount"></param>
     /// <param name="switchCount"></param>
+    /// <param name="writeStates">write states to memory?</param>
+    /// <param name="readStates">read states to memory?</param>
+    /// <param name="pinGodGame"></param>
     public MemoryMap(byte coilCount = 32, byte lampCount = 64, byte ledCount = 64, byte switchCount = 64, bool writeStates = true, bool readStates = true, PinGodGame pinGodGame = null)
     {
         this.COIL_COUNT = coilCount * 2;

@@ -3,7 +3,16 @@
 /// </summary>
 public enum RecordPlaybackOption
 {
+    /// <summary>
+    /// 
+    /// </summary>
     Off,
+    /// <summary>
+    /// 
+    /// </summary>
     Playback,
+    /// <summary>
+    /// 
+    /// </summary>
     Record
 }

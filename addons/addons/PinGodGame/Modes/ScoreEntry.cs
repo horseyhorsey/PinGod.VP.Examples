@@ -8,6 +8,9 @@ using System.Linq;
 /// </summary>
 public class ScoreEntry : Control
 {
+    /// <summary>
+    /// 
+    /// </summary>
     protected PinGodGame pinGod;
 
     private PinGodPlayer _cPlayer;
@@ -61,6 +64,10 @@ public class ScoreEntry : Control
         _entry = new char[_nameMaxLength];
     }
 
+    /// <summary>
+    /// Uses flippers and start button actions if visible and <see cref="IsPlayerEnteringScore"/>
+    /// </summary>
+    /// <param name="event"></param>
     public override void _Input(InputEvent @event)
     {
         if (this.Visible && IsPlayerEnteringScore)
@@ -142,6 +149,9 @@ public class ScoreEntry : Control
         }
     }
 
+    /// <summary>
+    /// Sets <see cref="IsPlayerEnteringScore"/> to true
+    /// </summary>
     public override void _Ready()
     {
 		//test players
@@ -156,6 +166,9 @@ public class ScoreEntry : Control
         selectedCharLabelStartPos = new Vector2(selectedCharLabel.RectPosition.x, selectedCharLabel.RectPosition.y);
     }
 
+    /// <summary>
+    /// Sets <see cref="IsPlayerEnteringScore"/> to true and shows this scene. Moves to each player who has a high score to let them enter their initials
+    /// </summary>
 	public void DisplayHighScore()
 	{
         pinGod.LogInfo("display high score");
@@ -171,6 +184,9 @@ public class ScoreEntry : Control
 		MoveNextPlayer();
 	}
 
+    /// <summary>
+    /// just logs by default, override this method to act on new high scores.
+    /// </summary>
 	public virtual void OnNewHighScore() 
 	{
 		pinGod.LogDebug("new high score made");

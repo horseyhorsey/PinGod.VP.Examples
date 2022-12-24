@@ -22,12 +22,27 @@ public class ScoreMode : Node
     [Export] NodePath _scoreLabelP4 = null; 
     #endregion
 
+    /// <summary>
+    /// 
+    /// </summary>
     protected PinGodGame pinGod;
 
     #region Labels from Scene
+    /// <summary>
+    /// 
+    /// </summary>
     protected Label ballInfolabel;
+    /// <summary>
+    /// Main score label
+    /// </summary>
     protected Label scoreLabel;
+    /// <summary>
+    /// Player information label
+    /// </summary>
     protected Label playerInfoLabel;
+    /// <summary>
+    /// Extra player scoreLabels. TODO: Max is 4?
+    /// </summary>
     protected Label[] ScoreLabels = new Label[4];
     #endregion
 
@@ -155,5 +170,8 @@ public class ScoreMode : Node
         }
     }
 
+    /// <summary>
+    /// override this but this will invoke <see cref="OnScoresUpdated"/> to update scene labels
+    /// </summary>
     public virtual void OnBallStarted() => OnScoresUpdated();
 }

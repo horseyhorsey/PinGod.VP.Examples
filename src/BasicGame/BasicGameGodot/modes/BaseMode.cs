@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// Base mode example
+/// </summary>
 public class BaseMode : Control
 {
     private PackedScene _ballSaveScene;
@@ -8,6 +11,10 @@ public class BaseMode : Control
 
     private Game game;
     private PinGodGame pinGod;
+
+    /// <summary>
+    /// Gets access to <see cref="PinGodGame"/> and the main <see cref="Game"/> scene. 
+    /// </summary>
     public override void _EnterTree()
     {
         pinGod = GetNode("/root/PinGodGame") as PinGodGame;
@@ -18,7 +25,7 @@ public class BaseMode : Control
     }
 
     /// <summary>
-    /// Basic input switch handling
+    /// Basic input switch handling by checking <see cref="PinGodGame.SwitchOn(string, InputEvent)"/>
     /// </summary>
     /// <param name="event"></param>
     public override void _Input(InputEvent @event)
@@ -62,8 +69,14 @@ public class BaseMode : Control
         }
     }
 
+    /// <summary>
+    /// Not used. Can use to act when ball drains
+    /// </summary>
     public void OnBallDrained() { }
 
+    /// <summary>
+    /// Displays a ball save scene for 1 seconds if not in multi-ball, <see cref="PinGodGame.IsMultiballRunning"/>
+    /// </summary>
     public void OnBallSaved()
     {
         pinGod.LogDebug("base: ball_saved");
@@ -79,8 +92,14 @@ public class BaseMode : Control
         }
     }
 
+    /// <summary>
+    /// Does nothing
+    /// </summary>
     public void OnBallStarted() { }
 
+    /// <summary>
+    /// Does nothing
+    /// </summary>
     public void UpdateLamps() { }
 
     /// <summary>

@@ -1,8 +1,14 @@
 using Godot;
 
+/// <summary>
+/// Custom Game class for Basic Game
+/// </summary>
 public class Game : PinGodGameNode
 {	
-	[Export] protected string MULTIBALL_SCENE = "res://addons/PinGodGame/Modes/multiball/Multiball.tscn";
+	/// <summary>
+	/// Default scene file to use for Multi-Ball
+	/// </summary>
+	[Export] protected string MULTIBALL_SCENE = "res://addons/PinGodGame/Scenes/Multiball.tscn";
 
 	private bool _lastBall;
 	private Timer _tiltedTimeOut;
@@ -10,6 +16,9 @@ public class Game : PinGodGameNode
 	private PackedScene multiballPkd;	
 	private ScoreEntry scoreEntry;
 
+	/// <summary>
+	/// Connects signals to basic game events, handles tilt time outs
+	/// </summary>
 	public override void _EnterTree()
 	{
 		base._EnterTree();
@@ -45,6 +54,9 @@ public class Game : PinGodGameNode
 		StartNewBall();
 	}
 
+	/// <summary>
+	/// Gets an instance of the multi-ball scene and add it to the Modes tree
+	/// </summary>
 	public void AddMultiballSceneToTree()
 	{
 		//create an mball instance from the packed scene
@@ -93,6 +105,9 @@ public class Game : PinGodGameNode
 			}
 		}
 	}
+	/// <summary>
+	/// Displays high score if this is the last ball.
+	/// </summary>
 	public void OnBonusEnded()
 	{
 		pinGod.LogInfo("game: bonus ended, starting new ball");

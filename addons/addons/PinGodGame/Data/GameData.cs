@@ -27,14 +27,29 @@ public class GameData
 	/// Credits saved in machine
 	/// </summary>
 	public byte Credits { get; set; }
+	/// <summary>
+	/// Amount of games finished to the end
+	/// </summary>
 	public int GamesFinished { get; set; }
+	/// <summary>
+	/// Total games played
+	/// </summary>
 	public int GamesPlayed { get; set; }
+	/// <summary>
+	/// Total games started
+	/// </summary>
 	public int GamesStarted { get; set; }
+	/// <summary>
+	/// Collection of saved High Scores
+	/// </summary>
 	public List<HighScore> HighScores { get; set; } = new List<HighScore>();
 	/// <summary>
 	/// Total times tilted
 	/// </summary>
 	public int Tilted { get; set; }
+	/// <summary>
+	/// Total time played
+	/// </summary>
 	public ulong TimePlayed { get; set; }
 
 	/// <summary>

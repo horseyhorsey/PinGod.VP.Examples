@@ -7,14 +7,19 @@ public class LampMatrix : GridContainer
 {
 	[Export] int _lamp_count = 64;
 	[Export] Vector2 _lamp_size_pixels = new Vector2(50, 50);
+	[Export] string _lamp_scene = "res://addons/PinGodGame/Scenes/Lamp.tscn";
 
-	private Godot.Collections.Array<Lamp> _lamps = null;
+    private Godot.Collections.Array<Lamp> _lamps = null;
 	private PackedScene _lampScene;
 
+	/// <summary>
+	/// Creates instances of the <see cref="_lampScene"/> for all the <see cref="_lamp_count"/>
+	/// </summary>
 	public override void _EnterTree()
 	{
 		base._EnterTree();
-		_lampScene = ResourceLoader.Load<PackedScene>("res://addons/PinGodGame/Scenes/Lamp.tscn");
+
+		_lampScene = ResourceLoader.Load<PackedScene>(_lamp_scene);
 		_lamps = new Godot.Collections.Array<Lamp>();
 		for (int i = 0; i < _lamp_count; i++)
 		{

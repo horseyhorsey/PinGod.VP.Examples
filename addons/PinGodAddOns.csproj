@@ -4,6 +4,31 @@
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="addons\PinGodGame\Scenes\Attract.tscn" />
+    <None Include="addons\PinGodGame\Scenes\AudioManager.tscn" />
+    <None Include="addons\PinGodGame\Scenes\BallSave.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Bonus.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Bumper.tscn" />
+    <None Include="addons\PinGodGame\Scenes\CreditsLayer.tscn" />
+    <None Include="addons\PinGodGame\Scenes\HighScores.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Lamp.tscn" />
+    <None Include="addons\PinGodGame\Scenes\LampMatrix.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\AudioSettings.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\DisplaySettings.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\GameSettingsScene.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\PingodSettingsScene.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Menus\SettingsDisplay.tscn" />
+    <None Include="addons\PinGodGame\Scenes\ModeTimer.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Multiball.tscn" />
+    <None Include="addons\PinGodGame\Scenes\PauseLayer.tscn" />
+    <None Include="addons\PinGodGame\Scenes\ScoreEntry.tscn" />
+    <None Include="addons\PinGodGame\Scenes\ScoreMode.tscn" />
+    <None Include="addons\PinGodGame\Scenes\ServiceMenu.tscn" />
+    <None Include="addons\PinGodGame\Scenes\SwitchOverlay.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Tilt.tscn" />
+    <None Include="addons\PinGodGame\Scenes\Trough.tscn" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 using Godot;
 
 /// <summary>
-/// Settings for music, sfx, voice
+/// Settings Menu for music, sfx, voice
 /// </summary>
 public class AudioSettings : MarginContainer
 {
@@ -18,6 +18,9 @@ public class AudioSettings : MarginContainer
     private HSlider _volMasterSlider;
     private Label _volMasterLabel;
 
+    /// <summary>
+    /// Sets up the different types of audio for settings to be changed in a menu
+    /// </summary>
     public override void _EnterTree()
     {
         if (!Engine.EditorHint)

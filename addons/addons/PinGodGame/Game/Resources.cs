@@ -7,6 +7,9 @@ public class Resources : ResourcePreloader
 {
     [Export] Godot.Collections.Dictionary<string, string> _resources = new Godot.Collections.Dictionary<string, string>();
 
+    /// <summary>
+    /// Working directory to load pingod.gfx.pck
+    /// </summary>
     public static string WorkingDirectory = string.Empty;
 
     /// <summary>
@@ -37,7 +40,9 @@ public class Resources : ResourcePreloader
             LoadResources();
         }
     }
-
+    /// <summary>
+    /// Invokes GD.Load on every resource found
+    /// </summary>
     private void LoadResources()
     {
         Logger.LogDebug("pre loading resources");

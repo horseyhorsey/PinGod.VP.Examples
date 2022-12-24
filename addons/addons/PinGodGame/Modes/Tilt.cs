@@ -1,8 +1,7 @@
 using Godot;
 
 /// <summary>
-/// Manages the <see cref="PinGodGame.TiltSwitchNum"/> and <see cref="PinGodGame.SlamTiltSwitch"/> inputs <para/>
-/// Sets the <see cref="PinGodGame.Tiltwarnings"/> and <see cref="PinGodGame.IsTilted"/> if player goes over their warnings
+/// Listens to tilted actions. "slam_tilt" or "tilt", <see cref="_Input(Godot.InputEvent)"/>
 /// </summary>
 public class Tilt : Control
 {
@@ -13,6 +12,9 @@ public class Tilt : Control
 
 	private Timer timer;
 	float displayForSecs = 2f;
+	/// <summary>
+	/// singleton
+	/// </summary>
 	protected PinGodGame pinGod;
 	private Trough trough;
 	private BlinkingLabel blinkingLayer;

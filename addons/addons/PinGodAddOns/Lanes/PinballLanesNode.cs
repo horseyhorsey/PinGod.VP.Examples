@@ -21,6 +21,9 @@ public class PinballLanesNode : PinGodGameMode
     /// Switches to handle lane events
     /// </summary>
     [Export] string[] _lane_switches = new string[0];
+    /// <summary>
+    /// Default color to use for led. Color8, RGB
+    /// </summary>
 
     [Export] protected Color _led_color = Color.Color8(255, 255, 255);
 

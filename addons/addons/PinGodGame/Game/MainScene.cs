@@ -13,15 +13,27 @@ public class MainScene : Node2D
     /// Path to the Game.tscn. 
     /// </summary>
     [Export] protected string _game_scene_path = "res://game/Game.tscn";
+    /// <summary>
+    /// Path to service menu scene
+    /// </summary>
     [Export] protected string _service_menu_scene_path = "res://addons/PinGodGame/Scenes/ServiceMenu.tscn";
 	private Node attractnode;
 	Mutex m = new Mutex();
 	private Control pauseLayer;
     private Control settingsDisplay;    
-
+    /// <summary>
+    /// Is machine is the Service Menu?
+    /// </summary>
     public bool InServiceMenu { get; private set; }
+    /// <summary>
+    /// PinGodGame singleton
+    /// </summary>
 	public PinGodGame pinGod { get; private set; }
 
+    /// <summary>
+    /// Connects to <see cref="PinGodGame.GameStarted"/>, <see cref="PinGodGame.GameEnded"/>, <see cref="PinGodGame.ServiceMenuExit"/> <para/>
+    /// Holds <see cref="attractnode"/>, <see cref="settingsDisplay"/>, <see cref="pauseLayer"/>
+    /// </summary>
 	public override void _EnterTree()
     {
         //save a reference to connect signals
@@ -35,9 +47,9 @@ public class MainScene : Node2D
         //load preloader
         _resourcePreLoader = GetNode("ResourcePreloader") as ResourcePreloader;
         PreloadServiceMenu();
-        pinGod.Connect("GameStarted", this, "OnGameStarted");
-        pinGod.Connect("GameEnded", this, "OnGameEnded");
-        pinGod.Connect("ServiceMenuExit", this, "OnServiceMenuExit");
+        pinGod.Connect(nameof(PinGodGame.GameStarted), this, "OnGameStarted");
+        pinGod.Connect(nameof(PinGodGame.GameEnded), this, "OnGameEnded");
+        pinGod.Connect(nameof(PinGodGame.ServiceMenuExit), this, "OnServiceMenuExit");
 
         //attract mod already in the tree, get the instance so we can free it when game started
         attractnode = GetNode("Modes/Attract");
@@ -47,6 +59,11 @@ public class MainScene : Node2D
         settingsDisplay = GetNodeOrNull<Control>("CanvasLayer/SettingsDisplay");
     }
 
+    /// <summary>
+    /// Listens for actions on "pause", "quit", "settings" and will activate the Service menu on "enter" <para/>
+    /// * Service menu will remove the Game or Attract from the scene depending on which mode currently in
+    /// </summary>
+    /// <param name="event"></param>
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("pause"))
@@ -109,10 +126,13 @@ public class MainScene : Node2D
         }
     }
 
+    /// <summary>
+    /// Sets Solenoid enabled under "died"? <para/>
+    /// pingod.vp controller coil 0, sets GameRunning on the controller
+    /// </summary>
     public override void _Ready()
     {
         pauseLayer.Hide();
-        //pingod.vp controller coil 0, sets GameRunning on the controller
         pinGod.SolenoidOn("died", 1);
         pinGod.LogInfo("pingod base: ready, sent died coil on");
     }

@@ -5,9 +5,21 @@
 /// </summary>
 public static class Machine 
 {
+    /// <summary>
+    /// Coil Pin States
+    /// </summary>
     public static readonly Coils Coils = new Coils() { };    
+    /// <summary>
+    /// Lamp Pin States
+    /// </summary>
     public static readonly Lamps Lamps = new Lamps() { };
+    /// <summary>
+    /// LED Pin States
+    /// </summary>
     public static readonly Leds Leds = new Leds() { };
+    /// <summary>
+    /// Switch Pin States
+    /// </summary>
     public static readonly Switches Switches = new Switches() { };
 }
 

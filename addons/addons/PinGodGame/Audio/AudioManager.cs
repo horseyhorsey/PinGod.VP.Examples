@@ -14,6 +14,9 @@ public class AudioManager : Node
     /// </summary>
     [Export] public string Bgm { get; set; }
 
+    /// <summary>
+    /// Collection of assets to load on startup
+    /// </summary>
     [Export] public Dictionary<string, string> MusicAssets { get; private set; } = new Dictionary<string, string>();
 
     /// <summary>
@@ -26,6 +29,9 @@ public class AudioManager : Node
         { "warning" , "res://addons/PinGodGame/assets/audio/sfx/tilt_warning.wav"}
     };
 
+    /// <summary>
+    /// Collection of voice assets to load on startup
+    /// </summary>
     [Export] public Dictionary<string, string> VoiceAssets { get; private set; } = new Dictionary<string, string>();
 
     #endregion
@@ -50,15 +56,29 @@ public class AudioManager : Node
     /// </summary>
     public AudioStreamPlayer MusicPlayer { get; private set; }
 
+    /// <summary>
+    /// Sound FX resources
+    /// </summary>
     public Dictionary<string, AudioStream> Sfx { get; private set; }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public bool SfxEnabled { get; set; }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public AudioStreamPlayer SfxPlayer { get; private set; }
+    /// <summary>
+    /// Voice sound resources
+    /// </summary>
     public Dictionary<string, AudioStream> Voice { get; private set; }    
-
+    /// <summary>
+    /// 
+    /// </summary>
     public bool VoiceEnabled { get; set; }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public AudioStreamPlayer VoicePlayer { get; private set; }
 
     /// <summary>
@@ -299,7 +319,7 @@ public class AudioManager : Node
     internal AudioStream GetCurrentMusic() => MusicPlayer.Stream;
 
     /// <summary>
-    /// Returns true if <see cref="MusicPlayer.Playing"/>
+    /// Returns true if the <see cref="MusicPlayer"/> <see cref="AudioStreamPlayer.Playing"/>
     /// </summary>
     /// <returns></returns>
     internal bool IsMusicPlaying() => MusicPlayer.Playing;
