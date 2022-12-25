@@ -5,6 +5,8 @@ draft: false
 weight: 20
 ---
 
+[Class Definitions](/html/class_pin_god_game.html)
+
 {{% panel status="primary" title="Note" icon="far fa-lightbulb" %}}
 This scene is autoloaded with a game and you should add this scene as a favorite in Godots favorites scene tree for quicker access.
 
