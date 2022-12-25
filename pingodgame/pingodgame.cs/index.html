@@ -1,0 +1,220 @@
+<!doctype html><html lang=en-us>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>PinGodGame.cs - Script - PinGod.VP Examples</title>
+<meta name=description content="Docs, writeup , how to use">
+<meta name=generator content="Hugo 0.91.2">
+<link href=https://horseyhorsey.github.io/PinGod.VP.Examples/index.xml rel=alternate type=application/rss+xml>
+<link rel=canonical href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/pingodgame.cs/>
+<link rel=stylesheet href=https://horseyhorsey.github.io/PinGod.VP.Examples/css/theme.min.css>
+<link rel=stylesheet href=https://horseyhorsey.github.io/PinGod.VP.Examples/css/chroma.min.css>
+<script defer src=https://horseyhorsey.github.io/PinGod.VP.Examples/js/fontawesome6/all.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js integrity="sha256-H3cjtrm/ztDeuhCN9I4yh4iN2Ybx/y1RM7rMmAesA0k=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck=" crossorigin=anonymous></script>
+<script src=https://horseyhorsey.github.io/PinGod.VP.Examples/js/bundle.js></script><style>:root{--custom-font-color:FF0016;--custom-background-color:#00FF16}</style>
+<meta property="og:title" content="PinGodGame.cs - Script">
+<meta property="og:description" content="This script is autoloaded from the scene when the display window is launched and has many methods.
+Modes and other scenes can get access to this from the root tree. GetNode<PinGodGame>(&#34;/root/PinGodGame&#34;).
+Godot - Overrides _EnterTree = Gets user cmd line args, loads data and settings, creates trough, sets up ball search and audio manager
+_Ready = Game initialized. Memory map is created here if read and write is enabled. Gets BallSearchOptions, sets up a _lampMatrixOverlay Gets hold of the MainScene to control window size, stretch">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/pingodgame.cs/"><meta property="og:image" content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png"><meta property="article:section" content="pingodgame">
+<meta property="article:published_time" content="2017-10-17T15:26:15+00:00">
+<meta property="article:modified_time" content="2017-10-17T15:26:15+00:00"><meta property="og:site_name" content="Hugo Techdoc Theme">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png">
+<meta name=twitter:title content="PinGodGame.cs - Script">
+<meta name=twitter:description content="This script is autoloaded from the scene when the display window is launched and has many methods.
+Modes and other scenes can get access to this from the root tree. GetNode<PinGodGame>(&#34;/root/PinGodGame&#34;).
+Godot - Overrides _EnterTree = Gets user cmd line args, loads data and settings, creates trough, sets up ball search and audio manager
+_Ready = Game initialized. Memory map is created here if read and write is enabled. Gets BallSearchOptions, sets up a _lampMatrixOverlay Gets hold of the MainScene to control window size, stretch">
+<meta itemprop=name content="PinGodGame.cs - Script">
+<meta itemprop=description content="This script is autoloaded from the scene when the display window is launched and has many methods.
+Modes and other scenes can get access to this from the root tree. GetNode<PinGodGame>(&#34;/root/PinGodGame&#34;).
+Godot - Overrides _EnterTree = Gets user cmd line args, loads data and settings, creates trough, sets up ball search and audio manager
+_Ready = Game initialized. Memory map is created here if read and write is enabled. Gets BallSearchOptions, sets up a _lampMatrixOverlay Gets hold of the MainScene to control window size, stretch"><meta itemprop=datePublished content="2017-10-17T15:26:15+00:00">
+<meta itemprop=dateModified content="2017-10-17T15:26:15+00:00">
+<meta itemprop=wordCount content="448"><meta itemprop=image content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png">
+<meta itemprop=keywords content></head>
+<body><div class=container><header>
+<h1>PinGod.VP Examples</h1><span class=version>Version 4.3.0</span><a href=https://github.com/horseyhorsey/PinGod.VP.Examples class=github><i class="fab fa-github"></i></a>
+<p class=description>Docs, writeup , how to use</p>
+</header>
+<div class=global-menu>
+<nav>
+<ul>
+<li id=home><a href=/PinGod.VP.Examples/><i class="fa fa-heart"></i>&nbsp;Home</a></li>
+<li id=twitter class=twitter-menu-item><a href=https://twitter.com/thingsym><b>pre!</b> Twitter <b>post!</b></a></li>
+<li><a href=/PinGod.VP.Examples/post/goisforlovers/>(Hu)go Template Primer</a></li>
+<li><a href=/PinGod.VP.Examples/about/>About Hugo</a></li>
+<li><a href=/PinGod.VP.Examples/post/hugoisforlovers/>Getting Started with Hugo</a></li><li class=parent><a href>Tutorials<i class="fas fa-angle-right"></i></a>
+<ul class=sub-menu>
+<li class=child><a href=/PinGod.VP.Examples/post/creating-a-new-theme/>Creating a New Theme</a></li>
+<li class=child><a href=/PinGod.VP.Examples/post/migrate-from-jekyll/>Migrating from Jekyll</a></li>
+</ul>
+</li></ul>
+</nav>
+</div>
+<div class=content-container>
+<main><h1>PinGodGame.cs - Script</h1>
+<p>This script is autoloaded from the scene when the display window is launched and has many methods.</p>
+<p>Modes and other scenes can get access to this from the <code>root</code> tree. <code>GetNode&lt;PinGodGame>("/root/PinGodGame")</code>.</p>
+<h2 id=godot---overrides>Godot - Overrides</h2>
+<p><code>_EnterTree</code> = Gets user cmd line args, loads data and settings, creates trough, sets up ball search and audio manager</p>
+<p><code>_Ready</code> = Game initialized. <code>Memory map</code> is created here if read and write is enabled. Gets <code>BallSearchOptions</code>, sets up a <code>_lampMatrixOverlay</code> Gets hold of the MainScene to control window size, stretch</p>
+<p><code>_ExitTree</code> = Saves recordings if enabled and runs Quit(bool)</p>
+<p><code>_Input</code> = Listens for any escape action preses. Handles coin switches, adds credits. Toggle border F2 default</p>
+<p><code>_Process</code> = Processes playback events&mldr;Processing is disabled if it isn&rsquo;t enabled or if playback is finished</p>
+<h2 id=signals-game-events>Signals (Game Events)</h2>
+<h4 id=signal-list>Signal list</h4>
+<ul>
+<li>BallDrained</li>
+<li>BallEnded(bool lastBall)</li>
+<li>BallSaved</li>
+<li>BallSaveEnded</li>
+<li>BallSaveStarted</li>
+<li>BonusEnded</li>
+<li>CreditAdded</li>
+<li>GameEnded</li>
+<li>GamePaused</li>
+<li>GameResumed</li>
+<li>GameStarted</li>
+<li>GameTilted</li>
+<li>ModeTimedOut(string title)</li>
+<li>MultiBallEnded</li>
+<li>MultiballStarted</li>
+<li>PlayerAdded</li>
+<li>ScoreEntryEnded</li>
+<li>ScoresUpdated</li>
+<li>ServiceMenuEnter</li>
+<li>ServiceMenuExit</li>
+<li>VpCommand(byte index)</li>
+</ul>
+<p>Signals can be found in <code>PinGodGameBase.cs</code>. The game has to have these or at least inherit them to be able to be emitted.</p>
+<p>You can connect to signals from a <code>PinGodGame</code> scene reference, See <code>res://addons/PinGodGame/Game/Game.cs</code> in <code>_EnterTree</code> for example.</p>
+<p><code>pinGod.Connect(nameof(PinGodGame.BallDrained), this, nameof(OnBallDrained));</code></p>
+<h2 id=some-example-methods>Some example methods</h2>
+<p>Pretty much all can be overriden in this class.</p>
+<p>Generate documentation from source see <a href=../wiki/01.-Setup>Setup-Generate Docs</a> to view all methods in <code>PinGodGame</code></p>
+<p><code>AddBonus(long points)</code> = Add bonus to current player</p>
+<p><code>AddCredits(byte amt)</code> = Add game credits</p>
+<p><code>AddPoints(long points)</code> = Add points to current player</p>
+<p><code>BallsInPlay()</code> = Gets balls in play from the _trough</p>
+<p><code>DisableAllLeds</code>, <code>DisableAllLamps</code> = Disable all lights</p>
+<p><code>EnableFlippers (byte enabled)</code> = enable flippers?</p>
+<p><code>IsSwitch (string[] switchNames,InputEvent input)</code> = Detect if the input isAction found in the given switchNames. Uses SwitchOn</p>
+<p><code>LogInfo,LogWarning,LogError,LogDebug</code> = write to logs</p>
+<p><code>StartMultiBall (byte numOfBalls, byte ballSaveTime = 20,float pulseTime = 0)</code> = Sets MultiBall running in the trough and Emits MultiballStarted</p>
+<p><code>StopMusic()</code> = Stops the music in audiomanager</p>
+<p><code>SwitchOn(string swName)</code> = Checks a switches input event by friendly name. If the &ldquo;coin&rdquo; switch is still held down then will return true</p>
+<p><code>UpdateLamps</code> = Invokes UpdateLamps on all groups marked as Mode within the scene tree. scene tree CallGroup</p>
+<h2 id=basicgame-usage>BasicGame usage</h2>
+<h3 id=custompingodgame>CustomPinGodGame</h3>
+<p>The <code>BasicGameGodot</code>s <code>CustomPinGodGame</code> class inherits <code>PinGodGame</code> and is set as a script in the <code>PinGodGame.tscn</code>. So while the <code>PinGodGame.tscn</code> scene is set to autoload with a project, then any custom game classes can be by selecting it in the godot editor( safer) or by editing the <code>PinGodGame.tscn</code> file and changing script there.</p>
+<ul>
+<li>
+<p>Overrides the <code>CreatePlayer</code> to create a <code>BasicGamePlayer</code> and doesn&rsquo;t call the base method.</p>
+</li>
+<li>
+<p>Overrides the Setup but calls the base method.</p>
+</li>
+</ul>
+<h3 id=gamecs>Game.cs</h3>
+<p>In this scene overriding the <code>_EnterTree</code> uses <code>pinGod</code> to log messages and connect to some signals.</p>
+<div class=edit-meta>
+Last updated on 17 Oct 2017
+<br>
+Published on 17 Oct 2017
+<br><a href=https://github.com/thingsym/hugo-theme-techdoc/edit/master/pingodgame/pingodgame.cs.md class=edit-page><i class="fas fa-pen-square"></i>&nbsp;Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/pingodgame.tscn/ title="PinGodGame.tscn - Scene"><i class="fas fa-arrow-left" aria-hidden=true></i>&nbsp;Prev - PinGodGame.tscn - Scene</a>
+<a class="nav nav-next" href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/logging/ title="Logging Games">Next - Logging Games <i class="fas fa-arrow-right" aria-hidden=true></i></a>
+</nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p>
+</footer>
+</main>
+<div class=sidebar>
+<nav class=slide-menu>
+<ul>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples>Home</a></li>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/>Getting Started<span class="mark closed">+</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/installation/>Installation</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/configuration/>Configuration</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/launching/>Launching</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/screenshot/>Screenshot</a></li>
+</ul>
+</li>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/>Machine<span class="mark closed">+</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/switchesactions/>Switches to Actions</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/usingswitches/>Using Switches (Godot)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/usingswitchescontroller/>Using Switches (Controller)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/usingcoils/>Using Coils (Godot)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/usingcoilscontroller/>Using Coils (Controller)</a></li>
+</ul>
+</li>
+<li class="parent has-sub-menu"><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/>PinGodGame (AutoLoaded)<span class="mark opened">-</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/items/>MachineConfig (Items)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/trough/>Ball Trough (Scene)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/audiomanager/>AudioManager</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/devoverlays/>Overlays (Developing)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/pingodgame.tscn/>PinGodGame.tscn - Scene</a></li>
+<li class=active><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/pingodgame.cs/>PinGodGame.cs - Script</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/logging/>Logging Games</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/recordings-playback/>Recording / Playback</a></li>
+</ul>
+</li>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/base-scenes/>Base Scenes<span class="mark closed">+</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/base-scenes/mainscene/>Main Scene</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/base-scenes/attractscene/>Attract Scene</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/base-scenes/gamescene/>Game Scene</a></li>
+</ul>
+</li>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/modes/>Base Game Modes (Scenes)<span class="mark closed">+</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/modes/score-mode/>ScoreMode - Scene</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/modes/bonus-mode/>Bonus</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/modes/score-entry-mode/>Score Entry</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/modes/tilt-mode/>Tilt Mode Scene</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/modes/base-mode/>BaseMode (BasicGame)</a></li>
+</ul>
+</li>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/tools/>Tools / Controls<span class="mark closed">+</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/tools/ballstackpinball/>BallStackPinball (Timer)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/tools/blinkinglabel/>BlinkingLabel (Label)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/tools/pinballlanesnode/>PinballLanesNode (PinGodGameMode:Node)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/tools/pinballtargetsbank/>PinballTargetsBank (Node)</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/tools/videoplayerpinball/>VideoPlayerPinball (VideoPlayer)</a></li>
+</ul>
+</li>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/game-assets/>Game Assets<span class="mark closed">+</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/game-assets/audiomanager/>Assets - Audio Manager</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/game-assets/video/>Assets - Video</a></li>
+</ul>
+</li>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/languages/>Languages<span class="mark closed">+</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/languages/attractscene/>Attract Scene</a></li>
+</ul>
+</li>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/exporting/>Exporting / Publishing<span class="mark closed">+</span></a>
+<ul class=sub-menu>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/exporting/exports/>Exporting</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+<div class=sidebar-footer></div>
+</div>
+</div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20>
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>
