@@ -7,6 +7,8 @@ weight: 45
 
 Game logging
 
+[Class Reference](/PinGod.VP.Examples/html/interfaceIPinballLogger.html)
+
 ```
 
 void LogDebug(params object[] what);

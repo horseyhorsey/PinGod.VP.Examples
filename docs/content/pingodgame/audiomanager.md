@@ -7,6 +7,8 @@ weight: 25
 
 ### AudioManager
 
+[Class Reference](/PinGod.VP.Examples/html/classAudioManager.html)
+
 Add global music, sfx, voice sounds.
 
 ![image](../../images/audiomanager_options.jpg)

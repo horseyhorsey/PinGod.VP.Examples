@@ -5,6 +5,8 @@ draft: false
 weight: 21
 ---
 
+[Trough Class Reference](/PinGod.VP.Examples/html/classTrough.html)
+
 Included in the examples `PinGodGame.tscn` tree.
 
 ![image](../../images/trough_options.jpg)

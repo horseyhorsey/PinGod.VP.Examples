@@ -5,7 +5,7 @@ draft: false
 weight: 20
 ---
 
-[Class Definitions](/html/classPinGodGame.html)
+[Class Definitions](/PinGod.VP.Examples/html/classPinGodGame.html)
 
 {{% panel status="primary" title="Note" icon="far fa-lightbulb" %}}
 This scene is autoloaded with a game and you should add this scene as a favorite in Godots favorites scene tree for quicker access.
