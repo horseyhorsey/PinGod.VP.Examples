@@ -1,6 +1,7 @@
 ---
 date: 2014-03-10
 linktitle: Migrating from Jekyll
+draft: true
 menu:
   main:
     parent: Tutorials

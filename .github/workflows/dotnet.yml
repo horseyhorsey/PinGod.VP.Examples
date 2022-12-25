@@ -26,6 +26,8 @@ jobs:
       - name: Build
         shell: bash
         run: |
+          sudo apt-get install doxygen -y
+          doxygen Doxyfile
           cd ./docs
           hugo --minify
 

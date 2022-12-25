@@ -7,6 +7,7 @@ tags = [
     "hugo",
     "development",
 ]
+draft = true
 date = "2014-04-02"
 categories = [
     "Development",

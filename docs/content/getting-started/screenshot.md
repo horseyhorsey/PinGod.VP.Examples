@@ -1,7 +1,7 @@
 ---
 title: "Screenshot"
 date: 2019-10-26T15:26:15Z
-draft: false
+draft: true
 weight: 30
 ---
 

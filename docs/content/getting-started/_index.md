@@ -23,4 +23,3 @@ Configure Godot
 
 How to load PinGod Godot projects
 
-## [Screenshot](./screenshot)

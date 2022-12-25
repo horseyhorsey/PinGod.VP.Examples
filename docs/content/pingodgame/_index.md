@@ -14,4 +14,4 @@ Most modes rely on this being loaded by using `GetNode<PinGodGame>("/root/PinGod
 
 Scene inspector uses `[export]`s that are defined in `game\PinGodGame.cs`. You can add your own to your game from inheriting from the PinGodGame
 
-![image](../../images/godot-pingodgame-tscn.jpg)
+![image](../images/godot-pingodgame-tscn.jpg)

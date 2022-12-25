@@ -16,12 +16,12 @@ enableMissingTranslationPlaceholders = false
 
     # Source Code repository section
     description = "Docs, writeup , how to use"
-    github_repository = "https://github.com/horseyhorsey/PinGod.VP.Examples"
+    github_repository = "https://github.com/horseyhorsey/PinGod.VP.Examples/docs"
     version = "4.3.0"
 
     # Documentation repository section
     # documentation repository (set edit link to documentation repository)
-    github_doc_repository = "https://github.com/thingsym/hugo-theme-techdoc"
+    github_doc_repository = "https://github.com/horseyhorsey/PinGod.VP.Examples/edit/develop/xml_docs_plus_refactor"
     github_doc_repository_path = ""
 
     # Analytic section
@@ -75,15 +75,15 @@ enableMissingTranslationPlaceholders = false
         url = "/"
         weight = 1
         identifier = 'home'
-        pre = "<i class='fa fa-heart'></i>&nbsp;"
+        pre = "<i class='fa fa-house'></i>&nbsp;"
 
     [[menu.main]]
-        name = "Twitter"
-        url = "https://twitter.com/thingsym"
+        name = "Controller"
+        url = "https://github.com/horseyhorsey/PinGod.VP/releases"
         weight = 2
         identifier = 'twitter'
-        pre = "<b>pre!</b> "
-        post = " <b>post!</b>"
+        # pre = "<b>pre!</b> "
+        post = " <b>download</b>"
         [menu.main.params]
           class = 'twitter-menu-item'
 
