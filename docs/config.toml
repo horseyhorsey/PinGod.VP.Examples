@@ -21,7 +21,7 @@ enableMissingTranslationPlaceholders = false
 
     # Documentation repository section
     # documentation repository (set edit link to documentation repository)
-    github_doc_repository = "https://github.com/horseyhorsey/PinGod.VP.Examples/edit/develop/xml_docs_plus_refactor"
+    github_doc_repository = "https://github.com/horseyhorsey/PinGod.VP.Examples"
     github_doc_repository_path = ""
 
     # Analytic section
