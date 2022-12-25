@@ -27,7 +27,8 @@ jobs:
         shell: bash
         run: |
           sudo apt-get install doxygen -y
-          doxygen Doxyfile
+          rm -r ./docs/public/html/*
+          doxygen Doxyfile          
           cd ./docs
           hugo --minify
 
