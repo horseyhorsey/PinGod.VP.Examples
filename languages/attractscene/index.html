@@ -2,7 +2,7 @@
 <head><meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Attract Scene - PinGod.VP Examples</title>
+<title>Language files - PinGod.VP Examples</title>
 <meta name=description content="Docs, writeup , how to use">
 <meta name=generator content="Hugo 0.91.2">
 <link href=https://horseyhorsey.github.io/PinGod.VP.Examples/index.xml rel=alternate type=application/rss+xml>
@@ -14,48 +14,91 @@
 <script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js integrity="sha256-H3cjtrm/ztDeuhCN9I4yh4iN2Ybx/y1RM7rMmAesA0k=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck=" crossorigin=anonymous></script>
 <script src=https://horseyhorsey.github.io/PinGod.VP.Examples/js/bundle.js></script><style>:root{--custom-font-color:FF0016;--custom-background-color:#00FF16}</style>
-<meta property="og:title" content="Attract Scene">
-<meta property="og:description" content="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
+<meta property="og:title" content="Language files">
+<meta property="og:description" content="Add translations for the game. There are also defaults to cover most standard pinball messages in addons/PinGodGame/Localization
+The default example covers English and French in pindog_default_lang.csv.
+Files YourGame/local BasicGameLang.csv
+keys,en MY_MSG,Add key values for lanuguages Usage Godot Scripts These can be used in Godot script by using the translation method Tr(&#34;EXTRA_BALL&#34;)
+_defaultText = Tr(&#34;BONUS_EOB&#34;);
+Replacing placeholders CSV
+HI_SCORE_ENTRY,PLAYER %d\r\nENTER NAME,JOUEUR %d\r\nENTRER LE NOM
+SCRIPT
+playerMessageLabel.Text = Tr(&#34;HI_SCORE_ENTRY&#34;).Replace(&#34;%d&#34;, (CurrentPlayer + 1).ToString());">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://horseyhorsey.github.io/PinGod.VP.Examples/languages/attractscene/"><meta property="og:image" content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png"><meta property="article:section" content="languages">
 <meta property="article:published_time" content="2017-10-17T15:26:15+00:00">
 <meta property="article:modified_time" content="2017-10-17T15:26:15+00:00"><meta property="og:site_name" content="Hugo Techdoc Theme">
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png">
-<meta name=twitter:title content="Attract Scene">
-<meta name=twitter:description content="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
-<meta itemprop=name content="Attract Scene">
-<meta itemprop=description content="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."><meta itemprop=datePublished content="2017-10-17T15:26:15+00:00">
+<meta name=twitter:title content="Language files">
+<meta name=twitter:description content="Add translations for the game. There are also defaults to cover most standard pinball messages in addons/PinGodGame/Localization
+The default example covers English and French in pindog_default_lang.csv.
+Files YourGame/local BasicGameLang.csv
+keys,en MY_MSG,Add key values for lanuguages Usage Godot Scripts These can be used in Godot script by using the translation method Tr(&#34;EXTRA_BALL&#34;)
+_defaultText = Tr(&#34;BONUS_EOB&#34;);
+Replacing placeholders CSV
+HI_SCORE_ENTRY,PLAYER %d\r\nENTER NAME,JOUEUR %d\r\nENTRER LE NOM
+SCRIPT
+playerMessageLabel.Text = Tr(&#34;HI_SCORE_ENTRY&#34;).Replace(&#34;%d&#34;, (CurrentPlayer + 1).ToString());">
+<meta itemprop=name content="Language files">
+<meta itemprop=description content="Add translations for the game. There are also defaults to cover most standard pinball messages in addons/PinGodGame/Localization
+The default example covers English and French in pindog_default_lang.csv.
+Files YourGame/local BasicGameLang.csv
+keys,en MY_MSG,Add key values for lanuguages Usage Godot Scripts These can be used in Godot script by using the translation method Tr(&#34;EXTRA_BALL&#34;)
+_defaultText = Tr(&#34;BONUS_EOB&#34;);
+Replacing placeholders CSV
+HI_SCORE_ENTRY,PLAYER %d\r\nENTER NAME,JOUEUR %d\r\nENTRER LE NOM
+SCRIPT
+playerMessageLabel.Text = Tr(&#34;HI_SCORE_ENTRY&#34;).Replace(&#34;%d&#34;, (CurrentPlayer + 1).ToString());"><meta itemprop=datePublished content="2017-10-17T15:26:15+00:00">
 <meta itemprop=dateModified content="2017-10-17T15:26:15+00:00">
-<meta itemprop=wordCount content="69"><meta itemprop=image content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png">
+<meta itemprop=wordCount content="103"><meta itemprop=image content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png">
 <meta itemprop=keywords content></head>
 <body><div class=container><header>
-<h1>PinGod.VP Examples</h1><span class=version>Version 4.3.0</span><a href=https://github.com/horseyhorsey/PinGod.VP.Examples class=github><i class="fab fa-github"></i></a>
+<h1>PinGod.VP Examples</h1><span class=version>Version 4.3.0</span><a href=https://github.com/horseyhorsey/PinGod.VP.Examples/docs class=github><i class="fab fa-github"></i></a>
 <p class=description>Docs, writeup , how to use</p>
 </header>
 <div class=global-menu>
 <nav>
 <ul>
-<li id=home><a href=/PinGod.VP.Examples/><i class="fa fa-heart"></i>&nbsp;Home</a></li>
-<li id=twitter class=twitter-menu-item><a href=https://twitter.com/thingsym><b>pre!</b> Twitter <b>post!</b></a></li>
-<li><a href=/PinGod.VP.Examples/post/goisforlovers/>(Hu)go Template Primer</a></li>
-<li><a href=/PinGod.VP.Examples/about/>About Hugo</a></li>
-<li><a href=/PinGod.VP.Examples/post/hugoisforlovers/>Getting Started with Hugo</a></li><li class=parent><a href>Tutorials<i class="fas fa-angle-right"></i></a>
+<li id=home><a href=/PinGod.VP.Examples/><i class="fa fa-house"></i>&nbsp;Home</a></li>
+<li id=twitter class=twitter-menu-item><a href=https://github.com/horseyhorsey/PinGod.VP/releases>Controller <b>download</b></a></li>
+<li><a href=/PinGod.VP.Examples/about/>About PinGod</a></li><li class=parent><a href>Menu TODO<i class="fas fa-angle-right"></i></a>
 <ul class=sub-menu>
-<li class=child><a href=/PinGod.VP.Examples/post/creating-a-new-theme/>Creating a New Theme</a></li>
-<li class=child><a href=/PinGod.VP.Examples/post/migrate-from-jekyll/>Migrating from Jekyll</a></li>
+<li class=child><a href=/PinGod.VP.Examples/post/creating-a-new-theme/>Menu Title</a></li>
 </ul>
 </li></ul>
 </nav>
 </div>
 <div class=content-container>
-<main><h1>Attract Scene</h1>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<div class=edit-meta>
+<main><h1>Language files</h1>
+<p>Add translations for the game. There are also defaults to cover most standard pinball messages in <code>addons/PinGodGame/Localization</code></p>
+<p>The default example covers English and French in <code>pindog_default_lang.csv</code>.</p>
+<h2 id=files>Files</h2>
+<h3 id=yourgamelocal>YourGame/local</h3>
+<p>BasicGameLang.csv</p>
+<pre tabindex=0><code>keys,en
+MY_MSG,Add key values for lanuguages
+</code></pre><h2 id=usage>Usage</h2>
+<h3 id=godot-scripts>Godot Scripts</h3>
+<p>These can be used in Godot script by using the translation method <code>Tr("EXTRA_BALL")</code></p>
+<p><code>_defaultText = Tr("BONUS_EOB");</code></p>
+<h4 id=replacing-placeholders>Replacing placeholders</h4>
+<p>CSV</p>
+<p><code>HI_SCORE_ENTRY,PLAYER %d\r\nENTER NAME,JOUEUR %d\r\nENTRER LE NOM</code></p>
+<p>SCRIPT</p>
+<p><code>playerMessageLabel.Text = Tr("HI_SCORE_ENTRY").Replace("%d", (CurrentPlayer + 1).ToString());</code></p>
+<h3 id=scene-text-controls>Scene text controls</h3>
+<p>They can also be used in control scenes. See the <code>AudioSettings.tscn</code> scene where <code>SETT_VOL_MUSIC</code> and others are used.</p>
+<h2 id=projectgodot-default-translation>Project.godot default translation</h2>
+<pre tabindex=0><code>[locale]
+
+translations=PoolStringArray( &quot;res://addons/PinGodGame/Localization/pingod_default_lang.en.translation&quot; )
+locale_filter=[ 0, [  ] ]
+</code></pre><div class=edit-meta>
 Last updated on 17 Oct 2017
 <br>
 Published on 17 Oct 2017
-<br><a href=https://github.com/thingsym/hugo-theme-techdoc/edit/master/languages/attractscene.md class=edit-page><i class="fas fa-pen-square"></i>&nbsp;Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=https://horseyhorsey.github.io/PinGod.VP.Examples/languages/ title=Languages><i class="fas fa-arrow-left" aria-hidden=true></i>&nbsp;Prev - Languages</a>
+<br><a href=https://github.com/horseyhorsey/PinGod.VP.Examples/edit/develop/xml_docs_plus_refactor/edit/master/languages/attractscene.md class=edit-page><i class="fas fa-pen-square"></i>&nbsp;Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=https://horseyhorsey.github.io/PinGod.VP.Examples/languages/ title=Languages><i class="fas fa-arrow-left" aria-hidden=true></i>&nbsp;Prev - Languages</a>
 <a class="nav nav-next" href=https://horseyhorsey.github.io/PinGod.VP.Examples/exporting/ title="Exporting / Publishing">Next - Exporting / Publishing <i class="fas fa-arrow-right" aria-hidden=true></i></a>
 </nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p>
 </footer>
@@ -69,7 +112,6 @@ Published on 17 Oct 2017
 <li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/installation/>Installation</a></li>
 <li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/configuration/>Configuration</a></li>
 <li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/launching/>Launching</a></li>
-<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/screenshot/>Screenshot</a></li>
 </ul>
 </li>
 <li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/>Machine<span class="mark closed">+</span></a>
@@ -93,7 +135,7 @@ Published on 17 Oct 2017
 <li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/pingodgame/recordings-playback/>Recording / Playback</a></li>
 </ul>
 </li>
-<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/base-scenes/>Base Scenes<span class="mark closed">+</span></a>
+<li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/base-scenes/>Scenes Used<span class="mark closed">+</span></a>
 <ul class=sub-menu>
 <li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/base-scenes/mainscene/>Main Scene</a></li>
 <li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/base-scenes/attractscene/>Attract Scene</a></li>
@@ -126,7 +168,7 @@ Published on 17 Oct 2017
 </li>
 <li class="parent has-sub-menu"><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/languages/>Languages<span class="mark opened">-</span></a>
 <ul class=sub-menu>
-<li class=active><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/languages/attractscene/>Attract Scene</a></li>
+<li class=active><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/languages/attractscene/>Language files</a></li>
 </ul>
 </li>
 <li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/exporting/>Exporting / Publishing<span class="mark closed">+</span></a>
