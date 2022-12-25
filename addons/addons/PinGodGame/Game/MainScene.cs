@@ -31,7 +31,7 @@ public class MainScene : Node2D
 	public PinGodGame pinGod { get; private set; }
 
     /// <summary>
-    /// Connects to <see cref="PinGodGame.GameStarted"/>, <see cref="PinGodGame.GameEnded"/>, <see cref="PinGodGame.ServiceMenuExit"/> <para/>
+    /// Connects to <see cref="PinGodBase.GameStarted"/>, <see cref="PinGodBase.GameEnded"/>, <see cref="PinGodBase.ServiceMenuExit"/> <para/>
     /// Holds <see cref="attractnode"/>, <see cref="settingsDisplay"/>, <see cref="pauseLayer"/>
     /// </summary>
 	public override void _EnterTree()
@@ -47,9 +47,9 @@ public class MainScene : Node2D
         //load preloader
         _resourcePreLoader = GetNode("ResourcePreloader") as ResourcePreloader;
         PreloadServiceMenu();
-        pinGod.Connect(nameof(PinGodGame.GameStarted), this, "OnGameStarted");
-        pinGod.Connect(nameof(PinGodGame.GameEnded), this, "OnGameEnded");
-        pinGod.Connect(nameof(PinGodGame.ServiceMenuExit), this, "OnServiceMenuExit");
+        pinGod.Connect(nameof(PinGodGame.GameStarted), this,nameof(OnGameStarted));
+        pinGod.Connect(nameof(PinGodGame.GameEnded), this, nameof(OnGameEnded));
+        pinGod.Connect(nameof(PinGodGame.ServiceMenuExit), this, nameof(OnServiceMenuExit));
 
         //attract mod already in the tree, get the instance so we can free it when game started
         attractnode = GetNode("Modes/Attract");
@@ -266,7 +266,6 @@ public class MainScene : Node2D
     }
 
     void Reload() => GetTree().ReloadCurrentScene();
-
     private void TogglePause()
     {
         if (GetTree().Paused)

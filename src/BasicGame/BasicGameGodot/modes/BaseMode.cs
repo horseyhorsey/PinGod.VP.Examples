@@ -5,10 +5,10 @@ using Godot;
 /// </summary>
 public class BaseMode : Control
 {
+    [Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Scenes/BallSave.tscn";
+
     private PackedScene _ballSaveScene;
     private BallStackPinball _ballStackSaucer;
-    [Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
-
     private Game game;
     private PinGodGame pinGod;
 
@@ -18,7 +18,7 @@ public class BaseMode : Control
     public override void _EnterTree()
     {
         pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-        game = GetParent().GetParent() as Game;
+        game = GetParent().GetParent() as BasicGame;
 
         _ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);
         _ballStackSaucer = GetNode<BallStackPinball>(nameof(BallStackPinball));
@@ -35,7 +35,7 @@ public class BaseMode : Control
 
         if (pinGod.SwitchOn("start", @event))
         {
-            pinGod.LogInfo("base: start button adding player...", pinGod.StartGame());
+            pinGod.LogInfo("BaseMode: start button adding player...", pinGod.StartGame());
         }
         if (pinGod.SwitchOn("flipper_l", @event))
         {
@@ -75,7 +75,7 @@ public class BaseMode : Control
     public void OnBallDrained() { }
 
     /// <summary>
-    /// Displays a ball save scene for 1 seconds if not in multi-ball, <see cref="PinGodGame.IsMultiballRunning"/>
+    /// Displays a ball save scene for 2 seconds if not in multi-ball, <see cref="PinGodGame.IsMultiballRunning"/>
     /// </summary>
     public void OnBallSaved()
     {
@@ -128,7 +128,7 @@ public class BaseMode : Control
                 pinGod.IsMultiballRunning = true;
                 _ballStackSaucer.Start();
 
-                game?.CallDeferred("AddMultiballSceneToTree");
+                game?.CallDeferred(nameof(BasicGame.AddMultiballSceneToTree));
                 return;
             }
         }

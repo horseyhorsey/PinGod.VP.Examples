@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 /// This should be set to AutoLoad with the corresponding scene for games, see Project Settings <para/>
 /// Has <see cref="Trough"/>
 /// </summary>
-public abstract class PinGodGame : Node
+public abstract class PinGodGame : PinGodBase
 {
     #region Exports
     [Export] bool _lamp_overlay_enabled = false;
@@ -17,95 +17,6 @@ public abstract class PinGodGame : Node
     [Export] bool _record_game = false;
     [Export] bool _playback_game = false;
     [Export] string _playbackfile = null;
-    #endregion
-
-    #region Signals
-    /// <summary>
-    /// Emitted signal
-    /// </summary>
-    [Signal] public delegate void BallDrained();
-    /// <summary>
-    /// Emitted signal
-    /// </summary>
-    /// <param name="lastBall">Is this last ball?</param>
-	[Signal] public delegate void BallEnded(bool lastBall);
-    /// <summary>
-    /// Emitted signal when a ball is saved
-    /// </summary>
-	[Signal] public delegate void BallSaved();
-    /// <summary>
-    /// Emitted signal when ball save is ended
-    /// </summary>
-	[Signal] public delegate void BallSaveEnded();
-    /// <summary>
-    /// Emitted signal when ball save starts
-    /// </summary>
-    [Signal] public delegate void BallSaveStarted();
-    /// <summary>
-    /// Emitted signal when bonus is ended
-    /// </summary>
-    [Signal] public delegate void BonusEnded();
-    /// <summary>
-    /// Emitted signal when a credit is added to game
-    /// </summary>
-    [Signal] public delegate void CreditAdded();
-    /// <summary>
-    /// Emitted signal when game ends
-    /// </summary>
-    [Signal] public delegate void GameEnded();
-    /// <summary>
-    /// Emitted signal when game is paused
-    /// </summary>
-    [Signal] public delegate void GamePaused();
-    /// <summary>
-    /// Emitted signal when game is resumed
-    /// </summary>
-    [Signal] public delegate void GameResumed();
-    /// <summary>
-    /// Emitted signal when game starts
-    /// </summary>
-    [Signal] public delegate void GameStarted();
-    /// <summary>
-    /// Emitted signal when game is tilted
-    /// </summary>
-    [Signal] public delegate void GameTilted();
-    /// <summary>
-    /// Emitted signal when a mode times out
-    /// </summary>
-    [Signal] public delegate void ModeTimedOut(string title);
-    /// <summary>
-    /// Emitted signal when multi-ball ends
-    /// </summary>
-    [Signal] public delegate void MultiBallEnded();
-    /// <summary>
-    /// Emitted signal when multi-ball starts
-    /// </summary>
-    [Signal] public delegate void MultiballStarted();
-    /// <summary>
-    /// Emitted signal when a player is added to the game
-    /// </summary>
-    [Signal] public delegate void PlayerAdded();
-    /// <summary>
-    /// Emitted signal when player has finished entering their scores
-    /// </summary>
-    [Signal] public delegate void ScoreEntryEnded();
-    /// <summary>
-    /// Emitted signal each time score is updated
-    /// </summary>
-    [Signal] public delegate void ScoresUpdated();
-    /// <summary>
-    /// Emitted signal when player enters the service menu
-    /// </summary>
-    [Signal] public delegate void ServiceMenuEnter();
-    /// <summary>
-    /// Emitted signal when player exits the service menu
-    /// </summary>
-	[Signal] public delegate void ServiceMenuExit();
-    /// <summary>
-    /// Signal sent from memory map if <see cref="GameSettings.VpCommandSwitchId"/> was found while reading states
-    /// </summary>
-    /// <param name="index"></param>
-    [Signal] public delegate void VpCommand(byte index);
     #endregion
 
     #region Public Properties - Standard Pinball / Players
@@ -370,43 +281,36 @@ public abstract class PinGodGame : Node
     /// </summary>
     public override void _Ready()
     {
-        base._Ready();        
+        base._Ready();
 
-        //Get the BallSearchOptions from the MachineConfig
-        BallSearchOptions = GetNode<MachineConfig>("MachineConfig")?.BallSearchOptions;
+        LogDebug($"{nameof(PinGodGame)}: _Ready|getting {nameof(BallSearchOptions)} from MachineConfig node");
+        BallSearchOptions = GetNode<MachineConfig>(nameof(MachineConfig))?.BallSearchOptions;
 
-        //main scene
-        mainScene = GetNodeOrNull<MainScene>("/root/MainScene");
-
-        //name the lamp matrix
+        LogInfo($"{nameof(PinGodGame)}: _Ready|getting MainScene");
+        mainScene = GetNodeOrNull<MainScene>("/root/" + nameof(MainScene));
+        
         if (_lampMatrixOverlay != null)
         {
+            LogDebug($"{nameof(PinGodGame)}: _Ready|setting labels for Lamp matrix overlay lamps");
             foreach (var item in Machine.Lamps)
             {
                 _lampMatrixOverlay.SetLabel(item.Value.Num, item.Key);
             }
-        }        
+        }
 
-        //setup and run writing memory states for other application to access
+        //setup and run writing memory states for other application to access        
         if (GameSettings.MachineStatesWrite || GameSettings.MachineStatesRead)
-        {
-            LogInfo("pingod: writing machine states is enabled. delay: " + GameSettings.MachineStatesWriteDelay);
+        {            
+            LogInfo($"{nameof(PinGodGame)}: writing machine states is enabled. delay: " + GameSettings.MachineStatesWriteDelay);
+            LogDebug($"{nameof(PinGodGame)}: _Ready|setting up memory mapping");
             var mConfig = GetNode<MachineConfig>(nameof(MachineConfig));
             memMapping = new MemoryMap(mConfig._memCoilCount, mConfig._memLampCount, mConfig._memLedCount, mConfig._memSwitchCount, pinGodGame: this);
             memMapping.Start(GameSettings.MachineStatesWriteDelay);
         }        
     }
 
-    /// <summary>
-    /// Starts the <see cref="_trough"/> ball saver
-    /// </summary>
-    /// <param name="secs"></param>
-    internal void BallSaveEnabled(float secs)
-    {
-        _trough?.StartBallSaver(secs);
-    }
-
     #endregion
+
 
     /// <summary>
     /// Commands args incoming from <see cref="GetCommandLineArgs"/>
@@ -431,13 +335,13 @@ public abstract class PinGodGame : Node
 	}
 
 	/// <summary>
-	/// Adds credits to the GameData and emits <see cref="CreditAdded"/> signal
+	/// Adds credits to the GameData and emits <see cref="PinGodGame.CreditAdded"/> signal
 	/// </summary>
 	/// <param name="amt"></param>
 	public virtual void AddCredits(byte amt)
 	{
 		GameData.Credits += amt;
-		EmitSignal(nameof(CreditAdded));
+		EmitSignal(nameof(PinGodGame.CreditAdded));
 	}
 
 	/// <summary>
@@ -464,18 +368,21 @@ public abstract class PinGodGame : Node
 	public virtual int BallsInPlay() => _trough?.BallsInPlay() ?? 0;
 
     /// <summary>
+    /// Starts the <see cref="Trough.StartBallSaver(float)"/> ball saver
+    /// </summary>
+    /// <param name="secs"></param>
+    internal void BallSaveEnabled(float secs) => _trough?.StartBallSaver(secs);
+
+    /// <summary>
     /// Creates a new <see cref="PinGodPlayer"/>. Override this for your own custom players
     /// </summary>
     /// <param name="name"></param>
-    public virtual void CreatePlayer(string name)
-	{
-		Players.Add(new PinGodPlayer() { Name = name, Points = 0 });
-	}
+    public virtual void CreatePlayer(string name) => Players.Add(new PinGodPlayer() { Name = name, Points = 0 });
 
-	/// <summary>
-	/// Disables all <see cref="Lamps"/>
-	/// </summary>
-	public virtual void DisableAllLamps()
+    /// <summary>
+    /// Disables all <see cref="Lamps"/>
+    /// </summary>
+    public virtual void DisableAllLamps()
 	{
 		if (Machine.Lamps?.Count > 0)
 		{
@@ -1138,19 +1045,20 @@ public abstract class PinGodGame : Node
     /// <returns>True if the game was started</returns>
     public virtual bool StartGame()
     {
-        LogInfo("base:start game");
+        LogInfo($"PinGodGame:start game. BIP:{BallInPlay}, players/max:{Players.Count}/{MaxPlayers}, credits: {GameData.Credits}, inPlay:{GameInPlay}");
         if (IsTilted)
         {
-            LogInfo("base: Cannot start game when game is tilted");
+            LogInfo("PinGodGame: Cannot start game when game is tilted");
             return false;
         }
 
-        if (!GameInPlay && GameData.Credits > 0) //first player start game
+        // first player start game
+        if (!GameInPlay && GameData.Credits > 0) 
         {
-            LogInfo("starting game, checking trough...");
+            LogInfo("PinGodGame: starting game, checking trough...");
             if (!_trough?.IsTroughFull() ?? false) //return if trough isn't full. TODO: needs debug option to remove check
             {
-                LogInfo("Trough not ready. Can't start game with empty trough.");
+                LogInfo("PinGodGame: Trough not ready. Can't start game with empty trough.");
                 BallSearchTimer.Start(1);
                 return false;
             }
@@ -1180,10 +1088,12 @@ public abstract class PinGodGame : Node
         {
             GameData.Credits--;
             CreatePlayer($"P{Players.Count + 1}");
-            LogDebug($"signal: player added. {Players.Count}");
+            LogInfo($"signal: player added. {Players.Count}");
             EmitSignal(nameof(PlayerAdded));
+            return true;
         }
 
+        LogInfo("PinGodGame: start game, nothing happened.");
         return false;
     }
 

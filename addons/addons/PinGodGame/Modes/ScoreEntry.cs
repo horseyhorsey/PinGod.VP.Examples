@@ -15,6 +15,8 @@ public class ScoreEntry : Control
 
     private PinGodPlayer _cPlayer;
 
+    private char[] _entry;
+
     /// <summary>
     /// include chars 0-9
     /// </summary>
@@ -41,18 +43,16 @@ public class ScoreEntry : Control
     [Export] NodePath _selectedChar = null;
 
     int[] allowedChars;
-    int CurrentPlayer = 0;
     int currentEntryIndex = 0;
+    int CurrentPlayer = 0;
     string entry = "";
     bool IsPlayerEnteringScore = false;
     int PlayerCount;
     private Label playerMessageLabel;
-    private Vector2 selectedCharLabelStartPos;
     private Label selectedCharLabel;
+    private Vector2 selectedCharLabelStartPos;
     int selectedIndex = 0;
     private Label selectedName;
-    private char[] _entry;
-
     /// <summary>
     /// get ref to the labels needed for the scene
     /// </summary>
@@ -169,7 +169,7 @@ public class ScoreEntry : Control
     /// <summary>
     /// Sets <see cref="IsPlayerEnteringScore"/> to true and shows this scene. Moves to each player who has a high score to let them enter their initials
     /// </summary>
-	public void DisplayHighScore()
+	public virtual void DisplayHighScore()
 	{
         pinGod.LogInfo("display high score");
         IsPlayerEnteringScore = true;
@@ -192,20 +192,11 @@ public class ScoreEntry : Control
 		pinGod.LogDebug("new high score made");
 	}
 
-    private void CharSelectionSetup()
-    {
-        var chars = new List<int>();
-        chars.AddRange(Enumerable.Range(65, 26)); //A-Z
-
-        if(_includeZeroToNine)
-            chars.AddRange(Enumerable.Range(48, 10)); //0-9
-
-        chars.Add(60); //delete
-        chars.Add(61); //enter
-        allowedChars = chars.ToArray();
-    }
-
-    private bool MoveNextPlayer()
+    /// <summary>
+    /// Checks if player made top score
+    /// </summary>
+    /// <returns></returns>
+    protected virtual bool MoveNextPlayer()
     {
         if (CurrentPlayer > PlayerCount - 1)
         {
@@ -217,7 +208,7 @@ public class ScoreEntry : Control
         //get the player to check hi scores
         _cPlayer = pinGod.Players[CurrentPlayer] ?? new PinGodPlayer() { Points = 1000000 };
 
-        if(playerMessageLabel != null)
+        if (playerMessageLabel != null)
             playerMessageLabel.Text = Tr("HI_SCORE_ENTRY").Replace("%d", (CurrentPlayer + 1).ToString());
 
         //hi scores has enough room to add new at any points
@@ -246,7 +237,22 @@ public class ScoreEntry : Control
         return true;
     }
 
-    void OnPlayerFinishedEntry()
+    private void CharSelectionSetup()
+    {
+        var chars = new List<int>();
+        chars.AddRange(Enumerable.Range(65, 26)); //A-Z
+
+        if(_includeZeroToNine)
+            chars.AddRange(Enumerable.Range(48, 10)); //0-9
+
+        chars.Add(60); //delete
+        chars.Add(61); //enter
+        allowedChars = chars.ToArray();
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public virtual void OnPlayerFinishedEntry()
     {
         if(pinGod.GameData?.HighScores != null)
         {

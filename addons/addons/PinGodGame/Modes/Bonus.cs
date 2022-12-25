@@ -2,7 +2,7 @@ using Godot;
 
 /// <summary>
 /// A bonus layer / mode. Display at end of ball. Bonus.tscn scene <para/>
-/// Sends <see cref="PinGodGame.BonusEnded"/> signal on <see cref="_display_for_seconds"/> timeout
+/// Sends <see cref="PinGodBase.BonusEnded"/> signal on <see cref="_display_for_seconds"/> timeout
 /// </summary>
 public class Bonus : Control
 {
@@ -48,14 +48,14 @@ public class Bonus : Control
 	}
 
     /// <summary>
-    /// Stops the timer and emits the <see cref="PinGodGame.BonusEnded"/> signal when complete
+    /// Stops the timer and emits the <see cref="PinGodBase.BonusEnded"/>
     /// </summary>
     public virtual void OnTimedOut()
     {
         pinGod.LogInfo("bonus: BonusEnded");
         timer.Stop();
         this.Visible = false;
-        pinGod.EmitSignal(nameof(PinGodGame.BonusEnded));
+        pinGod.EmitSignal(nameof(PinGodBase.BonusEnded));
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ public class Bonus : Control
 		}
 	}
 	/// <summary>
-	/// Bonus has times out. Hide the display and send <see cref="PinGodGame.BonusEnded"/>
+	/// Bonus has times out. Hide the display and send <see cref="PinGodBase.BonusEnded"/>
 	/// </summary>
 	private void _on_Timer_timeout()
 	{

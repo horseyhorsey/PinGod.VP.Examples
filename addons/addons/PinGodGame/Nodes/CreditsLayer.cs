@@ -15,7 +15,7 @@ public class CreditsLayer : Label
 	{
 		//update when the credit changes, when added and players added
 		pingod = GetNode("/root/PinGodGame") as PinGodGame;
-		GetNode("/root/PinGodGame").Connect("CreditAdded", this, "OnCreditsUpdated");
+		GetNode("/root/PinGodGame").Connect(nameof(PinGodGame.CreditAdded), this, "OnCreditsUpdated");
 		GetNode("/root/PinGodGame").Connect("PlayerAdded", this, "OnCreditsUpdated");
 		OnCreditsUpdated();		
 	}

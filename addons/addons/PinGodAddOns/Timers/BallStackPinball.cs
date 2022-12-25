@@ -51,7 +51,7 @@ public class BallStackPinball : Timer
     }
 
     /// <summary>
-    /// Emits <see cref="SwitchActive"/> or <see cref="SwitchInActive"/>
+    /// Checks if ball stacks switch is on or off then emits <see cref="SwitchActive"/> or <see cref="SwitchInActive"/>
     /// </summary>
     /// <param name="event"></param>
     public override void _Input(InputEvent @event)

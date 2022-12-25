@@ -38,7 +38,7 @@ public class Tilt : Control
 	}
 
 	/// <summary>
-	/// Sends <see cref="PinGodGame.GameTilted"/> if tilted or slam tilt
+	/// Sends <see cref="PinGodGame.IsTilted"/> if tilted or slam tilt
 	/// </summary>
 	/// <param name="input"></param>
 	public override void _Input(InputEvent input)
@@ -60,7 +60,7 @@ public class Tilt : Control
 				pinGod.EnableFlippers(0);
 				trough?.DisableBallSave();				
 				Visible = true;
-				pinGod.LogInfo("game tilted");
+				pinGod.LogInfo("Tilt: game tilted");
 				ShowTilt();
 			}
 			//show warnings
@@ -74,8 +74,8 @@ public class Tilt : Control
 		if (pinGod.SwitchOn("slam_tilt", input))
 		{
 			timer.Stop();
-			pinGod.LogInfo("slam_tilt");
-			setText(Tr("SLAMTILT"));
+            pinGod.LogInfo("Tilt: slam tilt");
+            SetText(Tr("SLAMTILT"));
 			pinGod.PlaySfx("tilt");
 			pinGod.IsTilted = true;			
 			pinGod.EnableFlippers(0);
@@ -93,7 +93,7 @@ public class Tilt : Control
     {
 		pinGod.PlaySfx("tilt");
 		//stop the timer for showing tilt information
-		CallDeferred("setText", Tr("TILT"));
+		CallDeferred(nameof(SetText), Tr("TILT"));
 	}
 
 	/// <summary>
@@ -103,22 +103,23 @@ public class Tilt : Control
 	{
 		timer.Start(displayForSecs);
 		pinGod.PlaySfx("warning");
-		CallDeferred("setText", $"{Tr("TILT_WARN")} {pinGod.Tiltwarnings}");
+		CallDeferred(nameof(SetText), $"{Tr("TILT_WARN")} {pinGod.Tiltwarnings}");
 		Visible = true;
 	}
 
-	void setText(string text)
-	{
-		blinkingLayer.Text = text;
-	}
+	/// <summary>
+	/// Sets text of the BlinkingLayer
+	/// </summary>
+	/// <param name="text"></param>
+	public virtual void SetText(string text) => blinkingLayer.Text = text;
 
-	///// <summary>
-	///// Hide the tilt "screen" and stop any timers
-	///// </summary>
-	void OnBallStarted()
+    ///// <summary>
+    ///// Hide the tilt "screen" and stop any timers
+    ///// </summary>
+    void OnBallStarted()
 	{
 		if (!timer.IsStopped()) { timer.Stop(); }
-		setText("");
+        SetText("");
 		Visible = false;
 	}
 }

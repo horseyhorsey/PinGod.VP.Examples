@@ -49,10 +49,19 @@
     <None Include="addons\PinGodGame\Scenes\Tilt.tscn" />
     <None Include="addons\PinGodGame\Scenes\Trough.tscn" />
     <None Include="export_presets.cfg" />
+    <None Include="game\Game.tscn" />
+    <None Include="game\MainScene.tscn" />
+    <None Include="game\PinGodGame.tscn" />
+    <None Include="local\BasicGameLang.csv" />
+    <None Include="local\BasicGameLang.csv.import" />
+    <None Include="local\BasicGameLang.en.translation" />
+    <None Include="modes\BaseMode.tscn" />
+    <None Include="project.godot" />
     <None Include="readme.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="resources\Resources.tscn" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations" />

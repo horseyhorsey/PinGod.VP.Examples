@@ -1,7 +1,7 @@
 ﻿using Godot;
 
 /// <summary>
-/// Handles a bank of targets
+/// Handles a bank of targets, the light states and watches for completion
 /// </summary>
 public class PinballTargetsBank : Node
 {

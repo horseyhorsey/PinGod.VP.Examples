@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 
 /// <summary>
 /// Simple score display mode for 4 players with ball information. Used in the <see cref="Game"/> Scene
@@ -16,10 +17,7 @@ public class ScoreMode : Node
     [Export] NodePath _ballInfoLabel = null;
     [Export] NodePath _playerInfoLabel = null;
     [Export] NodePath _scoreLabel = null;
-    [Export] NodePath _scoreLabelP1 = null;
-    [Export] NodePath _scoreLabelP2 = null;
-    [Export] NodePath _scoreLabelP3 = null;
-    [Export] NodePath _scoreLabelP4 = null; 
+    [Export] Array<NodePath> _scoreLabels = null;
     #endregion
 
     /// <summary>
@@ -41,9 +39,9 @@ public class ScoreMode : Node
     /// </summary>
     protected Label playerInfoLabel;
     /// <summary>
-    /// Extra player scoreLabels. TODO: Max is 4?
+    /// Other player scoreLabels.
     /// </summary>
-    protected Label[] ScoreLabels = new Label[4];
+    protected Label[] ScoreLabels;
     #endregion
 
     /// <summary>
@@ -57,6 +55,8 @@ public class ScoreMode : Node
         pinGod.Connect("GameStarted", this, "OnScoresUpdated");
         pinGod.Connect("ScoresUpdated", this, "OnScoresUpdated");
         pinGod.Connect("PlayerAdded", this, "OnScoresUpdated");
+
+        ScoreLabels = new Label[_scoreLabels.Count];
     }
 
     /// <summary>
@@ -85,14 +85,10 @@ public class ScoreMode : Node
     /// </summary>
     public virtual void GetPlayerScoreLabels()
     {
-        ScoreLabels[0] = _scoreLabelP1 != null ? GetNode<Label>(_scoreLabelP1) : null;
-        if (ScoreLabels[0] != null) ScoreLabels[0].Text = string.Empty;
-        ScoreLabels[1] = _scoreLabelP2 != null ? GetNode<Label>(_scoreLabelP2) : null;
-        if (ScoreLabels[1] != null) ScoreLabels[1].Text = string.Empty;
-        ScoreLabels[2] = _scoreLabelP3 != null ? GetNode<Label>(_scoreLabelP3) : null;
-        if (ScoreLabels[2] != null) ScoreLabels[2].Text = string.Empty;
-        ScoreLabels[3] = _scoreLabelP4 != null ? GetNode<Label>(_scoreLabelP4) : null;
-        if (ScoreLabels[3] != null) ScoreLabels[3].Text = string.Empty;
+        for (int i = 0; i < _scoreLabels.Count; i++)
+        {
+            ScoreLabels[i] = _scoreLabels[i] != null ? GetNode<Label>(_scoreLabels[i]) : null;
+        }
     }
 
     /// <summary>

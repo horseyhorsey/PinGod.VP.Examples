@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://game/Game.cs" type="Script" id=1]
+[ext_resource path="res://game/BasicGame.cs" type="Script" id=1]
 [ext_resource path="res://addons/PinGodGame/Scenes/ScoreMode.tscn" type="PackedScene" id=2]
 [ext_resource path="res://modes/BaseMode.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/PinGodGame/Scenes/Tilt.tscn" type="PackedScene" id=5]
