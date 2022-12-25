@@ -1,4 +1,21 @@
 var searchData=
 [
-  ['updatelamps_433',['UpdateLamps',['../classPinballLanesNode.html#aa49c027ccc2c3123f89914ec272aa0ca',1,'PinballLanesNode.UpdateLamps()'],['../classPinballTargetsBank.html#a357311269c7e4747e65b5562bcca4334',1,'PinballTargetsBank.UpdateLamps()'],['../classPinGodGame.html#ac3819a3b4d9c813b71c1f452b7ede2c4',1,'PinGodGame.UpdateLamps()'],['../classPinGodGameMode.html#ad9c29f44c85c7df2fe121e8501da37b3',1,'PinGodGameMode.UpdateLamps()']]]
+  ['name_707',['Name',['../classMotuWizardLane.html#add76a0577b34e1c130c6d39fc0e4edb7',1,'MotuWizardLane.Name()'],['../classPinGodPlayer.html#a5710b106f6b0dfe72082666809456b15',1,'PinGodPlayer.Name()'],['../interfaceIPlayer.html#a7fce6548e6a03631d5c2613484583d14',1,'IPlayer.Name()'],['../classHighScore.html#a60bfe5afabcb76145a58093d8d2c415c',1,'HighScore.Name()']]],
+  ['nightmareconstants_708',['NightmareConstants',['../classNightmareConstants.html',1,'']]],
+  ['nightmareconstants_2ecs_709',['NightmareConstants.cs',['../NightmareConstants_8cs.html',1,'']]],
+  ['nightmarepingodgame_710',['NightmarePinGodGame',['../classNightmarePinGodGame.html',1,'']]],
+  ['nightmarepingodgame_2ecs_711',['NightmarePinGodGame.cs',['../NightmarePinGodGame_8cs.html',1,'']]],
+  ['nightmareplayer_712',['NightmarePlayer',['../classNightmarePlayer.html',1,'']]],
+  ['nightmareplayer_2ecs_713',['NightmarePlayer.cs',['../NightmarePlayer_8cs.html',1,'']]],
+  ['nmattract_714',['NmAttract',['../classNmAttract.html',1,'']]],
+  ['nmattract_2ecs_715',['NmAttract.cs',['../NmAttract_8cs.html',1,'']]],
+  ['nmbonus_716',['NmBonus',['../classNmBonus.html',1,'']]],
+  ['nmbonus_2ecs_717',['NmBonus.cs',['../NmBonus_8cs.html',1,'']]],
+  ['no_718',['No',['../ModeComplete_8cs.html#a44152b64f3f0b88a5d8e534bbcb2aa8aabafd7322c6e97d25b6299b5d6fe8920b',1,'ModeComplete.cs']]],
+  ['none_719',['None',['../src_2SciFi_2SciFiGameGodot_2game_2Game_8cs.html#a1a4bf5deb7787f8f0437928224e34b2ba6adf97f83acf6453d4a6a4b1070f3754',1,'None():&#160;Game.cs'],['../MotuPlayer_8cs.html#a99521c0c6380daa46d9d3d43f5d2544fa6adf97f83acf6453d4a6a4b1070f3754',1,'None():&#160;MotuPlayer.cs'],['../MoonLander_8cs.html#a5cc8179225e5abfa75feab8d8b8d13e7a6adf97f83acf6453d4a6a4b1070f3754',1,'None():&#160;MoonLander.cs'],['../GameSyncState_8cs.html#ad2c8ab5cd5e8f896f213e0e033727672a6adf97f83acf6453d4a6a4b1070f3754',1,'None():&#160;GameSyncState.cs'],['../BallSearchSignalOption_8cs.html#a218e80e0d23d6a08a11ab8f45d46f0fca6adf97f83acf6453d4a6a4b1070f3754',1,'None():&#160;BallSearchSignalOption.cs']]],
+  ['normal_720',['Normal',['../src_2SciFi_2SciFiGameGodot_2game_2Game_8cs.html#a1a4bf5deb7787f8f0437928224e34b2ba960b44c579bc2f6818d2daaf9e4c16f0',1,'Game.cs']]],
+  ['nowindow_721',['NoWindow',['../classDisplaySettings.html#a86324c6f822e3c82c7dac02b04283cb4',1,'DisplaySettings']]],
+  ['num_722',['Num',['../classSwitch.html#a0fe108b22583aa8a7343c588b03dba1d',1,'Switch.Num()'],['../classPinStateObject.html#a1361c0caf638b0fce67554e3607dc047',1,'PinStateObject.Num()']]],
+  ['numballstosave_723',['NumBallsToSave',['../classTroughOptions.html#afd8dbef8b264b80f53e6c5d6dac0ee0a',1,'TroughOptions']]],
+  ['number_724',['Number',['../classLamp.html#a3b8df0cfe35955998451ef371ba4b070',1,'Lamp']]]
 ];

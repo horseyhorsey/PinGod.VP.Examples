@@ -3,7 +3,7 @@ var dir_0d429ea110892daca922f0e5d1d79552 =
     [ "DisplaySettings.cs", "DisplaySettings_8cs.html", [
       [ "DisplaySettings", "classDisplaySettings.html", "classDisplaySettings" ]
     ] ],
-    [ "Game.cs", "Game_8cs.html", [
+    [ "Game.cs", "addons_2addons_2PinGodGame_2Game_2Game_8cs.html", [
       [ "Game", "classGame.html", "classGame" ]
     ] ],
     [ "GameSettings.cs", "GameSettings_8cs.html", [

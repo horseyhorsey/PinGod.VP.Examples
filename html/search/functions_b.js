@@ -1,13 +1,16 @@
 var searchData=
 [
-  ['pausemusic_661',['PauseMusic',['../classAudioManager.html#a8061e54e07964779bec04b917d4c867b',1,'AudioManager']]],
-  ['pingodgame_662',['PinGodGame',['../classPinGodGame.html#a912149a4ba2e470b9796ea02b45c6899',1,'PinGodGame']]],
-  ['pinstateobject_663',['PinStateObject',['../classPinStateObject.html#a7b74510df27627959b10ab09a9bc00dc',1,'PinStateObject']]],
-  ['playbackevent_664',['PlaybackEvent',['../classPlaybackEvent.html#a0a9abafe57682aed15adf487c7226edd',1,'PlaybackEvent']]],
-  ['playeradded_665',['PlayerAdded',['../classPinGodBase.html#a9ac7df78797318a706f83ff43afb8d62',1,'PinGodBase']]],
-  ['playmusic_666',['PlayMusic',['../classAudioManager.html#a2320fa44b07ee98f9da57880cb9abeb8',1,'AudioManager.PlayMusic(string name, float pos=0f)'],['../classAudioManager.html#a08cce19a329125d4e11096d2d7fe0cc7',1,'AudioManager.PlayMusic(AudioStream audio, float pos=0f)'],['../classPinGodGame.html#a3fa2975afaba4fe4b190a29ae89b890c',1,'PinGodGame.PlayMusic()']]],
-  ['playsfx_667',['PlaySfx',['../classAudioManager.html#a1a771f92571f0f829b901b11e8e17daf',1,'AudioManager.PlaySfx()'],['../classPinGodGame.html#a003db5fc2b78ba9d764623febd5549da',1,'PinGodGame.PlaySfx()']]],
-  ['playvoice_668',['PlayVoice',['../classAudioManager.html#ab6e426619170a6b75f4e8451838246c4',1,'AudioManager.PlayVoice(string name, string bus=&quot;Voice&quot;)'],['../classAudioManager.html#a06f2240cab31110854fb87cad4c217aa',1,'AudioManager.PlayVoice(AudioStream voice, string bus=&quot;Voice&quot;)'],['../classPinGodGame.html#ac38c22eb5432b48c66ef5cfab803d68b',1,'PinGodGame.PlayVoice()']]],
-  ['processtargetswitchinputs_669',['ProcessTargetSwitchInputs',['../classPinballTargetsBank.html#a1180170c72d530ed2982ac7334bb6948',1,'PinballTargetsBank']]],
-  ['pulsetrough_670',['PulseTrough',['../classTrough.html#a4f61baf7a322e2bb80817330b104ebfb',1,'Trough']]]
+  ['lanecompleted_1659',['LaneCompleted',['../classPinballLanesNode.html#af5888abf422b1126d00b2741badae8dd',1,'PinballLanesNode']]],
+  ['lanescompleted_1660',['LanesCompleted',['../classPinballLanesNode.html#abfaa87e4beaaec822a3edc0a74cf7c00',1,'PinballLanesNode']]],
+  ['laneswitchactivated_1661',['LaneSwitchActivated',['../classPinballLanesNode.html#a184fde82d8f35c8a1dc25bd59a227073',1,'PinballLanesNode']]],
+  ['load_1662',['Load',['../classGameData.html#a321b90543ef51eb85021656aff2422bf',1,'GameData.Load()'],['../classGameSettings.html#ab338d7c04143d9727cd75a371cee60b3',1,'GameSettings.Load()']]],
+  ['load_3c_20t_20_3e_1663',['Load&lt; T &gt;',['../classGameData.html#ad189d958ba4480734b0a3122edb764f1',1,'GameData.Load&lt; T &gt;()'],['../classGameSettings.html#af312e4460edc3a30b6df88574c751771',1,'GameSettings.Load&lt; T &gt;()']]],
+  ['loaddatafile_1664',['LoadDataFile',['../classPinGodGame.html#a74c9cfe84034395b91b3962fd576b6c1',1,'PinGodGame.LoadDataFile()'],['../classMsPinGodGame.html#acaaad3d7054841807796e45d7e0192df',1,'MsPinGodGame.LoadDataFile()']]],
+  ['loadpatches_1665',['LoadPatches',['../classPinGodGame.html#af956da416a53a3d32e240e7f38f51bb4',1,'PinGodGame']]],
+  ['loadsettingsanddata_1666',['LoadSettingsAndData',['../classPinGodGame.html#a912e8c0fd6e32436403c1aacce827526',1,'PinGodGame']]],
+  ['loadsettingsfile_1667',['LoadSettingsFile',['../classPinGodGame.html#ae13a6f571302cc1786caf0876884056c',1,'PinGodGame.LoadSettingsFile()'],['../classMsPinGodGame.html#a1b9dba68394999d8ff7f971b49d82568',1,'MsPinGodGame.LoadSettingsFile()']]],
+  ['logdebug_1668',['LogDebug',['../interfaceIPinballLogger.html#a1a108041d8eb792ef67ad226aca2254a',1,'IPinballLogger.LogDebug()'],['../classPinGodGame.html#a16355d3ae732586f630a10064aeb1d79',1,'PinGodGame.LogDebug()']]],
+  ['logerror_1669',['LogError',['../interfaceIPinballLogger.html#a6e88ffc15791be0374c2ab5ad93480f1',1,'IPinballLogger.LogError()'],['../classPinGodGame.html#ab26f85cdac2663b3fd2e29bd5c37bda6',1,'PinGodGame.LogError()']]],
+  ['loginfo_1670',['LogInfo',['../interfaceIPinballLogger.html#adb719263098a15907419f0b162d58514',1,'IPinballLogger.LogInfo()'],['../classPinGodGame.html#ae3a912f01cab5725a17fcc11f57ce5af',1,'PinGodGame.LogInfo()']]],
+  ['logwarning_1671',['LogWarning',['../interfaceIPinballLogger.html#a8f22ef8464aa69a0059f90e50fe9ee0f',1,'IPinballLogger.LogWarning()'],['../classPinGodGame.html#acae82020e82af4b75803fd874eea85ee',1,'PinGodGame.LogWarning()']]]
 ];

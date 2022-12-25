@@ -1,15 +1,14 @@
 var searchData=
 [
-  ['machinestatesread_867',['MachineStatesRead',['../classGameSettings.html#a3c3bed4afe7821c3dea5ea2f4418264b',1,'GameSettings']]],
-  ['machinestateswrite_868',['MachineStatesWrite',['../classGameSettings.html#a2612fe50301a0d6b49b204dcc42e4a06',1,'GameSettings']]],
-  ['machinestateswritedelay_869',['MachineStatesWriteDelay',['../classGameSettings.html#a6f6fb9253e7cd4e66aebe2e0b9bb370e',1,'GameSettings']]],
-  ['mastervolume_870',['MasterVolume',['../classGameSettings.html#a6085ffd636c2f0c51dd5c9ae84c717ba',1,'GameSettings']]],
-  ['maxextraballs_871',['MaxExtraBalls',['../classGameSettings.html#a8b980b83a63c7aa4e9e6b2f774c3e43c',1,'GameSettings']]],
-  ['maxhiscorescount_872',['MaxHiScoresCount',['../classGameSettings.html#a00521b49cb42fb7dc5732ea7806142b5',1,'GameSettings']]],
-  ['mballsaveseconds_873',['MballSaveSeconds',['../classTroughOptions.html#aff6797330deef2c0a24e9331468f6027',1,'TroughOptions']]],
-  ['music_874',['Music',['../classAudioManager.html#a9a9ebdc58bd3ca5d4693940f15036d5c',1,'AudioManager']]],
-  ['musicassets_875',['MusicAssets',['../classAudioManager.html#a0202050136bb43d11283a68398f98796',1,'AudioManager']]],
-  ['musicenabled_876',['MusicEnabled',['../classAudioManager.html#acb04c398cadc44c2536e4a7b691243fc',1,'AudioManager.MusicEnabled()'],['../classGameSettings.html#a5bda96443709f3561710537637894dc2',1,'GameSettings.MusicEnabled()']]],
-  ['musicplayer_877',['MusicPlayer',['../classAudioManager.html#ae150b67eee371c8f7543849add9ea811',1,'AudioManager']]],
-  ['musicvolume_878',['MusicVolume',['../classGameSettings.html#a0ce2d724fedec06abc1cfa61307c8e3f',1,'GameSettings']]]
+  ['karractivetargets_2124',['KarrActiveTargets',['../classKnightRiderPlayer.html#a6a4d39a09947871c5d3af32af4efe002',1,'KnightRiderPlayer']]],
+  ['karrcompletecount_2125',['KarrCompleteCount',['../classKnightRiderPlayer.html#a48e6ff3fc1234b6f237ed83700a1415b',1,'KnightRiderPlayer']]],
+  ['karrcompleteready_2126',['KarrCompleteReady',['../classKnightRiderPlayer.html#aff8909b72e61100040caf9a3bc2c12c0',1,'KnightRiderPlayer']]],
+  ['karrtargets_2127',['KarrTargets',['../classKnightRiderPlayer.html#aff394e70cadc805391af2105fe8e903e',1,'KnightRiderPlayer']]],
+  ['keyfeaturecomplete_2128',['KeyFeatureComplete',['../classPlayboyPlayer.html#ab9b40d5ea53db422ab7d2bb1af025d20',1,'PlayboyPlayer']]],
+  ['keyscollected_2129',['KeysCollected',['../classPlayboyPlayer.html#a592f0c85fce1afe89b481783f52eda86',1,'PlayboyPlayer']]],
+  ['kickbackenabled_2130',['KickbackEnabled',['../classGame.html#acf9763cbf655499981e6989e21fedac3',1,'Game.KickbackEnabled()'],['../classKrPinGodGame.html#a9c6cb44ee08e5b95412777eb025d64b6',1,'KrPinGodGame.KickbackEnabled()'],['../classSciFiPinGodGame.html#a6abfe25b027fa583204ad595bbe8f339',1,'SciFiPinGodGame.KickbackEnabled()']]],
+  ['kittactivetargets_2131',['KittActiveTargets',['../classKnightRiderPlayer.html#a0330faee73094149fe0e6c5c6db89f57',1,'KnightRiderPlayer']]],
+  ['kittcompletecount_2132',['KittCompleteCount',['../classKnightRiderPlayer.html#ae78a44ec7a6a7031f11c8f2212641ce5',1,'KnightRiderPlayer']]],
+  ['kittcompleteready_2133',['KittCompleteReady',['../classKnightRiderPlayer.html#a522e302a4ec92ddc688425abc23377cf',1,'KnightRiderPlayer']]],
+  ['kitttargets_2134',['KittTargets',['../classKnightRiderPlayer.html#a72b9d222ad4e5a93c3398698d9bfbb3a',1,'KnightRiderPlayer']]]
 ];

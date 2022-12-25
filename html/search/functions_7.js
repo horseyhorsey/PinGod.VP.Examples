@@ -1,7 +1,25 @@
 var searchData=
 [
-  ['isoff_618',['IsOff',['../classSwitch.html#a416335538d8370d5f5cc742c9d805a9e',1,'Switch']]],
-  ['ison_619',['IsOn',['../classSwitch.html#a4b18065bbca9410aa2e3fd278e8adba9',1,'Switch.IsOn(InputEvent input)'],['../classSwitch.html#a0c712de643695b524660ed70f21c8a39',1,'Switch.IsOn()']]],
-  ['isswitch_620',['IsSwitch',['../classPinGodGame.html#a7a0b8ac8eb3e75d479f08361dfcdd193',1,'PinGodGame']]],
-  ['istroughfull_621',['IsTroughFull',['../classTrough.html#ae20f255fedfa6a10035a036922639584',1,'Trough']]]
+  ['gameended_1625',['GameEnded',['../classPinGodBase.html#a09aa5945a0a21f1a8af95f23f210c150',1,'PinGodBase']]],
+  ['gamepaused_1626',['GamePaused',['../classPinGodBase.html#a7282dd3273f44b9d9c365ab4bf1edec4',1,'PinGodBase']]],
+  ['gameresumed_1627',['GameResumed',['../classPinGodBase.html#a05361dcc812356330b1b603c79c32b65',1,'PinGodBase']]],
+  ['gamestarted_1628',['GameStarted',['../classPinGodBase.html#a70b8e79f2c66022a6454b7fbada701dc',1,'PinGodBase']]],
+  ['gametilted_1629',['GameTilted',['../classPinGodBase.html#a41202435848c0e35ee8e60817af4f7c2',1,'PinGodBase']]],
+  ['getballplayerinfolabels_1630',['GetBallPlayerInfoLabels',['../classScoreMode.html#afb4961a40f56379f216748fe14c73110',1,'ScoreMode.GetBallPlayerInfoLabels()'],['../classSciFiScoreMode.html#a6772a04502274ca031dc2dfe4f93d674',1,'SciFiScoreMode.GetBallPlayerInfoLabels()']]],
+  ['getcompletedlanes_1631',['GetCompletedLanes',['../classPinballLanesNode.html#ac314b21c3610a1ee8ea4e75d8daa64f0',1,'PinballLanesNode']]],
+  ['getcurrentsceneindex_1632',['GetCurrentSceneIndex',['../classAttract.html#a4eb6c2c5cf0d13fb52148cc4105c9f46',1,'Attract']]],
+  ['getjawsplayer_1633',['GetJawsPlayer',['../classJawsPinGodGame.html#afd25bd893356e58c5cf9a182da6bbb6b',1,'JawsPinGodGame']]],
+  ['getlastswitchchangedtime_1634',['GetLastSwitchChangedTime',['../classPinGodGame.html#a41bf1d70f8918ba365bf8ff8fb3d34b4',1,'PinGodGame']]],
+  ['getledstates_1635',['GetLedStates',['../classPinStates.html#ad444bd583acd7875a95d9cb617cdac66',1,'PinStates']]],
+  ['getledstatesarray_1636',['GetLedStatesArray',['../classPinStates.html#aac0df3d269e70e6e1893cf19fc8c9b88',1,'PinStates']]],
+  ['getledstatesjson_1637',['GetLedStatesJson',['../classPinStates.html#a74c1f0aead40724cc3e8fefa76feaba0',1,'PinStates']]],
+  ['getmultiplier_1638',['GetMultiplier',['../classFlag.html#a8044c366e132e37ce4e9223603d133ee',1,'Flag']]],
+  ['getplayer_1639',['GetPlayer',['../classNightmarePinGodGame.html#ad6cd186039e213c10a912724d57b0b15',1,'NightmarePinGodGame']]],
+  ['getplayerscorelabels_1640',['GetPlayerScoreLabels',['../classScoreMode.html#a7a5e17405a0197566aadfe8b42b92f0b',1,'ScoreMode']]],
+  ['getrandomvoiceorg_1641',['GetRandomVoiceOrg',['../classPbPinGodGame.html#a6dfea067f23ee94e74f45e030689ed17',1,'PbPinGodGame']]],
+  ['getresources_1642',['GetResources',['../classPinGodGame.html#a9fe8991cd50001af0503fff7265991fc',1,'PinGodGame']]],
+  ['getscifiplayer_1643',['GetSciFiPlayer',['../classSciFiPinGodGame.html#a3ebac9b295846e8c6a4cf0afea8ce360',1,'SciFiPinGodGame']]],
+  ['getstates_1644',['GetStates',['../classPinStates.html#ab724249c0cd047bd6c164010197709e5',1,'PinStates']]],
+  ['getstatesarray_1645',['GetStatesArray',['../classPinStates.html#a0c9127fc4ec84e775d9890ab34bd3981',1,'PinStates']]],
+  ['getstatesjson_1646',['GetStatesJson',['../classPinStates.html#a4b37d77a6574ec898276b555b2aca979',1,'PinStates']]]
 ];

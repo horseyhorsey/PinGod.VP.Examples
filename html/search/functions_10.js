@@ -1,4 +1,22 @@
 var searchData=
 [
-  ['updatelamps_732',['UpdateLamps',['../classPinballLanesNode.html#aa49c027ccc2c3123f89914ec272aa0ca',1,'PinballLanesNode.UpdateLamps()'],['../classPinballTargetsBank.html#a357311269c7e4747e65b5562bcca4334',1,'PinballTargetsBank.UpdateLamps()'],['../classPinGodGame.html#ac3819a3b4d9c813b71c1f452b7ede2c4',1,'PinGodGame.UpdateLamps()'],['../classPinGodGameMode.html#ad9c29f44c85c7df2fe121e8501da37b3',1,'PinGodGameMode.UpdateLamps()']]]
+  ['randomnumber_1723',['RandomNumber',['../classPinGodGame.html#a5bfb8f1fc5bdf69577513cddd8c5ecbf',1,'PinGodGame']]],
+  ['releaseorcamagnet_1724',['ReleaseOrcaMagnet',['../classGame.html#acff44e348699d17e4165803f6ea506c8',1,'Game']]],
+  ['reset_1725',['Reset',['../classPlayboyPlayer.html#acdcd876f2431e19c27e1f9e4806cf1d7',1,'PlayboyPlayer']]],
+  ['resetbanks_1726',['ResetBanks',['../classSciFiPlayer.html#afd7235e220c0dba7b91cad3a1087210a',1,'SciFiPlayer']]],
+  ['resetbarreltargets_1727',['ResetBarrelTargets',['../classJawsPlayer.html#ad7a9a8807e420294f3c25c2a96420eda',1,'JawsPlayer']]],
+  ['resetbeastmanshots_1728',['ResetBeastmanShots',['../classMotuPlayer.html#ace5f5cad76562acbae87018546ab5d84',1,'MotuPlayer']]],
+  ['resetbonuscount_1729',['ResetBonusCount',['../classPindarPlayer.html#a3ac254f51dd09635a67e9b7a6ff8dfe8',1,'PindarPlayer']]],
+  ['resetdroptargets_1730',['ResetDropTargets',['../classJawsPlayer.html#a04f2d0c8f3b3bde2b9a4f05cdbcb0d70',1,'JawsPlayer']]],
+  ['resetkeys_1731',['ResetKeys',['../classPlayboyPlayer.html#aad603ba1f163b288f493003f3111b5a2',1,'PlayboyPlayer']]],
+  ['resetlanescompleted_1732',['ResetLanesCompleted',['../classPinballLanesNode.html#a87e08196aea49de1d4bcef40ce172d78',1,'PinballLanesNode']]],
+  ['resetmodeending_1733',['ResetModeEnding',['../classMultiballGrayskull.html#acb18d673ee930d9ac8b1d3da723023e5',1,'MultiballGrayskull']]],
+  ['resetplaymates_1734',['ResetPlaymates',['../classPlayboyPlayer.html#a5645858d4816e66c3686d711382e3ed6',1,'PlayboyPlayer']]],
+  ['resetscifi_1735',['ResetSciFi',['../classSciFiPlayer.html#a42f1720430db60dada8122f944b27f29',1,'SciFiPlayer']]],
+  ['resettargets_1736',['ResetTargets',['../classPinballTargetsBank.html#a1d90d01ba7b6fe99002435e2fe76337a',1,'PinballTargetsBank.ResetTargets()'],['../classDropTargets.html#a72f280b5eee8b99364c507ebb1dbb103',1,'DropTargets.ResetTargets()'],['../classSciFiPinGodGame.html#af264394ea52ebd3e6f8b146de00f8131',1,'SciFiPinGodGame.ResetTargets()']]],
+  ['resettilt_1737',['ResetTilt',['../classPinGodGame.html#a8c0c6478d65b785ac6499e327ac54d63',1,'PinGodGame']]],
+  ['resolve_1738',['Resolve',['../classResources.html#acb60889278847d84daa5f0a363c227ac',1,'Resources']]],
+  ['restartmultiball_1739',['RestartMultiball',['../classMultiballRipper.html#a055f8f40f143f68c6b59eacb4f9b08b8',1,'MultiballRipper']]],
+  ['rotatelanesleft_1740',['RotateLanesLeft',['../classPinballLanesNode.html#aae12449e1223d993bb6925ab8a354584',1,'PinballLanesNode']]],
+  ['rotatelanesright_1741',['RotateLanesRight',['../classPinballLanesNode.html#a8c6f2dfc95c3fb8820e76ec7ba785f94',1,'PinballLanesNode']]]
 ];

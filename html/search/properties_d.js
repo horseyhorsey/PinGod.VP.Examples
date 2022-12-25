@@ -1,14 +1,8 @@
 var searchData=
 [
-  ['scores_889',['Scores',['../classHighScore.html#a802a38ea0297dcf5a899c83fad9180f6',1,'HighScore']]],
-  ['searchcoils_890',['SearchCoils',['../classBallSearchOptions.html#af4c84ef24efa14b9c83462d57eb80124',1,'BallSearchOptions']]],
-  ['searchwaittime_891',['SearchWaitTime',['../classBallSearchOptions.html#ab049d788ae8235481b49f58ae86fc322',1,'BallSearchOptions']]],
-  ['sfx_892',['Sfx',['../classAudioManager.html#a036e0c1559b0f53ae8c9f85674979243',1,'AudioManager']]],
-  ['sfxassets_893',['SfxAssets',['../classAudioManager.html#a6d47903243cbedfafd0b8d0fc475bc24',1,'AudioManager']]],
-  ['sfxenabled_894',['SfxEnabled',['../classAudioManager.html#ae539f9765b6e1e640998052c5f702781',1,'AudioManager.SfxEnabled()'],['../classGameSettings.html#afbadbc511b06f2dfc4adb46599dd4007',1,'GameSettings.SfxEnabled()']]],
-  ['sfxplayer_895',['SfxPlayer',['../classAudioManager.html#a004e1d7ac4f4214f45346e1f7e5e6979',1,'AudioManager']]],
-  ['sfxvolume_896',['SfxVolume',['../classGameSettings.html#a8cb13805c2bb1617f58d69b11e73fd56',1,'GameSettings']]],
-  ['state_897',['State',['../classPinStateObject.html#a313d3659926418681d1ca8486b898af2',1,'PinStateObject.State()'],['../classPlaybackEvent.html#adacf30eaf4ecd96ac764905133006bea',1,'PlaybackEvent.State()']]],
-  ['stopsearchswitches_898',['StopSearchSwitches',['../classBallSearchOptions.html#a1feff3972a266a8bd30c6e38df57cc5f',1,'BallSearchOptions']]],
-  ['switches_899',['Switches',['../classTroughOptions.html#af45394659d56b046aa74d9a21e2845ef',1,'TroughOptions']]]
+  ['name_2178',['Name',['../classHighScore.html#a60bfe5afabcb76145a58093d8d2c415c',1,'HighScore.Name()'],['../interfaceIPlayer.html#a7fce6548e6a03631d5c2613484583d14',1,'IPlayer.Name()'],['../classPinGodPlayer.html#a5710b106f6b0dfe72082666809456b15',1,'PinGodPlayer.Name()'],['../classMotuWizardLane.html#add76a0577b34e1c130c6d39fc0e4edb7',1,'MotuWizardLane.Name()']]],
+  ['nowindow_2179',['NoWindow',['../classDisplaySettings.html#a86324c6f822e3c82c7dac02b04283cb4',1,'DisplaySettings']]],
+  ['num_2180',['Num',['../classPinStateObject.html#a1361c0caf638b0fce67554e3607dc047',1,'PinStateObject.Num()'],['../classSwitch.html#a0fe108b22583aa8a7343c588b03dba1d',1,'Switch.Num()']]],
+  ['numballstosave_2181',['NumBallsToSave',['../classTroughOptions.html#afd8dbef8b264b80f53e6c5d6dac0ee0a',1,'TroughOptions']]],
+  ['number_2182',['Number',['../classLamp.html#a3b8df0cfe35955998451ef371ba4b070',1,'Lamp']]]
 ];

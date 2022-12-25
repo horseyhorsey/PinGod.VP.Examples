@@ -84,7 +84,10 @@ $(document).ready(function(){initNavTree('classGame.html',''); initResizable(); 
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="classGame-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Game Class Reference</div>  </div>
@@ -99,7 +102,13 @@ Inheritance diagram for Game:</div>
  <div class="center">
   <img src="classGame.png" usemap="#Game_map" alt=""/>
   <map id="Game_map" name="Game_map">
-<area href="classPinGodGameNode.html" title="Uses Godot Node as a base to provide PinGodGame access to a class" alt="PinGodGameNode" shape="rect" coords="0,56,115,80"/>
+<area href="classPinGodGameNode.html" title="Uses Godot Node as a base to provide PinGodGame access to a class" alt="PinGodGameNode" shape="rect" coords="125,560,240,584"/>
+<area href="classPinGodGameNode.html" title="Uses Godot Node as a base to provide PinGodGame access to a class" alt="PinGodGameNode" shape="rect" coords="125,448,240,472"/>
+<area href="classPinGodGameNode.html" title="Uses Godot Node as a base to provide PinGodGame access to a class" alt="PinGodGameNode" shape="rect" coords="125,392,240,416"/>
+<area href="classPinGodGameNode.html" title="Uses Godot Node as a base to provide PinGodGame access to a class" alt="PinGodGameNode" shape="rect" coords="125,336,240,360"/>
+<area href="classPinGodGameNode.html" title="Uses Godot Node as a base to provide PinGodGame access to a class" alt="PinGodGameNode" shape="rect" coords="125,56,240,80"/>
+<area href="classPinGodGameNode.html" title="Uses Godot Node as a base to provide PinGodGame access to a class" alt="PinGodGameNode" shape="rect" coords="125,0,240,24"/>
+<area href="classBasicGame.html" title="BasicGame with Modes tree (game/Game.tscn). This does nothing itself here but is loaded from Game...." alt="BasicGame" shape="rect" coords="0,672,115,696"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -138,29 +147,237 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a40d203da8e62d87509d89a69c3f2ce5d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a40d203da8e62d87509d89a69c3f2ce5d">OnBallSaved</a> ()</td></tr>
 <tr class="memdesc:a40d203da8e62d87509d89a69c3f2ce5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Signals to Mode groups OnBallSaved  <a href="classGame.html#a40d203da8e62d87509d89a69c3f2ce5d">More...</a><br /></td></tr>
 <tr class="separator:a40d203da8e62d87509d89a69c3f2ce5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15ea3ecced70436d42b5816f20b17085"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a15ea3ecced70436d42b5816f20b17085">_ExitTree</a> ()</td></tr>
+<tr class="separator:a15ea3ecced70436d42b5816f20b17085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ca543468b643ff6696b08bd2502165f"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a9ca543468b643ff6696b08bd2502165f">_Input</a> (InputEvent @event)</td></tr>
+<tr class="memdesc:a9ca543468b643ff6696b08bd2502165f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic input switch handling  <a href="classGame.html#a9ca543468b643ff6696b08bd2502165f">More...</a><br /></td></tr>
+<tr class="separator:a9ca543468b643ff6696b08bd2502165f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="memdesc:adb6601522ba9f3043e9a310eeafbdae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode  <a href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">More...</a><br /></td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c038bee5523a2314226807415bf261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a78c038bee5523a2314226807415bf261">AddMultiballSceneToTree</a> ()</td></tr>
+<tr class="separator:a78c038bee5523a2314226807415bf261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="memdesc:adb6601522ba9f3043e9a310eeafbdae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode  <a href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">More...</a><br /></td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c038bee5523a2314226807415bf261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a78c038bee5523a2314226807415bf261">AddMultiballSceneToTree</a> ()</td></tr>
+<tr class="separator:a78c038bee5523a2314226807415bf261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63db065a00673ddb617d9a826431fc5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a63db065a00673ddb617d9a826431fc5d">AddSelectedGremlinsMode</a> ()</td></tr>
+<tr class="separator:a63db065a00673ddb617d9a826431fc5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ca543468b643ff6696b08bd2502165f"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a9ca543468b643ff6696b08bd2502165f">_Input</a> (InputEvent @event)</td></tr>
+<tr class="memdesc:a9ca543468b643ff6696b08bd2502165f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the trough last switch and other in-lane switches if the game isn't tilted  <a href="classGame.html#a9ca543468b643ff6696b08bd2502165f">More...</a><br /></td></tr>
+<tr class="separator:a9ca543468b643ff6696b08bd2502165f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e90b16423b9b899d234342471cf7710"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a4e90b16423b9b899d234342471cf7710">AddPoints</a> (int points, bool update=true)</td></tr>
+<tr class="memdesc:a4e90b16423b9b899d234342471cf7710"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds points with double playfield if on  <a href="classGame.html#a4e90b16423b9b899d234342471cf7710">More...</a><br /></td></tr>
+<tr class="separator:a4e90b16423b9b899d234342471cf7710"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a343b15a3436b08bfe4c7849167d5a8c0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a343b15a3436b08bfe4c7849167d5a8c0">IsBruceMultiballRunning</a> ()</td></tr>
+<tr class="separator:a343b15a3436b08bfe4c7849167d5a8c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acff44e348699d17e4165803f6ea506c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#acff44e348699d17e4165803f6ea506c8">ReleaseOrcaMagnet</a> (bool release=true)</td></tr>
+<tr class="separator:acff44e348699d17e4165803f6ea506c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39c64edad3ee8cd96bfc09b6c096021d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a39c64edad3ee8cd96bfc09b6c096021d">UpdateLamps</a> ()</td></tr>
+<tr class="separator:a39c64edad3ee8cd96bfc09b6c096021d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a682fde830f8a2287a12f9ecda69428f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a682fde830f8a2287a12f9ecda69428f6">UpdateProgress</a> ()</td></tr>
+<tr class="memdesc:a682fde830f8a2287a12f9ecda69428f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls groups with game progress to UpdateProgress  <a href="classGame.html#a682fde830f8a2287a12f9ecda69428f6">More...</a><br /></td></tr>
+<tr class="separator:a682fde830f8a2287a12f9ecda69428f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6699e6308dc5a71ccc4a79342d4ea0cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6699e6308dc5a71ccc4a79342d4ea0cf">DisableBarrelTargets</a> ()</td></tr>
+<tr class="memdesc:a6699e6308dc5a71ccc4a79342d4ea0cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the barrel drop target coils  <a href="classGame.html#a6699e6308dc5a71ccc4a79342d4ea0cf">More...</a><br /></td></tr>
+<tr class="separator:a6699e6308dc5a71ccc4a79342d4ea0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5630ff7989d2fe858673720bf3edb9c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#aa5630ff7989d2fe858673720bf3edb9c">EnableBruceDiverter</a> (byte enable)</td></tr>
+<tr class="separator:aa5630ff7989d2fe858673720bf3edb9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3eb5ec90dc16078fff7dab6f514beaa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#aa3eb5ec90dc16078fff7dab6f514beaa">IsJawsLockReady</a> ()</td></tr>
+<tr class="memdesc:aa3eb5ec90dc16078fff7dab6f514beaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens the locks if enabled  <a href="classGame.html#aa3eb5ec90dc16078fff7dab6f514beaa">More...</a><br /></td></tr>
+<tr class="separator:aa3eb5ec90dc16078fff7dab6f514beaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="memdesc:adb6601522ba9f3043e9a310eeafbdae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode  <a href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">More...</a><br /></td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c038bee5523a2314226807415bf261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a78c038bee5523a2314226807415bf261">AddMultiballSceneToTree</a> ()</td></tr>
+<tr class="separator:a78c038bee5523a2314226807415bf261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad2f9bb8594647782dec266aa2354a63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#aad2f9bb8594647782dec266aa2354a63">AddVideoMode</a> ()</td></tr>
+<tr class="separator:aad2f9bb8594647782dec266aa2354a63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="memdesc:adb6601522ba9f3043e9a310eeafbdae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode  <a href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">More...</a><br /></td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c038bee5523a2314226807415bf261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a78c038bee5523a2314226807415bf261">AddMultiballSceneToTree</a> ()</td></tr>
+<tr class="separator:a78c038bee5523a2314226807415bf261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39c64edad3ee8cd96bfc09b6c096021d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a39c64edad3ee8cd96bfc09b6c096021d">UpdateLamps</a> ()</td></tr>
+<tr class="separator:a39c64edad3ee8cd96bfc09b6c096021d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="memdesc:adb6601522ba9f3043e9a310eeafbdae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode  <a href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">More...</a><br /></td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c038bee5523a2314226807415bf261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a78c038bee5523a2314226807415bf261">AddMultiballSceneToTree</a> ()</td></tr>
+<tr class="separator:a78c038bee5523a2314226807415bf261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6a9fe9899aab40d5568960918e95b70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#ab6a9fe9899aab40d5568960918e95b70">PlayBackgroundMusic</a> ()</td></tr>
+<tr class="separator:ab6a9fe9899aab40d5568960918e95b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14a58daff3b12770393818895fa66d7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a14a58daff3b12770393818895fa66d7c">_on_StartBallTimer_timeout</a> ()</td></tr>
+<tr class="separator:a14a58daff3b12770393818895fa66d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60381a4c94cf645babbfc90372767e3c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a60381a4c94cf645babbfc90372767e3c">EndOfBallTimer_timeout</a> ()</td></tr>
+<tr class="separator:a60381a4c94cf645babbfc90372767e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0a2b7113d179b568835a6984cd51113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#ab0a2b7113d179b568835a6984cd51113">OnDisplayMessage</a> (string message, float time=1.5f)</td></tr>
+<tr class="separator:ab0a2b7113d179b568835a6984cd51113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b6754afead6e952e9bd7728311ceb06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a4b6754afead6e952e9bd7728311ceb06">StartBonusDisplay</a> ()</td></tr>
+<tr class="separator:a4b6754afead6e952e9bd7728311ceb06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="memdesc:adb6601522ba9f3043e9a310eeafbdae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode  <a href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">More...</a><br /></td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c038bee5523a2314226807415bf261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a78c038bee5523a2314226807415bf261">AddMultiballSceneToTree</a> ()</td></tr>
+<tr class="separator:a78c038bee5523a2314226807415bf261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="memdesc:adb6601522ba9f3043e9a310eeafbdae8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode  <a href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">More...</a><br /></td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78c038bee5523a2314226807415bf261"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a78c038bee5523a2314226807415bf261">AddMultiballSceneToTree</a> ()</td></tr>
+<tr class="separator:a78c038bee5523a2314226807415bf261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdc27d53e0a068d77a11f48b76f3d924"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afdc27d53e0a068d77a11f48b76f3d924">UpdateBonusLamps</a> ()</td></tr>
+<tr class="separator:afdc27d53e0a068d77a11f48b76f3d924"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bedd922667634b008b15041e97ad20b"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a6bedd922667634b008b15041e97ad20b">_EnterTree</a> ()</td></tr>
+<tr class="separator:a6bedd922667634b008b15041e97ad20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6601522ba9f3043e9a310eeafbdae8"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#adb6601522ba9f3043e9a310eeafbdae8">_Ready</a> ()</td></tr>
+<tr class="separator:adb6601522ba9f3043e9a310eeafbdae8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ebe9ad51755b00982fbdc67eb17789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">OnBallEnded</a> (bool lastBall)</td></tr>
+<tr class="memdesc:a79ebe9ad51755b00982fbdc67eb17789"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a display at end of ball  <a href="classGame.html#a79ebe9ad51755b00982fbdc67eb17789">More...</a><br /></td></tr>
+<tr class="separator:a79ebe9ad51755b00982fbdc67eb17789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2a693c85d76bee9c0b3d8b0c7a6c899"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#aa2a693c85d76bee9c0b3d8b0c7a6c899">OnBallStarted</a> ()</td></tr>
+<tr class="separator:aa2a693c85d76bee9c0b3d8b0c7a6c899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe10bad701afa8500c206c2b195aba63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afe10bad701afa8500c206c2b195aba63">OnBonusEnded</a> ()</td></tr>
+<tr class="separator:afe10bad701afa8500c206c2b195aba63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad37d9ab95666a7a5034f82c51a577f8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#ad37d9ab95666a7a5034f82c51a577f8e">SetupMode</a> ()</td></tr>
+<tr class="memdesc:ad37d9ab95666a7a5034f82c51a577f8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">plays music for the mode  <a href="classGame.html#ad37d9ab95666a7a5034f82c51a577f8e">More...</a><br /></td></tr>
+<tr class="separator:ad37d9ab95666a7a5034f82c51a577f8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classPinGodGameNode"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classPinGodGameNode')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classPinGodGameNode.html">PinGodGameNode</a></td></tr>
 <tr class="memitem:a19c34f5ba54f0581bca8f3f40d94ac6c inherit pub_methods_classPinGodGameNode"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPinGodGameNode.html#a19c34f5ba54f0581bca8f3f40d94ac6c">_EnterTree</a> ()</td></tr>
 <tr class="memdesc:a19c34f5ba54f0581bca8f3f40d94ac6c inherit pub_methods_classPinGodGameNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a reference to <a class="el" href="classPinGodGameNode.html#a55b0a357068c8caae1086ad151afe00a" title="A reference to PinGodGame node">pinGod</a> in the root /root/PinGodGame  <a href="classPinGodGameNode.html#a19c34f5ba54f0581bca8f3f40d94ac6c">More...</a><br /></td></tr>
 <tr class="separator:a19c34f5ba54f0581bca8f3f40d94ac6c inherit pub_methods_classPinGodGameNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a988eefd32f8ce0b11d18e9e02530a882"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a988eefd32f8ce0b11d18e9e02530a882">MULTIBALL_SCENE</a> = &quot;res://addons/<a class="el" href="classPinGodGame.html">PinGodGame</a>/Scenes/Multiball.tscn&quot;</td></tr>
-<tr class="memdesc:a988eefd32f8ce0b11d18e9e02530a882"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default scene file to use for Multi-Ball  <a href="classGame.html#a988eefd32f8ce0b11d18e9e02530a882">More...</a><br /></td></tr>
-<tr class="separator:a988eefd32f8ce0b11d18e9e02530a882"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ae8c990cdb0b708acf50f18bc50a87ebc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classGremlinsPlayer.html">GremlinsPlayer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#ae8c990cdb0b708acf50f18bc50a87ebc">_player</a></td></tr>
+<tr class="separator:ae8c990cdb0b708acf50f18bc50a87ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afff5cb76f580c7c9b4d7d555db6d4f63"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classJawsPlayer.html">JawsPlayer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afff5cb76f580c7c9b4d7d555db6d4f63">currentPlayer</a></td></tr>
+<tr class="separator:afff5cb76f580c7c9b4d7d555db6d4f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a717e4e0139e9b5f073361afe2c855727"><td class="memItemLeft" align="right" valign="top">AudioStreamPlayer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a717e4e0139e9b5f073361afe2c855727">bgmMusicPlayer</a></td></tr>
+<tr class="separator:a717e4e0139e9b5f073361afe2c855727"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classPinGodGameNode"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classPinGodGameNode')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classPinGodGameNode.html">PinGodGameNode</a></td></tr>
 <tr class="memitem:a55b0a357068c8caae1086ad151afe00a inherit pub_attribs_classPinGodGameNode"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPinGodGame.html">PinGodGame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPinGodGameNode.html#a55b0a357068c8caae1086ad151afe00a">pinGod</a></td></tr>
 <tr class="memdesc:a55b0a357068c8caae1086ad151afe00a inherit pub_attribs_classPinGodGameNode"><td class="mdescLeft">&#160;</td><td class="mdescRight">A reference to <a class="el" href="classPinGodGame.html" title="Create class inheriting this and use the PinGodGame.tscn. This should be set to AutoLoad with the cor...">PinGodGame</a> node  <a href="classPinGodGameNode.html#a55b0a357068c8caae1086ad151afe00a">More...</a><br /></td></tr>
 <tr class="separator:a55b0a357068c8caae1086ad151afe00a inherit pub_attribs_classPinGodGameNode"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a1252a1fb1b58bed5b4daf2f4cdc361cc"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a1252a1fb1b58bed5b4daf2f4cdc361cc">BASIC_SWITCH_VALUE</a> = 10000</td></tr>
+<tr class="separator:a1252a1fb1b58bed5b4daf2f4cdc361cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0411cdb77b4d909c962fee023f076e8"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#ad0411cdb77b4d909c962fee023f076e8">BONUS_BARREL_VALUE</a> = 500000</td></tr>
+<tr class="separator:ad0411cdb77b4d909c962fee023f076e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa76d1f16c2b5caecc4274aa5a9c1cd95"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#aa76d1f16c2b5caecc4274aa5a9c1cd95">BONUS_BRUCEY_VALUE</a> = 750000</td></tr>
+<tr class="separator:aa76d1f16c2b5caecc4274aa5a9c1cd95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a875773d36a080cca549ec02103b11c8f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a875773d36a080cca549ec02103b11c8f">BONUS_SKIPPER_VALUE</a> = 100000</td></tr>
+<tr class="separator:a875773d36a080cca549ec02103b11c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affb8876694f7b6626976b95f53d52473"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#affb8876694f7b6626976b95f53d52473">BONUS_VALUE</a> = 50000</td></tr>
+<tr class="separator:affb8876694f7b6626976b95f53d52473"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcb3e8f1803ae651aa9f773e306f4ff2"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#afcb3e8f1803ae651aa9f773e306f4ff2">MINSCORE</a> = 500</td></tr>
+<tr class="separator:afcb3e8f1803ae651aa9f773e306f4ff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43efc1672de9c4b5d8f35941ceb89a0d"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a43efc1672de9c4b5d8f35941ceb89a0d">MINBONUS</a> = 1000</td></tr>
+<tr class="separator:a43efc1672de9c4b5d8f35941ceb89a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a20afac59ef5b0bc714de5697896f4e98"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a20afac59ef5b0bc714de5697896f4e98">MULTIBALL_SCENE</a> = &quot;res://addons/<a class="el" href="classPinGodGame.html">PinGodGame</a>/Scenes/Multiball.tscn&quot;</td></tr>
+<tr class="memdesc:a20afac59ef5b0bc714de5697896f4e98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default scene file to use for Multi-Ball  <a href="classGame.html#a20afac59ef5b0bc714de5697896f4e98">More...</a><br /></td></tr>
+<tr class="separator:a20afac59ef5b0bc714de5697896f4e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:aa24ab7d061ae5db8de0c74500cf68cf3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#aa24ab7d061ae5db8de0c74500cf68cf3">ModeRunning</a><code> [get, set]</code></td></tr>
+<tr class="separator:aa24ab7d061ae5db8de0c74500cf68cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fa65ee46a8a6658496a7e70cbfdc40a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a4fa65ee46a8a6658496a7e70cbfdc40a">WizardIsStarted</a><code> [get, set]</code></td></tr>
+<tr class="separator:a4fa65ee46a8a6658496a7e70cbfdc40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19c2893a649f289145beb3e8bf20573a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a19c2893a649f289145beb3e8bf20573a">DoublePlayfield</a><code> [get, set]</code></td></tr>
+<tr class="separator:a19c2893a649f289145beb3e8bf20573a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a944455fb2490b71424b96e201bbaabd1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a944455fb2490b71424b96e201bbaabd1">IsMultiballScoringStarted</a><code> [get, set]</code></td></tr>
+<tr class="separator:a944455fb2490b71424b96e201bbaabd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf9763cbf655499981e6989e21fedac3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#acf9763cbf655499981e6989e21fedac3">KickbackEnabled</a><code> [get, set]</code></td></tr>
+<tr class="separator:acf9763cbf655499981e6989e21fedac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1992cda675c9f461dde42c447bf49529"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a1992cda675c9f461dde42c447bf49529">MoonTargets</a><code> [get, set]</code></td></tr>
+<tr class="separator:a1992cda675c9f461dde42c447bf49529"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac222fb8bc87ea7ee1eea637580a98de1"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#ac222fb8bc87ea7ee1eea637580a98de1">StationTargets</a><code> [get, set]</code></td></tr>
+<tr class="separator:ac222fb8bc87ea7ee1eea637580a98de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c859d057afa6fbdc1d8c8c4e11fee96"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a3c859d057afa6fbdc1d8c8c4e11fee96">MusicPauseTime</a><code> [get, set]</code></td></tr>
+<tr class="separator:a3c859d057afa6fbdc1d8c8c4e11fee96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ec333ab8240fb7542f3cb8171c806e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#a2ec333ab8240fb7542f3cb8171c806e0">RemixSoundsMode</a><code> [get, set]</code></td></tr>
+<tr class="separator:a2ec333ab8240fb7542f3cb8171c806e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac83f5ed99886b5d1f7d3c680d285d21e"><td class="memItemLeft" align="right" valign="top">Timer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGame.html#ac83f5ed99886b5d1f7d3c680d285d21e">resumeBgmTimer</a><code> [get]</code></td></tr>
+<tr class="separator:ac83f5ed99886b5d1f7d3c680d285d21e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Custom <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> class for Basic <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a6bedd922667634b008b15041e97ad20b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[1/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -178,8 +395,264 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[2/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[3/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[4/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[5/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[6/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[7/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[8/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[9/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[10/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6bedd922667634b008b15041e97ad20b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bedd922667634b008b15041e97ad20b">&#9670;&nbsp;</a></span>_EnterTree() <span class="overload">[11/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._EnterTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15ea3ecced70436d42b5816f20b17085"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15ea3ecced70436d42b5816f20b17085">&#9670;&nbsp;</a></span>_ExitTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._ExitTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9ca543468b643ff6696b08bd2502165f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ca543468b643ff6696b08bd2502165f">&#9670;&nbsp;</a></span>_Input() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Input </td>
+          <td>(</td>
+          <td class="paramtype">InputEvent @&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Basic input switch handling </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a9ca543468b643ff6696b08bd2502165f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ca543468b643ff6696b08bd2502165f">&#9670;&nbsp;</a></span>_Input() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Input </td>
+          <td>(</td>
+          <td class="paramtype">InputEvent @&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handles the trough last switch and other in-lane switches if the game isn't tilted </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a14a58daff3b12770393818895fa66d7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14a58daff3b12770393818895fa66d7c">&#9670;&nbsp;</a></span>_on_StartBallTimer_timeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game._on_StartBallTimer_timeout </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[1/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -197,8 +670,192 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[2/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode </p>
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[3/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode </p>
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[4/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[5/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode </p>
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[6/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode </p>
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[7/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode </p>
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[8/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[9/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode </p>
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[10/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts a new game and ball (soon as this <a class="el" href="classGame.html" title="Custom Game class for Basic Game">Game</a> enters the scene tree). OnBallStarted is invoked on nodes grouped as Mode </p>
+
+</div>
+</div>
+<a id="adb6601522ba9f3043e9a310eeafbdae8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6601522ba9f3043e9a310eeafbdae8">&#9670;&nbsp;</a></span>_Ready() <span class="overload">[11/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">override void Game._Ready </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a84d11717039e67062494dc32eb770906"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84d11717039e67062494dc32eb770906">&#9670;&nbsp;</a></span>AddMultiballSceneToTree()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a84d11717039e67062494dc32eb770906">&#9670;&nbsp;</a></span>AddMultiballSceneToTree() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -224,8 +881,127 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a78c038bee5523a2314226807415bf261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c038bee5523a2314226807415bf261">&#9670;&nbsp;</a></span>AddMultiballSceneToTree() <span class="overload">[2/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddMultiballSceneToTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78c038bee5523a2314226807415bf261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c038bee5523a2314226807415bf261">&#9670;&nbsp;</a></span>AddMultiballSceneToTree() <span class="overload">[3/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddMultiballSceneToTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78c038bee5523a2314226807415bf261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c038bee5523a2314226807415bf261">&#9670;&nbsp;</a></span>AddMultiballSceneToTree() <span class="overload">[4/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddMultiballSceneToTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78c038bee5523a2314226807415bf261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c038bee5523a2314226807415bf261">&#9670;&nbsp;</a></span>AddMultiballSceneToTree() <span class="overload">[5/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddMultiballSceneToTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78c038bee5523a2314226807415bf261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c038bee5523a2314226807415bf261">&#9670;&nbsp;</a></span>AddMultiballSceneToTree() <span class="overload">[6/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddMultiballSceneToTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78c038bee5523a2314226807415bf261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c038bee5523a2314226807415bf261">&#9670;&nbsp;</a></span>AddMultiballSceneToTree() <span class="overload">[7/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddMultiballSceneToTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78c038bee5523a2314226807415bf261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78c038bee5523a2314226807415bf261">&#9670;&nbsp;</a></span>AddMultiballSceneToTree() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddMultiballSceneToTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a01a9eb836150891fa0b44e853e0222fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01a9eb836150891fa0b44e853e0222fc">&#9670;&nbsp;</a></span>AddPoints()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a01a9eb836150891fa0b44e853e0222fc">&#9670;&nbsp;</a></span>AddPoints() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,6 +1034,113 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a4e90b16423b9b899d234342471cf7710"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e90b16423b9b899d234342471cf7710">&#9670;&nbsp;</a></span>AddPoints() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Game.AddPoints </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>update</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds points with double playfield if on </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">points</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a63db065a00673ddb617d9a826431fc5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63db065a00673ddb617d9a826431fc5d">&#9670;&nbsp;</a></span>AddSelectedGremlinsMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddSelectedGremlinsMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aad2f9bb8594647782dec266aa2354a63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad2f9bb8594647782dec266aa2354a63">&#9670;&nbsp;</a></span>AddVideoMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.AddVideoMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6699e6308dc5a71ccc4a79342d4ea0cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6699e6308dc5a71ccc4a79342d4ea0cf">&#9670;&nbsp;</a></span>DisableBarrelTargets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.DisableBarrelTargets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Disables the barrel drop target coils </p>
+
+</div>
+</div>
+<a id="aa5630ff7989d2fe858673720bf3edb9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5630ff7989d2fe858673720bf3edb9c">&#9670;&nbsp;</a></span>EnableBruceDiverter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.EnableBruceDiverter </td>
+          <td>(</td>
+          <td class="paramtype">byte&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a60bf167fffd78d511881d50cbad4f6af"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a60bf167fffd78d511881d50cbad4f6af">&#9670;&nbsp;</a></span>EndMultiball()</h2>
 
@@ -282,6 +1165,60 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets <a class="el" href="classPinGodGame.html#adbca937e8a0daa12d283217d9f656651" title="Any multi-ball running?">PinGodGame.IsMultiballRunning</a> to false and Any node that is in the multiball group is removed from tree </p>
+
+</div>
+</div>
+<a id="a60381a4c94cf645babbfc90372767e3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60381a4c94cf645babbfc90372767e3c">&#9670;&nbsp;</a></span>EndOfBallTimer_timeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.EndOfBallTimer_timeout </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a343b15a3436b08bfe4c7849167d5a8c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a343b15a3436b08bfe4c7849167d5a8c0">&#9670;&nbsp;</a></span>IsBruceMultiballRunning()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Game.IsBruceMultiballRunning </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3eb5ec90dc16078fff7dab6f514beaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3eb5ec90dc16078fff7dab6f514beaa">&#9670;&nbsp;</a></span>IsJawsLockReady()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Game.IsJawsLockReady </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Opens the locks if enabled </p>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 </div>
 </div>
@@ -313,7 +1250,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <a id="aa7184657288ef95484475f3ac7ebb9ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7184657288ef95484475f3ac7ebb9ee">&#9670;&nbsp;</a></span>OnBallEnded()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7184657288ef95484475f3ac7ebb9ee">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[1/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,6 +1271,206 @@ Additional Inherited Members</h2></td></tr>
 <span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[2/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[3/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[4/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[5/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[6/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[7/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[8/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[9/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[10/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a display at end of ball </p>
+
+</div>
+</div>
+<a id="a79ebe9ad51755b00982fbdc67eb17789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79ebe9ad51755b00982fbdc67eb17789">&#9670;&nbsp;</a></span>OnBallEnded() <span class="overload">[11/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallEnded </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lastBall</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 <p>Add a display at end of ball </p>
@@ -367,8 +1504,25 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="aa2a693c85d76bee9c0b3d8b0c7a6c899"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2a693c85d76bee9c0b3d8b0c7a6c899">&#9670;&nbsp;</a></span>OnBallStarted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBallStarted </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aabeea29063bed21cb77855a0b54f3d33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabeea29063bed21cb77855a0b54f3d33">&#9670;&nbsp;</a></span>OnBonusEnded()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aabeea29063bed21cb77855a0b54f3d33">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[1/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -391,6 +1545,204 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Displays high score if this is the last ball. </p>
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[2/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[3/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[4/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[5/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[6/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[7/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[8/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[9/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[10/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe10bad701afa8500c206c2b195aba63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe10bad701afa8500c206c2b195aba63">&#9670;&nbsp;</a></span>OnBonusEnded() <span class="overload">[11/11]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnBonusEnded </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab0a2b7113d179b568835a6984cd51113"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0a2b7113d179b568835a6984cd51113">&#9670;&nbsp;</a></span>OnDisplayMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.OnDisplayMessage </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>time</em> = <code>1.5f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -421,6 +1773,77 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="ab6a9fe9899aab40d5568960918e95b70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6a9fe9899aab40d5568960918e95b70">&#9670;&nbsp;</a></span>PlayBackgroundMusic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.PlayBackgroundMusic </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acff44e348699d17e4165803f6ea506c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acff44e348699d17e4165803f6ea506c8">&#9670;&nbsp;</a></span>ReleaseOrcaMagnet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.ReleaseOrcaMagnet </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>release</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad37d9ab95666a7a5034f82c51a577f8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad37d9ab95666a7a5034f82c51a577f8e">&#9670;&nbsp;</a></span>SetupMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.SetupMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>plays music for the mode </p>
+
+</div>
+</div>
+<a id="a4b6754afead6e952e9bd7728311ceb06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b6754afead6e952e9bd7728311ceb06">&#9670;&nbsp;</a></span>StartBonusDisplay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.StartBonusDisplay </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a18e0ce656c45838663e72671f7fa345e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a18e0ce656c45838663e72671f7fa345e">&#9670;&nbsp;</a></span>StartNewBall()</h2>
 
@@ -448,9 +1871,275 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="afdc27d53e0a068d77a11f48b76f3d924"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdc27d53e0a068d77a11f48b76f3d924">&#9670;&nbsp;</a></span>UpdateBonusLamps()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.UpdateBonusLamps </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a39c64edad3ee8cd96bfc09b6c096021d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39c64edad3ee8cd96bfc09b6c096021d">&#9670;&nbsp;</a></span>UpdateLamps() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.UpdateLamps </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a39c64edad3ee8cd96bfc09b6c096021d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39c64edad3ee8cd96bfc09b6c096021d">&#9670;&nbsp;</a></span>UpdateLamps() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.UpdateLamps </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a682fde830f8a2287a12f9ecda69428f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a682fde830f8a2287a12f9ecda69428f6">&#9670;&nbsp;</a></span>UpdateProgress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Game.UpdateProgress </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calls groups with game progress to UpdateProgress </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a988eefd32f8ce0b11d18e9e02530a882"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a988eefd32f8ce0b11d18e9e02530a882">&#9670;&nbsp;</a></span>MULTIBALL_SCENE</h2>
+<a id="ae8c990cdb0b708acf50f18bc50a87ebc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8c990cdb0b708acf50f18bc50a87ebc">&#9670;&nbsp;</a></span>_player</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classGremlinsPlayer.html">GremlinsPlayer</a> Game._player</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1252a1fb1b58bed5b4daf2f4cdc361cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1252a1fb1b58bed5b4daf2f4cdc361cc">&#9670;&nbsp;</a></span>BASIC_SWITCH_VALUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Game.BASIC_SWITCH_VALUE = 10000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a717e4e0139e9b5f073361afe2c855727"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a717e4e0139e9b5f073361afe2c855727">&#9670;&nbsp;</a></span>bgmMusicPlayer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AudioStreamPlayer Game.bgmMusicPlayer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad0411cdb77b4d909c962fee023f076e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0411cdb77b4d909c962fee023f076e8">&#9670;&nbsp;</a></span>BONUS_BARREL_VALUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Game.BONUS_BARREL_VALUE = 500000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa76d1f16c2b5caecc4274aa5a9c1cd95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa76d1f16c2b5caecc4274aa5a9c1cd95">&#9670;&nbsp;</a></span>BONUS_BRUCEY_VALUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Game.BONUS_BRUCEY_VALUE = 750000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a875773d36a080cca549ec02103b11c8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a875773d36a080cca549ec02103b11c8f">&#9670;&nbsp;</a></span>BONUS_SKIPPER_VALUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Game.BONUS_SKIPPER_VALUE = 100000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="affb8876694f7b6626976b95f53d52473"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affb8876694f7b6626976b95f53d52473">&#9670;&nbsp;</a></span>BONUS_VALUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Game.BONUS_VALUE = 50000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afff5cb76f580c7c9b4d7d555db6d4f63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afff5cb76f580c7c9b4d7d555db6d4f63">&#9670;&nbsp;</a></span>currentPlayer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classJawsPlayer.html">JawsPlayer</a> Game.currentPlayer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a43efc1672de9c4b5d8f35941ceb89a0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43efc1672de9c4b5d8f35941ceb89a0d">&#9670;&nbsp;</a></span>MINBONUS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Game.MINBONUS = 1000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afcb3e8f1803ae651aa9f773e306f4ff2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcb3e8f1803ae651aa9f773e306f4ff2">&#9670;&nbsp;</a></span>MINSCORE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Game.MINSCORE = 500</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a20afac59ef5b0bc714de5697896f4e98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20afac59ef5b0bc714de5697896f4e98">&#9670;&nbsp;</a></span>MULTIBALL_SCENE</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -473,8 +2162,229 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a19c2893a649f289145beb3e8bf20573a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19c2893a649f289145beb3e8bf20573a">&#9670;&nbsp;</a></span>DoublePlayfield</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Game.DoublePlayfield</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a944455fb2490b71424b96e201bbaabd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a944455fb2490b71424b96e201bbaabd1">&#9670;&nbsp;</a></span>IsMultiballScoringStarted</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Game.IsMultiballScoringStarted</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acf9763cbf655499981e6989e21fedac3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf9763cbf655499981e6989e21fedac3">&#9670;&nbsp;</a></span>KickbackEnabled</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Game.KickbackEnabled</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa24ab7d061ae5db8de0c74500cf68cf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa24ab7d061ae5db8de0c74500cf68cf3">&#9670;&nbsp;</a></span>ModeRunning</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Game.ModeRunning</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1992cda675c9f461dde42c447bf49529"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1992cda675c9f461dde42c447bf49529">&#9670;&nbsp;</a></span>MoonTargets</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte [] Game.MoonTargets</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3c859d057afa6fbdc1d8c8c4e11fee96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c859d057afa6fbdc1d8c8c4e11fee96">&#9670;&nbsp;</a></span>MusicPauseTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Game.MusicPauseTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ec333ab8240fb7542f3cb8171c806e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ec333ab8240fb7542f3cb8171c806e0">&#9670;&nbsp;</a></span>RemixSoundsMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Game.RemixSoundsMode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac83f5ed99886b5d1f7d3c680d285d21e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac83f5ed99886b5d1f7d3c680d285d21e">&#9670;&nbsp;</a></span>resumeBgmTimer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Timer Game.resumeBgmTimer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac222fb8bc87ea7ee1eea637580a98de1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac222fb8bc87ea7ee1eea637580a98de1">&#9670;&nbsp;</a></span>StationTargets</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte [] Game.StationTargets</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4fa65ee46a8a6658496a7e70cbfdc40a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fa65ee46a8a6658496a7e70cbfdc40a">&#9670;&nbsp;</a></span>WizardIsStarted</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Game.WizardIsStarted</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>addons/addons/PinGodGame/Game/<a class="el" href="Game_8cs.html">Game.cs</a></li>
+<li>addons/addons/PinGodGame/Game/<a class="el" href="addons_2addons_2PinGodGame_2Game_2Game_8cs.html">Game.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,0 +1,25 @@
+var classKnightRiderPlayer =
+[
+    [ "BillionShotLit", "classKnightRiderPlayer.html#ac290175cec2304964b28910a17d25792", null ],
+    [ "ExtraBallLit", "classKnightRiderPlayer.html#a75cbaac7718a9ef5c5ea1a2fa9f78c93", null ],
+    [ "IsKarrRunning", "classKnightRiderPlayer.html#aa927fd61e001322a239213681619678b", null ],
+    [ "IsKittRunning", "classKnightRiderPlayer.html#afa2fac0f9c8e60b1db77f5d567685e91", null ],
+    [ "IsSuperPursuitMode", "classKnightRiderPlayer.html#ac690ad483e41f2729278415a0f1be503", null ],
+    [ "IsTruckRampReady", "classKnightRiderPlayer.html#a8b207b4b37e31220c564bd8e20a243fa", null ],
+    [ "IsVideoModeLit", "classKnightRiderPlayer.html#a1d3863a4dee8edb2da8e36f86d75ad08", null ],
+    [ "JackpotAdded", "classKnightRiderPlayer.html#ae7d68480ae9fa9032ee009de84b9fb13", null ],
+    [ "KarrActiveTargets", "classKnightRiderPlayer.html#a6a4d39a09947871c5d3af32af4efe002", null ],
+    [ "KarrCompleteCount", "classKnightRiderPlayer.html#a48e6ff3fc1234b6f237ed83700a1415b", null ],
+    [ "KarrCompleteReady", "classKnightRiderPlayer.html#aff8909b72e61100040caf9a3bc2c12c0", null ],
+    [ "KarrTargets", "classKnightRiderPlayer.html#aff394e70cadc805391af2105fe8e903e", null ],
+    [ "KittActiveTargets", "classKnightRiderPlayer.html#a0330faee73094149fe0e6c5c6db89f57", null ],
+    [ "KittCompleteCount", "classKnightRiderPlayer.html#ae78a44ec7a6a7031f11c8f2212641ce5", null ],
+    [ "KittCompleteReady", "classKnightRiderPlayer.html#a522e302a4ec92ddc688425abc23377cf", null ],
+    [ "KittTargets", "classKnightRiderPlayer.html#a72b9d222ad4e5a93c3398698d9bfbb3a", null ],
+    [ "PursuitCompleteReady", "classKnightRiderPlayer.html#a2f7f7515162626b6e7a0e000f5fbfd1d", null ],
+    [ "SpecialLanes", "classKnightRiderPlayer.html#a945e1dbbd8ff0472ea098b8357c0f376", null ],
+    [ "TruckActiveTargets", "classKnightRiderPlayer.html#ae6aa2b8d3a1e4537f4b36e31a1a7c1b2", null ],
+    [ "TruckCompleteCount", "classKnightRiderPlayer.html#ac3c9730d37a78b783340168d8516b39c", null ],
+    [ "TruckCompleteReady", "classKnightRiderPlayer.html#a76db1a5f976f7438bf3d7b7889383d66", null ],
+    [ "TruckLocks", "classKnightRiderPlayer.html#a06d223482fd1fd523eb2043605353a04", null ]
+];

@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['lamp_472',['Lamp',['../classLamp.html',1,'']]],
-  ['lampmatrix_473',['LampMatrix',['../classLampMatrix.html',1,'']]],
-  ['lamps_474',['Lamps',['../classLamps.html',1,'']]],
-  ['leds_475',['Leds',['../classLeds.html',1,'']]]
+  ['hemanscoop_1190',['HeManScoop',['../classHeManScoop.html',1,'']]],
+  ['highscore_1191',['HighScore',['../classHighScore.html',1,'']]],
+  ['highscores_1192',['HighScores',['../classHighScores.html',1,'']]],
+  ['huntmode_1193',['HuntMode',['../classHuntMode.html',1,'']]],
+  ['hurryup_1194',['HurryUp',['../classHurryUp.html',1,'']]],
+  ['hurryupmode_1195',['HurryUpMode',['../classHurryUpMode.html',1,'']]]
 ];
