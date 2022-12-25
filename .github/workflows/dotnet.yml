@@ -3,7 +3,7 @@ name: GitHub Pages
 on:
   push:
     branches:
-      - develop/xml_docs_plus_refactor  # Set a branch to deploy
+      - master  # Set a branch to deploy
   pull_request:
 
 jobs:
