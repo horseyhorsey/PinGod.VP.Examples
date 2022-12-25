@@ -1,5 +1,6 @@
 ﻿using Godot;
 using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Godot.GD;
 
@@ -15,14 +16,28 @@ public class GameSettings
     [NotMapped]
     const string GAME_SETTINGS_FILE = "user://settings.save";
 
+    /// <summary>
+    /// default ball save time
+    /// </summary>
     public byte BallSaveTime { get; set; } = 12;
-
+    /// <summary>
+    /// default balls per game = 3
+    /// </summary>
     public byte BallsPerGame { get; set; } = 3;
 
+    /// <summary>
+    /// Access to change display setting
+    /// </summary>
     public DisplaySettings Display { get; set; } = new DisplaySettings();
 
+    /// <summary>
+    /// The current language for this machine
+    /// </summary>
     public string Language { get; set; }
 
+    /// <summary>
+    /// Logging level
+    /// </summary>
     public PinGodLogLevel LogLevel { get; set; } = PinGodLogLevel.Error;
 
     /// <summary>
@@ -44,10 +59,19 @@ public class GameSettings
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
     public float MasterVolume { get; set; } = 0;
+    /// <summary>
+    /// Max extra balls used in game, defaults to 2
+    /// </summary>
 
     public byte MaxExtraBalls { get; set; } = 2;
+    /// <summary>
+    /// maximum high scores to keep, defaults to 5
+    /// </summary>
 
     public byte MaxHiScoresCount { get; set; } = 5;
+    /// <summary>
+    /// Enable / Disable music
+    /// </summary>
 
     public bool MusicEnabled { get; set; } = true;
 
@@ -55,14 +79,18 @@ public class GameSettings
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
     public float MusicVolume { get; set; } = -6;
-
+    /// <summary>
+    /// Enable / Disable SFX
+    /// </summary>
     public bool SfxEnabled { get; set; } = true;
 
     /// <summary>
     /// Decibel volume. minus values. -80 lowest
     /// </summary>
     public float SfxVolume { get; set; } = -6;
-
+    /// <summary>
+    /// Enable / Disable Voice
+    /// </summary>
     public bool VoiceEnabled { get; set; } = true;
 
     /// <summary>
@@ -88,7 +116,7 @@ public class GameSettings
     {
         var settingsSave = new File();
         var err = settingsSave.Open(GAME_SETTINGS_FILE, File.ModeFlags.Read);        
-        T gS = default(T);
+        T gS = Activator.CreateInstance<T>();
         if (err != Error.FileNotFound)
         {
             gS = DeserializeSettings<T>(settingsSave.GetLine());
@@ -97,8 +125,9 @@ public class GameSettings
         }
         else
         {
-            Save(gS);
-            Print("new game settings created");
+
+            Save<T>(gS);
+            Print("new game settings created " + gS.BallsPerGame);
         }
 
         return gS;

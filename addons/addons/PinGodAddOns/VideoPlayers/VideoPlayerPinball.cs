@@ -1,6 +1,10 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Tool: Video Player for Pinball
+/// <para/>
+/// </summary>
 [Tool]
 public class VideoPlayerPinball : VideoPlayer
 {
@@ -11,7 +15,7 @@ public class VideoPlayerPinball : VideoPlayer
 
 	#region Public Methods
 	/// <summary>
-	/// Creates the timer and adds to the tree
+	/// Connects the videos finished , hide and visibility_changed signals from the inherited scene
 	/// </summary>
 	public override void _EnterTree()
 	{
@@ -29,7 +33,7 @@ public class VideoPlayerPinball : VideoPlayer
 	}
 
 	/// <summary>
-	/// When videos ended we need to play again if set to looping.
+	/// videos finished signal. We need to play again if set to looping.
 	/// </summary>
 	void _finished()
 	{
@@ -48,14 +52,6 @@ public class VideoPlayerPinball : VideoPlayer
 		}
 	}
 
-	/// <summary>
-	/// Stops the timer
-	/// </summary>
-	public override void _ExitTree()
-	{
-
-	}
-
 	internal void SetLoopAndHold(bool loop)
 	{
 		_loop = loop;
@@ -65,7 +61,7 @@ public class VideoPlayerPinball : VideoPlayer
 	#endregion
 
 	/// <summary>
-	/// When visiblity
+	/// When visibility changes if pause when hidden then pause is false, or play when visible
 	/// </summary>
 	void _visibility_changed()
 	{
@@ -86,27 +82,22 @@ public class VideoPlayerPinball : VideoPlayer
 	void _hide()
 	{		
 		if (_pause_when_hidden)
-		{
-			//GD.Print("pausing video");
+		{			
 			this.Paused = true;
 		}
 		else if (_play_when_visible)
 		{
 			if (this.Paused)
 			{
-				//GD.Print("unpausing video");
 				this.Paused = false;
 			}				
 			else
 			{
-				//this.StreamPosition = 0;
 				this.Play();
-				//GD.Print("play from 0");
 			}
 		}
 		else
-		{
-			//GD.Print("stopping video");
+		{ 
 			this.Stop();
 		}		
 	}

@@ -1,7 +1,7 @@
 using Godot;
 
 /// <summary>
-/// Settings for music, sfx, voice
+/// Settings Menu for music, sfx, voice
 /// </summary>
 public class AudioSettings : MarginContainer
 {
@@ -18,6 +18,9 @@ public class AudioSettings : MarginContainer
     private HSlider _volMasterSlider;
     private Label _volMasterLabel;
 
+    /// <summary>
+    /// Sets up the different types of audio for settings to be changed in a menu
+    /// </summary>
     public override void _EnterTree()
     {
         if (!Engine.EditorHint)
@@ -25,7 +28,6 @@ public class AudioSettings : MarginContainer
             base._EnterTree();
 
             pinGod = GetNode<PinGodGame>("/root/PinGodGame");
-
             SetupMaster();
             SetupSfx();
             SetupMusic();
@@ -36,10 +38,10 @@ public class AudioSettings : MarginContainer
     private void SetupMaster()
     {
         _volMasterSlider = GetNode<HSlider>("VBoxContainer/MasterContainer/HSlider");
-        _volMasterSlider.Value = pinGod.GameSettings.MasterVolume;
+        _volMasterSlider.Value = pinGod.GameSettings?.MasterVolume ?? 0;
 
         _volMasterLabel = GetNode<Label>("VBoxContainer/MasterContainer/Label");
-        _volMasterLabel.Text = $"{pinGod.GameSettings.MasterVolume}";
+        _volMasterLabel.Text = $"{pinGod.GameSettings?.MasterVolume}";
     }
 
     private void SetupVoice()

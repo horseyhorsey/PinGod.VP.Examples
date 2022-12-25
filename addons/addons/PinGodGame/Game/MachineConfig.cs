@@ -2,6 +2,9 @@
 using Godot.Collections;
 using System.Linq;
 
+/// <summary>
+/// Config
+/// </summary>
 public class MachineConfig : Node
 {
 	/// <summary>
@@ -25,13 +28,30 @@ public class MachineConfig : Node
 	[Export] Dictionary<string, byte> _switches = new Dictionary<string, byte>();
 	[Export] Dictionary<string, byte> _lamps = new Dictionary<string, byte>();
 	[Export] Dictionary<string, byte> _leds = new Dictionary<string, byte>();
+	/// <summary>
+	/// 
+	/// </summary>
 	[Export] public bool _ball_search_enabled = true;
+	/// <summary>
+	/// Coil names to pulse when ball searching
+	/// </summary>
 	[Export] public string[] _ball_search_coils;
+	/// <summary>
+	/// Switches that stop the ball searching
+	/// </summary>
 	[Export] public string[] _ball_search_stop_switches;
+	/// <summary>
+	/// How long to wait for ball searching and reset
+	/// </summary>
 	[Export] private int _ball_search_wait_time_secs = 10;
-
+	/// <summary>
+	/// 
+	/// </summary>
     public BallSearchOptions BallSearchOptions { get; private set; }
 
+    /// <summary>
+    /// <see cref="AddCustomMachineItems"/>
+    /// </summary>
     public override void _EnterTree()
     {
         if (!Engine.EditorHint)
@@ -44,7 +64,7 @@ public class MachineConfig : Node
 	}
 
     /// <summary>
-    /// Adds custom machine items. Actions are created for switches if they don't exist
+    /// Adds custom machine items. Actions are created for switches if they do not exist
     /// </summary>
     /// <param name="coils"></param>
     /// <param name="switches"></param>

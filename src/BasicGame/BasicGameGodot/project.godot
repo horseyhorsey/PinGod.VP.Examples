@@ -23,12 +23,20 @@ config/windows_native_icon="res://addons/PinGodGame/assets/img/pingod.ico"
 Resources="*res://resources/Resources.tscn"
 PinGodGame="*res://game/PinGodGame.tscn"
 
+[debug]
+
+settings/fps/force_fps=30
+debug/settings/stdout/print_fps=true
+
 [display]
 
 window/size/borderless=true
 window/size/always_on_top=true
+window/size/test_width=465.0
+window/size/test_height=276.0
+window/vsync/use_vsync=false
 window/stretch/mode="2d"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep_height"
 
 [editor_plugins]
 
@@ -162,7 +170,7 @@ settings={
 
 [locale]
 
-translations=PoolStringArray( "res://addons/PinGodGame/Localization/pingod_default_lang.en.translation", "res://local/BasicGameLang.en.translation" )
+translations=PoolStringArray( "res://addons/PinGodGame/Localization/pingod_default_lang.en.translation" )
 locale_filter=[ 0, [  ] ]
 
 [rendering]

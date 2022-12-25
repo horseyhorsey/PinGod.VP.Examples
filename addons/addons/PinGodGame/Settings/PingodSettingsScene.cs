@@ -1,10 +1,16 @@
 using Godot;
 using System;
 
+/// <summary>
+/// PinGod menu settings. Like log levels and machine read write
+/// </summary>
 public class PingodSettingsScene : MarginContainer
 {
     private PinGodGame pinGod;
 
+    /// <summary>
+    /// Sets text of labels using language translation files <see cref="Godot.Object.Tr(string)"/>
+    /// </summary>
     public override void _EnterTree()
     {
         base._EnterTree();

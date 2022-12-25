@@ -37,6 +37,9 @@ public class BlinkingLabel : Label
 		blinkVisible = this.Visible;
 	}
 
+	/// <summary>
+	/// Sets the color of the text, when blinks alpha is used to hide and reset to this color
+	/// </summary>
 	public override void _Ready()
 	{
 		modulateDefaultColor = this.Modulate;
@@ -88,7 +91,7 @@ public class BlinkingLabel : Label
 	}
 
 	/// <summary>
-	/// When visiblity
+	/// When visibility checks if <see cref="blinkVisible"/>, if <see cref="_timer"/> is stopped it starts the blinking
 	/// </summary>
 	void _visibility_changed()
 	{

@@ -1,10 +1,16 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Settings Menu options for changing the window / display settings.
+/// </summary>
 public class DisplaySettingsScene : MarginContainer
 {
     private DisplaySettings _displaySettings;
     private PinGodGame pinGod;
+    /// <summary>
+    /// Sets up and gets <see cref="_displaySettings"/>
+    /// </summary>
     public override void _EnterTree()
     {
         base._EnterTree();
@@ -13,6 +19,9 @@ public class DisplaySettingsScene : MarginContainer
         _displaySettings = pinGod.GameSettings.Display;
     }
 
+    /// <summary>
+    /// Gets settings and setups default UI controls.
+    /// </summary>
     public override void _Ready()
     {
         base._Ready();

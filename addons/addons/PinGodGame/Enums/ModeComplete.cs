@@ -1,5 +1,11 @@
-﻿public enum ModeComplete
+﻿/// <summary>
+/// Game modes with half complete or fully complete
+/// </summary>
+public enum ModeComplete
 {
+    /// <summary>
+    /// Not complete or started
+    /// </summary>
     No,
     /// <summary>
     /// Mode part completed

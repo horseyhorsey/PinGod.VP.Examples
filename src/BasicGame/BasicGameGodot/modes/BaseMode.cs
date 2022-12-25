@@ -1,24 +1,31 @@
 using Godot;
 
+/// <summary>
+/// Base mode example
+/// </summary>
 public class BaseMode : Control
 {
+    [Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Scenes/BallSave.tscn";
+
     private PackedScene _ballSaveScene;
     private BallStackPinball _ballStackSaucer;
-    [Export] string BALL_SAVE_SCENE = "res://addons/PinGodGame/Modes/ballsave/BallSave.tscn";
-
     private Game game;
     private PinGodGame pinGod;
+
+    /// <summary>
+    /// Gets access to <see cref="PinGodGame"/> and the main <see cref="Game"/> scene. 
+    /// </summary>
     public override void _EnterTree()
     {
         pinGod = GetNode("/root/PinGodGame") as PinGodGame;
-        game = GetParent().GetParent() as Game;
+        game = GetParent().GetParent() as BasicGame;
 
         _ballSaveScene = GD.Load<PackedScene>(BALL_SAVE_SCENE);
         _ballStackSaucer = GetNode<BallStackPinball>(nameof(BallStackPinball));
     }
 
     /// <summary>
-    /// Basic input switch handling
+    /// Basic input switch handling by checking <see cref="PinGodGame.SwitchOn(string, InputEvent)"/>
     /// </summary>
     /// <param name="event"></param>
     public override void _Input(InputEvent @event)
@@ -28,7 +35,7 @@ public class BaseMode : Control
 
         if (pinGod.SwitchOn("start", @event))
         {
-            pinGod.LogInfo("base: start button adding player...", pinGod.StartGame());
+            pinGod.LogInfo("BaseMode: start button adding player...", pinGod.StartGame());
         }
         if (pinGod.SwitchOn("flipper_l", @event))
         {
@@ -62,8 +69,14 @@ public class BaseMode : Control
         }
     }
 
+    /// <summary>
+    /// Not used. Can use to act when ball drains
+    /// </summary>
     public void OnBallDrained() { }
 
+    /// <summary>
+    /// Displays a ball save scene for 2 seconds if not in multi-ball, <see cref="PinGodGame.IsMultiballRunning"/>
+    /// </summary>
     public void OnBallSaved()
     {
         pinGod.LogDebug("base: ball_saved");
@@ -79,8 +92,14 @@ public class BaseMode : Control
         }
     }
 
+    /// <summary>
+    /// Does nothing
+    /// </summary>
     public void OnBallStarted() { }
 
+    /// <summary>
+    /// Does nothing
+    /// </summary>
     public void UpdateLamps() { }
 
     /// <summary>
@@ -109,7 +128,7 @@ public class BaseMode : Control
                 pinGod.IsMultiballRunning = true;
                 _ballStackSaucer.Start();
 
-                game?.CallDeferred("AddMultiballSceneToTree");
+                game?.CallDeferred(nameof(BasicGame.AddMultiballSceneToTree));
                 return;
             }
         }

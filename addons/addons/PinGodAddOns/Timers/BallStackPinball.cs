@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 /// <summary>
-/// Kicker / Saucer node based on timer and to process switch actions.
+/// Tool: Kicker / Saucer node based on timer and to process switch actions.
 /// </summary>
 [Tool]
 public class BallStackPinball : Timer
@@ -20,12 +20,12 @@ public class BallStackPinball : Timer
     private PinGodGame pingod;
 
     /// <summary>
-    /// Fired when switch is on
+    /// Emitted when switch is on
     /// </summary>
     [Signal] public delegate void SwitchActive();
 
     /// <summary>
-    /// Fired when switch is off
+    /// Emitted when switch is off
     /// </summary>
     [Signal] public delegate void SwitchInActive();
 
@@ -50,6 +50,10 @@ public class BallStackPinball : Timer
         Stop();
     }
 
+    /// <summary>
+    /// Checks if ball stacks switch is on or off then emits <see cref="SwitchActive"/> or <see cref="SwitchInActive"/>
+    /// </summary>
+    /// <param name="event"></param>
     public override void _Input(InputEvent @event)
     {
         if (pingod.SwitchOn(_switch, @event))
@@ -62,6 +66,9 @@ public class BallStackPinball : Timer
         }
     }
 
+    /// <summary>
+    /// Turns off SetProcessInput to process no switches if they haven't been set
+    /// </summary>
     public override void _Ready()
     {
 		if (!Engine.EditorHint)
@@ -74,10 +81,11 @@ public class BallStackPinball : Timer
 			}
 		}
 	}
-    public void SolenoidPulse()
-    {
-		pingod.SolenoidPulseTimer(_coil);
-    }
+
+    /// <summary>
+    /// Uses Pingod <see cref="PinGodGame.SolenoidPulseTimer"/>
+    /// </summary>
+    public void SolenoidPulse() => pingod.SolenoidPulseTimer(_coil);
 
     #endregion
 }

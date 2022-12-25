@@ -6,14 +6,37 @@ using System;
 /// </summary>
 public class Bumper : Node
 {
+	/// <summary>
+	/// Bumper Switch name
+	/// </summary>
 	[Export] string _SwitchName = string.Empty;
+
+	/// <summary>
+	/// Coil name
+	/// </summary>
 	[Export] string _CoilName = string.Empty;
+
+	/// <summary>
+	/// The stream to play when bumper hit
+	/// </summary>
 	[Export] AudioStream _AudioStream = null;	
+
+	/// <summary>
+	/// Emitted on bumper input
+	/// </summary>
+	/// <param name="name"></param>
 	[Signal] delegate void BumperHit(string name);
 
 	private PinGodGame _pinGod;
+
+	/// <summary>
+	/// audio player
+	/// </summary>
 	public AudioStreamPlayer player;
 
+	/// <summary>
+	/// Switches off input if no switch available. Sets audio stream
+	/// </summary>
     public override void _EnterTree()
     {
 		base._EnterTree();
@@ -40,6 +63,10 @@ public class Bumper : Node
 		player.Stream = this._AudioStream;
     }
 
+	/// <summary>
+	/// Plays sound and pulses the coil if gameInPlay and isn't tilted
+	/// </summary>
+	/// <param name="event"></param>
     public override void _Input(InputEvent @event)
 	{
 		//exit no game in play or tilted

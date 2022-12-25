@@ -1,9 +1,15 @@
 using Godot;
 
+/// <summary>
+/// Game settings scene menu, with basic props, balls per game, ball save time
+/// </summary>
 public class GameSettingsScene : MarginContainer
 {
     private PinGodGame pinGod;
 
+    /// <summary>
+    /// Sets up menu spin boxes
+    /// </summary>
     public override void _EnterTree()
     {
         base._EnterTree();

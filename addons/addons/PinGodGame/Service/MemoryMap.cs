@@ -4,6 +4,10 @@ using System.IO.MemoryMappedFiles;
 using System.Threading;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Memory Mapping which COM controller also has access to. Saves events, states of switches, coils, lamps + leds <para/>
+/// Mutex=pingod_vp_mutex | MapName=pingod_vp
+/// </summary>
 public class MemoryMap : IDisposable
 {
     internal static System.Threading.Mutex mutex;
@@ -36,6 +40,9 @@ public class MemoryMap : IDisposable
     /// <param name="lampCount"></param>
     /// <param name="ledCount"></param>
     /// <param name="switchCount"></param>
+    /// <param name="writeStates">write states to memory?</param>
+    /// <param name="readStates">read states to memory?</param>
+    /// <param name="pinGodGame"></param>
     public MemoryMap(byte coilCount = 32, byte lampCount = 64, byte ledCount = 64, byte switchCount = 64, bool writeStates = true, bool readStates = true, PinGodGame pinGodGame = null)
     {
         this.COIL_COUNT = coilCount * 2;
@@ -52,6 +59,9 @@ public class MemoryMap : IDisposable
         SetUp();
     }
 
+    /// <summary>
+    /// Dispose and releases the mutex and stops the read/write states thread <see cref="tokenSource"/>
+    /// </summary>
     public void Dispose() => Dispose(true);
 
     /// <summary>
@@ -83,7 +93,7 @@ public class MemoryMap : IDisposable
     }
 
     /// <summary>
-    /// Stops the thread
+    /// Stops the <see cref="_writeStatesTask"/> thread
     /// </summary>
     public void Stop()
     {
@@ -113,11 +123,12 @@ public class MemoryMap : IDisposable
     }
 
     /// <summary>
-    /// Reads switch states
+    /// Reads the buffer size <see cref="SWITCH_COUNT"/> switch states from the memory map buffer at position 0. Acts on any new switch events found. <para/>
+    /// Emits a signal on VpCommand found. Switch 0 changed will process game states, switch zero useed with GameSyncState.
     /// </summary>
     private void ReadStates()
     {
-        byte[] buffer = new byte[64 * 2];
+        byte[] buffer = new byte[SWITCH_COUNT];
         _switchMapping.ReadArray(0, buffer, 0, buffer.Length);
 
         if (switchBuffer != buffer)
