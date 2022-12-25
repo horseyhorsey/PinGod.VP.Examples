@@ -24,8 +24,10 @@ jobs:
           # extended: true
 
       - name: Build
-        run: cd docs |
-        hugo --minify
+        shell: bash
+        run: |
+          cd ./docs
+          hugo --minify
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
