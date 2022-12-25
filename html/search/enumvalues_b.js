@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['off_1942',['Off',['../BallSearchSignalOption_8cs.html#a218e80e0d23d6a08a11ab8f45d46f0fcad15305d7a4e34e02489c74a5ef542f36',1,'Off():&#160;BallSearchSignalOption.cs'],['../Light_8cs.html#a6e89b3acace2d19c3aa70885f761343cad15305d7a4e34e02489c74a5ef542f36',1,'Off():&#160;Light.cs'],['../RecordPlaybackOption_8cs.html#a1721508a09d0aa0c06fc50cd057b3160ad15305d7a4e34e02489c74a5ef542f36',1,'Off():&#160;RecordPlaybackOption.cs'],['../SciFiPlayer_8cs.html#a3ff19b51e538aa8314de137e58c3c423ad15305d7a4e34e02489c74a5ef542f36',1,'Off():&#160;SciFiPlayer.cs']]],
-  ['on_1943',['On',['../BallSearchSignalOption_8cs.html#a218e80e0d23d6a08a11ab8f45d46f0fca521c36a31c2762741cf0f8890cbe05e3',1,'On():&#160;BallSearchSignalOption.cs'],['../Light_8cs.html#a6e89b3acace2d19c3aa70885f761343ca521c36a31c2762741cf0f8890cbe05e3',1,'On():&#160;Light.cs']]]
+  ['warning_811',['Warning',['../PinGodLogLevel_8cs.html#a5ae4665e4785eba8ee58343a51406bbfa0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'PinGodLogLevel.cs']]]
 ];

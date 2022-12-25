@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['debug_1921',['Debug',['../PinGodLogLevel_8cs.html#a5ae4665e4785eba8ee58343a51406bbfaa603905470e2a5b8c13e96b579ef0dba',1,'PinGodLogLevel.cs']]]
+  ['full_794',['Full',['../ModeComplete_8cs.html#a44152b64f3f0b88a5d8e534bbcb2aa8aabbd47109890259c0127154db1af26c75',1,'ModeComplete.cs']]]
 ];

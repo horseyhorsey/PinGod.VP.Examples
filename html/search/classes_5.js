@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['flag_1178',['Flag',['../classFlag.html',1,'']]]
+  ['highscore_468',['HighScore',['../classHighScore.html',1,'']]],
+  ['highscores_469',['HighScores',['../classHighScores.html',1,'']]]
 ];

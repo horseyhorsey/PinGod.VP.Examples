@@ -1,14 +1,9 @@
 var searchData=
 [
-  ['orcacount_2183',['OrcaCount',['../classJawsPlayer.html#a6663a7f13ab6b645b9425c9e2fbb0fdf',1,'JawsPlayer']]],
-  ['orcalocksactive_2184',['OrcaLocksActive',['../classJawsPlayer.html#abbdb47bb9eb74ee590f189b617544d4f',1,'JawsPlayer']]],
-  ['orcamballbest_2185',['OrcaMballBest',['../classJawsPlayer.html#a67d1f6ec81d3cfbfd97debcae34ad782',1,'JawsPlayer']]],
-  ['orcamballcomplete_2186',['OrcaMballComplete',['../classJawsPlayer.html#a6944aec9f227a37dd88b18ee2bf11b54',1,'JawsPlayer']]],
-  ['orcamballcompletecount_2187',['OrcaMballCompleteCount',['../classJawsPlayer.html#a342a7ed8304011a9747729bb816c6380',1,'JawsPlayer']]],
-  ['orcamballcurrentscore_2188',['OrcaMballCurrentScore',['../classJawsPlayer.html#ae06a723cac44e2536661772b4eb45a7d',1,'JawsPlayer']]],
-  ['orcaramptarget_2189',['OrcaRampTarget',['../classJawsPlayer.html#a7f0387d49413165bcb836582eb96c4b2',1,'JawsPlayer']]],
-  ['orkorunningshots_2190',['OrkoRunningShots',['../classMotuPlayer.html#a0c50a9ebe4074d7411cdc43958af6ae6',1,'MotuPlayer']]],
-  ['orkoshots_2191',['OrkoShots',['../classMotuPlayer.html#a5548824cf915911e68f7b05764e3e162',1,'MotuPlayer']]],
-  ['orkotimestocomplete_2192',['OrkoTimesToComplete',['../classMotuPlayer.html#aa0edd2c834342ab8898f59a4554ca093',1,'MotuPlayer']]],
-  ['outlaneslit_2193',['OutlanesLit',['../classPlayboyPlayer.html#acac2e205f66834789ce2b64fa178593d',1,'PlayboyPlayer']]]
+  ['tilted_900',['Tilted',['../classGameData.html#a5a9d661294fcdfcfdfb903418b119167',1,'GameData']]],
+  ['tiltwarnings_901',['Tiltwarnings',['../classPinGodGame.html#a007a2ce19c043395a2cbe1e777ad36cb',1,'PinGodGame']]],
+  ['time_902',['Time',['../classSwitch.html#a19408cff11025d2e02052303540a0eeb',1,'Switch.Time()'],['../classPlaybackEvent.html#aa6be04ab31539d866318ac5b4a25d406',1,'PlaybackEvent.Time()']]],
+  ['timeplayed_903',['TimePlayed',['../classGameData.html#a23455716e2f7c75807985d3b66b8b59e',1,'GameData']]],
+  ['title_904',['Title',['../classHighScore.html#aad4f6f51b71fef1d2f0f7919c7889feb',1,'HighScore']]],
+  ['troughoptions_905',['TroughOptions',['../classTrough.html#a464e91c0a1fd0263eb24d16d82ed8aae',1,'Trough']]]
 ];

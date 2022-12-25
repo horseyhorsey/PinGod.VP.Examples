@@ -1,20 +1,5 @@
 var searchData=
 [
-  ['jackpotadded_492',['JackpotAdded',['../classKnightRiderPlayer.html#ae7d68480ae9fa9032ee009de84b9fb13',1,'KnightRiderPlayer']]],
-  ['jackpotlit_493',['JackpotLit',['../classNightmarePlayer.html#af6ea1a2aef5cfdda30bbd2dcfcaef37d',1,'NightmarePlayer']]],
-  ['jackpotseedvalue_494',['JackpotSeedValue',['../classMultiScoring.html#a578e766a20f976ef4c31e1cfa553ae81',1,'MultiScoring']]],
-  ['jackpotshot_495',['JackpotShot',['../classJackpotShot.html',1,'']]],
-  ['jackpotshot_2ecs_496',['JackpotShot.cs',['../JackpotShot_8cs.html',1,'']]],
-  ['jackpotvalue_497',['JackpotValue',['../classNightmarePlayer.html#aac3051e4a3eed290325be1b68f6f3986',1,'NightmarePlayer']]],
-  ['jawsattract_498',['JawsAttract',['../classJawsAttract.html',1,'']]],
-  ['jawsattract_2ecs_499',['JawsAttract.cs',['../JawsAttract_8cs.html',1,'']]],
-  ['jawsbonus_500',['JawsBonus',['../classJawsBonus.html',1,'']]],
-  ['jawsbonus_2ecs_501',['JawsBonus.cs',['../JawsBonus_8cs.html',1,'']]],
-  ['jawspingodgame_502',['JawsPinGodGame',['../classJawsPinGodGame.html',1,'']]],
-  ['jawspingodgame_2ecs_503',['JawsPinGodGame.cs',['../JawsPinGodGame_8cs.html',1,'']]],
-  ['jawsplayer_504',['JawsPlayer',['../classJawsPlayer.html',1,'JawsPlayer'],['../classJawsPlayer.html#a79b3e9ba5e9a662293816890f80271ab',1,'JawsPlayer.JawsPlayer()']]],
-  ['jawsplayer_2ecs_505',['JawsPlayer.cs',['../JawsPlayer_8cs.html',1,'']]],
-  ['jawsscoremode_506',['JawsScoreMode',['../classJawsScoreMode.html',1,'']]],
-  ['jawsscoremode_2ecs_507',['JawsScoreMode.cs',['../JawsScoreMode_8cs.html',1,'']]],
-  ['jawstoystate_508',['JawsToyState',['../classJawsPinGodGame.html#ad35e7044e0141cdaa699b47ed91be800',1,'JawsPinGodGame']]]
+  ['quit_331',['Quit',['../classPinGodGame.html#a8213762b7ff68b78b9b1d74d61e62491',1,'PinGodGame']]],
+  ['quit_332',['quit',['../GameSyncState_8cs.html#ad2c8ab5cd5e8f896f213e0e033727672adbd73c2b545209688ed794c0d5413d5a',1,'GameSyncState.cs']]]
 ];

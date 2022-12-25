@@ -1,4 +1,20 @@
 var searchData=
 [
-  ['1_2emd_17',['1.md',['../content_2chapter2_21_8md.html',1,'(Global Namespace)'],['../content_2chapter3_21_8md.html',1,'(Global Namespace)'],['../content_2chapter3_2chapter3-2_21_8md.html',1,'(Global Namespace)'],['../themes_2hugo-theme-techdoc_2exampleSite_2content_2chapter1_21_8md.html',1,'(Global Namespace)'],['../themes_2hugo-theme-techdoc_2exampleSite_2content_2chapter2_21_8md.html',1,'(Global Namespace)'],['../themes_2hugo-theme-techdoc_2exampleSite_2content_2chapter3_21_8md.html',1,'(Global Namespace)'],['../themes_2hugo-theme-techdoc_2exampleSite_2content_2chapter3_2chapter3-2_21_8md.html',1,'(Global Namespace)']]]
+  ['addbonus_39',['AddBonus',['../classPinGodGame.html#aaf1263eab481cdf1d80804db70e2b40a',1,'PinGodGame']]],
+  ['addcredits_40',['AddCredits',['../classPinGodGame.html#a78e3354866956bd8181663c34abac56e',1,'PinGodGame']]],
+  ['addcustommachineitems_41',['AddCustomMachineItems',['../classMachineConfig.html#a0151bf9c59c990e5198dd2d7a326ac7a',1,'MachineConfig']]],
+  ['addmultiballscenetotree_42',['AddMultiballSceneToTree',['../classGame.html#a84d11717039e67062494dc32eb770906',1,'Game']]],
+  ['addmusic_43',['AddMusic',['../classAudioManager.html#a275877027ba09181145e520d9da58063',1,'AudioManager']]],
+  ['addpoints_44',['AddPoints',['../classGame.html#a01a9eb836150891fa0b44e853e0222fc',1,'Game.AddPoints()'],['../classPinGodGame.html#aadd0ea9e80cdcf8ff09807cb26de41a6',1,'PinGodGame.AddPoints()']]],
+  ['addsfx_45',['AddSfx',['../classAudioManager.html#af56f562a9fa5337c842569d9f5ed8ecb',1,'AudioManager']]],
+  ['addvoice_46',['AddVoice',['../classAudioManager.html#a9698965dab68bf57fc5e5aafa0e5cff0',1,'AudioManager']]],
+  ['alwaysontop_47',['AlwaysOnTop',['../classDisplaySettings.html#acb153e5b259f640b9c105b3b1751654a',1,'DisplaySettings']]],
+  ['aspectoption_48',['AspectOption',['../classDisplaySettings.html#ab545826146cfcd730012b5cedde7dd39',1,'DisplaySettings']]],
+  ['attract_49',['Attract',['../classAttract.html',1,'']]],
+  ['attract_2ecs_50',['Attract.cs',['../Attract_8cs.html',1,'']]],
+  ['audiomanager_51',['AudioManager',['../classAudioManager.html',1,'AudioManager'],['../classPinGodGame.html#a0a136915a710c0f1d29651008b6e7d5a',1,'PinGodGame.AudioManager()']]],
+  ['audiomanager_2ecs_52',['AudioManager.cs',['../AudioManager_8cs.html',1,'']]],
+  ['audiosettings_53',['AudioSettings',['../classAudioSettings.html',1,'']]],
+  ['audiosettings_2ecs_54',['AudioSettings.cs',['../AudioSettings_8cs.html',1,'']]],
+  ['autoplungercoil_55',['AutoPlungerCoil',['../classTroughOptions.html#afc10fbdb5fdf26b6aebc9d62d91e1aed',1,'TroughOptions']]]
 ];

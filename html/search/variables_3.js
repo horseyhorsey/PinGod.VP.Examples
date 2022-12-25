@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['currentplayer_1874',['currentPlayer',['../classGame.html#afff5cb76f580c7c9b4d7d555db6d4f63',1,'Game']]]
+  ['inbonusmode_770',['InBonusMode',['../classPinGodGame.html#a7ac476c50e6d6b24ce7d924f7c4e179b',1,'PinGodGame']]],
+  ['ismultiballrunning_771',['IsMultiballRunning',['../classPinGodGame.html#adbca937e8a0daa12d283217d9f656651',1,'PinGodGame']]]
 ];
