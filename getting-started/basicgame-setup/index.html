@@ -2,42 +2,45 @@
 <head><meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Launching - PinGod.VP Examples</title>
-<meta name=description content="Docs, writeup , how to use">
+<title>BasicGame - Setup / AddOns - PinGod.VP Examples</title>
+<meta name=description content="Source">
 <meta name=generator content="Hugo 0.91.2">
 <link href=https://horseyhorsey.github.io/PinGod.VP.Examples/index.xml rel=alternate type=application/rss+xml>
-<link rel=canonical href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/launching/>
+<link rel=canonical href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-setup/>
 <link rel=stylesheet href=https://horseyhorsey.github.io/PinGod.VP.Examples/css/theme.min.css>
 <link rel=stylesheet href=https://horseyhorsey.github.io/PinGod.VP.Examples/css/chroma.min.css>
 <script defer src=https://horseyhorsey.github.io/PinGod.VP.Examples/js/fontawesome6/all.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js integrity="sha256-H3cjtrm/ztDeuhCN9I4yh4iN2Ybx/y1RM7rMmAesA0k=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck=" crossorigin=anonymous></script>
-<script src=https://horseyhorsey.github.io/PinGod.VP.Examples/js/bundle.js></script><style>:root{--custom-font-color:FF0016;--custom-background-color:#00FF16}</style>
-<meta property="og:title" content="Launching">
-<meta property="og:description" content="Launching BasicGameGodot _create_addons_link.bat Run to create a symbolic link to the addons directory in the BasicGameGodot project or in any game.
-You can copy the addons directory to your project if you needed to though. To run the BasicGame you will need the addOns directory linked or copied.
-BasicGame The BasicGameGodot project can be loaded in the Godot editor by browsing in Godot but it is quicker to load into the editor via the file explorer or command line.">
+<script src=https://horseyhorsey.github.io/PinGod.VP.Examples/js/bundle.js></script><style>:root{--custom-font-color:#FFFFFF;--custom-background-color:#003300}</style>
+<meta property="og:title" content="BasicGame - Setup / AddOns">
+<meta property="og:description" content="To run the BasicGameGodot project you will need the addOns directory linked or copied.
+These addons contain base files and pinball framework that a game will use.
+Link the PinGod.VP.AddOns You can copy the addons directory to your project (BasicGameGodot in this example), but it&rsquo;s better to use a symbolic link to the addons.
+The _create_addons_link.bat file that you can use in the projects root directory can do this for you when running it, see image:">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/launching/"><meta property="og:image" content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png"><meta property="article:section" content="getting-started">
+<meta property="og:url" content="https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-setup/"><meta property="og:image" content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png"><meta property="article:section" content="getting-started">
 <meta property="article:published_time" content="2017-10-17T15:26:15+00:00">
 <meta property="article:modified_time" content="2019-10-26T15:26:15+00:00"><meta property="og:site_name" content="Hugo Techdoc Theme">
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png">
-<meta name=twitter:title content="Launching">
-<meta name=twitter:description content="Launching BasicGameGodot _create_addons_link.bat Run to create a symbolic link to the addons directory in the BasicGameGodot project or in any game.
-You can copy the addons directory to your project if you needed to though. To run the BasicGame you will need the addOns directory linked or copied.
-BasicGame The BasicGameGodot project can be loaded in the Godot editor by browsing in Godot but it is quicker to load into the editor via the file explorer or command line.">
-<meta itemprop=name content="Launching">
-<meta itemprop=description content="Launching BasicGameGodot _create_addons_link.bat Run to create a symbolic link to the addons directory in the BasicGameGodot project or in any game.
-You can copy the addons directory to your project if you needed to though. To run the BasicGame you will need the addOns directory linked or copied.
-BasicGame The BasicGameGodot project can be loaded in the Godot editor by browsing in Godot but it is quicker to load into the editor via the file explorer or command line."><meta itemprop=datePublished content="2017-10-17T15:26:15+00:00">
+<meta name=twitter:title content="BasicGame - Setup / AddOns">
+<meta name=twitter:description content="To run the BasicGameGodot project you will need the addOns directory linked or copied.
+These addons contain base files and pinball framework that a game will use.
+Link the PinGod.VP.AddOns You can copy the addons directory to your project (BasicGameGodot in this example), but it&rsquo;s better to use a symbolic link to the addons.
+The _create_addons_link.bat file that you can use in the projects root directory can do this for you when running it, see image:">
+<meta itemprop=name content="BasicGame - Setup / AddOns">
+<meta itemprop=description content="To run the BasicGameGodot project you will need the addOns directory linked or copied.
+These addons contain base files and pinball framework that a game will use.
+Link the PinGod.VP.AddOns You can copy the addons directory to your project (BasicGameGodot in this example), but it&rsquo;s better to use a symbolic link to the addons.
+The _create_addons_link.bat file that you can use in the projects root directory can do this for you when running it, see image:"><meta itemprop=datePublished content="2017-10-17T15:26:15+00:00">
 <meta itemprop=dateModified content="2019-10-26T15:26:15+00:00">
-<meta itemprop=wordCount content="146"><meta itemprop=image content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png">
+<meta itemprop=wordCount content="87"><meta itemprop=image content="https://horseyhorsey.github.io/PinGod.VP.Examples/images/og-image.png">
 <meta itemprop=keywords content></head>
 <body><div class=container><header>
-<h1>PinGod.VP Examples</h1><span class=version>Version 4.3.0</span><a href=https://github.com/horseyhorsey/PinGod.VP.Examples/docs class=github><i class="fab fa-github"></i></a>
-<p class=description>Docs, writeup , how to use</p>
+<h1>PinGod.VP Examples</h1><span class=version>Version 4.3.0</span><a href=https://github.com/horseyhorsey/PinGod.VP.Examples class=github><i class="fab fa-github"></i></a>
+<p class=description>Source</p>
 </header>
 <div class=global-menu>
 <nav>
@@ -52,33 +55,21 @@ BasicGame The BasicGameGodot project can be loaded in the Godot editor by browsi
 </nav>
 </div>
 <div class=content-container>
-<main><h1>Launching</h1>
-<h1 id=launching-basicgamegodot>Launching BasicGameGodot</h1>
-<h3 id=_create_addons_linkbat><code>_create_addons_link.bat</code></h3>
-<p>Run to create a symbolic link to the addons directory in the <code>BasicGameGodot</code> project or in any game.</p>
-<p>You can copy the addons directory to your project if you needed to though. To run the BasicGame you will need the addOns directory linked or copied.</p>
-<h3 id=basicgame>BasicGame</h3>
-<p>The <code>BasicGameGodot</code> project can be loaded in the Godot editor by browsing in Godot but it is quicker to load into the editor via the file explorer or command line.</p>
-<ul>
-<li>
-<p>Launch Game = <code>godot</code> in the project folder on command line to play the game in window.</p>
-</li>
-<li>
-<p>Launch Editor = <code>godot -e</code> in the project folder to launch editor.</p>
-</li>
-</ul>
-<h2 id=project-bat-files>Project Bat files</h2>
-<p>You can use the <code>.bat</code> files to launch which use the following commands:</p>
-<h3 id=_run_godot_editorbat><code>_run_godot_editor.bat</code></h3>
-<p>Launch the project in Godot Editor mode</p>
-<h3 id=_open_appdata_dirbat><code>_open_appdata_dir.bat</code></h3>
-<p>Opens the <code>app_userdata</code> for the project. Logs go here, <code>gamedata.save</code>, <code>settings.save</code> and <code>recordings</code></p>
+<main><h1>BasicGame - Setup / AddOns</h1>
+<p>To run the <code>BasicGameGodot</code> project you will need the <code>addOns</code> directory linked or copied.</p>
+<p>These <code>addons</code> contain base files and pinball framework that a game will use.</p>
+<h4 id=link-the-pingodvpaddons>Link the PinGod.VP.AddOns</h4>
+<p>You can copy the <code>addons</code> directory to your project (<code>BasicGameGodot</code> in this example), but it&rsquo;s better to use a <code>symbolic link</code> to the addons.</p>
+<p>The <code>_create_addons_link.bat</code> file that you can use in the projects root directory can do this for you when running it, see image:</p>
+<p><img src=../../images/basicgame-bats.jpg alt=image></p>
+<p>A shortcut <code>addons</code> folder will be added in the Godot project.</p>
+<p><img src=../../images/basicgame-project-files.jpg alt=image></p>
 <div class=edit-meta>
 Last updated on 26 Oct 2019
 <br>
 Published on 17 Oct 2017
-<br><a href=https://github.com/horseyhorsey/PinGod.VP.Examples/edit/master/getting-started/launching.md class=edit-page><i class="fas fa-pen-square"></i>&nbsp;Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/configuration/ title=Configuration><i class="fas fa-arrow-left" aria-hidden=true></i>&nbsp;Prev - Configuration</a>
-<a class="nav nav-next" href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/ title=Machine>Next - Machine <i class="fas fa-arrow-right" aria-hidden=true></i></a>
+<br><a href=https://github.com/horseyhorsey/PinGod.VP.Examples//edit/master//docs/content/getting-started/basicgame-setup.md class=edit-page><i class="fas fa-pen-square"></i>&nbsp;Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/configuration/ title="Godot Environment Configuration"><i class="fas fa-arrow-left" aria-hidden=true></i>&nbsp;Prev - Godot Environment Configuration</a>
+<a class="nav nav-next" href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-project/ title="BasicGame - Project.Godot">Next - BasicGame - Project.Godot <i class="fas fa-arrow-right" aria-hidden=true></i></a>
 </nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p>
 </footer>
 </main>
@@ -89,8 +80,12 @@ Published on 17 Oct 2017
 <li class="parent has-sub-menu"><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/>Getting Started<span class="mark opened">-</span></a>
 <ul class=sub-menu>
 <li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/installation/>Installation</a></li>
-<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/configuration/>Configuration</a></li>
-<li class=active><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/launching/>Launching</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/configuration/>Godot Environment Configuration</a></li>
+<li class=active><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-setup/>BasicGame - Setup / AddOns</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-project/>BasicGame - Project.Godot</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-godot/>BasicGame - Godot Loaded</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-window/>BasicGame - Window</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-game/>BasicGame - Game</a></li>
 </ul>
 </li>
 <li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/>Machine<span class="mark closed">+</span></a>

@@ -13,7 +13,7 @@
 <script src=https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js integrity="sha256-H3cjtrm/ztDeuhCN9I4yh4iN2Ybx/y1RM7rMmAesA0k=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js integrity="sha256-4XodgW4TwIJuDtf+v6vDJ39FVxI0veC/kSCCmnFp7ck=" crossorigin=anonymous></script>
-<script src=https://horseyhorsey.github.io/PinGod.VP.Examples/js/bundle.js></script><style>:root{--custom-font-color:FF0016;--custom-background-color:#00FF16}</style>
+<script src=https://horseyhorsey.github.io/PinGod.VP.Examples/js/bundle.js></script><style>:root{--custom-font-color:#FFFFFF;--custom-background-color:#003300}</style>
 <meta property="og:title" content="Home">
 <meta property="og:description" content="Documentation for PinGod games">
 <meta property="og:type" content="website">
@@ -25,8 +25,8 @@
 <meta itemprop=name content="Home">
 <meta itemprop=description content="Documentation for PinGod games"></head>
 <body><div class=container><header>
-<h1>PinGod.VP Examples</h1><span class=version>Version 4.3.0</span><a href=https://github.com/horseyhorsey/PinGod.VP.Examples/docs class=github><i class="fab fa-github"></i></a>
-<p class=description>Docs, writeup , how to use</p>
+<h1>PinGod.VP Examples</h1><span class=version>Version 4.3.0</span><a href=https://github.com/horseyhorsey/PinGod.VP.Examples class=github><i class="fab fa-github"></i></a>
+<p class=description>Source</p>
 </header>
 <div class=global-menu>
 <nav>
@@ -42,12 +42,39 @@
 </div>
 <div class=content-container>
 <main><h1 id=pingod-home>PinGod Home</h1>
+<h2 id=what-is-it>What is it?</h2>
+<hr>
+<p>PinGod is for creating pinball game logic with graphics display window.</p>
+<p>A pinball machine or a simulator can trigger the game and vice versa.</p>
+<h2 id=why-that-name>Why that name?</h2>
+<hr>
+<p>The Godot game engine was used so it&rsquo;s <code>Pinball + Godot = PinGod</code>.</p>
+<h4 id=pingo-or-pingodot><code>PinGo</code> or <code>PinGodot</code>?</h4>
+<p>We know who the penguin is and PinGodot doesn&rsquo;t ring well. This isn&rsquo;t a holy framework but you can makes games faster like a <code>Pin God</code> so we can rest the case on that decision.</p>
+<h2 id=is-it-difficult-to-learn-and-use>Is it difficult to learn and use?</h2>
+<hr>
+<p>Not really, it&rsquo;s far more difficult to write this documentation&mldr;</p>
+<p>Godot doesn&rsquo;t have a steep learning curve and you don&rsquo;t need to know everything to be able to finish a game or make scenes.</p>
+<p>There are full examples in the <code>src</code> with <code>basic to advanced</code> scripted games which will give you an idea of sripting tasks and how things were done.</p>
+<h2 id=advantages>Advantages?</h2>
+<hr>
+<ul>
+<li>Framework base that covers standard pinball machine features used across games</li>
+<li>C# scripting (or GScript)</li>
+<li>Easy to make 2D, 3D graphics scenes</li>
+<li>Collaborating with others on Scenes / Scripts</li>
+<li>Localization</li>
+<li>Recording/Playback of games saves much time in testing</li>
+</ul>
+<p>More to be added when comes to mind..</p>
+<h2 id=class-reference-documentation>Class Reference Documentation</h2>
+<p><a href=/PinGod.VP.Examples/html>Class References</a></p>
 <nav class=pagination><a class="nav nav-next" href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/ title="Getting Started">Next - Getting Started <i class="fas fa-arrow-right" aria-hidden=true></i></a>
 </nav><div class=edit-meta>
 Last updated on 26 Oct 2019
 <br>
 Published on 23 Nov 2018
-<br><a href=https://github.com/horseyhorsey/PinGod.VP.Examples/edit/master/_index.md class=edit-page><i class="fas fa-pen-square"></i>&nbsp;Edit on GitHub</a></div><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p>
+<br><a href=https://github.com/horseyhorsey/PinGod.VP.Examples//edit/master//docs/content/_index.md class=edit-page><i class="fas fa-pen-square"></i>&nbsp;Edit on GitHub</a></div><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p>
 </footer>
 </main>
 <div class=sidebar>
@@ -57,8 +84,12 @@ Published on 23 Nov 2018
 <li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/>Getting Started<span class="mark closed">+</span></a>
 <ul class=sub-menu>
 <li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/installation/>Installation</a></li>
-<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/configuration/>Configuration</a></li>
-<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/launching/>Launching</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/configuration/>Godot Environment Configuration</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-setup/>BasicGame - Setup / AddOns</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-project/>BasicGame - Project.Godot</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-godot/>BasicGame - Godot Loaded</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-window/>BasicGame - Window</a></li>
+<li><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/getting-started/basicgame-game/>BasicGame - Game</a></li>
 </ul>
 </li>
 <li class=has-sub-menu><a href=https://horseyhorsey.github.io/PinGod.VP.Examples/machine/>Machine<span class="mark closed">+</span></a>
