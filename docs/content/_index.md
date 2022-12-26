@@ -5,6 +5,8 @@ publishdate: 2018-11-23T15:26:15Z
 
 title: Home
 description: Documentation for PinGod games
+images:
+- images/pexels-photo-196666.jpeg
 ---
 
 # PinGod Home

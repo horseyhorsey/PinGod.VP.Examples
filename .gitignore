@@ -401,3 +401,4 @@ FodyWeavers.xsd
 # Ignore any publish documentation
 /docs/docs/html
 /docs/public
+/.github/workflows/pages
