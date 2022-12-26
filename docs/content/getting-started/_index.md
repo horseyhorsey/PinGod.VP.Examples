@@ -11,6 +11,8 @@ images:
 - images/pexels-photo-196666.jpeg
 ---
 
+The following guides aim to have you up and running the `BasicGameGodot` window.
+
 ## [Installation](./installation)
 
 Install, setup Godot

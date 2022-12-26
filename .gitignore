@@ -398,5 +398,6 @@ FodyWeavers.xsd
 /src/Jaws/JawsGodot/pingod.snd.pck
 /src/Jaws/JawsGodot/pingod.gfx.pck
 /src/BasicGame/BasicGameGodot/pingod_basicgame.xml
+# Ignore any publish documentation
 /docs/docs/html
 /docs/public
