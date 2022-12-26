@@ -8,3 +8,5 @@ weight: 20
 Machine Config
 
 Guide for adding machine items, switch help
+
+[MachineConfig Class Reference](/PinGod.VP.Examples/html/classMachineConfig.html)
